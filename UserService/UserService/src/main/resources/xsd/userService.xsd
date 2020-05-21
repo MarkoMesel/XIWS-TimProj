@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.student.com/soap/contract"
+           targetNamespace="http://www.student.com/soap/contract" elementFormDefault="qualified">
+    
+   	<xs:complexType name="StatusType">
+    	<xs:sequence>
+        	<xs:element name="success" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+           
+ 	<xs:element name="soapResponse">
+ 		<xs:complexType>
+ 			<xs:complexContent>
+        		<xs:extension base="tns:StatusType"/>
+			</xs:complexContent>
+		</xs:complexType>
+    </xs:element>
+    
+	<xs:element name="soapRegisterRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="email" type="xs:string"/>
+                <xs:element name="password" type="xs:string"/>
+                <xs:element name="firstName" type="xs:string"/>
+                <xs:element name="lastName" type="xs:string"/>
+                <xs:element name="phone" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="soapVerifyRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+	<xs:element name="soapLoginRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="email" type="xs:string"/>
+                <xs:element name="password" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+ 
+    <xs:element name="soapLoginResponse">
+        <xs:complexType>
+        	<xs:complexContent>
+        		<xs:extension base="tns:StatusType">
+            		<xs:sequence>
+                		<xs:element name="token" type="xs:string"/>
+            		</xs:sequence>
+            	</xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+ 
+    <xs:element name="soapEditRequest">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="token" type="xs:string"/>
+                <xs:element name="password" type="xs:string"/>
+                <xs:element name="firstName" type="xs:string"/>
+                <xs:element name="lastName" type="xs:string"/>
+                <xs:element name="phone" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapGetRequest">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+ 
+    <xs:element name="soapGetResponse">
+        <xs:complexType>
+        	<xs:complexContent>
+        		<xs:extension base="tns:StatusType">
+            		<xs:sequence>
+                		<xs:element name="email" type="xs:string"/>
+                		<xs:element name="firstName" type="xs:string"/>
+                		<xs:element name="lastName" type="xs:string"/>
+                		<xs:element name="phone" type="xs:string"/>
+            		</xs:sequence>
+            	</xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

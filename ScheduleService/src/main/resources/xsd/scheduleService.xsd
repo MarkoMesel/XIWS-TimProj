@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.student.com/scheduleservice/soap/contract"
+           targetNamespace="http://www.student.com/scheduleservice/soap/contract" elementFormDefault="qualified">
+        
+	<xs:complexType name="StatusType">
+    	<xs:sequence>
+        	<xs:element name="success" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+           
+ 	<!--xs:element name="soapResponse">
+ 		<xs:complexType>
+ 			<xs:complexContent>
+        		<xs:extension base="tns:StatusType"/>
+			</xs:complexContent>
+		</xs:complexType>
+    </xs:element-->
+    
+    <xs:element name="soapCarRatingRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapLocationsRequest">
+        <xs:complexType>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapCarRatingResponse">
+        <xs:complexType>
+        	<xs:complexContent>
+        		<xs:extension base="tns:StatusType">
+            		<xs:sequence>
+                		<xs:element name="rating" type="xs:int"/>
+            		</xs:sequence>
+            	</xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    
+	<xs:element name="soapCarPriceRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:int"/>
+                <xs:element name="start" type="xs:date"/>
+                <xs:element name="end" type="xs:date"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+ 
+    <xs:element name="soapCarPriceResponse">
+        <xs:complexType>
+        	<xs:complexContent>
+        		<xs:extension base="tns:StatusType">
+            		<xs:sequence>
+                		<xs:element name="totalPrice" type="xs:integer"/>
+                		<xs:element name="discount" type="xs:integer"/>
+                		<xs:element name="price" type="xs:integer"/>
+                		<xs:element name="mileagePenalty" type="xs:integer"/>
+                		<xs:element name="mileageThreshold" type="xs:integer"/>
+                		<xs:element name="collisionWarranty" type="xs:integer"/>
+            		</xs:sequence>
+            	</xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    
+	<xs:element name="soapNamedObjectsResponse">
+		<xs:complexType>
+			<xs:complexContent>
+        		<xs:extension base="tns:StatusType">
+            		<xs:sequence>
+                		<xs:element name="namedObjects">
+							<xs:complexType>
+            					<xs:sequence>
+                					<xs:element name="namedObject" minOccurs="1" maxOccurs="unbounded">
+                						<xs:complexType>
+                							<xs:sequence>
+                								<xs:element name="id" type="xs:int"/>
+                								<xs:element name="name" type="xs:string"/>
+                							</xs:sequence>
+                						</xs:complexType>
+                					</xs:element>
+           						</xs:sequence>
+        					</xs:complexType>	
+                		</xs:element>
+            		</xs:sequence>
+            	</xs:extension>
+        	</xs:complexContent>	
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
