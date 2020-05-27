@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.student.com/agentservice/soap/contract"
+           targetNamespace="http://www.student.com/agentservice/soap/contract" elementFormDefault="qualified">
+        
+	<xs:complexType name="StatusType">
+    	<xs:sequence>
+        	<xs:element name="success" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+           
+ 	<xs:element name="soapResponse">
+ 		<xs:complexType>
+ 			<xs:complexContent>
+        		<xs:extension base="tns:StatusType"/>
+			</xs:complexContent>
+		</xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapAgentsRequest">
+     	<xs:complexType>
+		</xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapAgentByIdRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="agentId" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+	<xs:element name="soapAgentsResponse">
+		<xs:complexType>
+			<xs:complexContent>
+        		<xs:extension base="tns:StatusType">	
+            		<xs:sequence>
+                		<xs:element name="agents">
+							<xs:complexType>
+            					<xs:sequence>
+                					<xs:element name="agent" minOccurs="0" maxOccurs="unbounded">
+                						<xs:complexType>
+                							<xs:sequence>
+                								<xs:element name="id" type="xs:integer"/>
+                								<xs:element name="name" type="xs:string"/>
+                								<xs:element name="locationId" type="xs:integer"/>
+                								<xs:element name="address" type="xs:string"/>
+                								<xs:element name="taxId" type="xs:string"/>
+                							</xs:sequence>
+                						</xs:complexType>
+                					</xs:element>
+           						</xs:sequence>
+        					</xs:complexType>	
+               		 	</xs:element>
+           		 	</xs:sequence>
+            	</xs:extension>
+        	</xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapAgentByIdResponse">
+        <xs:complexType>
+        	<xs:complexContent>
+        		<xs:extension base="tns:StatusType">
+					<xs:sequence>
+						<xs:element name="id" type="xs:integer"/>
+						<xs:element name="name" type="xs:string"/>
+						<xs:element name="locationId" type="xs:integer"/>
+						<xs:element name="address" type="xs:string"/>
+						<xs:element name="taxId" type="xs:string"/>
+					</xs:sequence>
+            	</xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
