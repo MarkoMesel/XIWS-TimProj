@@ -9,10 +9,13 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import com.student.internal.provider.CarProvider;
 import com.student.internal.translator.Translator;
 import com.student.soap.contract.SoapAllCarModelsRequest;
+import com.student.soap.contract.SoapCarClassesRequest;
 import com.student.soap.contract.SoapCarManufacturersRequest;
 import com.student.soap.contract.SoapCarModelsByManufacturerRequest;
 import com.student.soap.contract.SoapCarModelsResponse;
+import com.student.soap.contract.SoapFuelTypesRequest;
 import com.student.soap.contract.SoapNamedObjectsResponse;
+import com.student.soap.contract.SoapTransmissionTypesRequest;
 
 @Endpoint
 public class CarModelEndpoint {
@@ -43,5 +46,23 @@ public class CarModelEndpoint {
 	@ResponsePayload
 	public SoapCarModelsResponse getCarModelsByManufacturerId(@RequestPayload SoapCarModelsByManufacturerRequest request) {
 		return translator.soapTranslate(carProvider.getCarModelsByManufacturerId(request.getManufacturerId()));
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapFuelTypesRequest")
+	@ResponsePayload
+	public SoapNamedObjectsResponse getFuelTypes(@RequestPayload SoapFuelTypesRequest request) {
+		return translator.soapTranslate(carProvider.getFuelTypes());
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapTransmissionTypesRequest")
+	@ResponsePayload
+	public SoapNamedObjectsResponse getTransmissionTypes(@RequestPayload SoapTransmissionTypesRequest request) {
+		return translator.soapTranslate(carProvider.getTransmissionTypes());
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapCarClassesRequest")
+	@ResponsePayload
+	public SoapNamedObjectsResponse getCarClasses(@RequestPayload SoapCarClassesRequest request) {
+		return translator.soapTranslate(carProvider.getCarClasses());
 	}
 }

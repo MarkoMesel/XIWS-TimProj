@@ -6,9 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.student.http.contract.HttpAddCarRequest;
-import com.student.http.contract.HttpCarModelResponse;
 import com.student.http.contract.HttpCarResponse;
-import com.student.http.contract.HttpNamedObjectResponse;
 import com.student.internal.contract.InternalAddCarRequest;
 import com.student.internal.contract.InternalCarModelsResponse;
 import com.student.internal.contract.InternalCarResponse;
@@ -96,22 +94,6 @@ public class Translator {
 		return output;
 	}
 	
-	public List<HttpCarModelResponse> httpTranslate(InternalCarModelsResponse input)
-	{
-		List<HttpCarModelResponse> output = new ArrayList<>();
-		
-		for(InternalCarModelsResponse.CarModel inputCarModel: input.getCarModels())
-		{
-			HttpCarModelResponse outputCarModel= new HttpCarModelResponse();
-			outputCarModel.setManufacturerId(inputCarModel.getManufacturerId());
-			outputCarModel.setManufacturerName(inputCarModel.getManufacturerName());
-			outputCarModel.setModelId(inputCarModel.getModelId());
-			outputCarModel.setModelName(inputCarModel.getModelName());
-			output.add(outputCarModel);
-		}
-		return output;
-	}
-	
 	public byte[] httpTranslate(InternalImageResponse input)
 	{
 		byte[] output;
@@ -138,20 +120,6 @@ public class Translator {
 			output.getCarModels().getCarModel().add(outputCarModel);
 		}
 		
-		return output;
-	}
-	
-	public List<HttpNamedObjectResponse> httpTranslate(InternalNamedObjectsResponse input)
-	{
-		List<HttpNamedObjectResponse> output = new ArrayList<>();
-		
-		for(InternalNamedObjectsResponse.NamedObject objectIn: input.getObjects())
-		{
-			HttpNamedObjectResponse objectOut= new HttpNamedObjectResponse();
-			objectOut.setId(objectIn.getId());
-			objectOut.setName(objectIn.getName());
-			output.add(objectOut);
-		}
 		return output;
 	}
 	

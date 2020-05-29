@@ -5,14 +5,15 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.student.http.contract.HttpCarModelResponse;
 import com.student.http.contract.HttpEditRequest;
 import com.student.http.contract.HttpGetResponse;
 import com.student.http.contract.HttpLoginRequest;
 import com.student.http.contract.HttpLoginResponse;
 import com.student.http.contract.HttpNamedObjectResponse;
 import com.student.http.contract.HttpRegisterRequest;
+import com.student.soap.carservice.contract.SoapCarModelsResponse;
 import com.student.soap.scheduleservice.contract.SoapCarRatingRequest;
-import com.student.soap.scheduleservice.contract.SoapNamedObjectsResponse;
 import com.student.soap.userservice.contract.SoapEditRequest;
 import com.student.soap.userservice.contract.SoapGetRequest;
 import com.student.soap.userservice.contract.SoapGetResponse;
@@ -91,10 +92,22 @@ public class Translator {
 	}
 	
 	//Generic
-	public List<HttpNamedObjectResponse> translate(SoapNamedObjectsResponse input) {
+	public List<HttpNamedObjectResponse> translate(com.student.soap.scheduleservice.contract.SoapNamedObjectsResponse input) {
 		List<HttpNamedObjectResponse> output = new ArrayList<>();
 
-		for (SoapNamedObjectsResponse.NamedObjects.NamedObject objectIn : input.getNamedObjects().getNamedObject()) {
+		for (com.student.soap.scheduleservice.contract.SoapNamedObjectsResponse.NamedObjects.NamedObject objectIn : input.getNamedObjects().getNamedObject()) {
+			HttpNamedObjectResponse objectOut = new HttpNamedObjectResponse();
+			objectOut.setId(objectIn.getId());
+			objectOut.setName(objectIn.getName());
+			output.add(objectOut);
+		}
+		return output;
+	}
+	
+	public List<HttpNamedObjectResponse> translate(com.student.soap.carservice.contract.SoapNamedObjectsResponse input) {
+		List<HttpNamedObjectResponse> output = new ArrayList<>();
+
+		for (com.student.soap.carservice.contract.SoapNamedObjectsResponse.NamedObjects.NamedObject objectIn : input.getNamedObjects().getNamedObject()) {
 			HttpNamedObjectResponse objectOut = new HttpNamedObjectResponse();
 			objectOut.setId(objectIn.getId());
 			objectOut.setName(objectIn.getName());
@@ -103,10 +116,27 @@ public class Translator {
 		return output;
 	}
 
+	//Car
 	public SoapCarRatingRequest translateCarRating(int id) {
 		SoapCarRatingRequest output = new SoapCarRatingRequest();
 		output.setId(id);
 		
 		return output;
+	}
+
+	public List<HttpCarModelResponse> translate(SoapCarModelsResponse internalResponse) {
+		List<HttpCarModelResponse> response = new ArrayList<>();
+		
+		for(SoapCarModelsResponse.CarModels.CarModel carIn : internalResponse.getCarModels().getCarModel())
+		{
+			HttpCarModelResponse carOut = new HttpCarModelResponse();
+			carOut.setManufacturerId(carIn.getManufacturerId());
+			carOut.setManufacturerName(carIn.getManufacturerName());
+			carOut.setModelId(carIn.getModelId());
+			carOut.setModelName(carIn.getModelName());
+			response.add(carOut);
+		}
+		
+		return response;
 	}
 }

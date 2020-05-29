@@ -17,13 +17,23 @@
     </xs:element>
     
     <xs:element name="soapCarManufacturersRequest">
-     	<xs:complexType>
-		</xs:complexType>
+     	<xs:complexType/>
     </xs:element>
     
     <xs:element name="soapAllCarModelsRequest">
-        <xs:complexType>
-		</xs:complexType>
+        <xs:complexType/>
+    </xs:element>
+    
+    <xs:element name="soapTransmissionTypesRequest">
+        <xs:complexType/>
+    </xs:element>
+    
+    <xs:element name="soapFuelTypesRequest">
+        <xs:complexType/>
+    </xs:element>
+    
+    <xs:element name="soapCarClassesRequest">
+        <xs:complexType/>
     </xs:element>
     
     <xs:element name="soapCarModelsByManufacturerRequest">
@@ -91,6 +101,18 @@
     <wsdl:part element="tns:soapAllCarModelsRequest" name="soapAllCarModelsRequest">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="soapFuelTypesRequest">
+    <wsdl:part element="tns:soapFuelTypesRequest" name="soapFuelTypesRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCarClassesRequest">
+    <wsdl:part element="tns:soapCarClassesRequest" name="soapCarClassesRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapTransmissionTypesRequest">
+    <wsdl:part element="tns:soapTransmissionTypesRequest" name="soapTransmissionTypesRequest">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="soapCarModelsByManufacturerRequest">
     <wsdl:part element="tns:soapCarModelsByManufacturerRequest" name="soapCarModelsByManufacturerRequest">
     </wsdl:part>
@@ -114,6 +136,18 @@
   <wsdl:portType name="CarServicePort">
     <wsdl:operation name="soapAllCarModels">
       <wsdl:input message="tns:soapAllCarModelsRequest" name="soapAllCarModelsRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapFuelTypes">
+      <wsdl:input message="tns:soapFuelTypesRequest" name="soapFuelTypesRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCarClasses">
+      <wsdl:input message="tns:soapCarClassesRequest" name="soapCarClassesRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapTransmissionTypes">
+      <wsdl:input message="tns:soapTransmissionTypesRequest" name="soapTransmissionTypesRequest">
     </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="soapCarModelsByManufacturer">
@@ -142,6 +176,24 @@
     <wsdl:operation name="soapAllCarModels">
       <soap:operation soapAction=""/>
       <wsdl:input name="soapAllCarModelsRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapFuelTypes">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapFuelTypesRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCarClasses">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCarClassesRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapTransmissionTypes">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapTransmissionTypesRequest">
         <soap:body use="literal"/>
       </wsdl:input>
     </wsdl:operation>

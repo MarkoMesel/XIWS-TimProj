@@ -17,13 +17,23 @@
     </xs:element>
     
     <xs:element name="soapCarManufacturersRequest">
-     	<xs:complexType>
-		</xs:complexType>
+     	<xs:complexType/>
     </xs:element>
     
     <xs:element name="soapAllCarModelsRequest">
-        <xs:complexType>
-		</xs:complexType>
+        <xs:complexType/>
+    </xs:element>
+    
+    <xs:element name="soapTransmissionTypesRequest">
+        <xs:complexType/>
+    </xs:element>
+    
+    <xs:element name="soapFuelTypesRequest">
+        <xs:complexType/>
+    </xs:element>
+    
+    <xs:element name="soapCarClassesRequest">
+        <xs:complexType/>
     </xs:element>
     
     <xs:element name="soapCarModelsByManufacturerRequest">
@@ -80,6 +90,42 @@
            						</xs:sequence>
         					</xs:complexType>	
                		 	</xs:element>
+           		 	</xs:sequence>
+            	</xs:extension>
+        	</xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapCarResponse">
+		<xs:complexType>
+			<xs:complexContent>
+        		<xs:extension base="tns:StatusType">	
+            		<xs:sequence>
+                		<xs:element name="id" type="xs:integer"/>
+                		<xs:element name="modelId" type="xs:integer"/>
+                		<xs:element name="modelName" type="xs:string"/>
+                		<xs:element name="manufacturerId" type="xs:integer"/>
+                		<xs:element name="manufacturerName" type="xs:string"/>
+                		<xs:element name="fuelTypeId" type="xs:integer"/>
+                		<xs:element name="fuelTypeName" type="xs:string"/>
+                		<xs:element name="transmissionId" type="xs:integer"/>
+                		<xs:element name="transmissionName" type="xs:string"/>
+                		<xs:element name="carClassId" type="xs:integer"/>
+                		<xs:element name="carClassName" type="xs:string"/>
+                		<xs:element name="mileage" type="xs:integer"/>
+                		<xs:element name="mileageThreshold" type="xs:integer"/>
+                		<xs:element name="mileagePenalty" type="xs:integer"/>
+                		<xs:element name="collisionWaranty" type="xs:integer"/>
+                		<xs:element name="price" type="xs:integer"/>
+                		<xs:element name="discount" type="xs:integer"/>
+                		<xs:element name="totalPrice" type="xs:integer"/>
+                		<xs:element name="childSeats" type="xs:integer"/>
+                		<xs:element name="rating" type="xs:integer"/>
+                		<xs:element name="publisherId" type="xs:integer"/>
+                		<xs:element name="publisherName" type="xs:string"/>
+                		<xs:element name="publisherTypeId" type="xs:integer"/>
+                		<xs:element name="publisherTypeName" type="xs:string"/>
+						<xs:element name="image" minOccurs="0" maxOccurs="unbounded" type="xs:integer"/>
            		 	</xs:sequence>
             	</xs:extension>
         	</xs:complexContent>
