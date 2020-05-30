@@ -25,9 +25,9 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
+ *         &lt;element name="manufacturerId" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="token" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *         &lt;element name="carId" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
- *         &lt;element name="image" type="{http://www.w3.org/2001/XMLSchema}base64Binary"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -38,18 +38,58 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "token",
-    "carId",
-    "image"
+    "manufacturerId",
+    "name",
+    "token"
 })
-@XmlRootElement(name = "soapPostImageRequest")
-public class SoapPostImageRequest {
+@XmlRootElement(name = "soapAddCarModelRequest")
+public class SoapAddCarModelRequest {
 
+    protected int manufacturerId;
+    @XmlElement(required = true)
+    protected String name;
     @XmlElement(required = true)
     protected String token;
-    protected int carId;
-    @XmlElement(required = true)
-    protected byte[] image;
+
+    /**
+     * Gets the value of the manufacturerId property.
+     * 
+     */
+    public int getManufacturerId() {
+        return manufacturerId;
+    }
+
+    /**
+     * Sets the value of the manufacturerId property.
+     * 
+     */
+    public void setManufacturerId(int value) {
+        this.manufacturerId = value;
+    }
+
+    /**
+     * Gets the value of the name property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets the value of the name property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setName(String value) {
+        this.name = value;
+    }
 
     /**
      * Gets the value of the token property.
@@ -73,44 +113,6 @@ public class SoapPostImageRequest {
      */
     public void setToken(String value) {
         this.token = value;
-    }
-
-    /**
-     * Gets the value of the carId property.
-     * 
-     */
-    public int getCarId() {
-        return carId;
-    }
-
-    /**
-     * Sets the value of the carId property.
-     * 
-     */
-    public void setCarId(int value) {
-        this.carId = value;
-    }
-
-    /**
-     * Gets the value of the image property.
-     * 
-     * @return
-     *     possible object is
-     *     byte[]
-     */
-    public byte[] getImage() {
-        return image;
-    }
-
-    /**
-     * Sets the value of the image property.
-     * 
-     * @param value
-     *     allowed object is
-     *     byte[]
-     */
-    public void setImage(byte[] value) {
-        this.image = value;
     }
 
 }

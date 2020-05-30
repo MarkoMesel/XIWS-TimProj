@@ -45,6 +45,97 @@
         </xs:complexType>
     </xs:element>
     
+    <xs:element name="soapAddCarClassRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapDeleteCarClassRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:int"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapAddManufacturerRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapDeleteManufacturerRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:int"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapAddCarModelRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="manufacturerId" type="xs:int"/>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapDeleteCarModelRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:int"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapAddFuelTypeRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapDeleteFuelTypeRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:int"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapAddTransmissionTypeRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapDeleteTransmissionTypeRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:int"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
     <xs:element name="soapNamedObjectsResponse">
 		<xs:complexType>
 			<xs:complexContent>
@@ -199,6 +290,10 @@
     
 </xs:schema>
   </wsdl:types>
+  <wsdl:message name="soapAddCarModelRequest">
+    <wsdl:part element="tns:soapAddCarModelRequest" name="soapAddCarModelRequest">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="soapAllCarModelsRequest">
     <wsdl:part element="tns:soapAllCarModelsRequest" name="soapAllCarModelsRequest">
     </wsdl:part>
@@ -207,24 +302,28 @@
     <wsdl:part element="tns:soapFuelTypesRequest" name="soapFuelTypesRequest">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="soapCarResponse">
-    <wsdl:part element="tns:soapCarResponse" name="soapCarResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="soapPostImageRequest">
-    <wsdl:part element="tns:soapPostImageRequest" name="soapPostImageRequest">
+  <wsdl:message name="soapAddFuelTypeRequest">
+    <wsdl:part element="tns:soapAddFuelTypeRequest" name="soapAddFuelTypeRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapPostImageResponse">
     <wsdl:part element="tns:soapPostImageResponse" name="soapPostImageResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="soapDeleteImageRequest">
-    <wsdl:part element="tns:soapDeleteImageRequest" name="soapDeleteImageRequest">
+  <wsdl:message name="soapAddCarClassRequest">
+    <wsdl:part element="tns:soapAddCarClassRequest" name="soapAddCarClassRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapDeleteCarModelRequest">
+    <wsdl:part element="tns:soapDeleteCarModelRequest" name="soapDeleteCarModelRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapTransmissionTypesRequest">
     <wsdl:part element="tns:soapTransmissionTypesRequest" name="soapTransmissionTypesRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapDeleteCarClassRequest">
+    <wsdl:part element="tns:soapDeleteCarClassRequest" name="soapDeleteCarClassRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapCarModelsResponse">
@@ -235,8 +334,12 @@
     <wsdl:part element="tns:soapCarManufacturersRequest" name="soapCarManufacturersRequest">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="soapGetImageRequest">
-    <wsdl:part element="tns:soapGetImageRequest" name="soapGetImageRequest">
+  <wsdl:message name="soapAddManufacturerRequest">
+    <wsdl:part element="tns:soapAddManufacturerRequest" name="soapAddManufacturerRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapAddTransmissionTypeRequest">
+    <wsdl:part element="tns:soapAddTransmissionTypeRequest" name="soapAddTransmissionTypeRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapCarClassesRequest">
@@ -247,23 +350,55 @@
     <wsdl:part element="tns:soapCarModelsByManufacturerRequest" name="soapCarModelsByManufacturerRequest">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="soapResponse">
-    <wsdl:part element="tns:soapResponse" name="soapResponse">
+  <wsdl:message name="soapDeleteFuelTypeRequest">
+    <wsdl:part element="tns:soapDeleteFuelTypeRequest" name="soapDeleteFuelTypeRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapGetImageResponse">
     <wsdl:part element="tns:soapGetImageResponse" name="soapGetImageResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="soapNamedObjectsResponse">
-    <wsdl:part element="tns:soapNamedObjectsResponse" name="soapNamedObjectsResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="soapCarRequest">
     <wsdl:part element="tns:soapCarRequest" name="soapCarRequest">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="soapDeleteManufacturerRequest">
+    <wsdl:part element="tns:soapDeleteManufacturerRequest" name="soapDeleteManufacturerRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCarResponse">
+    <wsdl:part element="tns:soapCarResponse" name="soapCarResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapPostImageRequest">
+    <wsdl:part element="tns:soapPostImageRequest" name="soapPostImageRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapDeleteImageRequest">
+    <wsdl:part element="tns:soapDeleteImageRequest" name="soapDeleteImageRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapGetImageRequest">
+    <wsdl:part element="tns:soapGetImageRequest" name="soapGetImageRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapResponse">
+    <wsdl:part element="tns:soapResponse" name="soapResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapNamedObjectsResponse">
+    <wsdl:part element="tns:soapNamedObjectsResponse" name="soapNamedObjectsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapDeleteTransmissionTypeRequest">
+    <wsdl:part element="tns:soapDeleteTransmissionTypeRequest" name="soapDeleteTransmissionTypeRequest">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:portType name="CarServicePort">
+    <wsdl:operation name="soapAddCarModel">
+      <wsdl:input message="tns:soapAddCarModelRequest" name="soapAddCarModelRequest">
+    </wsdl:input>
+    </wsdl:operation>
     <wsdl:operation name="soapAllCarModels">
       <wsdl:input message="tns:soapAllCarModelsRequest" name="soapAllCarModelsRequest">
     </wsdl:input>
@@ -272,11 +407,9 @@
       <wsdl:input message="tns:soapFuelTypesRequest" name="soapFuelTypesRequest">
     </wsdl:input>
     </wsdl:operation>
-    <wsdl:operation name="soapCar">
-      <wsdl:input message="tns:soapCarRequest" name="soapCarRequest">
+    <wsdl:operation name="soapAddFuelType">
+      <wsdl:input message="tns:soapAddFuelTypeRequest" name="soapAddFuelTypeRequest">
     </wsdl:input>
-      <wsdl:output message="tns:soapCarResponse" name="soapCarResponse">
-    </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="soapPostImage">
       <wsdl:input message="tns:soapPostImageRequest" name="soapPostImageRequest">
@@ -284,12 +417,20 @@
       <wsdl:output message="tns:soapPostImageResponse" name="soapPostImageResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="soapDeleteImage">
-      <wsdl:input message="tns:soapDeleteImageRequest" name="soapDeleteImageRequest">
+    <wsdl:operation name="soapAddCarClass">
+      <wsdl:input message="tns:soapAddCarClassRequest" name="soapAddCarClassRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteCarModel">
+      <wsdl:input message="tns:soapDeleteCarModelRequest" name="soapDeleteCarModelRequest">
     </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="soapTransmissionTypes">
       <wsdl:input message="tns:soapTransmissionTypesRequest" name="soapTransmissionTypesRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteCarClass">
+      <wsdl:input message="tns:soapDeleteCarClassRequest" name="soapDeleteCarClassRequest">
     </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="soapCarModels">
@@ -300,11 +441,13 @@
       <wsdl:input message="tns:soapCarManufacturersRequest" name="soapCarManufacturersRequest">
     </wsdl:input>
     </wsdl:operation>
-    <wsdl:operation name="soapGetImage">
-      <wsdl:input message="tns:soapGetImageRequest" name="soapGetImageRequest">
+    <wsdl:operation name="soapAddManufacturer">
+      <wsdl:input message="tns:soapAddManufacturerRequest" name="soapAddManufacturerRequest">
     </wsdl:input>
-      <wsdl:output message="tns:soapGetImageResponse" name="soapGetImageResponse">
-    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddTransmissionType">
+      <wsdl:input message="tns:soapAddTransmissionTypeRequest" name="soapAddTransmissionTypeRequest">
+    </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="soapCarClasses">
       <wsdl:input message="tns:soapCarClassesRequest" name="soapCarClassesRequest">
@@ -312,6 +455,30 @@
     </wsdl:operation>
     <wsdl:operation name="soapCarModelsByManufacturer">
       <wsdl:input message="tns:soapCarModelsByManufacturerRequest" name="soapCarModelsByManufacturerRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteFuelType">
+      <wsdl:input message="tns:soapDeleteFuelTypeRequest" name="soapDeleteFuelTypeRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapGetImage">
+      <wsdl:input message="tns:soapGetImageRequest" name="soapGetImageRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:soapGetImageResponse" name="soapGetImageResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapCar">
+      <wsdl:input message="tns:soapCarRequest" name="soapCarRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:soapCarResponse" name="soapCarResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteManufacturer">
+      <wsdl:input message="tns:soapDeleteManufacturerRequest" name="soapDeleteManufacturerRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteImage">
+      <wsdl:input message="tns:soapDeleteImageRequest" name="soapDeleteImageRequest">
     </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="soap">
@@ -322,9 +489,19 @@
       <wsdl:output message="tns:soapNamedObjectsResponse" name="soapNamedObjectsResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="soapDeleteTransmissionType">
+      <wsdl:input message="tns:soapDeleteTransmissionTypeRequest" name="soapDeleteTransmissionTypeRequest">
+    </wsdl:input>
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="CarServicePortSoap11" type="tns:CarServicePort">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="soapAddCarModel">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapAddCarModelRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
     <wsdl:operation name="soapAllCarModels">
       <soap:operation soapAction=""/>
       <wsdl:input name="soapAllCarModelsRequest">
@@ -337,14 +514,11 @@
         <soap:body use="literal"/>
       </wsdl:input>
     </wsdl:operation>
-    <wsdl:operation name="soapCar">
+    <wsdl:operation name="soapAddFuelType">
       <soap:operation soapAction=""/>
-      <wsdl:input name="soapCarRequest">
+      <wsdl:input name="soapAddFuelTypeRequest">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="soapCarResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="soapPostImage">
       <soap:operation soapAction=""/>
@@ -355,15 +529,27 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="soapDeleteImage">
+    <wsdl:operation name="soapAddCarClass">
       <soap:operation soapAction=""/>
-      <wsdl:input name="soapDeleteImageRequest">
+      <wsdl:input name="soapAddCarClassRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteCarModel">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapDeleteCarModelRequest">
         <soap:body use="literal"/>
       </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="soapTransmissionTypes">
       <soap:operation soapAction=""/>
       <wsdl:input name="soapTransmissionTypesRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteCarClass">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapDeleteCarClassRequest">
         <soap:body use="literal"/>
       </wsdl:input>
     </wsdl:operation>
@@ -379,14 +565,17 @@
         <soap:body use="literal"/>
       </wsdl:input>
     </wsdl:operation>
-    <wsdl:operation name="soapGetImage">
+    <wsdl:operation name="soapAddManufacturer">
       <soap:operation soapAction=""/>
-      <wsdl:input name="soapGetImageRequest">
+      <wsdl:input name="soapAddManufacturerRequest">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="soapGetImageResponse">
+    </wsdl:operation>
+    <wsdl:operation name="soapAddTransmissionType">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapAddTransmissionTypeRequest">
         <soap:body use="literal"/>
-      </wsdl:output>
+      </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="soapCarClasses">
       <soap:operation soapAction=""/>
@@ -397,6 +586,42 @@
     <wsdl:operation name="soapCarModelsByManufacturer">
       <soap:operation soapAction=""/>
       <wsdl:input name="soapCarModelsByManufacturerRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteFuelType">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapDeleteFuelTypeRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapGetImage">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapGetImageRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="soapGetImageResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapCar">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCarRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="soapCarResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteManufacturer">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapDeleteManufacturerRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteImage">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapDeleteImageRequest">
         <soap:body use="literal"/>
       </wsdl:input>
     </wsdl:operation>
@@ -411,6 +636,12 @@
       <wsdl:output name="soapNamedObjectsResponse">
         <soap:body use="literal"/>
       </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteTransmissionType">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapDeleteTransmissionTypeRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="CarServicePortService">

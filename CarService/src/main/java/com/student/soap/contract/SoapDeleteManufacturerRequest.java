@@ -40,8 +40,8 @@ import javax.xml.bind.annotation.XmlType;
     "id",
     "token"
 })
-@XmlRootElement(name = "soapDeleteImageRequest")
-public class SoapDeleteImageRequest {
+@XmlRootElement(name = "soapDeleteManufacturerRequest")
+public class SoapDeleteManufacturerRequest {
 
     protected int id;
     @XmlElement(required = true)

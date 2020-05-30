@@ -8,6 +8,11 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import com.student.internal.provider.CarProvider;
 import com.student.internal.translator.Translator;
+import com.student.soap.contract.SoapAddCarClassRequest;
+import com.student.soap.contract.SoapAddCarModelRequest;
+import com.student.soap.contract.SoapAddFuelTypeRequest;
+import com.student.soap.contract.SoapAddManufacturerRequest;
+import com.student.soap.contract.SoapAddTransmissionTypeRequest;
 import com.student.soap.contract.SoapAllCarModelsRequest;
 import com.student.soap.contract.SoapCarClassesRequest;
 import com.student.soap.contract.SoapCarManufacturersRequest;
@@ -15,7 +20,12 @@ import com.student.soap.contract.SoapCarModelsByManufacturerRequest;
 import com.student.soap.contract.SoapCarModelsResponse;
 import com.student.soap.contract.SoapCarRequest;
 import com.student.soap.contract.SoapCarResponse;
+import com.student.soap.contract.SoapDeleteCarClassRequest;
+import com.student.soap.contract.SoapDeleteCarModelRequest;
+import com.student.soap.contract.SoapDeleteFuelTypeRequest;
 import com.student.soap.contract.SoapDeleteImageRequest;
+import com.student.soap.contract.SoapDeleteManufacturerRequest;
+import com.student.soap.contract.SoapDeleteTransmissionTypeRequest;
 import com.student.soap.contract.SoapFuelTypesRequest;
 import com.student.soap.contract.SoapGetImageRequest;
 import com.student.soap.contract.SoapGetImageResponse;
@@ -94,7 +104,67 @@ public class CarModelEndpoint {
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapDeleteImageRequest")
 	@ResponsePayload
-	public SoapResponse postDeleteImage(@RequestPayload SoapDeleteImageRequest request) {
+	public SoapResponse deleteImage(@RequestPayload SoapDeleteImageRequest request) {
 		return carProvider.deleteCarImage(request);
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapAddCarClassRequest")
+	@ResponsePayload
+	public SoapResponse addCarClass(@RequestPayload SoapAddCarClassRequest request) {
+		return carProvider.addCarClass(request);
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapDeleteCarClassRequest")
+	@ResponsePayload
+	public SoapResponse deleteCarClass(@RequestPayload SoapDeleteCarClassRequest request) {
+		return carProvider.deleteCarClass(request);
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapAddManufacturerRequest")
+	@ResponsePayload
+	public SoapResponse addCarManufacturer(@RequestPayload SoapAddManufacturerRequest request) {
+		return carProvider.addManufacturer(request);
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapDeleteManufacturerRequest")
+	@ResponsePayload
+	public SoapResponse deleteCarManufacturer(@RequestPayload SoapDeleteManufacturerRequest request) {
+		return carProvider.deleteManufacturer(request);
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapAddCarModelRequest")
+	@ResponsePayload
+	public SoapResponse addCarModel(@RequestPayload SoapAddCarModelRequest request) {
+		return carProvider.addCarModel(request);
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapDeleteCarModelRequest")
+	@ResponsePayload
+	public SoapResponse deleteCarModel(@RequestPayload SoapDeleteCarModelRequest request) {
+		return carProvider.deleteCarModel(request);
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapAddFuelTypeRequest")
+	@ResponsePayload
+	public SoapResponse addFuelType(@RequestPayload SoapAddFuelTypeRequest request) {
+		return carProvider.addFuelType(request);
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapDeleteFuelTypeRequest")
+	@ResponsePayload
+	public SoapResponse deleteFuelType(@RequestPayload SoapDeleteFuelTypeRequest request) {
+		return carProvider.deleteFuelType(request);
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapAddTransmissionTypeRequest")
+	@ResponsePayload
+	public SoapResponse addTransmissionType(@RequestPayload SoapAddTransmissionTypeRequest request) {
+		return carProvider.addTransmissionType(request);
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapDeleteTransmissionTypeRequest")
+	@ResponsePayload
+	public SoapResponse deleteTransmissionType(@RequestPayload SoapDeleteTransmissionTypeRequest request) {
+		return carProvider.deleteTransmissionType(request);
 	}
 }

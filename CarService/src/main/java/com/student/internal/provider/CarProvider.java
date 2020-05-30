@@ -5,8 +5,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.student.data.dal.CarClassDbModel;
 import com.student.data.dal.CarDbModel;
 import com.student.data.dal.CarImageDbModel;
+import com.student.data.dal.CarManufacturerDbModel;
+import com.student.data.dal.CarModelDbModel;
+import com.student.data.dal.FuelTypeDbModel;
+import com.student.data.dal.TransmissionTypeDbModel;
 import com.student.data.repo.UnitOfWork;
 import com.student.internal.contract.InternalAddCarRequest;
 import com.student.internal.contract.InternalAutherisedResponse;
@@ -15,9 +20,19 @@ import com.student.internal.contract.InternalCarsResponse;
 import com.student.internal.contract.InternalNamedObjectsResponse;
 import com.student.jwt.AuthenticationTokenParseResult;
 import com.student.jwt.JwtUtil;
+import com.student.soap.contract.SoapAddCarClassRequest;
+import com.student.soap.contract.SoapAddCarModelRequest;
+import com.student.soap.contract.SoapAddFuelTypeRequest;
+import com.student.soap.contract.SoapAddManufacturerRequest;
+import com.student.soap.contract.SoapAddTransmissionTypeRequest;
 import com.student.soap.contract.SoapCarRequest;
 import com.student.soap.contract.SoapCarResponse;
+import com.student.soap.contract.SoapDeleteCarClassRequest;
+import com.student.soap.contract.SoapDeleteCarModelRequest;
+import com.student.soap.contract.SoapDeleteFuelTypeRequest;
 import com.student.soap.contract.SoapDeleteImageRequest;
+import com.student.soap.contract.SoapDeleteManufacturerRequest;
+import com.student.soap.contract.SoapDeleteTransmissionTypeRequest;
 import com.student.soap.contract.SoapGetImageRequest;
 import com.student.soap.contract.SoapGetImageResponse;
 import com.student.soap.contract.SoapPostImageRequest;
@@ -368,6 +383,223 @@ public class CarProvider {
 		response.setAuthorized(true);
 
 		unitOfWork.getCarImageRepo().delete(image.get());
+		
+		response.setSuccess(true);
+		return response;
+	}
+
+	public SoapResponse addCarClass(SoapAddCarClassRequest request) {
+		SoapResponse response = new SoapResponse();
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+		if(!token.isValid() || !jwtUtil.isAdmin(token)) {
+			response.setAuthorized(false);
+			return response;
+		}
+		
+		CarClassDbModel carClass = new CarClassDbModel();
+		
+		carClass.setName(request.getName());
+		unitOfWork.getCarClassRepo().save(carClass);
+		
+		response.setSuccess(true);
+		return response;
+	}
+
+	public SoapResponse deleteCarClass(SoapDeleteCarClassRequest request) {
+		SoapResponse response = new SoapResponse();
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+		if(!token.isValid() || !jwtUtil.isAdmin(token)) {
+			response.setAuthorized(false);
+			return response;
+		}
+		
+		Optional<CarClassDbModel> carClass = unitOfWork.getCarClassRepo().findById(request.getId());
+		if(!carClass.isPresent()) {
+			response.setSuccess(false);
+			return response;
+		}
+		
+		try {
+			unitOfWork.getCarClassRepo().delete(carClass.get());
+		} catch (Exception e) {
+			response.setSuccess(false);
+			return response;
+		}
+		
+		response.setSuccess(true);
+		return response;
+	}
+	
+	public SoapResponse addManufacturer(SoapAddManufacturerRequest request) {
+		SoapResponse response = new SoapResponse();
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+		if(!token.isValid() || !jwtUtil.isAdmin(token)) {
+			response.setAuthorized(false);
+			return response;
+		}
+		
+		CarManufacturerDbModel manufacturer = new CarManufacturerDbModel();
+		
+		manufacturer.setName(request.getName());
+		unitOfWork.getCarManufacturerRepo().save(manufacturer);
+		
+		response.setSuccess(true);
+		return response;
+	}
+
+	public SoapResponse deleteManufacturer(SoapDeleteManufacturerRequest request) {
+		SoapResponse response = new SoapResponse();
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+		if(!token.isValid() || !jwtUtil.isAdmin(token)) {
+			response.setAuthorized(false);
+			return response;
+		}
+		
+		Optional<CarManufacturerDbModel> manufacturer = unitOfWork.getCarManufacturerRepo().findById(request.getId());
+		if(!manufacturer.isPresent()) {
+			response.setSuccess(false);
+			return response;
+		}
+		
+		try {
+			unitOfWork.getCarManufacturerRepo().delete(manufacturer.get());
+		} catch (Exception e) {
+			response.setSuccess(false);
+			return response;
+		}
+		
+		response.setSuccess(true);
+		return response;
+	}
+	
+	public SoapResponse addCarModel(SoapAddCarModelRequest request) {
+		SoapResponse response = new SoapResponse();
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+		if(!token.isValid() || !jwtUtil.isAdmin(token)) {
+			response.setAuthorized(false);
+			return response;
+		}
+		
+		Optional<CarManufacturerDbModel> manufacturer = unitOfWork.getCarManufacturerRepo().findById(request.getManufacturerId());
+		if(!manufacturer.isPresent()) {
+			response.setSuccess(false);
+			return response;
+		}
+		
+		CarModelDbModel carModel = new CarModelDbModel();
+		
+		carModel.setName(request.getName());
+		carModel.setCarManufacturer(manufacturer.get());
+		unitOfWork.getCarModelRepo().save(carModel);
+		
+		response.setSuccess(true);
+		return response;
+	}
+
+	public SoapResponse deleteCarModel(SoapDeleteCarModelRequest request) {
+		SoapResponse response = new SoapResponse();
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+		if(!token.isValid() || !jwtUtil.isAdmin(token)) {
+			response.setAuthorized(false);
+			return response;
+		}
+		
+		Optional<CarModelDbModel> carModel = unitOfWork.getCarModelRepo().findById(request.getId());
+		if(!carModel.isPresent()) {
+			response.setSuccess(false);
+			return response;
+		}
+		
+		try {
+			unitOfWork.getCarModelRepo().delete(carModel.get());
+		} catch (Exception e) {
+			response.setSuccess(false);
+			return response;
+		}
+		
+		response.setSuccess(true);
+		return response;
+	}
+	
+	public SoapResponse addFuelType(SoapAddFuelTypeRequest request) {
+		SoapResponse response = new SoapResponse();
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+		if(!token.isValid() || !jwtUtil.isAdmin(token)) {
+			response.setAuthorized(false);
+			return response;
+		}
+		
+		FuelTypeDbModel fuelType = new FuelTypeDbModel();
+		
+		fuelType.setName(request.getName());
+		unitOfWork.getFuelTypeRepo().save(fuelType);
+		
+		response.setSuccess(true);
+		return response;
+	}
+
+	public SoapResponse deleteFuelType(SoapDeleteFuelTypeRequest request) {
+		SoapResponse response = new SoapResponse();
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+		if(!token.isValid() || !jwtUtil.isAdmin(token)) {
+			response.setAuthorized(false);
+			return response;
+		}
+		
+		Optional<FuelTypeDbModel> fuelType = unitOfWork.getFuelTypeRepo().findById(request.getId());
+		if(!fuelType.isPresent()) {
+			response.setSuccess(false);
+			return response;
+		}
+		
+		try {
+			unitOfWork.getFuelTypeRepo().delete(fuelType.get());
+		} catch (Exception e) {
+			response.setSuccess(false);
+			return response;
+		}
+		
+		response.setSuccess(true);
+		return response;
+	}
+	
+	public SoapResponse addTransmissionType(SoapAddTransmissionTypeRequest request) {
+		SoapResponse response = new SoapResponse();
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+		if(!token.isValid() || !jwtUtil.isAdmin(token)) {
+			response.setAuthorized(false);
+			return response;
+		}
+		
+		TransmissionTypeDbModel transmissionType = new TransmissionTypeDbModel();
+		
+		transmissionType.setName(request.getName());
+		unitOfWork.getTransmissionTypeRepo().save(transmissionType);
+		
+		response.setSuccess(true);
+		return response;
+	}
+
+	public SoapResponse deleteTransmissionType(SoapDeleteTransmissionTypeRequest request) {
+		SoapResponse response = new SoapResponse();
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+		if(!token.isValid() || !jwtUtil.isAdmin(token)) {
+			response.setAuthorized(false);
+			return response;
+		}
+		
+		Optional<TransmissionTypeDbModel> transmissionType = unitOfWork.getTransmissionTypeRepo().findById(request.getId());
+		if(!transmissionType.isPresent()) {
+			response.setSuccess(false);
+			return response;
+		}
+		
+		try {
+			unitOfWork.getTransmissionTypeRepo().delete(transmissionType.get());
+		} catch (Exception e) {
+			response.setSuccess(false);
+			return response;
+		}
 		
 		response.setSuccess(true);
 		return response;
