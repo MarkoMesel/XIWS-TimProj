@@ -1,15 +1,24 @@
 package com.student.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.student.http.contract.HttpCarModelResponse;
 import com.student.http.contract.HttpCarRequest;
@@ -23,8 +32,14 @@ import com.student.soap.carservice.contract.SoapCarModelsByManufacturerRequest;
 import com.student.soap.carservice.contract.SoapCarModelsResponse;
 import com.student.soap.carservice.contract.SoapCarRequest;
 import com.student.soap.carservice.contract.SoapCarResponse;
+import com.student.soap.carservice.contract.SoapDeleteImageRequest;
 import com.student.soap.carservice.contract.SoapFuelTypesRequest;
+import com.student.soap.carservice.contract.SoapGetImageRequest;
+import com.student.soap.carservice.contract.SoapGetImageResponse;
 import com.student.soap.carservice.contract.SoapNamedObjectsResponse;
+import com.student.soap.carservice.contract.SoapPostImageRequest;
+import com.student.soap.carservice.contract.SoapPostImageResponse;
+import com.student.soap.carservice.contract.SoapResponse;
 import com.student.soap.carservice.contract.SoapTransmissionTypesRequest;
 import com.student.soap.client.CarServiceClient;
 
@@ -84,19 +99,18 @@ public class CarController {
 		return new ResponseEntity<>(translator.translate(internalResponse), HttpStatus.OK);
 	}
 
-
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@GetMapping(path = "car/getCar")
 	public ResponseEntity<HttpCarResponse> getCar(@RequestBody HttpCarRequest request) {
-		
+
 		SoapCarRequest internalRequest;
-		
+
 		try {
 			internalRequest = translator.translate(request);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
+
 		SoapCarResponse internalResponse = carServiceClient.send(internalRequest);
 
 		if (!internalResponse.isSuccess()) {
@@ -105,19 +119,14 @@ public class CarController {
 
 		return new ResponseEntity<HttpCarResponse>(translator.translate(internalResponse), HttpStatus.OK);
 	}
-	
-	/*
-	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@GetMapping(path = "car/search")
-	public ResponseEntity<List<HttpCarResponse>> search() {
-		return new ResponseEntity<>(translator.httpTranslate(carProvider.getAllCars()), HttpStatus.OK);
-	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@GetMapping(path = "car/getImage/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+	@GetMapping(path = "car/image/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
 	public ResponseEntity<byte[]> getImage(@PathVariable int id) {
+		SoapGetImageRequest internalRequest = new SoapGetImageRequest();
+		internalRequest.setId(id);
 
-		InternalImageResponse internalResponse = carProvider.getCarImage(id);
+		SoapGetImageResponse internalResponse = carServiceClient.send(internalRequest);
 
 		if (!internalResponse.isSuccess()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -127,26 +136,105 @@ public class CarController {
 
 		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
 
-		ResponseEntity<byte[]> responseEntity = new ResponseEntity<byte[]>(translator.httpTranslate(internalResponse),
-				headers, HttpStatus.OK);
+		ResponseEntity<byte[]> responseEntity = new ResponseEntity<byte[]>(internalResponse.getImage(), headers,
+				HttpStatus.OK);
 		return responseEntity;
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@PostMapping(path = "car/add")
-	public ResponseEntity<?> addCar(@RequestHeader("token") String token, @RequestBody HttpAddCarRequest request) {
+	@PostMapping(path = "car/{id}/image")
+	public ResponseEntity<Integer> postImage(@RequestHeader("token") String token, @PathVariable int id,
+			@RequestParam("image") MultipartFile file) {
+		SoapPostImageRequest internalRequest = new SoapPostImageRequest();
 
-		InternalAutherisedResponse internalResponse = carProvider.addCar(translator.translate(token, request));
+		internalRequest.setToken(token);
+		internalRequest.setCarId(id);
 
-		if (!internalResponse.isAutherised()) {
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-		}
-		
-		if (!internalResponse.isSuccess()) {
+		try {
+			internalRequest.setImage(file.getBytes());
+		} catch (IOException e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		ResponseEntity<?> responseEntity = new ResponseEntity<>(HttpStatus.OK);
+		SoapPostImageResponse internalResponse = carServiceClient.send(internalRequest);
+
+		if (!internalResponse.isAuthorized()) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+
+		if (!internalResponse.isSuccess()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		ResponseEntity<Integer> responseEntity = new ResponseEntity<Integer>(internalResponse.getImageId(),
+				HttpStatus.OK);
 		return responseEntity;
-	}*/
+	}
+
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@DeleteMapping(path = "car/image/{id}")
+	public ResponseEntity<?> deleteImage(@RequestHeader("token") String token, @PathVariable int id) {
+		SoapDeleteImageRequest internalRequest = new SoapDeleteImageRequest();
+
+		internalRequest.setToken(token);
+		internalRequest.setId(id);
+
+		SoapResponse internalResponse = carServiceClient.send(internalRequest);
+
+		if (internalResponse.isAuthorized() != null && !internalResponse.isAuthorized()) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+
+		if (!internalResponse.isSuccess()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
+	/*
+	 * @CrossOrigin(origins = "*", allowedHeaders = "*")
+	 * 
+	 * @GetMapping(path = "car/search") public ResponseEntity<List<HttpCarResponse>>
+	 * search() { return new
+	 * ResponseEntity<>(translator.httpTranslate(carProvider.getAllCars()),
+	 * HttpStatus.OK); }
+	 * 
+	 * @CrossOrigin(origins = "*", allowedHeaders = "*")
+	 * 
+	 * @GetMapping(path = "car/getImage/{id}", produces =
+	 * MediaType.IMAGE_JPEG_VALUE) public ResponseEntity<byte[]>
+	 * getImage(@PathVariable int id) {
+	 * 
+	 * InternalImageResponse internalResponse = carProvider.getCarImage(id);
+	 * 
+	 * if (!internalResponse.isSuccess()) { return new
+	 * ResponseEntity<>(HttpStatus.NOT_FOUND); }
+	 * 
+	 * HttpHeaders headers = new HttpHeaders();
+	 * 
+	 * headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+	 * 
+	 * ResponseEntity<byte[]> responseEntity = new
+	 * ResponseEntity<byte[]>(translator.httpTranslate(internalResponse), headers,
+	 * HttpStatus.OK); return responseEntity; }
+	 * 
+	 * @CrossOrigin(origins = "*", allowedHeaders = "*")
+	 * 
+	 * @PostMapping(path = "car/add") public ResponseEntity<?>
+	 * addCar(@RequestHeader("token") String token, @RequestBody HttpAddCarRequest
+	 * request) {
+	 * 
+	 * InternalAutherisedResponse internalResponse =
+	 * carProvider.addCar(translator.translate(token, request));
+	 * 
+	 * if (!internalResponse.isAutherised()) { return new
+	 * ResponseEntity<>(HttpStatus.UNAUTHORIZED); }
+	 * 
+	 * if (!internalResponse.isSuccess()) { return new
+	 * ResponseEntity<>(HttpStatus.BAD_REQUEST); }
+	 * 
+	 * ResponseEntity<?> responseEntity = new ResponseEntity<>(HttpStatus.OK);
+	 * return responseEntity; }
+	 */
 }

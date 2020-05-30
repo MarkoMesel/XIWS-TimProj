@@ -54,7 +54,7 @@ public class CarController {
 
 		return new ResponseEntity<HttpCarResponse>(translator.httpTranslate(internalResponse), HttpStatus.OK);
 	}
-*/
+	
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@GetMapping(path = "car/getImage/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
 	public ResponseEntity<byte[]> getImage(@PathVariable int id) {
@@ -72,6 +72,7 @@ public class CarController {
 		ResponseEntity<byte[]> responseEntity = new ResponseEntity<byte[]>(translator.httpTranslate(internalResponse), headers, HttpStatus.OK);
 		return responseEntity;
 	}
+	*/
 	
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping(path = "car/add")

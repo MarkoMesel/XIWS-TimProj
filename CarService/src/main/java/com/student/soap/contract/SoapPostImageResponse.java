@@ -22,11 +22,11 @@ import javax.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType>
  *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *     &lt;extension base="{http://www.student.com/soap/contract}StatusType">
  *       &lt;sequence>
- *         &lt;element name="manufacturerId" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="imageId" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *       &lt;/sequence>
- *     &lt;/restriction>
+ *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
@@ -35,27 +35,29 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "manufacturerId"
+    "imageId"
 })
-@XmlRootElement(name = "soapCarModelsByManufacturerRequest")
-public class SoapCarModelsByManufacturerRequest {
+@XmlRootElement(name = "soapPostImageResponse")
+public class SoapPostImageResponse
+    extends StatusType
+{
 
-    protected int manufacturerId;
+    protected int imageId;
 
     /**
-     * Gets the value of the manufacturerId property.
+     * Gets the value of the imageId property.
      * 
      */
-    public int getManufacturerId() {
-        return manufacturerId;
+    public int getImageId() {
+        return imageId;
     }
 
     /**
-     * Sets the value of the manufacturerId property.
+     * Sets the value of the imageId property.
      * 
      */
-    public void setManufacturerId(int value) {
-        this.manufacturerId = value;
+    public void setImageId(int value) {
+        this.imageId = value;
     }
 
 }

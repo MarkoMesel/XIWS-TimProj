@@ -22,8 +22,11 @@ import javax.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType&gt;
  *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *     &lt;/restriction&gt;
+ *     &lt;extension base="{http://www.student.com/soap/contract}StatusType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="imageId" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/extension&gt;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
@@ -31,9 +34,30 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
-@XmlRootElement(name = "soapCarClassesRequest")
-public class SoapCarClassesRequest {
+@XmlType(name = "", propOrder = {
+    "imageId"
+})
+@XmlRootElement(name = "soapPostImageResponse")
+public class SoapPostImageResponse
+    extends StatusType
+{
 
+    protected int imageId;
+
+    /**
+     * Gets the value of the imageId property.
+     * 
+     */
+    public int getImageId() {
+        return imageId;
+    }
+
+    /**
+     * Sets the value of the imageId property.
+     * 
+     */
+    public void setImageId(int value) {
+        this.imageId = value;
+    }
 
 }

@@ -12,9 +12,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
@@ -25,13 +23,13 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * <pre>
  * &lt;complexType>
  *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *     &lt;extension base="{http://www.student.com/soap/contract}StatusType">
  *       &lt;sequence>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="startDate" type="{http://www.w3.org/2001/XMLSchema}date"/>
- *         &lt;element name="endDate" type="{http://www.w3.org/2001/XMLSchema}date"/>
+ *         &lt;element name="carId" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="image" type="{http://www.w3.org/2001/XMLSchema}base64Binary"/>
  *       &lt;/sequence>
- *     &lt;/restriction>
+ *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
@@ -41,19 +39,18 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "id",
-    "startDate",
-    "endDate"
+    "carId",
+    "image"
 })
-@XmlRootElement(name = "soapCarRequest")
-public class SoapCarRequest {
+@XmlRootElement(name = "soapGetImageResponse")
+public class SoapGetImageResponse
+    extends StatusType
+{
 
     protected int id;
+    protected int carId;
     @XmlElement(required = true)
-    @XmlSchemaType(name = "date")
-    protected XMLGregorianCalendar startDate;
-    @XmlElement(required = true)
-    @XmlSchemaType(name = "date")
-    protected XMLGregorianCalendar endDate;
+    protected byte[] image;
 
     /**
      * Gets the value of the id property.
@@ -72,51 +69,41 @@ public class SoapCarRequest {
     }
 
     /**
-     * Gets the value of the startDate property.
+     * Gets the value of the carId property.
+     * 
+     */
+    public int getCarId() {
+        return carId;
+    }
+
+    /**
+     * Sets the value of the carId property.
+     * 
+     */
+    public void setCarId(int value) {
+        this.carId = value;
+    }
+
+    /**
+     * Gets the value of the image property.
      * 
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
+     *     byte[]
      */
-    public XMLGregorianCalendar getStartDate() {
-        return startDate;
+    public byte[] getImage() {
+        return image;
     }
 
     /**
-     * Sets the value of the startDate property.
+     * Sets the value of the image property.
      * 
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
+     *     byte[]
      */
-    public void setStartDate(XMLGregorianCalendar value) {
-        this.startDate = value;
-    }
-
-    /**
-     * Gets the value of the endDate property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public XMLGregorianCalendar getEndDate() {
-        return endDate;
-    }
-
-    /**
-     * Sets the value of the endDate property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public void setEndDate(XMLGregorianCalendar value) {
-        this.endDate = value;
+    public void setImage(byte[] value) {
+        this.image = value;
     }
 
 }
