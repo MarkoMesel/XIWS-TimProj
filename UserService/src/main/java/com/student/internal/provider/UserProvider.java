@@ -14,6 +14,8 @@ import com.student.internal.contract.InternalGetResponse;
 import com.student.internal.contract.InternalResponse;
 import com.student.jwt.AuthenticationTokenParseResult;
 import com.student.jwt.JwtUtil;
+import com.student.soap.contract.SoapGetResponse;
+import com.student.soap.contract.SoapInternalGetUserRequest;
 
 @Component("UserProvider")
 public class UserProvider {
@@ -27,15 +29,14 @@ public class UserProvider {
 		this.jwtUtil = jwtUtil;
 		passwordEncoder = new BCryptPasswordEncoder(10, new SecureRandom());
 	}
-	
-	public InternalResponse edit(InternalEditRequest request) 
-	{
+
+	public InternalResponse edit(InternalEditRequest request) {
 		InternalResponse response = new InternalResponse();
-		
+
 		try {
 			AuthenticationTokenParseResult parseResult = jwtUtil.parseAuthenticationToken(request.getToken());
-			
-			if(!parseResult.isValid()) {
+
+			if (!parseResult.isValid()) {
 				response.setSuccess(false);
 				return response;
 			}
@@ -49,26 +50,27 @@ public class UserProvider {
 			user.get().setLastName(request.getLastName());
 			user.get().setPhone(request.getPhone());
 
-			if (request.getPassword()!=null && !request.getPassword().isEmpty()) {
+			if (request.getPassword() != null && !request.getPassword().isEmpty()) {
 				user.get().setPassword(passwordEncoder.encode(request.getPassword()));
 			}
 			userRepo.save(user.get());
-			
+
 			response.setSuccess(true);
 			return response;
-		} catch (Exception e) {				
+		} catch (Exception e) {
 			response = new InternalGetResponse();
 			response.setSuccess(false);
 			return response;
 		}
 	}
+
 	public InternalGetResponse get(String token) {
 		InternalGetResponse response = new InternalGetResponse();
-		
+
 		try {
 			AuthenticationTokenParseResult parseResult = jwtUtil.parseAuthenticationToken(token);
-			
-			if(!parseResult.isValid()) {
+
+			if (!parseResult.isValid()) {
 				response.setSuccess(false);
 				return response;
 			}
@@ -77,19 +79,37 @@ public class UserProvider {
 				response.setSuccess(false);
 				return response;
 			}
-			
+
 			InternalGetResponse result = new InternalGetResponse();
 			result.setEmail(user.get().getEmail());
 			result.setPhone(user.get().getPhone());
 			result.setFirstName(user.get().getFirstName());
 			result.setLastName(user.get().getLastName());
 			result.setSuccess(true);
-			
+
 			return result;
 		} catch (Exception e) {
 			response = new InternalGetResponse();
 			response.setSuccess(false);
 			return response;
 		}
+	}
+
+	public SoapGetResponse get(SoapInternalGetUserRequest request) {
+		SoapGetResponse response = new SoapGetResponse();
+
+		Optional<UserDbModel> user = userRepo.findById(request.getId());
+		if (!user.isPresent()) {
+			response.setSuccess(false);
+			return response;
+		}
+
+		response.setEmail(user.get().getEmail());
+		response.setPhone(user.get().getPhone());
+		response.setFirstName(user.get().getFirstName());
+		response.setLastName(user.get().getLastName());
+		
+		response.setSuccess(true);
+		return response;
 	}
 }

@@ -10,7 +10,6 @@ package com.student.soap.contract;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -23,11 +22,11 @@ import javax.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType>
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.student.com/soap/contract}StatusType">
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="token" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *       &lt;/sequence>
- *     &lt;/extension>
+ *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
@@ -36,38 +35,27 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "token"
+    "id"
 })
-@XmlRootElement(name = "soapLoginResponse")
-public class SoapLoginResponse
-    extends StatusType
-{
+@XmlRootElement(name = "soapInternalGetUserRequest")
+public class SoapInternalGetUserRequest {
 
-    @XmlElement(required = true)
-    protected String token;
+    protected int id;
 
     /**
-     * Gets the value of the token property.
+     * Gets the value of the id property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
-    public String getToken() {
-        return token;
+    public int getId() {
+        return id;
     }
 
     /**
-     * Sets the value of the token property.
+     * Sets the value of the id property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
-    public void setToken(String value) {
-        this.token = value;
+    public void setId(int value) {
+        this.id = value;
     }
 
 }
