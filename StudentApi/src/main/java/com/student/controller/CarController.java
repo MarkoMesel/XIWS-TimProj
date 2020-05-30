@@ -3,6 +3,9 @@ package com.student.controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
@@ -15,13 +18,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.student.http.contract.HttpCarModelResponse;
-import com.student.http.contract.HttpCarRequest;
 import com.student.http.contract.HttpCarResponse;
 import com.student.http.contract.HttpNamedObjectResponse;
 import com.student.internal.translator.Translator;
@@ -47,11 +48,16 @@ import com.student.soap.client.CarServiceClient;
 public class CarController {
 	private Translator translator;
 	private CarServiceClient carServiceClient;
+	private DatatypeFactory datatypeFactory;
 
 	@Autowired
 	public CarController(CarServiceClient carServiceClient, Translator translator) {
 		this.carServiceClient = carServiceClient;
 		this.translator = translator;
+		try {
+			datatypeFactory = DatatypeFactory.newInstance();
+		} catch (DatatypeConfigurationException e) {
+		}
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -100,17 +106,23 @@ public class CarController {
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@GetMapping(path = "car/getCar")
-	public ResponseEntity<HttpCarResponse> getCar(@RequestBody HttpCarRequest request) {
+	@GetMapping(path = "car/getCar/{id}/{startDate}/{endDate}")
+	public ResponseEntity<HttpCarResponse> getCar(@PathVariable int id , @PathVariable String startDate, @PathVariable String endDate) {
 
-		SoapCarRequest internalRequest;
+		
+		SoapCarRequest internalRequest = new SoapCarRequest();
 
+		
+		
+		internalRequest.setId(id);
+		
 		try {
-			internalRequest = translator.translate(request);
+			internalRequest.setStartDate(datatypeFactory.newXMLGregorianCalendar(startDate));
+			internalRequest.setEndDate(datatypeFactory.newXMLGregorianCalendar(endDate));
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-
+		
 		SoapCarResponse internalResponse = carServiceClient.send(internalRequest);
 
 		if (!internalResponse.isSuccess()) {
