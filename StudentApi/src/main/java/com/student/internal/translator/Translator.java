@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.student.http.contract.HttpCarModelResponse;
-import com.student.http.contract.HttpCarRequest;
 import com.student.http.contract.HttpCarResponse;
 import com.student.http.contract.HttpEditRequest;
 import com.student.http.contract.HttpGetResponse;
@@ -15,7 +14,6 @@ import com.student.http.contract.HttpLoginResponse;
 import com.student.http.contract.HttpNamedObjectResponse;
 import com.student.http.contract.HttpRegisterRequest;
 import com.student.soap.carservice.contract.SoapCarModelsResponse;
-import com.student.soap.carservice.contract.SoapCarRequest;
 import com.student.soap.carservice.contract.SoapCarResponse;
 import com.student.soap.scheduleservice.contract.SoapCarRatingRequest;
 import com.student.soap.userservice.contract.SoapEditRequest;
@@ -143,16 +141,6 @@ public class Translator {
 		}
 		
 		return response;
-	}
-
-	public SoapCarRequest translate(HttpCarRequest input) {
-		SoapCarRequest output = new SoapCarRequest();
-		
-		output.setId(input.getId());
-		output.setStartDate(input.getStartDate());
-		output.setEndDate(input.getEndDate());
-		
-		return output;
 	}
 	
 	public HttpCarResponse translate(SoapCarResponse input) {

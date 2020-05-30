@@ -12,13 +12,17 @@ import com.student.internal.contract.InternalAddCarRequest;
 import com.student.internal.contract.InternalAutherisedResponse;
 import com.student.internal.contract.InternalCarModelsResponse;
 import com.student.internal.contract.InternalCarsResponse;
-import com.student.internal.contract.InternalImageResponse;
 import com.student.internal.contract.InternalNamedObjectsResponse;
 import com.student.jwt.AuthenticationTokenParseResult;
 import com.student.jwt.JwtUtil;
-import com.student.jwt.Permission;
 import com.student.soap.contract.SoapCarRequest;
 import com.student.soap.contract.SoapCarResponse;
+import com.student.soap.contract.SoapDeleteImageRequest;
+import com.student.soap.contract.SoapGetImageRequest;
+import com.student.soap.contract.SoapGetImageResponse;
+import com.student.soap.contract.SoapPostImageRequest;
+import com.student.soap.contract.SoapPostImageResponse;
+import com.student.soap.contract.SoapResponse;
 import com.student.soap.resource.client.ScheduleServiceClient;
 import com.student.soap.resourse.contract.SoapCarPriceResponse;
 import com.student.soap.resourse.contract.SoapCarRatingResponse;
@@ -41,17 +45,11 @@ public class CarProvider {
 	public InternalAutherisedResponse addCar(InternalAddCarRequest request) {
 		InternalAutherisedResponse response = new InternalAutherisedResponse();
 		AuthenticationTokenParseResult tokenParseResult = jwtUtil.parseAuthenticationToken(request.getToken());
-		Permission addCarPermission = tokenParseResult.getPermissions().stream()
-				.filter(permission -> permission.getPermissionId() == 1).findFirst().orElse(null);
-		if (!tokenParseResult.isValid() || addCarPermission == null
-				|| (!tokenParseResult.getRoleName().equals("ADMIN")
-						&& !(!tokenParseResult.getRoleName().equals("AGENT")
-								|| (addCarPermission != null && request.getAgentId() != null))
-						&& !(!tokenParseResult.getRoleName().equals("USER") || (addCarPermission != null)))) {
-			response.setAutherised(false);
-			return response;
-		}
 
+		//TODO
+		return response;
+
+		/*
 		response.setAutherised(true);
 
 		CarDbModel car = new CarDbModel();
@@ -61,13 +59,14 @@ public class CarProvider {
 		car.setFuelType(unitOfWork.getFuelTypeRepo().findById(request.getFuelTypeId()).get());
 		car.setMileage(request.getMileage());
 		car.setTransmissionType(unitOfWork.getTransmissionTypeRepo().findById(request.getTransmissionTypeId()).get());
-		car.setPublisherType(unitOfWork.getPublisherTypeRepo().findById(addCarPermission.getResourceTypeId()).get());
-		car.setPublisherId(addCarPermission.getResourceId());
+		//TODO: car.setPublisherType(unitOfWork.getPublisherTypeRepo().findById(addCarPermission.getResourceTypeId()).get());
+		//TODO: car.setPublisherId(addCarPermission.getResourceId());
 
 		unitOfWork.getCarRepo().save(car);
 
 		response.setSuccess(true);
 		return response;
+		*/
 	}
 
 	public InternalCarModelsResponse getAllCarModels() {
@@ -154,15 +153,19 @@ public class CarProvider {
 		return response;
 	}
 
-	public InternalImageResponse getCarImage(int id) {
-		InternalImageResponse response = new InternalImageResponse();
+	public SoapGetImageResponse getCarImage(SoapGetImageRequest request) {
+		SoapGetImageResponse response = new SoapGetImageResponse();
 
-		Optional<CarImageDbModel> image = unitOfWork.getCarImageRepo().findById(id);
+		Optional<CarImageDbModel> image = unitOfWork.getCarImageRepo().findById(request.getId());
 		if (!image.isPresent()) {
 			response.setSuccess(false);
 			return response;
 		}
+		
+		response.setId(request.getId());
+		response.setCarId(image.get().getCar().getId());
 		response.setImage(image.get().getImage());
+		
 		response.setSuccess(true);
 		return response;
 	}
@@ -315,6 +318,57 @@ public class CarProvider {
 			response.getImage().add(image.getId());
 		}
 
+		response.setSuccess(true);
+		return response;
+	}
+
+	public SoapPostImageResponse postCarImage(SoapPostImageRequest request) {
+		SoapPostImageResponse response = new SoapPostImageResponse();
+		
+		Optional<CarDbModel> car = unitOfWork.getCarRepo().findById(request.getCarId());
+		if(!car.isPresent()) {
+			return new SoapPostImageResponse();
+		}
+		
+		AuthenticationTokenParseResult tokenParseResult = jwtUtil.parseAuthenticationToken(request.getToken());
+		
+		if(!jwtUtil.isAutharized(tokenParseResult, 2, car.get().getId(), car.get().getPublisherType().getName())) {
+			response.setAuthorized(true);
+			return response;
+		}
+		
+		response.setAuthorized(true);
+		
+		CarImageDbModel image = new CarImageDbModel();
+		
+		image.setCar(car.get());
+		image.setImage(request.getImage());
+		unitOfWork.getCarImageRepo().save(image);
+		
+		response.setImageId(image.getId());
+		response.setSuccess(true);
+		return response;
+	}
+	
+	public SoapResponse deleteCarImage(SoapDeleteImageRequest request) {
+		SoapResponse response = new SoapResponse();
+		
+		Optional<CarImageDbModel> image = unitOfWork.getCarImageRepo().findById(request.getId());
+		if(!image.isPresent()) {
+			return new SoapResponse();
+		}
+		
+		AuthenticationTokenParseResult tokenParseResult = jwtUtil.parseAuthenticationToken(request.getToken());
+		
+		if(!jwtUtil.isAutharized(tokenParseResult, 2, image.get().getCar().getId(), image.get().getCar().getPublisherType().getName())) {
+			response.setAuthorized(true);
+			return response;
+		}
+		
+		response.setAuthorized(true);
+
+		unitOfWork.getCarImageRepo().delete(image.get());
+		
 		response.setSuccess(true);
 		return response;
 	}

@@ -64,9 +64,11 @@ public class JwtUtil {
 			Permission permission = new Permission();
 			permission.setPermissionId(userPermission.getPermission().getId());
 			permission.setPermissionName(userPermission.getPermission().getName());
-			permission.setResourceTypeId(userPermission.getResourseType().getId());
-			permission.setResourceTypeName(userPermission.getResourseType().getName());
-			permission.setResourceId(userPermission.getResourseId());
+			if(userPermission.getResourseType() != null) {
+				permission.setResourceTypeId(userPermission.getResourseType().getId());
+				permission.setResourceTypeName(userPermission.getResourseType().getName());
+				permission.setResourceId(userPermission.getResourseId());
+			}
 			permissions.add(permission);
 		}
 		return Jwts.builder().setIssuer(issuer)

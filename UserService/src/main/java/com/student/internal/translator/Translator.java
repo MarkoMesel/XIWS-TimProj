@@ -25,6 +25,11 @@ public class Translator {
 	{
 		SoapLoginResponse output = new SoapLoginResponse();
 		output.setSuccess(input.isSuccess());
+		
+		if(!input.isSuccess()) {
+			return output;
+		}
+		
 		output.setToken(input.getToken().toString());
 		return output;
 	}

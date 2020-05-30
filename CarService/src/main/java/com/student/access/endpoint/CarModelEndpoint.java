@@ -15,8 +15,14 @@ import com.student.soap.contract.SoapCarModelsByManufacturerRequest;
 import com.student.soap.contract.SoapCarModelsResponse;
 import com.student.soap.contract.SoapCarRequest;
 import com.student.soap.contract.SoapCarResponse;
+import com.student.soap.contract.SoapDeleteImageRequest;
 import com.student.soap.contract.SoapFuelTypesRequest;
+import com.student.soap.contract.SoapGetImageRequest;
+import com.student.soap.contract.SoapGetImageResponse;
 import com.student.soap.contract.SoapNamedObjectsResponse;
+import com.student.soap.contract.SoapPostImageRequest;
+import com.student.soap.contract.SoapPostImageResponse;
+import com.student.soap.contract.SoapResponse;
 import com.student.soap.contract.SoapTransmissionTypesRequest;
 
 @Endpoint
@@ -72,5 +78,23 @@ public class CarModelEndpoint {
 	@ResponsePayload
 	public SoapCarResponse getCarClasses(@RequestPayload SoapCarRequest request) {
 		return carProvider.getCar(request);
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapGetImageRequest")
+	@ResponsePayload
+	public SoapGetImageResponse getCarImage(@RequestPayload SoapGetImageRequest request) {
+		return carProvider.getCarImage(request);
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapPostImageRequest")
+	@ResponsePayload
+	public SoapPostImageResponse postCarImage(@RequestPayload SoapPostImageRequest request) {
+		return carProvider.postCarImage(request);
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapDeleteImageRequest")
+	@ResponsePayload
+	public SoapResponse postDeleteImage(@RequestPayload SoapDeleteImageRequest request) {
+		return carProvider.deleteCarImage(request);
 	}
 }
