@@ -13,6 +13,8 @@ import com.student.soap.contract.SoapCarClassesRequest;
 import com.student.soap.contract.SoapCarManufacturersRequest;
 import com.student.soap.contract.SoapCarModelsByManufacturerRequest;
 import com.student.soap.contract.SoapCarModelsResponse;
+import com.student.soap.contract.SoapCarRequest;
+import com.student.soap.contract.SoapCarResponse;
 import com.student.soap.contract.SoapFuelTypesRequest;
 import com.student.soap.contract.SoapNamedObjectsResponse;
 import com.student.soap.contract.SoapTransmissionTypesRequest;
@@ -64,5 +66,11 @@ public class CarModelEndpoint {
 	@ResponsePayload
 	public SoapNamedObjectsResponse getCarClasses(@RequestPayload SoapCarClassesRequest request) {
 		return translator.soapTranslate(carProvider.getCarClasses());
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapCarRequest")
+	@ResponsePayload
+	public SoapCarResponse getCarClasses(@RequestPayload SoapCarRequest request) {
+		return carProvider.getCar(request);
 	}
 }

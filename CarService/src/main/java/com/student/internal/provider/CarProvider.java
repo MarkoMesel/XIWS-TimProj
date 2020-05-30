@@ -11,14 +11,16 @@ import com.student.data.repo.UnitOfWork;
 import com.student.internal.contract.InternalAddCarRequest;
 import com.student.internal.contract.InternalAutherisedResponse;
 import com.student.internal.contract.InternalCarModelsResponse;
-import com.student.internal.contract.InternalCarResponse;
 import com.student.internal.contract.InternalCarsResponse;
 import com.student.internal.contract.InternalImageResponse;
 import com.student.internal.contract.InternalNamedObjectsResponse;
 import com.student.jwt.AuthenticationTokenParseResult;
 import com.student.jwt.JwtUtil;
 import com.student.jwt.Permission;
+import com.student.soap.contract.SoapCarRequest;
+import com.student.soap.contract.SoapCarResponse;
 import com.student.soap.resource.client.ScheduleServiceClient;
+import com.student.soap.resourse.contract.SoapCarPriceResponse;
 import com.student.soap.resourse.contract.SoapCarRatingResponse;
 
 @Component("CarProvider")
@@ -38,21 +40,20 @@ public class CarProvider {
 
 	public InternalAutherisedResponse addCar(InternalAddCarRequest request) {
 		InternalAutherisedResponse response = new InternalAutherisedResponse();
-		AuthenticationTokenParseResult tokenParseResult =  jwtUtil.parseAuthenticationToken(request.getToken());
-		Permission addCarPermission = tokenParseResult.getPermissions().stream().filter(permission -> permission.getPermissionId() == 1).findFirst().orElse(null);
-		if(
-				!tokenParseResult.isValid() 
-				|| addCarPermission == null
-				|| ( !tokenParseResult.getRoleName().equals("ADMIN")
-				&& !(!tokenParseResult.getRoleName().equals("AGENT") || (addCarPermission!=null && request.getAgentId() != null))
-				&& !(!tokenParseResult.getRoleName().equals("USER") || (addCarPermission!=null)))
-				) {
+		AuthenticationTokenParseResult tokenParseResult = jwtUtil.parseAuthenticationToken(request.getToken());
+		Permission addCarPermission = tokenParseResult.getPermissions().stream()
+				.filter(permission -> permission.getPermissionId() == 1).findFirst().orElse(null);
+		if (!tokenParseResult.isValid() || addCarPermission == null
+				|| (!tokenParseResult.getRoleName().equals("ADMIN")
+						&& !(!tokenParseResult.getRoleName().equals("AGENT")
+								|| (addCarPermission != null && request.getAgentId() != null))
+						&& !(!tokenParseResult.getRoleName().equals("USER") || (addCarPermission != null)))) {
 			response.setAutherised(false);
 			return response;
 		}
-		
+
 		response.setAutherised(true);
-		
+
 		CarDbModel car = new CarDbModel();
 		car.setCarClass(unitOfWork.getCarClassRepo().findById(request.getCarClassId()).get());
 		car.setCarModel(unitOfWork.getCarModelRepo().findById(request.getModelId()).get());
@@ -62,13 +63,13 @@ public class CarProvider {
 		car.setTransmissionType(unitOfWork.getTransmissionTypeRepo().findById(request.getTransmissionTypeId()).get());
 		car.setPublisherType(unitOfWork.getPublisherTypeRepo().findById(addCarPermission.getResourceTypeId()).get());
 		car.setPublisherId(addCarPermission.getResourceId());
-		
+
 		unitOfWork.getCarRepo().save(car);
-		
+
 		response.setSuccess(true);
 		return response;
 	}
-	
+
 	public InternalCarModelsResponse getAllCarModels() {
 		InternalCarModelsResponse response = new InternalCarModelsResponse();
 		unitOfWork.getCarModelRepo().findAll().forEach(carModel -> {
@@ -168,11 +169,10 @@ public class CarProvider {
 
 	public InternalCarsResponse getAllCars() {
 		InternalCarsResponse response = new InternalCarsResponse();
-		
-		for(CarDbModel objectIn:unitOfWork.getCarRepo().findAll())
-		{
-			InternalCarsResponse.Car objectOut= new InternalCarsResponse.Car();
-			
+
+		for (CarDbModel objectIn : unitOfWork.getCarRepo().findAll()) {
+			InternalCarsResponse.Car objectOut = new InternalCarsResponse.Car();
+
 			objectOut.setId(objectIn.getId());
 			objectOut.setModelId(objectIn.getCarModel().getId());
 			objectOut.setModelName(objectIn.getCarModel().getName());
@@ -188,87 +188,131 @@ public class CarProvider {
 			objectOut.setChildSeats(objectIn.getChildSeats());
 			objectOut.setAgentId(23);
 			objectOut.setAgentName("TODO");
-			objectIn.getImages().forEach(image ->{
-			objectOut.getCarImages().add(image.getId());
+			objectIn.getImages().forEach(image -> {
+				objectOut.getCarImages().add(image.getId());
 			});
-			
+
 			SoapCarRatingResponse carRatingResponse = scheduleServiceClient.getCarRating(objectIn.getId());
-			if(!carRatingResponse.isSuccess()) {
+			if (!carRatingResponse.isSuccess()) {
 				response = new InternalCarsResponse();
 				response.setSuccess(false);
 				return response;
 			}
 			objectOut.setCarRating(carRatingResponse.getRating());
-			
-			//TODO: search - scheduleServiceClient.getCarPrice
+
+			// TODO: search - scheduleServiceClient.getCarPrice
 			/*
-			SoapCarPriceResponse carPriceResponse = scheduleServiceClient.getCarPrice(objectIn.getId(), );
-			if(!carRatingResponse.isSuccess()) {
-				response = new InternalCarsResponse();
-				response.setSuccess(false);
-				return response;
-			}
-			objectOut.setPricePerDay(carPriceResponse.getPricePerDay());
-			objectOut.setCollisionWaranty(carPriceResponse.isCollisionWarranty());
-			objectOut.setMileageThreshold(carPriceResponse.getMileageThreshold());
-			objectOut.setMileagePenalty(carPriceResponse.getMileageThreshold());
-			*/
-			
+			 * SoapCarPriceResponse carPriceResponse =
+			 * scheduleServiceClient.getCarPrice(objectIn.getId(), );
+			 * if(!carRatingResponse.isSuccess()) { response = new InternalCarsResponse();
+			 * response.setSuccess(false); return response; }
+			 * objectOut.setPricePerDay(carPriceResponse.getPricePerDay());
+			 * objectOut.setCollisionWaranty(carPriceResponse.isCollisionWarranty());
+			 * objectOut.setMileageThreshold(carPriceResponse.getMileageThreshold());
+			 * objectOut.setMileagePenalty(carPriceResponse.getMileageThreshold());
+			 */
+
 			response.addCar(objectOut);
 		}
-		
+
 		response.setSuccess(true);
 		return response;
 	}
 
-	public InternalCarResponse getCar(int id) {
-		InternalCarResponse response = new InternalCarResponse();
+	/*
+	 * public InternalCarResponse getCar(int id) { InternalCarResponse response =
+	 * new InternalCarResponse();
+	 * 
+	 * Optional<CarDbModel> car = unitOfWork.getCarRepo().findById(id); if
+	 * (!car.isPresent()) { response.setSuccess(false); return response; }
+	 * response.setId(car.get().getId());
+	 * response.setModelId(car.get().getCarModel().getId());
+	 * response.setModelName(car.get().getCarModel().getName());
+	 * response.setManufacturerId(car.get().getCarModel().getCarManufacturer().getId
+	 * ());
+	 * response.setManufacturerName(car.get().getCarModel().getCarManufacturer().
+	 * getName()); response.setFuelType(car.get().getFuelType().getName());
+	 * response.setFuelTypeId(car.get().getFuelType().getId());
+	 * response.setTransmission(car.get().getTransmissionType().getName());
+	 * response.setTransmissionTypeId(car.get().getTransmissionType().getId());
+	 * response.setCarClass(car.get().getCarClass().getName());
+	 * response.setCarClassId(car.get().getCarClass().getId());
+	 * response.setMileage(car.get().getMileage());
+	 * response.setChildSeats(car.get().getChildSeats()); response.setAgentId(23);
+	 * response.setAgentName("TODO");
+	 * 
+	 * SoapCarRatingResponse carRatingResponse =
+	 * scheduleServiceClient.getCarRating(id); if (!carRatingResponse.isSuccess()) {
+	 * response = new InternalCarResponse(); response.setSuccess(false); return
+	 * response; } response.setCarRating(carRatingResponse.getRating());
+	 * 
+	 * //TODO: getCar - scheduleServiceClient.getCarPrice /* SoapCarPriceResponse
+	 * carPriceResponse = scheduleServiceClient.getCarPrice(objectIn.getId(), );
+	 * if(!carRatingResponse.isSuccess()) { response = new InternalCarsResponse();
+	 * response.setSuccess(false); return response; }
+	 * objectOut.setPricePerDay(carPriceResponse.getPricePerDay());
+	 * objectOut.setCollisionWaranty(carPriceResponse.isCollisionWarranty());
+	 * objectOut.setMileageThreshold(carPriceResponse.getMileageThreshold());
+	 * objectOut.setMileagePenalty(carPriceResponse.getMileageThreshold());
+	 * 
+	 * 
+	 * for (CarImageDbModel image : car.get().getImages()) {
+	 * response.getCarImages().add(image.getId()); }
+	 * 
+	 * response.setSuccess(true); return response; }
+	 */
 
-		Optional<CarDbModel> car = unitOfWork.getCarRepo().findById(id);
+	public SoapCarResponse getCar(SoapCarRequest request) {
+		SoapCarResponse response = new SoapCarResponse();
+
+		Optional<CarDbModel> car = unitOfWork.getCarRepo().findById(request.getId());
 		if (!car.isPresent()) {
 			response.setSuccess(false);
 			return response;
 		}
+
 		response.setId(car.get().getId());
 		response.setModelId(car.get().getCarModel().getId());
 		response.setModelName(car.get().getCarModel().getName());
 		response.setManufacturerId(car.get().getCarModel().getCarManufacturer().getId());
 		response.setManufacturerName(car.get().getCarModel().getCarManufacturer().getName());
-		response.setFuelType(car.get().getFuelType().getName());
+		response.setFuelTypeName(car.get().getFuelType().getName());
 		response.setFuelTypeId(car.get().getFuelType().getId());
-		response.setTransmission(car.get().getTransmissionType().getName());
+		response.setTransmissionTypeName(car.get().getTransmissionType().getName());
 		response.setTransmissionTypeId(car.get().getTransmissionType().getId());
-		response.setCarClass(car.get().getCarClass().getName());
+		response.setCarClassName(car.get().getCarClass().getName());
 		response.setCarClassId(car.get().getCarClass().getId());
 		response.setMileage(car.get().getMileage());
 		response.setChildSeats(car.get().getChildSeats());
-		response.setAgentId(23);
-		response.setAgentName("TODO");
+		response.setPublisherId(car.get().getPublisherId());
+		response.setPublisherName("TODO");
+		response.setPublisherTypeId(car.get().getPublisherType().getId());
+		response.setPublisherTypeName(car.get().getPublisherType().getName());
 
-		SoapCarRatingResponse carRatingResponse = scheduleServiceClient.getCarRating(id);
+		SoapCarRatingResponse carRatingResponse = scheduleServiceClient.getCarRating(request.getId());
 		if (!carRatingResponse.isSuccess()) {
-			response = new InternalCarResponse();
+			response = new SoapCarResponse();
 			response.setSuccess(false);
 			return response;
 		}
-		response.setCarRating(carRatingResponse.getRating());
-		
-		//TODO: getCar - scheduleServiceClient.getCarPrice
-		/*
-		SoapCarPriceResponse carPriceResponse = scheduleServiceClient.getCarPrice(objectIn.getId(), );
-		if(!carRatingResponse.isSuccess()) {
-			response = new InternalCarsResponse();
+		response.setRating(carRatingResponse.getRating());
+
+		SoapCarPriceResponse carPriceResponse = scheduleServiceClient.getCarPrice(request.getId(), request.getStartDate(), request.getEndDate());
+		if (!carRatingResponse.isSuccess()) {
+			response = new SoapCarResponse();
 			response.setSuccess(false);
 			return response;
 		}
-		objectOut.setPricePerDay(carPriceResponse.getPricePerDay());
-		objectOut.setCollisionWaranty(carPriceResponse.isCollisionWarranty());
-		objectOut.setMileageThreshold(carPriceResponse.getMileageThreshold());
-		objectOut.setMileagePenalty(carPriceResponse.getMileageThreshold());
-		*/
+
+		response.setCollisionWaranty(carPriceResponse.getCollisionWarranty());
+		response.setMileagePenalty(carPriceResponse.getMileagePenalty());
+		response.setMileageThreshold(carPriceResponse.getMileageThreshold());
+		response.setPrice(carPriceResponse.getPrice());
+		response.setDiscount(carPriceResponse.getDiscount());
+		response.setTotalPrice(carPriceResponse.getTotalPrice());
 
 		for (CarImageDbModel image : car.get().getImages()) {
-			response.getCarImages().add(image.getId());
+			response.getImage().add(image.getId());
 		}
 
 		response.setSuccess(true);

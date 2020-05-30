@@ -1,44 +1,43 @@
 package com.student.http.contract;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HttpCarResponse {
-	private int id;
-	private int modelId;
-	private String modelName;
-	private int manufacturerId;
-	private String manufacturerName;
-	private String fuelType;
-	private int fuelTypeId;
-	private String transmission;
-	private int transmissionTypeId;
-	private String carClass;
-	private int carClassId;
-	private int pricePerDay;
-	private boolean collisionWaranty;
-	private int mileage;
-	private int mileageThreshold;
-	private int mileagePenalty;
-	private int childSeats;
-	private List<Integer> images;
-	private int carRating;
-	private int agentId;
-	private String agentName;
-	
-	public HttpCarResponse() {
-		images = new ArrayList<>();
-	}	
-	public int getId() {
+    protected Integer id;
+    protected Integer modelId;
+    protected String modelName;
+    protected Integer manufacturerId;
+    protected String manufacturerName;
+    protected Integer fuelTypeId;
+    protected String fuelTypeName;
+    protected Integer transmissionTypeId;
+    protected String transmissionTypeName;
+    protected Integer carClassId;
+    protected String carClassName;
+    protected Integer mileage;
+    protected Integer mileageThreshold;
+    protected Integer mileagePenalty;
+    protected Integer collisionWaranty;
+    protected Integer price;
+    protected Integer discount;
+    protected Integer totalPrice;
+    protected Integer childSeats;
+    protected Integer rating;
+    protected Integer publisherId;
+    protected String publisherName;
+    protected Integer publisherTypeId;
+    protected String publisherTypeName;
+    protected List<Integer> images;
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
-	public int getModelId() {
+	public Integer getModelId() {
 		return modelId;
 	}
-	public void setModelId(int modelId) {
+	public void setModelId(Integer modelId) {
 		this.modelId = modelId;
 	}
 	public String getModelName() {
@@ -47,10 +46,10 @@ public class HttpCarResponse {
 	public void setModelName(String modelName) {
 		this.modelName = modelName;
 	}
-	public int getManufacturerId() {
+	public Integer getManufacturerId() {
 		return manufacturerId;
 	}
-	public void setManufacturerId(int manufacturerId) {
+	public void setManufacturerId(Integer manufacturerId) {
 		this.manufacturerId = manufacturerId;
 	}
 	public String getManufacturerName() {
@@ -59,124 +58,124 @@ public class HttpCarResponse {
 	public void setManufacturerName(String manufacturerName) {
 		this.manufacturerName = manufacturerName;
 	}
-
-	public String getFuelType() {
-		return fuelType;
-	}
-
-	public void setFuelType(String fuelType) {
-		this.fuelType = fuelType;
-	}
-
-	public int getFuelTypeId() {
+	public Integer getFuelTypeId() {
 		return fuelTypeId;
 	}
-
-	public void setFuelTypeId(int fuelTypeId) {
+	public void setFuelTypeId(Integer fuelTypeId) {
 		this.fuelTypeId = fuelTypeId;
 	}
-
-	public String getTransmission() {
-		return transmission;
+	public String getFuelTypeName() {
+		return fuelTypeName;
 	}
-
-	public void setTransmission(String transmission) {
-		this.transmission = transmission;
+	public void setFuelTypeName(String fuelTypeName) {
+		this.fuelTypeName = fuelTypeName;
 	}
-
-	public int getTransmissionTypeId() {
+	public Integer getTransmissionTypeId() {
 		return transmissionTypeId;
 	}
-
-	public void setTransmissionTypeId(int transmissionTypeId) {
+	public void setTransmissionTypeId(Integer transmissionTypeId) {
 		this.transmissionTypeId = transmissionTypeId;
 	}
-
-	public String getCarClass() {
-		return carClass;
+	public String getTransmissionTypeName() {
+		return transmissionTypeName;
 	}
-
-	public void setCarClass(String carClass) {
-		this.carClass = carClass;
+	public void setTransmissionTypeName(String transmissionTypeName) {
+		this.transmissionTypeName = transmissionTypeName;
 	}
-
-	public int getCarClassId() {
+	public Integer getCarClassId() {
 		return carClassId;
 	}
-
-	public void setCarClassId(int carClassId) {
+	public void setCarClassId(Integer carClassId) {
 		this.carClassId = carClassId;
 	}
-
-	public int getPricePerDay() {
-		return pricePerDay;
+	public String getCarClassName() {
+		return carClassName;
 	}
-
-	public void setPricePerDay(int pricePerDay) {
-		this.pricePerDay = pricePerDay;
+	public void setCarClassName(String carClassName) {
+		this.carClassName = carClassName;
 	}
-
-	public boolean isCollisionWaranty() {
-		return collisionWaranty;
-	}
-
-	public void setCollisionWaranty(boolean collisionWaranty) {
-		this.collisionWaranty = collisionWaranty;
-	}
-
-	public int getMileage() {
+	public Integer getMileage() {
 		return mileage;
 	}
-
-	public void setMileage(int mileage) {
+	public void setMileage(Integer mileage) {
 		this.mileage = mileage;
 	}
-
-	public int getMileageThreshold() {
+	public Integer getMileageThreshold() {
 		return mileageThreshold;
 	}
-
-	public void setMileageThreshold(int mileageThreshold) {
+	public void setMileageThreshold(Integer mileageThreshold) {
 		this.mileageThreshold = mileageThreshold;
 	}
-
-	public int getMileagePenalty() {
+	public Integer getMileagePenalty() {
 		return mileagePenalty;
 	}
-
-	public void setMileagePenalty(int mileagePenalty) {
+	public void setMileagePenalty(Integer mileagePenalty) {
 		this.mileagePenalty = mileagePenalty;
 	}
-
-	public int getChildSeats() {
+	public Integer getCollisionWaranty() {
+		return collisionWaranty;
+	}
+	public void setCollisionWaranty(Integer collisionWaranty) {
+		this.collisionWaranty = collisionWaranty;
+	}
+	public Integer getPrice() {
+		return price;
+	}
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
+	public Integer getDiscount() {
+		return discount;
+	}
+	public void setDiscount(Integer discount) {
+		this.discount = discount;
+	}
+	public Integer getTotalPrice() {
+		return totalPrice;
+	}
+	public void setTotalPrice(Integer totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+	public Integer getChildSeats() {
 		return childSeats;
 	}
-
-	public void setChildSeats(int childSeats) {
+	public void setChildSeats(Integer childSeats) {
 		this.childSeats = childSeats;
+	}
+	public Integer getRating() {
+		return rating;
+	}
+	public void setRating(Integer rating) {
+		this.rating = rating;
+	}
+	public Integer getPublisherId() {
+		return publisherId;
+	}
+	public void setPublisherId(Integer publisherId) {
+		this.publisherId = publisherId;
+	}
+	public String getPublisherName() {
+		return publisherName;
+	}
+	public void setPublisherName(String publisherName) {
+		this.publisherName = publisherName;
+	}
+	public Integer getPublisherTypeId() {
+		return publisherTypeId;
+	}
+	public void setPublisherTypeId(Integer publisherTypeId) {
+		this.publisherTypeId = publisherTypeId;
+	}
+	public String getPublisherTypeName() {
+		return publisherTypeName;
+	}
+	public void setPublisherTypeName(String publisherTypeName) {
+		this.publisherTypeName = publisherTypeName;
 	}
 	public List<Integer> getImages() {
 		return images;
 	}
 	public void setImages(List<Integer> images) {
 		this.images = images;
-	}
-	public int getCarRating() {
-		return carRating;
-	}
-	public void setCarRating(int carRating) {
-		this.carRating = carRating;
-	}
-	public int getAgentId() {
-		return agentId;
-	}
-	public void setAgentId(int agentId) {
-		this.agentId = agentId;
-	}
-	public String getAgentName() {
-		return agentName;
-	}
-	public void setAgentName(String agentName) {
-		this.agentName = agentName;
 	}
 }

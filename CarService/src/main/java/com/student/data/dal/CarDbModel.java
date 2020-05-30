@@ -43,7 +43,7 @@ public class CarDbModel {
 	@JoinColumn(name="PUBLISHER_TYPE_ID")
 	private PublisherTypeDbModel publisherType;
 	
-	@OneToMany(mappedBy = "car")
+	@OneToMany(mappedBy = "car", fetch=FetchType.EAGER)
 	private List<CarImageDbModel> images;
 	
 	private int mileage;

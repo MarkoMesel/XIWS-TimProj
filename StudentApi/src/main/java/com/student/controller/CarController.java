@@ -9,8 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.student.http.contract.HttpCarModelResponse;
+import com.student.http.contract.HttpCarRequest;
+import com.student.http.contract.HttpCarResponse;
 import com.student.http.contract.HttpNamedObjectResponse;
 import com.student.internal.translator.Translator;
 import com.student.soap.carservice.contract.SoapAllCarModelsRequest;
@@ -18,6 +21,8 @@ import com.student.soap.carservice.contract.SoapCarClassesRequest;
 import com.student.soap.carservice.contract.SoapCarManufacturersRequest;
 import com.student.soap.carservice.contract.SoapCarModelsByManufacturerRequest;
 import com.student.soap.carservice.contract.SoapCarModelsResponse;
+import com.student.soap.carservice.contract.SoapCarRequest;
+import com.student.soap.carservice.contract.SoapCarResponse;
 import com.student.soap.carservice.contract.SoapFuelTypesRequest;
 import com.student.soap.carservice.contract.SoapNamedObjectsResponse;
 import com.student.soap.carservice.contract.SoapTransmissionTypesRequest;
@@ -80,22 +85,28 @@ public class CarController {
 	}
 
 
-	/*
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@GetMapping(path = "car/getCar/{id}")
-	public ResponseEntity<HttpCarResponse> getCar(@PathVariable int id) {
-		SoapCarRequest request = new SoapCarRequest();
-		request.setId(id);
+	@GetMapping(path = "car/getCar")
+	public ResponseEntity<HttpCarResponse> getCar(@RequestBody HttpCarRequest request) {
 		
-		SoapCarResponse internalResponse = carServiceClient.send(request);
+		SoapCarRequest internalRequest;
+		
+		try {
+			internalRequest = translator.translate(request);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		SoapCarResponse internalResponse = carServiceClient.send(internalRequest);
 
 		if (!internalResponse.isSuccess()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
-		return new ResponseEntity<HttpCarResponse>(translator.httpTranslate(internalResponse), HttpStatus.OK);
+		return new ResponseEntity<HttpCarResponse>(translator.translate(internalResponse), HttpStatus.OK);
 	}
 	
+	/*
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@GetMapping(path = "car/search")
 	public ResponseEntity<List<HttpCarResponse>> search() {

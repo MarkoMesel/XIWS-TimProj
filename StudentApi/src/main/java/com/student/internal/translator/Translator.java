@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.student.http.contract.HttpCarModelResponse;
+import com.student.http.contract.HttpCarRequest;
+import com.student.http.contract.HttpCarResponse;
 import com.student.http.contract.HttpEditRequest;
 import com.student.http.contract.HttpGetResponse;
 import com.student.http.contract.HttpLoginRequest;
@@ -13,6 +15,8 @@ import com.student.http.contract.HttpLoginResponse;
 import com.student.http.contract.HttpNamedObjectResponse;
 import com.student.http.contract.HttpRegisterRequest;
 import com.student.soap.carservice.contract.SoapCarModelsResponse;
+import com.student.soap.carservice.contract.SoapCarRequest;
+import com.student.soap.carservice.contract.SoapCarResponse;
 import com.student.soap.scheduleservice.contract.SoapCarRatingRequest;
 import com.student.soap.userservice.contract.SoapEditRequest;
 import com.student.soap.userservice.contract.SoapGetRequest;
@@ -24,6 +28,7 @@ import com.student.soap.userservice.contract.SoapVerifyRequest;
 
 @Component("Translator")
 public class Translator {
+	
 	//Login
 	public SoapLoginRequest translate(HttpLoginRequest input)
 	{
@@ -138,5 +143,47 @@ public class Translator {
 		}
 		
 		return response;
+	}
+
+	public SoapCarRequest translate(HttpCarRequest input) {
+		SoapCarRequest output = new SoapCarRequest();
+		
+		output.setId(input.getId());
+		output.setStartDate(input.getStartDate());
+		output.setEndDate(input.getEndDate());
+		
+		return output;
+	}
+	
+	public HttpCarResponse translate(SoapCarResponse input) {
+		HttpCarResponse output = new HttpCarResponse();
+		
+		output.setId(input.getId());
+		output.setModelId(input.getModelId());
+		output.setModelName(input.getModelName());
+		output.setManufacturerId(input.getManufacturerId());
+		output.setManufacturerName(input.getManufacturerName());
+		output.setFuelTypeId(input.getFuelTypeId());
+		output.setFuelTypeName(input.getFuelTypeName());
+		output.setTransmissionTypeId(input.getTransmissionTypeId());
+		output.setTransmissionTypeName(input.getTransmissionTypeName());
+		output.setCarClassId(input.getCarClassId());
+		output.setCarClassName(input.getCarClassName());
+		output.setMileage(input.getMileage());
+		output.setMileageThreshold(input.getMileageThreshold());
+		output.setMileagePenalty(input.getMileagePenalty());
+		output.setCollisionWaranty(input.getCollisionWaranty());
+		output.setPrice(input.getPrice());
+		output.setDiscount(input.getDiscount());
+		output.setTotalPrice(input.getTotalPrice());
+		output.setChildSeats(input.getChildSeats());
+		output.setRating(input.getRating());
+		output.setPublisherId(input.getPublisherId());
+		output.setPublisherName(input.getPublisherName());
+		output.setPublisherTypeId(input.getPublisherTypeId());
+		output.setPublisherTypeName(input.getPublisherName());
+		output.setImages(input.getImage());
+	    
+		return output;
 	}
 }

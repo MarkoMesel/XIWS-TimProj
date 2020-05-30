@@ -1,7 +1,5 @@
 package com.student.scheduleservice.internal.translator;
 
-import java.math.BigInteger;
-
 import org.springframework.stereotype.Component;
 
 import com.student.scheduleservice.internal.contract.InternalCarPriceRequest;
@@ -41,20 +39,20 @@ public class Translator {
 	public InternalCarPriceRequest translate(SoapCarPriceRequest input) {
 		InternalCarPriceRequest output = new InternalCarPriceRequest();
 		output.setCarId(input.getId());
-		output.setStartDate(input.getStart().toGregorianCalendar().getTime());
-		output.setEndDate(input.getEnd().toGregorianCalendar().getTime());
+		output.setStartDate(input.getStartDate().toGregorianCalendar().getTime());
+		output.setEndDate(input.getEndDate().toGregorianCalendar().getTime());
 		return output;
 	}
 	
 	public SoapCarPriceResponse soapTranslate(InternalCarPriceResponse input) {
 		SoapCarPriceResponse output = new SoapCarPriceResponse();
 		output.setSuccess(input.isSuccess());
-		output.setDiscount(BigInteger.valueOf(input.getDiscount()));
-		output.setMileagePenalty(BigInteger.valueOf(input.getMileagePenalty()));
-		output.setMileageThreshold(BigInteger.valueOf(input.getMileageThreshold()));
-		output.setPrice(BigInteger.valueOf(input.getPrice()));
-		output.setTotalPrice(BigInteger.valueOf(input.getTotalPrice()));
-		output.setCollisionWarranty(BigInteger.valueOf(input.getCollisionWarranty()));
+		output.setDiscount(input.getDiscount());
+		output.setMileagePenalty(input.getMileagePenalty());
+		output.setMileageThreshold(input.getMileageThreshold());
+		output.setPrice(input.getPrice());
+		output.setTotalPrice(input.getTotalPrice());
+		output.setCollisionWarranty(input.getCollisionWarranty());
 		return output;
 	}
 }

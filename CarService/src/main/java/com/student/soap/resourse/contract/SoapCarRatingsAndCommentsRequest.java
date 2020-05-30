@@ -37,8 +37,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "id"
 })
-@XmlRootElement(name = "soapCarRatingRequest")
-public class SoapCarRatingRequest {
+@XmlRootElement(name = "soapCarRatingsAndCommentsRequest")
+public class SoapCarRatingsAndCommentsRequest {
 
     protected int id;
 
