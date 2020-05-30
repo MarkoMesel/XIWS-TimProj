@@ -1,6 +1,7 @@
 package com.student.scheduleservice.internal.provider;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import com.student.scheduleservice.data.dal.CarPriceListDbModel;
 import com.student.scheduleservice.data.dal.PriceDbModel;
+import com.student.scheduleservice.data.dal.CommentDbModel;
 import com.student.scheduleservice.data.dal.ReservationDbModel;
 import com.student.scheduleservice.data.repo.UnitOfWork;
 import com.student.scheduleservice.internal.contract.InternalCarPriceRequest;
@@ -50,12 +52,32 @@ public class ScheduleProvider {
 	public SoapCarRatingsAndCommentsResponse getCarRatingsAndComments(int id) {
 		SoapCarRatingsAndCommentsResponse response = new SoapCarRatingsAndCommentsResponse();
 		response.setComments(new SoapCarRatingsAndCommentsResponse.Comments());
-		// TODO: fetch comments, ratings and replies by car. 
+		// TODO: fetch comments, ratings and replies by car.
 		// group by >>reservation<<
 		// Comments with oldest timestamp are the original comments, while all other
 		// comments of the same reservation are replies to the users comment
 		// Test data is in data.sql
 		// FOR TESTING:
+
+		unitOfWork.getReservationRepo().findByCarId(id).forEach(reservationIn -> {
+			SoapCarRatingsAndCommentsResponse.Comments.Comment ratingAndComm = new SoapCarRatingsAndCommentsResponse.Comments.Comment();
+			ratingAndComm.setReplies(new SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies());
+			// privremena lista u kojoj je nulti clan komentar, a svi ostali su reply
+			List<CommentDbModel> lista = new ArrayList<CommentDbModel>();
+			lista = unitOfWork.getCommentRepo().findByReservationId(reservationIn.getId());
+
+			ratingAndComm.setComment(lista.get(0).getComment());
+			ratingAndComm.setRating(reservationIn.getRating());
+			
+			for (int i = 1; i < lista.size(); i++) {
+				SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply reply = new SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply();
+				reply.setComment(lista.get(i).getComment());
+				ratingAndComm.getReplies().getReply().add(reply);
+			}
+			response.getComments().getComment().add(ratingAndComm); //// gotov response
+
+		});
+
 		final GregorianCalendar now = new GregorianCalendar();
 		XMLGregorianCalendar currentDateTime;
 		try {
@@ -64,15 +86,16 @@ public class ScheduleProvider {
 			e.printStackTrace();
 			return response;
 		}
-		
+
 		{
 			SoapCarRatingsAndCommentsResponse.Comments.Comment ratingAndComment = new SoapCarRatingsAndCommentsResponse.Comments.Comment();
 			ratingAndComment.setComment("Test Comment1 : Great car");
 			ratingAndComment.setDate(currentDateTime);
 			ratingAndComment.setRating(5);
 			ratingAndComment.setUserId(1);
-			ratingAndComment.setUserName("Test Comment1 :Pera Peric"); //Fetch first name and last name from user service
-			
+			ratingAndComment.setUserName("Test Comment1 :Pera Peric"); // Fetch first name and last name from user
+																		// service
+
 			ratingAndComment.setReplies(new SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies());
 			SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply reply1 = new SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply();
 			reply1.setComment("Test Comment1 : Thank you!");
@@ -81,12 +104,12 @@ public class ScheduleProvider {
 			reply1.setPublisherName("Test Comment1 : Super Cool agency"); // Fetch agent name from agent service
 			reply1.setPublisherTypeId(2);
 			reply1.setPublisherTypeName("AGENT");
-			
+
 			SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply reply2 = new SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply();
 			reply2.setComment("Test Comment1 : You are welcome!");
 			reply2.setDate(currentDateTime);
 			reply2.setPublisherId(1);
-			reply2.setPublisherName("Test Comment1 : Pera Peric"); //Fetch first name and last name from user service
+			reply2.setPublisherName("Test Comment1 : Pera Peric"); // Fetch first name and last name from user service
 			reply2.setPublisherTypeId(1);
 			reply2.setPublisherTypeName("AGENT");
 
@@ -94,15 +117,16 @@ public class ScheduleProvider {
 			ratingAndComment.getReplies().getReply().add(reply2);
 			response.getComments().getComment().add(ratingAndComment);
 		}
-		
+
 		{
 			SoapCarRatingsAndCommentsResponse.Comments.Comment ratingAndComment = new SoapCarRatingsAndCommentsResponse.Comments.Comment();
-			ratingAndComment.setComment("Test Comment2 : Aweful car");
+			ratingAndComment.setComment("Test Comment2 : Awful car");
 			ratingAndComment.setDate(currentDateTime);
 			ratingAndComment.setRating(1);
 			ratingAndComment.setUserId(23);
-			ratingAndComment.setUserName("Test Comment2 : Cile Mile"); //Fetch first name and last name from user service
-			
+			ratingAndComment.setUserName("Test Comment2 : Cile Mile"); // Fetch first name and last name from user
+																		// service
+
 			ratingAndComment.setReplies(new SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies());
 			SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply reply1 = new SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply();
 			reply1.setComment("Test Comment2 : Sorry to hear that!");
@@ -111,12 +135,12 @@ public class ScheduleProvider {
 			reply1.setPublisherName("Test Comment2 : Super Cool agency"); // Fetch agent name from agent service
 			reply1.setPublisherTypeId(2);
 			reply1.setPublisherTypeName("AGENT");
-			
+
 			SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply reply2 = new SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply();
 			reply2.setComment("Test Comment2 : Hopefully better next time.");
 			reply2.setDate(currentDateTime);
 			reply2.setPublisherId(23);
-			reply2.setPublisherName("Test Comment2 : Cile Mile"); //Fetch first name and last name from user service
+			reply2.setPublisherName("Test Comment2 : Cile Mile"); // Fetch first name and last name from user service
 			reply2.setPublisherTypeId(1);
 			reply2.setPublisherTypeName("BASIC");
 
