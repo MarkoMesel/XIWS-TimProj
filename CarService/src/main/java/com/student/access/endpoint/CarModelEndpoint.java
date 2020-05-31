@@ -12,6 +12,7 @@ import com.student.soap.carservice.contract.SoapAddCarClassRequest;
 import com.student.soap.carservice.contract.SoapAddCarModelRequest;
 import com.student.soap.carservice.contract.SoapAddCarRequest;
 import com.student.soap.carservice.contract.SoapAddFuelTypeRequest;
+import com.student.soap.carservice.contract.SoapAddLocationRequest;
 import com.student.soap.carservice.contract.SoapAddManufacturerRequest;
 import com.student.soap.carservice.contract.SoapAddTransmissionTypeRequest;
 import com.student.soap.carservice.contract.SoapAllCarModelsRequest;
@@ -26,6 +27,7 @@ import com.student.soap.carservice.contract.SoapDeleteCarClassRequest;
 import com.student.soap.carservice.contract.SoapDeleteCarModelRequest;
 import com.student.soap.carservice.contract.SoapDeleteFuelTypeRequest;
 import com.student.soap.carservice.contract.SoapDeleteImageRequest;
+import com.student.soap.carservice.contract.SoapDeleteLocationRequest;
 import com.student.soap.carservice.contract.SoapDeleteManufacturerRequest;
 import com.student.soap.carservice.contract.SoapDeleteTransmissionTypeRequest;
 import com.student.soap.carservice.contract.SoapFuelTypesRequest;
@@ -36,6 +38,8 @@ import com.student.soap.carservice.contract.SoapNamedObjectsResponse;
 import com.student.soap.carservice.contract.SoapPostImageRequest;
 import com.student.soap.carservice.contract.SoapPostImageResponse;
 import com.student.soap.carservice.contract.SoapResponse;
+import com.student.soap.carservice.contract.SoapSearchCarsRequest;
+import com.student.soap.carservice.contract.SoapSearchCarsResponse;
 import com.student.soap.carservice.contract.SoapTransmissionTypesRequest;
 
 @Endpoint
@@ -185,7 +189,25 @@ public class CarModelEndpoint {
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapLocationsRequest")
 	@ResponsePayload
-	public SoapNamedObjectsResponse deactivatePublisher(@RequestPayload SoapLocationsRequest request) {
+	public SoapNamedObjectsResponse getLocations(@RequestPayload SoapLocationsRequest request) {
 		return carProvider.getAllLocations();
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapAddLocationRequest")
+	@ResponsePayload
+	public SoapResponse addLocation(@RequestPayload SoapAddLocationRequest request) {
+		return carProvider.addLocation(request);
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapDeleteLocationRequest")
+	@ResponsePayload
+	public SoapResponse deleteLocation(@RequestPayload SoapDeleteLocationRequest request) {
+		return carProvider.deleteLocation(request);
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapSearchCarsRequest")
+	@ResponsePayload
+	public SoapSearchCarsResponse deleteLocation(@RequestPayload SoapSearchCarsRequest request) {
+		return carProvider.seachCars(request);
 	}
 }

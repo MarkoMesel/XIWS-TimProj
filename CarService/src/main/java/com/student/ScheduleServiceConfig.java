@@ -9,7 +9,7 @@ public class ScheduleServiceConfig {
     @Bean
     public Jaxb2Marshaller marshaller(){
         Jaxb2Marshaller jaxb2Marshaller = new Jaxb2Marshaller();
-        jaxb2Marshaller.setPackagesToScan("com.student.soap.resourse.contract");
+        jaxb2Marshaller.setPackagesToScan("com.student.soap.scheduleservice.contract");
         return jaxb2Marshaller;
     }
 }

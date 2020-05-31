@@ -19,6 +19,7 @@ public class HttpCarResponse {
     protected Integer mileagePenalty;
     protected Integer collisionWaranty;
     protected Integer price;
+    protected Integer estimatedPenalty;
     protected Integer discount;
     protected Integer totalPrice;
     protected Integer childSeats;
@@ -177,5 +178,11 @@ public class HttpCarResponse {
 	}
 	public void setImages(List<Integer> images) {
 		this.images = images;
+	}
+	public Integer getEstimatedPenalty() {
+		return estimatedPenalty;
+	}
+	public void setEstimatedPenalty(Integer estimatedPenalty) {
+		this.estimatedPenalty = estimatedPenalty;
 	}
 }

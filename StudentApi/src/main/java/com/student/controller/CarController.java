@@ -26,13 +26,16 @@ import org.springframework.web.multipart.MultipartFile;
 import com.student.http.contract.HttpAddCarModel;
 import com.student.http.contract.HttpAddCarRequest;
 import com.student.http.contract.HttpCarModelResponse;
+import com.student.http.contract.HttpCarRequest;
 import com.student.http.contract.HttpCarResponse;
 import com.student.http.contract.HttpCreateNamedObject;
 import com.student.http.contract.HttpNamedObjectResponse;
+import com.student.http.contract.HttpSearchCarsRequest;
 import com.student.internal.translator.Translator;
 import com.student.soap.carservice.contract.SoapAddCarClassRequest;
 import com.student.soap.carservice.contract.SoapAddCarModelRequest;
 import com.student.soap.carservice.contract.SoapAddFuelTypeRequest;
+import com.student.soap.carservice.contract.SoapAddLocationRequest;
 import com.student.soap.carservice.contract.SoapAddManufacturerRequest;
 import com.student.soap.carservice.contract.SoapAddTransmissionTypeRequest;
 import com.student.soap.carservice.contract.SoapAllCarModelsRequest;
@@ -46,6 +49,7 @@ import com.student.soap.carservice.contract.SoapDeleteCarClassRequest;
 import com.student.soap.carservice.contract.SoapDeleteCarModelRequest;
 import com.student.soap.carservice.contract.SoapDeleteFuelTypeRequest;
 import com.student.soap.carservice.contract.SoapDeleteImageRequest;
+import com.student.soap.carservice.contract.SoapDeleteLocationRequest;
 import com.student.soap.carservice.contract.SoapDeleteManufacturerRequest;
 import com.student.soap.carservice.contract.SoapDeleteTransmissionTypeRequest;
 import com.student.soap.carservice.contract.SoapFuelTypesRequest;
@@ -56,6 +60,7 @@ import com.student.soap.carservice.contract.SoapNamedObjectsResponse;
 import com.student.soap.carservice.contract.SoapPostImageRequest;
 import com.student.soap.carservice.contract.SoapPostImageResponse;
 import com.student.soap.carservice.contract.SoapResponse;
+import com.student.soap.carservice.contract.SoapSearchCarsResponse;
 import com.student.soap.carservice.contract.SoapTransmissionTypesRequest;
 import com.student.soap.client.CarServiceClient;
 
@@ -74,12 +79,55 @@ public class CarController {
 		} catch (DatatypeConfigurationException e) {
 		}
 	}
-	
+
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@GetMapping(path = "/car/locations")
 	public ResponseEntity<List<HttpNamedObjectResponse>> getAllLocations() {
 		SoapNamedObjectsResponse internalResponse = carServiceClient.send(new SoapLocationsRequest());
 		return new ResponseEntity<>(translator.translate(internalResponse), HttpStatus.OK);
+	}
+
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@PostMapping(path = "/car/locations")
+	public ResponseEntity<?> addLocation(@RequestBody HttpCreateNamedObject request,
+			@RequestHeader("token") String token) {
+		SoapAddLocationRequest internalRequest = new SoapAddLocationRequest();
+		internalRequest.setName(request.getName());
+		internalRequest.setToken(token);
+
+		SoapResponse internalResponse = carServiceClient.send(internalRequest);
+
+		if (internalResponse.isAuthorized() != null && !internalResponse.isAuthorized()) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+
+		if (!internalResponse.isSuccess()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		}
+
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@DeleteMapping(path = "/car/locations/{id}")
+	public ResponseEntity<?> deleteLocation(@RequestHeader("token") String token, @PathVariable int id) {
+		SoapDeleteLocationRequest internalRequest = new SoapDeleteLocationRequest();
+
+		internalRequest.setToken(token);
+		internalRequest.setId(id);
+
+		SoapResponse internalResponse = carServiceClient.send(internalRequest);
+
+		if (internalResponse.isAuthorized() != null && !internalResponse.isAuthorized()) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+
+		if (!internalResponse.isSuccess()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -128,21 +176,9 @@ public class CarController {
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@GetMapping(path = "car/getCar/{id}/{startDate}/{endDate}")
-	public ResponseEntity<HttpCarResponse> getCar(@PathVariable int id, @PathVariable String startDate,
-			@PathVariable String endDate) {
-		SoapCarRequest internalRequest = new SoapCarRequest();
-
-		internalRequest.setId(id);
-
-		try {
-			internalRequest.setStartDate(datatypeFactory.newXMLGregorianCalendar(startDate));
-			internalRequest.setEndDate(datatypeFactory.newXMLGregorianCalendar(endDate));
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		SoapCarResponse internalResponse = carServiceClient.send(internalRequest);
+	@GetMapping(path = "car/getCar")
+	public ResponseEntity<HttpCarResponse> getCar(@RequestBody HttpCarRequest request) {
+		SoapCarResponse internalResponse = carServiceClient.send(translator.translate(request));
 
 		if (!internalResponse.isSuccess()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -438,34 +474,21 @@ public class CarController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
-	/*
-	 * @CrossOrigin(origins = "*", allowedHeaders = "*")
-	 * 
-	 * @GetMapping(path = "car/search") public ResponseEntity<List<HttpCarResponse>>
-	 * search() { return new
-	 * ResponseEntity<>(translator.httpTranslate(carProvider.getAllCars()),
-	 * HttpStatus.OK); }
-	 * 
-	 * @CrossOrigin(origins = "*", allowedHeaders = "*")
-	 * 
-	 * @GetMapping(path = "car/getImage/{id}", produces =
-	 * MediaType.IMAGE_JPEG_VALUE) public ResponseEntity<byte[]>
-	 * getImage(@PathVariable int id) {
-	 * 
-	 * InternalImageResponse internalResponse = carProvider.getCarImage(id);
-	 * 
-	 * if (!internalResponse.isSuccess()) { return new
-	 * ResponseEntity<>(HttpStatus.NOT_FOUND); }
-	 * 
-	 * HttpHeaders headers = new HttpHeaders();
-	 * 
-	 * headers.setCacheControl(CacheControl.noCache().getHeaderValue());
-	 * 
-	 * ResponseEntity<byte[]> responseEntity = new
-	 * ResponseEntity<byte[]>(translator.httpTranslate(internalResponse), headers,
-	 * HttpStatus.OK); return responseEntity; }
-	 * 
-	 */
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+
+	@PostMapping(path = "car/search")
+	public ResponseEntity<List<HttpCarResponse>> search(@RequestBody HttpSearchCarsRequest request) {
+		
+		SoapSearchCarsResponse internalResponse = carServiceClient.send(translator.translate(request));
+
+		if (!internalResponse.isSuccess()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<List<HttpCarResponse>>(translator.translate(internalResponse), HttpStatus.OK);
+	}
+
+
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping(path = "car/add")
 	public ResponseEntity<?> addCar(@RequestHeader("token") String token, @RequestBody HttpAddCarRequest request) {
