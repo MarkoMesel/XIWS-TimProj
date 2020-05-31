@@ -78,11 +78,6 @@
         </xs:complexType>
     </xs:element>
     
-    <xs:element name="soapLocationsRequest">
-        <xs:complexType>
-        </xs:complexType>
-    </xs:element>
-    
     <xs:element name="soapCarRatingResponse">
         <xs:complexType>
         	<xs:complexContent>
@@ -119,31 +114,6 @@
             		</xs:sequence>
             	</xs:extension>
             </xs:complexContent>
-        </xs:complexType>
-    </xs:element>
-    
-	<xs:element name="soapNamedObjectsResponse">
-		<xs:complexType>
-			<xs:complexContent>
-        		<xs:extension base="tns:StatusType">
-            		<xs:sequence>
-                		<xs:element name="namedObjects">
-							<xs:complexType>
-            					<xs:sequence>
-                					<xs:element name="namedObject" minOccurs="1" maxOccurs="unbounded">
-                						<xs:complexType>
-                							<xs:sequence>
-                								<xs:element name="id" type="xs:int"/>
-                								<xs:element name="name" type="xs:string"/>
-                							</xs:sequence>
-                						</xs:complexType>
-                					</xs:element>
-           						</xs:sequence>
-        					</xs:complexType>	
-                		</xs:element>
-            		</xs:sequence>
-            	</xs:extension>
-        	</xs:complexContent>	
         </xs:complexType>
     </xs:element>
 </xs:schema>

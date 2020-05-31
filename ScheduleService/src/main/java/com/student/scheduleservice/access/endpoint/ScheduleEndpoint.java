@@ -14,8 +14,6 @@ import com.student.scheduleservice.soap.contract.SoapCarRatingRequest;
 import com.student.scheduleservice.soap.contract.SoapCarRatingResponse;
 import com.student.scheduleservice.soap.contract.SoapCarRatingsAndCommentsRequest;
 import com.student.scheduleservice.soap.contract.SoapCarRatingsAndCommentsResponse;
-import com.student.scheduleservice.soap.contract.SoapLocationsRequest;
-import com.student.scheduleservice.soap.contract.SoapNamedObjectsResponse;
 
 @Endpoint
 public class ScheduleEndpoint {
@@ -41,12 +39,6 @@ public class ScheduleEndpoint {
 	@ResponsePayload
 	public SoapCarPriceResponse getCarRating(@RequestPayload SoapCarPriceRequest request) {
 		return translator.soapTranslate(scheduleProvider.getCarPrice(translator.translate(request)));
-	}
-	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapLocationsRequest")
-	@ResponsePayload
-	public SoapNamedObjectsResponse getLocations(@RequestPayload SoapLocationsRequest request) {
-		return translator.soapTranslate(scheduleProvider.getAllLocations());
 	}
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapCarRatingsAndCommentsRequest")

@@ -7,10 +7,10 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
-import com.student.soap.resourse.contract.SoapCarPriceRequest;
-import com.student.soap.resourse.contract.SoapCarPriceResponse;
-import com.student.soap.resourse.contract.SoapCarRatingRequest;
-import com.student.soap.resourse.contract.SoapCarRatingResponse;
+import com.student.soap.scheduleservice.contract.SoapCarPriceRequest;
+import com.student.soap.scheduleservice.contract.SoapCarPriceResponse;
+import com.student.soap.scheduleservice.contract.SoapCarRatingRequest;
+import com.student.soap.scheduleservice.contract.SoapCarRatingResponse;
 
 @Component("ScheduleServiceClient")
 public class ScheduleServiceClient {

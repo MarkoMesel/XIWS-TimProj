@@ -40,6 +40,10 @@ public class CarDbModel {
 	private int publisherId;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="LOCATION_ID")
+	private LocationDbModel location;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="PUBLISHER_TYPE_ID")
 	private PublisherTypeDbModel publisherType;
 	
@@ -136,5 +140,13 @@ public class CarDbModel {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public LocationDbModel getLocation() {
+		return location;
+	}
+
+	public void setLocation(LocationDbModel location) {
+		this.location = location;
 	}
 }

@@ -14,14 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.student.scheduleservice.data.dal.CarPriceListDbModel;
-import com.student.scheduleservice.data.dal.PriceDbModel;
 import com.student.scheduleservice.data.dal.CommentDbModel;
+import com.student.scheduleservice.data.dal.PriceDbModel;
 import com.student.scheduleservice.data.dal.ReservationDbModel;
 import com.student.scheduleservice.data.repo.UnitOfWork;
 import com.student.scheduleservice.internal.contract.InternalCarPriceRequest;
 import com.student.scheduleservice.internal.contract.InternalCarPriceResponse;
 import com.student.scheduleservice.internal.contract.InternalCarRatingResponse;
-import com.student.scheduleservice.internal.contract.InternalNamedObjectsResponse;
 import com.student.scheduleservice.soap.contract.SoapCarRatingsAndCommentsResponse;
 
 @Component("ScheduleProvider")
@@ -33,20 +32,6 @@ public class ScheduleProvider {
 	public ScheduleProvider(UnitOfWork unitOfWork) {
 		super();
 		this.unitOfWork = unitOfWork;
-	}
-
-	public InternalNamedObjectsResponse getAllLocations() {
-		InternalNamedObjectsResponse response = new InternalNamedObjectsResponse();
-
-		unitOfWork.getLocationRepo().findAll().forEach(objectIn -> {
-			InternalNamedObjectsResponse.NamedObject objectOut = new InternalNamedObjectsResponse.NamedObject();
-			objectOut.setId(objectIn.getId());
-			objectOut.setName(objectIn.getName());
-			response.addObject(objectOut);
-		});
-
-		response.setSuccess(true);
-		return response;
 	}
 
 	public SoapCarRatingsAndCommentsResponse getCarRatingsAndComments(int id) {

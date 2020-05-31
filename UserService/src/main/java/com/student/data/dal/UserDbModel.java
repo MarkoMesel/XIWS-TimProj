@@ -2,6 +2,7 @@ package com.student.data.dal;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class UserDbModel {
 	@JoinColumn(name = "ROLE_ID")
 	private RoleDbModel role;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "user", cascade=CascadeType.ALL, orphanRemoval=true, fetch = FetchType.EAGER)
 	private List<UserPermissionDbModel> userPermissions;
 
 	@NotEmpty

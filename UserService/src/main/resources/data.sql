@@ -19,7 +19,7 @@ INSERT INTO PERMISSION (ID, NAME) VALUES (2, 'Add Car Image');
 
 --USER---------------------------
 INSERT INTO USER (ID, ROLE_ID, FIRST_NAME, LAST_NAME, EMAIL, PHONE, STATUS_ID, EMAIL_VERIFIED, PASSWORD)
-VALUES (1, 1, 'StudentFirstName', 'StudentLastName', 'student@mail.com', '021000001', 2, TRUE,
+VALUES (1, 1, 'StudentFirstName', 'StudentLastName', 'student@mail.com', '021000001', 1, TRUE,
 '$2a$10$iIlRkT3uRcprLxxzsagQzuiV6WCwN9Cyuu1gUCp7ACmIPzv5WxQHa');
 
 INSERT INTO USER (ID, ROLE_ID, FIRST_NAME, LAST_NAME, EMAIL, PHONE, STATUS_ID, EMAIL_VERIFIED, PASSWORD)

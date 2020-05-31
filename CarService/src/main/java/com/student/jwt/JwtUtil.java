@@ -81,38 +81,44 @@ public class JwtUtil {
 		return tokenParseResult.getRoleName().equals("ADMIN");
 	}
 	
-	public boolean isResourseAgent(String roleName, Permission permission, Integer resourseId, String resourseTypeName) {
+	public boolean isResourseAgent(String roleName, Permission permission, Integer resourseId, int resourseTypeId) {
 		
 		boolean isAgent = roleName.equals("AGENT");
 		boolean isAgentPermission = permission.getResourceTypeName()!=null && permission.getResourceTypeName().equals("AGENT");
-		boolean isResoursePermission = permission.getResourceId() == resourseId;
-		boolean isAgentResourse = resourseTypeName.equals("AGENT");
+		boolean isResoursePermission = true;
+		if(resourseId != null) {
+			isResoursePermission = permission.getResourceId() == resourseId;			
+		}
+		boolean isAgentResourse = resourseTypeId == 2;
 		
 		return isAgent && isAgentPermission && isResoursePermission && isAgentResourse;
 	}
 	
-	public boolean isResourseUser(String roleName, Permission permission, Integer resourseId, String resourseTypeName) {
+	public boolean isResourseUser(String roleName, Permission permission, Integer resourseId, int resourseTypeId) {
 		
 		boolean isUser = roleName.equals("BASIC");
 		boolean isUserPermission = permission.getResourceTypeName()!=null && permission.getResourceTypeName().equals("USER");
-		boolean isResoursePermission = permission.getResourceId() == resourseId;
-		boolean isUserResourse = resourseTypeName.equals("USER");
+		boolean isResoursePermission = true;
+		if(resourseId != null) {
+			isResoursePermission = permission.getResourceId() == resourseId;			
+		}
+		boolean isUserResourse = resourseTypeId == 1;
 		
 		return isUser && isUserPermission && isResoursePermission && isUserResourse;
 	}
 	
-	public boolean isAutharized(AuthenticationTokenParseResult token, int permissionId, int resourseId, String resourseTypeName) {
-		Permission addCarImagePermission = token.getPermissions().stream()
+	public boolean isAutharized(AuthenticationTokenParseResult token, int permissionId, Integer resourseId, int resourseTypeId) {
+		Permission requiredPermission = token.getPermissions().stream()
 				.filter(permission -> permission.getPermissionId() == permissionId).findFirst().orElse(null);
 		
-		if (!token.isValid() || addCarImagePermission == null)
+		if (!token.isValid() || requiredPermission == null)
 		{
 			return false;
 		}
 		
 		boolean isAdmin = isAdmin(token);
-		boolean isAgent = isResourseAgent(token.getRoleName(), addCarImagePermission, resourseId, resourseTypeName);
-		boolean isUser =  isResourseUser(token.getRoleName(), addCarImagePermission, resourseId, resourseTypeName);
+		boolean isAgent = isResourseAgent(token.getRoleName(), requiredPermission, resourseId, resourseTypeId);
+		boolean isUser =  isResourseUser(token.getRoleName(), requiredPermission, resourseId, resourseTypeId);
 		
 		if ( !isAdmin && !isAgent && !isUser ) 
 		{

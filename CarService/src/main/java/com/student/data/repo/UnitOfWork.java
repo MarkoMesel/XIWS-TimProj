@@ -14,11 +14,16 @@ public class UnitOfWork {
 	private FuelTypeRepo fuelTypeRepo;
 	private TransmissionTypeRepo transmissionTypeRepo;
 	private PublisherTypeRepo publisherTypeRepo;
+	private LocationRepo locationRepo;
 
 	@Autowired
+	public CarClassRepo getCarClassRepo() {
+		return carClassRepo;
+	}
+
 	public UnitOfWork(CarClassRepo carClassRepo, CarManufacturerRepo carManufacturerRepo, CarModelRepo carModelRepo,
 			CarRepo carRepo, CarImageRepo carImageRepo, FuelTypeRepo fuelTypeRepo,
-			TransmissionTypeRepo transmissionTypeRepo, PublisherTypeRepo publisherTypeRepo) {
+			TransmissionTypeRepo transmissionTypeRepo, PublisherTypeRepo publisherTypeRepo, LocationRepo locationRepo) {
 		super();
 		this.carClassRepo = carClassRepo;
 		this.carManufacturerRepo = carManufacturerRepo;
@@ -28,10 +33,7 @@ public class UnitOfWork {
 		this.fuelTypeRepo = fuelTypeRepo;
 		this.transmissionTypeRepo = transmissionTypeRepo;
 		this.publisherTypeRepo = publisherTypeRepo;
-	}
-
-	public CarClassRepo getCarClassRepo() {
-		return carClassRepo;
+		this.locationRepo = locationRepo;
 	}
 
 	public CarManufacturerRepo getCarManufacturerRepo() {
@@ -60,5 +62,9 @@ public class UnitOfWork {
 
 	public PublisherTypeRepo getPublisherTypeRepo() {
 		return publisherTypeRepo;
+	}
+
+	public LocationRepo getLocationRepo() {
+		return locationRepo;
 	}
 }

@@ -7,26 +7,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.student.data.dal.StatusDbModel;
 import com.student.data.dal.UserDbModel;
-import com.student.data.repo.UserRepo;
+import com.student.data.repo.UnitOfWork;
 import com.student.internal.contract.InternalEditRequest;
 import com.student.internal.contract.InternalGetResponse;
 import com.student.internal.contract.InternalResponse;
 import com.student.jwt.AuthenticationTokenParseResult;
 import com.student.jwt.JwtUtil;
+import com.student.soap.carservice.contract.SoapDeactivatePublisherRequest;
+import com.student.soap.client.CarServiceClient;
+import com.student.soap.contract.SoapActivateUserRequest;
+import com.student.soap.contract.SoapBlockUserRequest;
+import com.student.soap.contract.SoapDeleteUserRequest;
 import com.student.soap.contract.SoapGetResponse;
 import com.student.soap.contract.SoapInternalGetUserRequest;
+import com.student.soap.contract.SoapResponse;
 
 @Component("UserProvider")
 public class UserProvider {
-	private UserRepo userRepo;
+	private UnitOfWork unitOfWork;
+	private CarServiceClient carServiceClient;
 	private JwtUtil jwtUtil;
 	private BCryptPasswordEncoder passwordEncoder;
 
 	@Autowired
-	public UserProvider(UserRepo userRepo, JwtUtil jwtUtil) {
-		this.userRepo = userRepo;
+	public UserProvider(UnitOfWork unitOfWork, JwtUtil jwtUtil, CarServiceClient carServiceClient) {
+		this.unitOfWork = unitOfWork;
 		this.jwtUtil = jwtUtil;
+		this.carServiceClient = carServiceClient;
+		
 		passwordEncoder = new BCryptPasswordEncoder(10, new SecureRandom());
 	}
 
@@ -40,7 +50,7 @@ public class UserProvider {
 				response.setSuccess(false);
 				return response;
 			}
-			Optional<UserDbModel> user = userRepo.findById(parseResult.getUserId());
+			Optional<UserDbModel> user = unitOfWork.getUserRepo().findById(parseResult.getUserId());
 			if (!user.isPresent()) {
 				response.setSuccess(false);
 				return response;
@@ -53,7 +63,7 @@ public class UserProvider {
 			if (request.getPassword() != null && !request.getPassword().isEmpty()) {
 				user.get().setPassword(passwordEncoder.encode(request.getPassword()));
 			}
-			userRepo.save(user.get());
+			unitOfWork.getUserRepo().save(user.get());
 
 			response.setSuccess(true);
 			return response;
@@ -74,7 +84,7 @@ public class UserProvider {
 				response.setSuccess(false);
 				return response;
 			}
-			Optional<UserDbModel> user = userRepo.findById(parseResult.getUserId());
+			Optional<UserDbModel> user = unitOfWork.getUserRepo().findById(parseResult.getUserId());
 			if (!user.isPresent()) {
 				response.setSuccess(false);
 				return response;
@@ -98,7 +108,7 @@ public class UserProvider {
 	public SoapGetResponse get(SoapInternalGetUserRequest request) {
 		SoapGetResponse response = new SoapGetResponse();
 
-		Optional<UserDbModel> user = userRepo.findById(request.getId());
+		Optional<UserDbModel> user = unitOfWork.getUserRepo().findById(request.getId());
 		if (!user.isPresent()) {
 			response.setSuccess(false);
 			return response;
@@ -108,6 +118,99 @@ public class UserProvider {
 		response.setPhone(user.get().getPhone());
 		response.setFirstName(user.get().getFirstName());
 		response.setLastName(user.get().getLastName());
+		
+		response.setSuccess(true);
+		return response;
+	}
+	
+	public SoapResponse blockUser(SoapBlockUserRequest request) {
+		SoapResponse response = new SoapResponse();
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+		if(!token.isValid() || !token.getRoleName().equals("ADMIN")) {
+			response.setAuthorized(false);
+			return response;
+		}
+		
+		Optional<UserDbModel> user = unitOfWork.getUserRepo().findById(request.getId());
+		if(!user.isPresent()) {
+			response.setSuccess(false);
+			return response;
+		}
+		
+		Optional<StatusDbModel> blockedStatus = unitOfWork.getStatusRepo().findById(3);
+		
+		user.get().setStatus(blockedStatus.get());
+		
+		try {
+			unitOfWork.getUserRepo().save(user.get());
+		} catch (Exception e) {
+			response.setSuccess(false);
+			return response;
+		}
+		
+		response.setSuccess(true);
+		return response;
+	}
+	
+	public SoapResponse activateUser(SoapActivateUserRequest request) {
+		SoapResponse response = new SoapResponse();
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+		if(!token.isValid() || !token.getRoleName().equals("ADMIN")) {
+			response.setAuthorized(false);
+			return response;
+		}
+		
+		Optional<UserDbModel> user = unitOfWork.getUserRepo().findById(request.getId());
+		if(!user.isPresent()) {
+			response.setSuccess(false);
+			return response;
+		}
+		
+		Optional<StatusDbModel> activeStatus = unitOfWork.getStatusRepo().findById(2);
+		
+		user.get().setStatus(activeStatus.get());
+		
+		try {
+			unitOfWork.getUserRepo().save(user.get());
+		} catch (Exception e) {
+			response.setSuccess(false);
+			return response;
+		}
+		
+		response.setSuccess(true);
+		return response;
+	}
+	
+	public SoapResponse deleteUser(SoapDeleteUserRequest request) {
+		SoapResponse response = new SoapResponse();
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+		if(!token.isValid() || !token.getRoleName().equals("ADMIN")) {
+			response.setAuthorized(false);
+			return response;
+		}
+		
+		Optional<UserDbModel> user = unitOfWork.getUserRepo().findById(request.getId());
+		if(!user.isPresent()) {
+			response.setSuccess(false);
+			return response;
+		}
+		
+		try {
+			SoapDeactivatePublisherRequest carServiceRequest = new SoapDeactivatePublisherRequest();
+			carServiceRequest.setPublisherId(user.get().getId());
+			carServiceRequest.setPublisherTypeId(1);
+			com.student.soap.carservice.contract.SoapResponse carServiceResponse = carServiceClient.send(carServiceRequest);
+			
+			if(!carServiceResponse.isSuccess()) {
+				response.setSuccess(false);
+				return response;
+			}
+			
+			unitOfWork.getUserRepo().delete(user.get());
+		} catch (Exception e) {
+			response.setSuccess(false);
+			return response;
+		}
 		
 		response.setSuccess(true);
 		return response;

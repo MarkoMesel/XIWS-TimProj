@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.student.http.contract.HttpAddCarModel;
+import com.student.http.contract.HttpAddCarRequest;
 import com.student.http.contract.HttpCarModelResponse;
 import com.student.http.contract.HttpCarResponse;
 import com.student.http.contract.HttpCreateNamedObject;
@@ -50,6 +51,7 @@ import com.student.soap.carservice.contract.SoapDeleteTransmissionTypeRequest;
 import com.student.soap.carservice.contract.SoapFuelTypesRequest;
 import com.student.soap.carservice.contract.SoapGetImageRequest;
 import com.student.soap.carservice.contract.SoapGetImageResponse;
+import com.student.soap.carservice.contract.SoapLocationsRequest;
 import com.student.soap.carservice.contract.SoapNamedObjectsResponse;
 import com.student.soap.carservice.contract.SoapPostImageRequest;
 import com.student.soap.carservice.contract.SoapPostImageResponse;
@@ -71,6 +73,13 @@ public class CarController {
 			datatypeFactory = DatatypeFactory.newInstance();
 		} catch (DatatypeConfigurationException e) {
 		}
+	}
+	
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@GetMapping(path = "/car/locations")
+	public ResponseEntity<List<HttpNamedObjectResponse>> getAllLocations() {
+		SoapNamedObjectsResponse internalResponse = carServiceClient.send(new SoapLocationsRequest());
+		return new ResponseEntity<>(translator.translate(internalResponse), HttpStatus.OK);
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -120,18 +129,19 @@ public class CarController {
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@GetMapping(path = "car/getCar/{id}/{startDate}/{endDate}")
-	public ResponseEntity<HttpCarResponse> getCar(@PathVariable int id , @PathVariable String startDate, @PathVariable String endDate) {
+	public ResponseEntity<HttpCarResponse> getCar(@PathVariable int id, @PathVariable String startDate,
+			@PathVariable String endDate) {
 		SoapCarRequest internalRequest = new SoapCarRequest();
-		
+
 		internalRequest.setId(id);
-		
+
 		try {
 			internalRequest.setStartDate(datatypeFactory.newXMLGregorianCalendar(startDate));
 			internalRequest.setEndDate(datatypeFactory.newXMLGregorianCalendar(endDate));
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
+
 		SoapCarResponse internalResponse = carServiceClient.send(internalRequest);
 
 		if (!internalResponse.isSuccess()) {
@@ -212,30 +222,29 @@ public class CarController {
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
+
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping(path = "/car/classes")
-	public ResponseEntity<?> addCarClass(@RequestBody HttpCreateNamedObject request, @RequestHeader("token") String token) 
-	{
+	public ResponseEntity<?> addCarClass(@RequestBody HttpCreateNamedObject request,
+			@RequestHeader("token") String token) {
 		SoapAddCarClassRequest internalRequest = new SoapAddCarClassRequest();
 		internalRequest.setName(request.getName());
 		internalRequest.setToken(token);
-		
-		SoapResponse internalResponse= carServiceClient.send(internalRequest);
-		
+
+		SoapResponse internalResponse = carServiceClient.send(internalRequest);
+
 		if (internalResponse.isAuthorized() != null && !internalResponse.isAuthorized()) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
-		
-		if (!internalResponse.isSuccess()) 
-		{ 			
+
+		if (!internalResponse.isSuccess()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-			
+
 		}
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
+
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@DeleteMapping(path = "/car/classes/{id}")
 	public ResponseEntity<?> deleteCarClass(@RequestHeader("token") String token, @PathVariable int id) {
@@ -256,30 +265,29 @@ public class CarController {
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
+
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping(path = "/car/manufacturers")
-	public ResponseEntity<?> addManufacturer(@RequestBody HttpCreateNamedObject request, @RequestHeader("token") String token) 
-	{
+	public ResponseEntity<?> addManufacturer(@RequestBody HttpCreateNamedObject request,
+			@RequestHeader("token") String token) {
 		SoapAddManufacturerRequest internalRequest = new SoapAddManufacturerRequest();
 		internalRequest.setName(request.getName());
 		internalRequest.setToken(token);
-		
-		SoapResponse internalResponse= carServiceClient.send(internalRequest);
-		
+
+		SoapResponse internalResponse = carServiceClient.send(internalRequest);
+
 		if (internalResponse.isAuthorized() != null && !internalResponse.isAuthorized()) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
-		
-		if (!internalResponse.isSuccess()) 
-		{ 			
+
+		if (!internalResponse.isSuccess()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-			
+
 		}
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
+
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@DeleteMapping(path = "/car/manufacturers/{id}")
 	public ResponseEntity<?> deleteManufacturer(@RequestHeader("token") String token, @PathVariable int id) {
@@ -300,30 +308,29 @@ public class CarController {
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
+
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping(path = "/car/fuelTypes")
-	public ResponseEntity<?> addFuelType(@RequestBody HttpCreateNamedObject request, @RequestHeader("token") String token) 
-	{
+	public ResponseEntity<?> addFuelType(@RequestBody HttpCreateNamedObject request,
+			@RequestHeader("token") String token) {
 		SoapAddFuelTypeRequest internalRequest = new SoapAddFuelTypeRequest();
 		internalRequest.setName(request.getName());
 		internalRequest.setToken(token);
-		
-		SoapResponse internalResponse= carServiceClient.send(internalRequest);
-		
+
+		SoapResponse internalResponse = carServiceClient.send(internalRequest);
+
 		if (internalResponse.isAuthorized() != null && !internalResponse.isAuthorized()) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
-		
-		if (!internalResponse.isSuccess()) 
-		{ 			
+
+		if (!internalResponse.isSuccess()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-			
+
 		}
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
+
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@DeleteMapping(path = "/car/fuelTypes/{id}")
 	public ResponseEntity<?> deleteFuelType(@RequestHeader("token") String token, @PathVariable int id) {
@@ -344,30 +351,29 @@ public class CarController {
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
+
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping(path = "/car/transmissionTypes")
-	public ResponseEntity<?> addTransmissionType(@RequestBody HttpCreateNamedObject request, @RequestHeader("token") String token) 
-	{
+	public ResponseEntity<?> addTransmissionType(@RequestBody HttpCreateNamedObject request,
+			@RequestHeader("token") String token) {
 		SoapAddTransmissionTypeRequest internalRequest = new SoapAddTransmissionTypeRequest();
 		internalRequest.setName(request.getName());
 		internalRequest.setToken(token);
-		
-		SoapResponse internalResponse= carServiceClient.send(internalRequest);
-		
+
+		SoapResponse internalResponse = carServiceClient.send(internalRequest);
+
 		if (internalResponse.isAuthorized() != null && !internalResponse.isAuthorized()) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
-		
-		if (!internalResponse.isSuccess()) 
-		{ 			
+
+		if (!internalResponse.isSuccess()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-			
+
 		}
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
+
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@DeleteMapping(path = "/car/transmissionTypes/{id}")
 	public ResponseEntity<?> deleteTransmissionType(@RequestHeader("token") String token, @PathVariable int id) {
@@ -388,31 +394,29 @@ public class CarController {
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
+
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping(path = "/car/models")
-	public ResponseEntity<?> addCarModel(@RequestBody HttpAddCarModel request, @RequestHeader("token") String token) 
-	{
+	public ResponseEntity<?> addCarModel(@RequestBody HttpAddCarModel request, @RequestHeader("token") String token) {
 		SoapAddCarModelRequest internalRequest = new SoapAddCarModelRequest();
 		internalRequest.setName(request.getName());
 		internalRequest.setManufacturerId(request.getManufacturerId());
 		internalRequest.setToken(token);
-		
-		SoapResponse internalResponse= carServiceClient.send(internalRequest);
-		
+
+		SoapResponse internalResponse = carServiceClient.send(internalRequest);
+
 		if (internalResponse.isAuthorized() != null && !internalResponse.isAuthorized()) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
-		
-		if (!internalResponse.isSuccess()) 
-		{ 			
+
+		if (!internalResponse.isSuccess()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-			
+
 		}
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
+
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@DeleteMapping(path = "/car/models/{id}")
 	public ResponseEntity<?> deleteCarModel(@RequestHeader("token") String token, @PathVariable int id) {
@@ -433,6 +437,7 @@ public class CarController {
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
+
 	/*
 	 * @CrossOrigin(origins = "*", allowedHeaders = "*")
 	 * 
@@ -460,22 +465,21 @@ public class CarController {
 	 * ResponseEntity<byte[]>(translator.httpTranslate(internalResponse), headers,
 	 * HttpStatus.OK); return responseEntity; }
 	 * 
-	 * @CrossOrigin(origins = "*", allowedHeaders = "*")
-	 * 
-	 * @PostMapping(path = "car/add") public ResponseEntity<?>
-	 * addCar(@RequestHeader("token") String token, @RequestBody HttpAddCarRequest
-	 * request) {
-	 * 
-	 * InternalAutherisedResponse internalResponse =
-	 * carProvider.addCar(translator.translate(token, request));
-	 * 
-	 * if (!internalResponse.isAutherised()) { return new
-	 * ResponseEntity<>(HttpStatus.UNAUTHORIZED); }
-	 * 
-	 * if (!internalResponse.isSuccess()) { return new
-	 * ResponseEntity<>(HttpStatus.BAD_REQUEST); }
-	 * 
-	 * ResponseEntity<?> responseEntity = new ResponseEntity<>(HttpStatus.OK);
-	 * return responseEntity; }
 	 */
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@PostMapping(path = "car/add")
+	public ResponseEntity<?> addCar(@RequestHeader("token") String token, @RequestBody HttpAddCarRequest request) {
+
+		SoapResponse internalResponse = carServiceClient.send(translator.translate(request, token));
+
+		if (!internalResponse.isAuthorized()) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+
+		if (!internalResponse.isSuccess()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		ResponseEntity<?> responseEntity = new ResponseEntity<>(HttpStatus.OK);
+		return responseEntity;
+	}
 }

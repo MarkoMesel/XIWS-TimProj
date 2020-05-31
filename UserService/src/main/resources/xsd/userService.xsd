@@ -99,4 +99,31 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+    
+    <xs:element name="soapBlockUserRequest">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="id" type="xs:int"/>
+            	<xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapActivateUserRequest">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="id" type="xs:int"/>
+            	<xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapDeleteUserRequest">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="id" type="xs:int"/>
+            	<xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
 </xs:schema>

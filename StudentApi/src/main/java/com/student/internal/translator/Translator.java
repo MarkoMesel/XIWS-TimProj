@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.student.http.contract.HttpAddCarRequest;
 import com.student.http.contract.HttpCarModelResponse;
 import com.student.http.contract.HttpCarResponse;
 import com.student.http.contract.HttpEditRequest;
@@ -13,8 +14,11 @@ import com.student.http.contract.HttpLoginRequest;
 import com.student.http.contract.HttpLoginResponse;
 import com.student.http.contract.HttpNamedObjectResponse;
 import com.student.http.contract.HttpRegisterRequest;
+import com.student.soap.carservice.contract.NamedObject;
+import com.student.soap.carservice.contract.SoapAddCarRequest;
 import com.student.soap.carservice.contract.SoapCarModelsResponse;
 import com.student.soap.carservice.contract.SoapCarResponse;
+import com.student.soap.carservice.contract.SoapNamedObjectsResponse;
 import com.student.soap.scheduleservice.contract.SoapCarRatingRequest;
 import com.student.soap.userservice.contract.SoapEditRequest;
 import com.student.soap.userservice.contract.SoapGetRequest;
@@ -95,22 +99,11 @@ public class Translator {
 	}
 	
 	//Generic
-	public List<HttpNamedObjectResponse> translate(com.student.soap.scheduleservice.contract.SoapNamedObjectsResponse input) {
-		List<HttpNamedObjectResponse> output = new ArrayList<>();
-
-		for (com.student.soap.scheduleservice.contract.SoapNamedObjectsResponse.NamedObjects.NamedObject objectIn : input.getNamedObjects().getNamedObject()) {
-			HttpNamedObjectResponse objectOut = new HttpNamedObjectResponse();
-			objectOut.setId(objectIn.getId());
-			objectOut.setName(objectIn.getName());
-			output.add(objectOut);
-		}
-		return output;
-	}
 	
-	public List<HttpNamedObjectResponse> translate(com.student.soap.carservice.contract.SoapNamedObjectsResponse input) {
+	public List<HttpNamedObjectResponse> translate(SoapNamedObjectsResponse input) {
 		List<HttpNamedObjectResponse> output = new ArrayList<>();
 
-		for (com.student.soap.carservice.contract.SoapNamedObjectsResponse.NamedObjects.NamedObject objectIn : input.getNamedObjects().getNamedObject()) {
+		for (NamedObject objectIn : input.getObject()) {
 			HttpNamedObjectResponse objectOut = new HttpNamedObjectResponse();
 			objectOut.setId(objectIn.getId());
 			objectOut.setName(objectIn.getName());
@@ -146,32 +139,46 @@ public class Translator {
 	public HttpCarResponse translate(SoapCarResponse input) {
 		HttpCarResponse output = new HttpCarResponse();
 		
-		output.setId(input.getId());
-		output.setModelId(input.getModelId());
-		output.setModelName(input.getModelName());
-		output.setManufacturerId(input.getManufacturerId());
-		output.setManufacturerName(input.getManufacturerName());
-		output.setFuelTypeId(input.getFuelTypeId());
-		output.setFuelTypeName(input.getFuelTypeName());
-		output.setTransmissionTypeId(input.getTransmissionTypeId());
-		output.setTransmissionTypeName(input.getTransmissionTypeName());
-		output.setCarClassId(input.getCarClassId());
-		output.setCarClassName(input.getCarClassName());
-		output.setMileage(input.getMileage());
-		output.setMileageThreshold(input.getMileageThreshold());
-		output.setMileagePenalty(input.getMileagePenalty());
-		output.setCollisionWaranty(input.getCollisionWaranty());
-		output.setPrice(input.getPrice());
-		output.setDiscount(input.getDiscount());
-		output.setTotalPrice(input.getTotalPrice());
-		output.setChildSeats(input.getChildSeats());
-		output.setRating(input.getRating());
-		output.setPublisherId(input.getPublisherId());
-		output.setPublisherName(input.getPublisherName());
-		output.setPublisherTypeId(input.getPublisherTypeId());
-		output.setPublisherTypeName(input.getPublisherName());
-		output.setImages(input.getImage());
+		output.setId(input.getCar().getId());
+		output.setModelId(input.getCar().getModelId());
+		output.setModelName(input.getCar().getModelName());
+		output.setManufacturerId(input.getCar().getManufacturerId());
+		output.setManufacturerName(input.getCar().getManufacturerName());
+		output.setFuelTypeId(input.getCar().getFuelTypeId());
+		output.setFuelTypeName(input.getCar().getFuelTypeName());
+		output.setTransmissionTypeId(input.getCar().getTransmissionTypeId());
+		output.setTransmissionTypeName(input.getCar().getTransmissionTypeName());
+		output.setCarClassId(input.getCar().getCarClassId());
+		output.setCarClassName(input.getCar().getCarClassName());
+		output.setMileage(input.getCar().getMileage());
+		output.setMileageThreshold(input.getCar().getMileageThreshold());
+		output.setMileagePenalty(input.getCar().getMileagePenalty());
+		output.setCollisionWaranty(input.getCar().getCollisionWaranty());
+		output.setPrice(input.getCar().getPrice());
+		output.setDiscount(input.getCar().getDiscount());
+		output.setTotalPrice(input.getCar().getTotalPrice());
+		output.setChildSeats(input.getCar().getChildSeats());
+		output.setRating(input.getCar().getRating());
+		output.setPublisherId(input.getCar().getPublisherId());
+		output.setPublisherName(input.getCar().getPublisherName());
+		output.setPublisherTypeId(input.getCar().getPublisherTypeId());
+		output.setPublisherTypeName(input.getCar().getPublisherName());
+		output.setImages(input.getCar().getImage());
 	    
+		return output;
+	}
+
+	public SoapAddCarRequest translate(HttpAddCarRequest input, String token) {
+		SoapAddCarRequest output = new SoapAddCarRequest();
+		output.setCarClassId(input.getCarClassId());
+		output.setChildSeats(input.getChildSeats());
+		output.setFuelTypeId(input.getFuelTypeId());
+		output.setMileage(input.getMileage());
+		output.setModelId(input.getModelId());
+		output.setPublisherId(input.getPublisherId());
+		output.setPublisherTypeId(input.getPublisherTypeId());
+		output.setTransmissionTypeId(input.getTransmissionTypeId());
+		output.setToken(token);
 		return output;
 	}
 }
