@@ -3,9 +3,6 @@ package com.student.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
@@ -43,7 +40,6 @@ import com.student.soap.carservice.contract.SoapCarClassesRequest;
 import com.student.soap.carservice.contract.SoapCarManufacturersRequest;
 import com.student.soap.carservice.contract.SoapCarModelsByManufacturerRequest;
 import com.student.soap.carservice.contract.SoapCarModelsResponse;
-import com.student.soap.carservice.contract.SoapCarRequest;
 import com.student.soap.carservice.contract.SoapCarResponse;
 import com.student.soap.carservice.contract.SoapDeleteCarClassRequest;
 import com.student.soap.carservice.contract.SoapDeleteCarModelRequest;
@@ -68,16 +64,11 @@ import com.student.soap.client.CarServiceClient;
 public class CarController {
 	private Translator translator;
 	private CarServiceClient carServiceClient;
-	private DatatypeFactory datatypeFactory;
 
 	@Autowired
 	public CarController(CarServiceClient carServiceClient, Translator translator) {
 		this.carServiceClient = carServiceClient;
 		this.translator = translator;
-		try {
-			datatypeFactory = DatatypeFactory.newInstance();
-		} catch (DatatypeConfigurationException e) {
-		}
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")

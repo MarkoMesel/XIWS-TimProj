@@ -3,9 +3,6 @@ package com.student.internal.translator;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-
 import org.springframework.stereotype.Component;
 
 import com.student.http.contract.HttpAddCarRequest;
@@ -39,15 +36,6 @@ import com.student.soap.userservice.contract.SoapVerifyRequest;
 
 @Component("Translator")
 public class Translator {
-	private DatatypeFactory datatypeFactory;
-
-	public Translator() {
-		try {
-			datatypeFactory = DatatypeFactory.newInstance();
-		} catch (DatatypeConfigurationException e) {
-		}
-	}
-
 	// Login
 	public SoapLoginRequest translate(HttpLoginRequest input) {
 		SoapLoginRequest output = new SoapLoginRequest();
