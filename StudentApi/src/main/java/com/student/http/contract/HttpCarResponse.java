@@ -28,6 +28,8 @@ public class HttpCarResponse {
     protected String publisherName;
     protected Integer publisherTypeId;
     protected String publisherTypeName;
+    protected Integer locationId;
+    protected String locationName;
     protected List<Integer> images;
 	public Integer getId() {
 		return id;
@@ -184,5 +186,17 @@ public class HttpCarResponse {
 	}
 	public void setEstimatedPenalty(Integer estimatedPenalty) {
 		this.estimatedPenalty = estimatedPenalty;
+	}
+	public Integer getLocationId() {
+		return locationId;
+	}
+	public void setLocationId(Integer locationId) {
+		this.locationId = locationId;
+	}
+	public String getLocationName() {
+		return locationName;
+	}
+	public void setLocationName(String locationName) {
+		this.locationName = locationName;
 	}
 }
