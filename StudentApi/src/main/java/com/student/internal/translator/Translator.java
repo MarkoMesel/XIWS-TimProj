@@ -158,7 +158,7 @@ public class Translator {
 		output.setPublisherId(input.getCar().getPublisherId());
 		output.setPublisherName(input.getCar().getPublisherName());
 		output.setPublisherTypeId(input.getCar().getPublisherTypeId());
-		output.setPublisherTypeName(input.getCar().getPublisherName());
+		output.setPublisherTypeName(input.getCar().getPublisherTypeName());
 		output.setImages(input.getCar().getImage());
 		output.setEstimatedPenalty(input.getCar().getEstimatedPenaltyPrice());
 
@@ -227,7 +227,7 @@ public class Translator {
 		output.setPublisherId(input.getPublisherId());
 		output.setPublisherName(input.getPublisherName());
 		output.setPublisherTypeId(input.getPublisherTypeId());
-		output.setPublisherTypeName(input.getPublisherName());
+		output.setPublisherTypeName(input.getPublisherTypeName());
 		output.setImages(input.getImage());
 		output.setEstimatedPenalty(input.getEstimatedPenaltyPrice());
 

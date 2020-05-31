@@ -160,6 +160,9 @@ public class ScheduleProvider {
 				.sorted((l1, l2) -> ((BigInteger) l2.getUnixTimestamp()).compareTo(l1.getUnixTimestamp())).findFirst()
 				.orElse(null);
 
+		if(carPricelist == null) {
+			return response;
+		}
 		// long currentTime = Instant.now().getEpochSecond();
 		List<PriceDbModel> prices = carPricelist.getPriceList().getPrices().stream()
 				.filter(price -> price.getDate().compareTo(request.getStartDate()) >= 0

@@ -20,6 +20,7 @@ import com.student.internal.contract.InternalCarModelsResponse;
 import com.student.internal.contract.InternalNamedObjectsResponse;
 import com.student.jwt.AuthenticationTokenParseResult;
 import com.student.jwt.JwtUtil;
+import com.student.soap.agentservice.contract.SoapAgentByIdResponse;
 import com.student.soap.carservice.contract.Car;
 import com.student.soap.carservice.contract.NamedObject;
 import com.student.soap.carservice.contract.SoapAddCarClassRequest;
@@ -47,22 +48,30 @@ import com.student.soap.carservice.contract.SoapPostImageResponse;
 import com.student.soap.carservice.contract.SoapResponse;
 import com.student.soap.carservice.contract.SoapSearchCarsRequest;
 import com.student.soap.carservice.contract.SoapSearchCarsResponse;
+import com.student.soap.resource.client.AgentServiceClient;
 import com.student.soap.resource.client.ScheduleServiceClient;
+import com.student.soap.resource.client.UserServiceClient;
 import com.student.soap.scheduleservice.contract.SoapCarPriceResponse;
 import com.student.soap.scheduleservice.contract.SoapCarRatingResponse;
+import com.student.soap.userservice.contract.SoapGetResponse;
 
 @Component("CarProvider")
 public class CarProvider {
 
 	private UnitOfWork unitOfWork;
 	private ScheduleServiceClient scheduleServiceClient;
+	private UserServiceClient userServiceClient;
+	private AgentServiceClient agentServiceClient;
 	private JwtUtil jwtUtil;
 
 	@Autowired
-	public CarProvider(UnitOfWork unitOfWork, ScheduleServiceClient scheduleServiceClient, JwtUtil jwtUtil) {
+	public CarProvider(UnitOfWork unitOfWork, ScheduleServiceClient scheduleServiceClient,
+			UserServiceClient userServiceClient, AgentServiceClient agentServiceClient, JwtUtil jwtUtil) {
 		super();
 		this.unitOfWork = unitOfWork;
 		this.scheduleServiceClient = scheduleServiceClient;
+		this.userServiceClient = userServiceClient;
+		this.agentServiceClient = agentServiceClient;
 		this.jwtUtil = jwtUtil;
 	}
 
@@ -234,7 +243,21 @@ public class CarProvider {
 			objectOut.setMileage(objectIn.getMileage());
 			objectOut.setChildSeats(objectIn.getChildSeats());
 			objectOut.setPublisherId(objectIn.getPublisherId());
-			objectOut.setPublisherName("TODO");
+			
+			//Fetch publisher name
+			if(objectIn.getPublisherType().getName().equals("USER")) {
+				SoapGetResponse userResponse = userServiceClient.getUser(objectIn.getPublisherId());
+				if(userResponse.isSuccess()) {
+					objectOut.setPublisherName(userResponse.getFirstName()+" "+userResponse.getLastName());					
+				}
+			}
+			
+			if(objectIn.getPublisherType().getName().equals("AGENT")) {
+				SoapAgentByIdResponse agentResponse = agentServiceClient.getAgent(objectIn.getPublisherId());
+				if(agentResponse.isSuccess()) {
+					objectOut.setPublisherName(agentResponse.getName());					
+				}
+			}
 			
 			//Fetch images
 			objectIn.getImages().forEach(image -> {
@@ -243,12 +266,9 @@ public class CarProvider {
 
 			// Fetch rating
 			SoapCarRatingResponse carRatingResponse = scheduleServiceClient.getCarRating(objectIn.getId());
-			if (!carRatingResponse.isSuccess()) {
-				response = new SoapSearchCarsResponse();
-				response.setSuccess(false);
-				return response;
+			if (carRatingResponse.isSuccess()) {
+				objectOut.setRating(carRatingResponse.getRating());
 			}
-			objectOut.setRating(carRatingResponse.getRating());
 
 			// Fetch prices
 			if (request.getStartDate() != null && request.getEndDate() != null) {
@@ -309,18 +329,29 @@ public class CarProvider {
 		response.getCar().setMileage(car.get().getMileage());
 		response.getCar().setChildSeats(car.get().getChildSeats());
 		response.getCar().setPublisherId(car.get().getPublisherId());
-		response.getCar().setPublisherName("TODO");
 		response.getCar().setPublisherTypeId(car.get().getPublisherType().getId());
 		response.getCar().setPublisherTypeName(car.get().getPublisherType().getName());
+		
+		//Fetch publisher name
+		if(car.get().getPublisherType().getName().equals("USER")) {
+			SoapGetResponse userResponse = userServiceClient.getUser(car.get().getPublisherId());
+			if(userResponse.isSuccess()){
+				response.getCar().setPublisherName(userResponse.getFirstName()+" "+userResponse.getLastName());
+			}
+		}
+		
+		if(car.get().getPublisherType().getName().equals("AGENT")) {
+			SoapAgentByIdResponse agentResponse = agentServiceClient.getAgent(car.get().getPublisherId());
+			if(agentResponse.isSuccess()) {
+				response.getCar().setPublisherName(agentResponse.getName());	
+			}
+		}
 
 		// Fetch rating
 		SoapCarRatingResponse carRatingResponse = scheduleServiceClient.getCarRating(request.getId());
-		if (!carRatingResponse.isSuccess()) {
-			response = new SoapCarResponse();
-			response.setSuccess(false);
-			return response;
+		if (carRatingResponse.isSuccess()) {
+			response.getCar().setRating(carRatingResponse.getRating());
 		}
-		response.getCar().setRating(carRatingResponse.getRating());
 
 		// Fetch prices
 		if (request.getStartDate() != null && request.getEndDate() != null) {

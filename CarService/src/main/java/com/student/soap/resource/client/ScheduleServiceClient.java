@@ -3,6 +3,7 @@ package com.student.soap.resource.client;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.WebServiceTemplate;
@@ -18,7 +19,7 @@ public class ScheduleServiceClient {
 	private WebServiceTemplate webServiceTemplate;
 	
 	@Autowired
-    public ScheduleServiceClient(Jaxb2Marshaller jaxb2Marshaller) {
+    public ScheduleServiceClient(@Qualifier("scheduleServiceMarshaller") Jaxb2Marshaller jaxb2Marshaller) {
     	webServiceTemplate = new WebServiceTemplate(jaxb2Marshaller);
 	}   
 

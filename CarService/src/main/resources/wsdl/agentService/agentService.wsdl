@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://www.student.com/agentservice/soap/contract" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.student.com/agentservice/soap/contract" targetNamespace="http://www.student.com/agentservice/soap/contract">
+  <wsdl:types>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.student.com/agentservice/soap/contract">
+        
+	<xs:complexType name="StatusType">
+    	<xs:sequence>
+        	<xs:element name="success" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+           
+ 	<xs:element name="soapResponse">
+ 		<xs:complexType>
+ 			<xs:complexContent>
+        		<xs:extension base="tns:StatusType"/>
+			</xs:complexContent>
+		</xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapAgentsRequest">
+     	<xs:complexType>
+		</xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapAgentByIdRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="agentId" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+	<xs:element name="soapAgentsResponse">
+		<xs:complexType>
+			<xs:complexContent>
+        		<xs:extension base="tns:StatusType">	
+            		<xs:sequence>
+                		<xs:element name="agents">
+							<xs:complexType>
+            					<xs:sequence>
+                					<xs:element maxOccurs="unbounded" minOccurs="0" name="agent">
+                						<xs:complexType>
+                							<xs:sequence>
+                								<xs:element name="id" type="xs:integer"/>
+                								<xs:element name="name" type="xs:string"/>
+                								<xs:element name="locationId" type="xs:integer"/>
+                								<xs:element name="address" type="xs:string"/>
+                								<xs:element name="taxId" type="xs:string"/>
+                							</xs:sequence>
+                						</xs:complexType>
+                					</xs:element>
+           						</xs:sequence>
+        					</xs:complexType>	
+               		 	</xs:element>
+           		 	</xs:sequence>
+            	</xs:extension>
+        	</xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapAgentByIdResponse">
+        <xs:complexType>
+        	<xs:complexContent>
+        		<xs:extension base="tns:StatusType">
+					<xs:sequence>
+						<xs:element name="id" type="xs:integer"/>
+						<xs:element name="name" type="xs:string"/>
+						<xs:element name="locationId" type="xs:integer"/>
+						<xs:element name="address" type="xs:string"/>
+						<xs:element name="taxId" type="xs:string"/>
+					</xs:sequence>
+            	</xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="soapAgentsResponse">
+    <wsdl:part element="tns:soapAgentsResponse" name="soapAgentsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapAgentsRequest">
+    <wsdl:part element="tns:soapAgentsRequest" name="soapAgentsRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapAgentByIdRequest">
+    <wsdl:part element="tns:soapAgentByIdRequest" name="soapAgentByIdRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapResponse">
+    <wsdl:part element="tns:soapResponse" name="soapResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapAgentByIdResponse">
+    <wsdl:part element="tns:soapAgentByIdResponse" name="soapAgentByIdResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="AgentServicePort">
+    <wsdl:operation name="soapAgents">
+      <wsdl:input message="tns:soapAgentsRequest" name="soapAgentsRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:soapAgentsResponse" name="soapAgentsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapAgentById">
+      <wsdl:input message="tns:soapAgentByIdRequest" name="soapAgentByIdRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:soapAgentByIdResponse" name="soapAgentByIdResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soap">
+      <wsdl:output message="tns:soapResponse" name="soapResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AgentServicePortSoap11" type="tns:AgentServicePort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="soapAgents">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapAgentsRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="soapAgentsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapAgentById">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapAgentByIdRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="soapAgentByIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soap">
+      <soap:operation soapAction=""/>
+      <wsdl:output name="soapResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AgentServicePortService">
+    <wsdl:port binding="tns:AgentServicePortSoap11" name="AgentServicePortSoap11">
+      <soap:address location="http://localhost:8083/ws"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

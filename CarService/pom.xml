@@ -78,21 +78,7 @@
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>
 				<version>0.13.2</version>
-				<executions>
-					<execution>
-						<id>schedule-service-generate</id>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<generatePackage>com.student.soap.scheduleservice.contract</generatePackage>
-							<generateDirectory>${project.basedir}/src/main/java</generateDirectory>
-							<schemaDirectory>${project.basedir}/src/main/resources/wsdl</schemaDirectory>
-							<schemaIncludes>
-								<include>*.wsdl</include>
-							</schemaIncludes>
-						</configuration>
-					</execution>			
+				<executions>			
 					<execution>
 						<id>car-service-generate</id>
 						<goals>
@@ -102,6 +88,48 @@
 							<generatePackage>com.student.soap.carservice.contract</generatePackage>
 							<generateDirectory>${project.basedir}/src/main/java</generateDirectory>
 							<schemaDirectory>${project.basedir}/src/main/resources/xsd/</schemaDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>schedule-service-generate</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<generatePackage>com.student.soap.scheduleservice.contract</generatePackage>
+							<generateDirectory>${project.basedir}/src/main/java</generateDirectory>
+							<schemaDirectory>${project.basedir}/src/main/resources/wsdl/scheduleService</schemaDirectory>
+							<schemaIncludes>
+								<include>*.wsdl</include>
+							</schemaIncludes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>user-service-generate</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<generatePackage>com.student.soap.userservice.contract</generatePackage>
+							<generateDirectory>${project.basedir}/src/main/java</generateDirectory>
+							<schemaDirectory>${project.basedir}/src/main/resources/wsdl/userService</schemaDirectory>
+							<schemaIncludes>
+								<include>*.wsdl</include>
+							</schemaIncludes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>agent-service-generate</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<generatePackage>com.student.soap.agentservice.contract</generatePackage>
+							<generateDirectory>${project.basedir}/src/main/java</generateDirectory>
+							<schemaDirectory>${project.basedir}/src/main/resources/wsdl/agentService</schemaDirectory>
+							<schemaIncludes>
+								<include>*.wsdl</include>
+							</schemaIncludes>
 						</configuration>
 					</execution>
 				</executions>
