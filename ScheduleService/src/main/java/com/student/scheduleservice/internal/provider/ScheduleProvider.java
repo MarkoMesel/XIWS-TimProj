@@ -21,118 +21,63 @@ import com.student.scheduleservice.data.repo.UnitOfWork;
 import com.student.scheduleservice.internal.contract.InternalCarPriceRequest;
 import com.student.scheduleservice.internal.contract.InternalCarPriceResponse;
 import com.student.scheduleservice.internal.contract.InternalCarRatingResponse;
+import com.student.scheduleservice.soap.client.AgentServiceClient;
+import com.student.scheduleservice.soap.client.UserServiceClient;
 import com.student.scheduleservice.soap.contract.SoapCarRatingsAndCommentsResponse;
+import com.student.soap.agentservice.contract.SoapAgentByIdRequest;
+import com.student.soap.agentservice.contract.SoapAgentByIdResponse;
+import com.student.soap.userservice.contract.SoapGetResponse;
+import com.student.soap.userservice.contract.SoapInternalGetUserRequest;
 
 @Component("ScheduleProvider")
 public class ScheduleProvider {
 
 	private UnitOfWork unitOfWork;
+	private UserServiceClient userServiceClient;
+	private AgentServiceClient agentServiceClient;
 
 	@Autowired
-	public ScheduleProvider(UnitOfWork unitOfWork) {
+	public ScheduleProvider(UnitOfWork unitOfWork, UserServiceClient userServiceClient,
+			AgentServiceClient agentServiceClient) {
 		super();
 		this.unitOfWork = unitOfWork;
+		this.userServiceClient = userServiceClient;
+		this.agentServiceClient = agentServiceClient;
 	}
 
 	public SoapCarRatingsAndCommentsResponse getCarRatingsAndComments(int id) {
 		SoapCarRatingsAndCommentsResponse response = new SoapCarRatingsAndCommentsResponse();
 		response.setComments(new SoapCarRatingsAndCommentsResponse.Comments());
-		// TODO: fetch comments, ratings and replies by car.
-		// group by >>reservation<<
-		// Comments with oldest timestamp are the original comments, while all other
-		// comments of the same reservation are replies to the users comment
-		// Test data is in data.sql
-		// FOR TESTING:
 
 		unitOfWork.getReservationRepo().findByCarId(id).forEach(reservationIn -> {
-			SoapCarRatingsAndCommentsResponse.Comments.Comment ratingAndComm = new SoapCarRatingsAndCommentsResponse.Comments.Comment();
-			ratingAndComm.setReplies(new SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies());
-			// privremena lista u kojoj je nulti clan komentar, a svi ostali su reply
-			List<CommentDbModel> lista = new ArrayList<CommentDbModel>();
-			lista = unitOfWork.getCommentRepo().findByReservationId(reservationIn.getId());
+			SoapCarRatingsAndCommentsResponse.Comments.Comment ratingAndComment = new SoapCarRatingsAndCommentsResponse.Comments.Comment();
+			List<CommentDbModel> lista = unitOfWork.getCommentRepo().findByReservationId(reservationIn.getId());
+			// SoapGetResponse getUser =
+			// userServiceClient.getUser(lista.get(0).getPublisherId());
+			SoapInternalGetUserRequest userRequest = new SoapInternalGetUserRequest();
+			userRequest.setId(lista.get(0).getPublisherId());
+			SoapGetResponse getUser = userServiceClient.send(userRequest);
 
-			ratingAndComm.setComment(lista.get(0).getComment());
-			ratingAndComm.setRating(reservationIn.getRating());
-			
+			ratingAndComment.setUserId(lista.get(0).getId());
+			ratingAndComment.setUserName(getUser.getFirstName() + " " + getUser.getLastName());
+			ratingAndComment.setComment(lista.get(0).getComment());
+			ratingAndComment.setRating(reservationIn.getRating());
+			ratingAndComment.setReplies(new SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies());
+
 			for (int i = 1; i < lista.size(); i++) {
+				SoapAgentByIdRequest getAgent = new SoapAgentByIdRequest();
+				getAgent.setAgentId(lista.get(i).getPublisherId());
+				SoapAgentByIdResponse agent = agentServiceClient.send(getAgent);
 				SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply reply = new SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply();
+				reply.setPublisherName(agent.getName());
 				reply.setComment(lista.get(i).getComment());
-				ratingAndComm.getReplies().getReply().add(reply);
+				reply.setPublisherId(lista.get(i).getPublisherId());
+				reply.setPublisherTypeId(lista.get(i).getPublisherType().getId());
+				ratingAndComment.getReplies().getReply().add(reply);
 			}
-			response.getComments().getComment().add(ratingAndComm); //// gotov response
+			response.getComments().getComment().add(ratingAndComment);
 
 		});
-
-		final GregorianCalendar now = new GregorianCalendar();
-		XMLGregorianCalendar currentDateTime;
-		try {
-			currentDateTime = DatatypeFactory.newInstance().newXMLGregorianCalendar(now);
-		} catch (DatatypeConfigurationException e) {
-			e.printStackTrace();
-			return response;
-		}
-
-		{
-			SoapCarRatingsAndCommentsResponse.Comments.Comment ratingAndComment = new SoapCarRatingsAndCommentsResponse.Comments.Comment();
-			ratingAndComment.setComment("Test Comment1 : Great car");
-			ratingAndComment.setDate(currentDateTime);
-			ratingAndComment.setRating(5);
-			ratingAndComment.setUserId(1);
-			ratingAndComment.setUserName("Test Comment1 :Pera Peric"); // Fetch first name and last name from user
-																		// service
-
-			ratingAndComment.setReplies(new SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies());
-			SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply reply1 = new SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply();
-			reply1.setComment("Test Comment1 : Thank you!");
-			reply1.setDate(currentDateTime);
-			reply1.setPublisherId(2);
-			reply1.setPublisherName("Test Comment1 : Super Cool agency"); // Fetch agent name from agent service
-			reply1.setPublisherTypeId(2);
-			reply1.setPublisherTypeName("AGENT");
-
-			SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply reply2 = new SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply();
-			reply2.setComment("Test Comment1 : You are welcome!");
-			reply2.setDate(currentDateTime);
-			reply2.setPublisherId(1);
-			reply2.setPublisherName("Test Comment1 : Pera Peric"); // Fetch first name and last name from user service
-			reply2.setPublisherTypeId(1);
-			reply2.setPublisherTypeName("AGENT");
-
-			ratingAndComment.getReplies().getReply().add(reply1);
-			ratingAndComment.getReplies().getReply().add(reply2);
-			response.getComments().getComment().add(ratingAndComment);
-		}
-
-		{
-			SoapCarRatingsAndCommentsResponse.Comments.Comment ratingAndComment = new SoapCarRatingsAndCommentsResponse.Comments.Comment();
-			ratingAndComment.setComment("Test Comment2 : Awful car");
-			ratingAndComment.setDate(currentDateTime);
-			ratingAndComment.setRating(1);
-			ratingAndComment.setUserId(23);
-			ratingAndComment.setUserName("Test Comment2 : Cile Mile"); // Fetch first name and last name from user
-																		// service
-
-			ratingAndComment.setReplies(new SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies());
-			SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply reply1 = new SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply();
-			reply1.setComment("Test Comment2 : Sorry to hear that!");
-			reply1.setDate(currentDateTime);
-			reply1.setPublisherId(45);
-			reply1.setPublisherName("Test Comment2 : Super Cool agency"); // Fetch agent name from agent service
-			reply1.setPublisherTypeId(2);
-			reply1.setPublisherTypeName("AGENT");
-
-			SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply reply2 = new SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply();
-			reply2.setComment("Test Comment2 : Hopefully better next time.");
-			reply2.setDate(currentDateTime);
-			reply2.setPublisherId(23);
-			reply2.setPublisherName("Test Comment2 : Cile Mile"); // Fetch first name and last name from user service
-			reply2.setPublisherTypeId(1);
-			reply2.setPublisherTypeName("BASIC");
-
-			ratingAndComment.getReplies().getReply().add(reply1);
-			ratingAndComment.getReplies().getReply().add(reply2);
-			response.getComments().getComment().add(ratingAndComment);
-		}
 
 		response.setSuccess(true);
 		return response;
@@ -160,9 +105,6 @@ public class ScheduleProvider {
 				.sorted((l1, l2) -> ((BigInteger) l2.getUnixTimestamp()).compareTo(l1.getUnixTimestamp())).findFirst()
 				.orElse(null);
 
-		if(carPricelist == null) {
-			return response;
-		}
 		// long currentTime = Instant.now().getEpochSecond();
 		List<PriceDbModel> prices = carPricelist.getPriceList().getPrices().stream()
 				.filter(price -> price.getDate().compareTo(request.getStartDate()) >= 0

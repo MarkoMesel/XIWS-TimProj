@@ -6,20 +6,23 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
-import com.student.soap.userservice.contract.SoapGetResponse;
-import com.student.soap.userservice.contract.SoapInternalGetUserRequest;
+import com.student.soap.agentservice.contract.SoapAgentByIdRequest;
+import com.student.soap.agentservice.contract.SoapAgentByIdResponse;
 
-@Component("UserServiceClient")
-public class UserServiceClient {
-
+@Component("AgentServiceClient")
+public class AgentServiceClient {
+	
 	private WebServiceTemplate webServiceTemplate;
 	
 	@Autowired
-	public UserServiceClient(@Qualifier("userServiceMarshaller") Jaxb2Marshaller jaxb2Marshaller) {
+	public AgentServiceClient(@Qualifier("agentServiceMarshaller") Jaxb2Marshaller jaxb2Marshaller) {
 		webServiceTemplate = new WebServiceTemplate(jaxb2Marshaller);
 	}
 	
 	public <TRequest,TResponse> TResponse send(TRequest request){
-        return (TResponse) webServiceTemplate.marshalSendAndReceive("http://localhost:8081/ws",request);
+        return (TResponse) webServiceTemplate.marshalSendAndReceive("http://localhost:8083/ws",request);
     }
+	
+	
+
 }
