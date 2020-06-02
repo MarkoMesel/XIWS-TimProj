@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.student.agentservice.data.dal.AgentDbModel;
-import com.student.agentservice.data.repo.AgentRepo;
 import com.student.agentservice.data.repo.UnitOfWork;
 import com.student.agentservice.soap.contract.SoapAgentByIdRequest;
 import com.student.agentservice.soap.contract.SoapAgentByIdResponse;
@@ -26,12 +25,18 @@ public class AgentProvider {
 	public SoapAgentByIdResponse getAgent(SoapAgentByIdRequest request) {
 		SoapAgentByIdResponse response = new SoapAgentByIdResponse();
 		
-		AgentDbModel agent = unitOfWork.getAgentRepo().findById(request.getAgentId());		
-		response.setName(agent.getName());
-		response.setAddress(agent.getAddress());
-		response.setLocationId(BigInteger.valueOf(agent.getLocationId()));
-		response.setTaxId(agent.getTaxId());
-		response.setId(BigInteger.valueOf(agent.getId()));
+		Optional<AgentDbModel> agent = unitOfWork.getAgentRepo().findById(request.getAgentId());
+		
+		if(!agent.isPresent()) {
+			response.setSuccess(false);
+			return response;
+		}
+		
+		response.setName(agent.get().getName());
+		response.setAddress(agent.get().getAddress());
+		response.setLocationId(BigInteger.valueOf(agent.get().getLocationId()));
+		response.setTaxId(agent.get().getTaxId());
+		response.setId(BigInteger.valueOf(agent.get().getId()));
 		
 		response.setSuccess(true);
 		return response;

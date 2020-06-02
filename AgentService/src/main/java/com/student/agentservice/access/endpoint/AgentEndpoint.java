@@ -21,7 +21,7 @@ public class AgentEndpoint {
 	private AgentProvider agentProvider;
 	
 	@Autowired
-	public AgentEndpoint(AgentProvider agentProvide) {
+	public AgentEndpoint(AgentProvider agentProvider) {
 		this.agentProvider = agentProvider;
 	}
 	
