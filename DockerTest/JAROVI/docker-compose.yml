@@ -37,6 +37,18 @@ services:
             LOG_STORAGE: /var/log/web-traffic.log
         volumes:
             - logs:/var/log
+            
+    StudentApi:
+        build: ./student
+        image: stuapi
+        container_name: stuapi
+        restart: on-failure
+        ports:
+            - "8085:80"
+        environment:
+            LOG_STORAGE: /var/log/web-traffic.log
+        volumes:
+            - logs:/var/log
     
     UserService:
         build: ./user
