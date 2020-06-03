@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+
+    AgentService:
+        build: ./agent
+        image: seragent
+        container_name: seragent
+        restart: on-failure
+        ports:
+            - "8083:80"
+        environment:
+            LOG_STORAGE: /var/log/web-traffic.log
+        volumes:
+            - logs:/var/log
+      
+    CarService:
+        build: ./car
+        image: sercar
+        container_name: sercar
+        restart: on-failure
+        ports:
+            - "8082:80"
+        environment:
+            LOG_STORAGE: /var/log/web-traffic.log
+        volumes:
+            - logs:/var/log
+    
+    ScheduleService:
+        build: ./schedule
+        image: sersch
+        container_name: sersch
+        restart: on-failure
+        ports:
+            - "8084:80"
+        environment:
+            LOG_STORAGE: /var/log/web-traffic.log
+        volumes:
+            - logs:/var/log
+            
+    StudentApi:
+        build: ./student
+        image: stuapi
+        container_name: stuapi
+        restart: on-failure
+        ports:
+            - "8085:80"
+        environment:
+            LOG_STORAGE: /var/log/web-traffic.log
+        volumes:
+            - logs:/var/log
+    
+    UserService:
+        build: ./user
+        image: seruse
+        container_name: seruse
+        restart: on-failure
+        ports:
+            - "8081:80"
+        environment:
+            LOG_STORAGE: /var/log/web-traffic.log
+        volumes:
+            - logs:/var/log        
+
+volumes:
+
+  logs:
