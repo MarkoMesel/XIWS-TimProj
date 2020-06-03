@@ -44,8 +44,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "startDate",
     "endDate"
 })
-@XmlRootElement(name = "soapCarPriceRequest")
-public class SoapCarPriceRequest {
+@XmlRootElement(name = "soapCarAvailabilityRequest")
+public class SoapCarAvailabilityRequest {
 
     protected int id;
     @XmlElement(required = true)

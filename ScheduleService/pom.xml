@@ -93,6 +93,17 @@
 							</schemaIncludes>
 						</configuration>
 					</execution>
+					<execution>
+						<id>schedule-service-generate</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<generatePackage>com.student.scheduleservice.soap.contract</generatePackage>
+							<generateDirectory>${project.basedir}/src/main/java</generateDirectory>
+							<schemaDirectory>${project.basedir}/src/main/resources/xsd/</schemaDirectory>
+						</configuration>
+						</execution>
 				</executions>
 			</plugin>
 		</plugins>

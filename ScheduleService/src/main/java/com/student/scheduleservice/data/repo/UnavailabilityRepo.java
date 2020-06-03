@@ -8,5 +8,5 @@ import com.student.scheduleservice.data.dal.ReservationDbModel;
 import com.student.scheduleservice.data.dal.UnavailabilityDbModel;
 
 public interface UnavailabilityRepo extends CrudRepository<UnavailabilityDbModel, Integer> {
-	List<ReservationDbModel> findByCarId(int id);
+	UnavailabilityDbModel findByCarId(int id);
 }

@@ -8,6 +8,8 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import com.student.scheduleservice.internal.provider.ScheduleProvider;
 import com.student.scheduleservice.internal.translator.Translator;
+import com.student.scheduleservice.soap.contract.SoapCarAvailabilityRequest;
+import com.student.scheduleservice.soap.contract.SoapCarAvailabilityResponse;
 import com.student.scheduleservice.soap.contract.SoapCarPriceRequest;
 import com.student.scheduleservice.soap.contract.SoapCarPriceResponse;
 import com.student.scheduleservice.soap.contract.SoapCarRatingRequest;
@@ -41,9 +43,17 @@ public class ScheduleEndpoint {
 		return translator.soapTranslate(scheduleProvider.getCarPrice(translator.translate(request)));
 	}
 	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapCarAvailabilityRequest")
+	@ResponsePayload
+	public SoapCarAvailabilityResponse getAvailabilityResponse(@RequestPayload SoapCarAvailabilityRequest request) {
+		return scheduleProvider.getCarAvailability(request);
+	}
+	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapCarRatingsAndCommentsRequest")
 	@ResponsePayload
-	public SoapCarRatingsAndCommentsResponse getCommnentsAndRatings(@RequestPayload SoapCarRatingsAndCommentsRequest request) {
+	public SoapCarRatingsAndCommentsResponse getCommentsAndRatings(@RequestPayload SoapCarRatingsAndCommentsRequest request) {
 		return scheduleProvider.getCarRatingsAndComments(request.getId());
 	}
+	
+	
 }

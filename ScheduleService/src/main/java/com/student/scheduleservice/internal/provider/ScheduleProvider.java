@@ -23,6 +23,9 @@ import com.student.scheduleservice.internal.contract.InternalCarPriceResponse;
 import com.student.scheduleservice.internal.contract.InternalCarRatingResponse;
 import com.student.scheduleservice.soap.client.AgentServiceClient;
 import com.student.scheduleservice.soap.client.UserServiceClient;
+import com.student.scheduleservice.soap.contract.SoapCarAvailabilityRequest;
+import com.student.scheduleservice.soap.contract.SoapCarAvailabilityResponse;
+import com.student.scheduleservice.soap.contract.SoapCarPriceRequest;
 import com.student.scheduleservice.soap.contract.SoapCarRatingsAndCommentsResponse;
 import com.student.soap.agentservice.contract.SoapAgentByIdRequest;
 import com.student.soap.agentservice.contract.SoapAgentByIdResponse;
@@ -107,8 +110,8 @@ public class ScheduleProvider {
 
 		// long currentTime = Instant.now().getEpochSecond();
 		List<PriceDbModel> prices = carPricelist.getPriceList().getPrices().stream()
-				.filter(price -> price.getDate().compareTo(request.getStartDate()) >= 0
-						&& price.getDate().compareTo(request.getEndDate()) <= 0)
+				.filter(price -> price.getStartDate().compareTo(request.getStartDate()) >= 0
+						&& price.getEndDate().compareTo(request.getEndDate()) >= 0)
 				.collect(Collectors.toList());
 
 		int price = 0;
@@ -126,6 +129,54 @@ public class ScheduleProvider {
 		response.setPrice(price);
 		response.setTotalPrice(price - discount);
 		response.setDiscount(discount);
+		response.setSuccess(true);
+		return response;
+	}
+
+	public SoapCarAvailabilityResponse getCarAvailability(SoapCarAvailabilityRequest request) {
+		SoapCarAvailabilityResponse response = new SoapCarAvailabilityResponse();
+
+		// posmatraj aktivan cenovnik
+		CarPriceListDbModel carPriceList = unitOfWork.getCarPriceListRepo().findByCarId(request.getId()).stream()
+				.sorted((l1, l2) -> ((BigInteger) l2.getUnixTimestamp()).compareTo(l1.getUnixTimestamp())).findFirst()
+				.orElse(null);
+
+		List<PriceDbModel> prices = carPriceList.getPriceList().getPrices().stream().filter(
+				price -> price.getStartDate().compareTo(request.getStartDate().toGregorianCalendar().getTime()) >= 0
+						&& price.getEndDate().compareTo(request.getEndDate().toGregorianCalendar().getTime()) >= 0)
+				.collect(Collectors.toList());
+
+		if (prices.isEmpty()) {
+			response.setSuccess(false);
+			return response;
+		}
+
+		// proveri da li se vozilo nalazi u unavailability tabeli
+		if (unitOfWork.getUnavailabilityRepo().findByCarId(request.getId()) != null) {
+			response.setSuccess(false);
+			return response;
+		}
+		// treca provera sa rezervacijama
+		List<ReservationDbModel> reservations = unitOfWork.getReservationRepo().findByCarId(request.getId()).stream()
+				.filter(reservation -> reservation.getStartDate()
+						.compareTo(request.getStartDate().toGregorianCalendar().getTime()) >= 0
+						&& reservation.getStartDate()
+								.compareTo(request.getEndDate().toGregorianCalendar().getTime()) <= 0
+						|| reservation.getStartDate()
+								.compareTo(request.getStartDate().toGregorianCalendar().getTime()) <= 0
+								&& reservation.getEndDate()
+										.compareTo(request.getEndDate().toGregorianCalendar().getTime()) >= 0
+						|| reservation.getEndDate()
+								.compareTo(request.getStartDate().toGregorianCalendar().getTime()) >= 0
+								&& reservation.getEndDate()
+										.compareTo(request.getEndDate().toGregorianCalendar().getTime()) <= 0)
+				.collect(Collectors.toList());
+
+		if (!reservations.isEmpty()) {
+			response.setSuccess(false);
+			return response;
+		}
+
 		response.setSuccess(true);
 		return response;
 	}
