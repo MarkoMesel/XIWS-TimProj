@@ -62,6 +62,19 @@ services:
         volumes:
             - logs:/var/log        
 
+    FrontApp:
+        build: ./front
+        image: frontnodeapp
+        container_name: frontnodeapp
+        restart: on-failure
+        stdin_open: true
+        ports:
+            - "3000:3000"
+        environment:
+            LOG_STORAGE: /var/log/web-traffic.log
+        volumes:
+            - logs:/var/log        
+
 volumes:
 
   logs:

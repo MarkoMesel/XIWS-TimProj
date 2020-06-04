@@ -1,0 +1,56 @@
+.photo {
+    height: 240px;
+    width: 320px;
+}
+
+.column {
+    float: left;
+    width: 25%;
+    padding: 5px;
+    height: 300px;
+    
+}
+
+.column2 {
+    float: right;
+    width: 25%;
+    padding: 5px;
+    height: 300px;
+}
+
+.colummn {
+    float: left;
+    width: 950px;
+    padding: 5px;
+    height: 275px;
+    border-style: groove;
+    margin-left: 400px;
+    margin-right: 400px;
+}
+
+.body {
+    padding-top: 60px;
+    display: flex;
+    flex-direction: column;
+}
+
+.buttons-nav {
+    float:left;
+    border:1px;
+}
+
+.button-group{
+    margin-left: 400px;
+    width: 300px;
+    float: left;
+}
+
+#booking::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	background: rgba(212, 207, 207, 0.6);
+}
