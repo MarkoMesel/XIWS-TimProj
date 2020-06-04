@@ -6,9 +6,12 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.student.http.contract.HttpAddCarRequest;
+import com.student.http.contract.HttpCarAvailabilityRequest;
 import com.student.http.contract.HttpCarModelResponse;
+import com.student.http.contract.HttpCarPhysicalReservationRequest;
 import com.student.http.contract.HttpCarRequest;
 import com.student.http.contract.HttpCarResponse;
+import com.student.http.contract.HttpCommentResponse;
 import com.student.http.contract.HttpEditRequest;
 import com.student.http.contract.HttpGetResponse;
 import com.student.http.contract.HttpLoginRequest;
@@ -25,7 +28,11 @@ import com.student.soap.carservice.contract.SoapCarResponse;
 import com.student.soap.carservice.contract.SoapNamedObjectsResponse;
 import com.student.soap.carservice.contract.SoapSearchCarsRequest;
 import com.student.soap.carservice.contract.SoapSearchCarsResponse;
+import com.student.soap.scheduleservice.contract.SoapCarAvailabilityRequest;
+import com.student.soap.scheduleservice.contract.SoapCarPhysicalRequest;
 import com.student.soap.scheduleservice.contract.SoapCarRatingRequest;
+import com.student.soap.scheduleservice.contract.SoapCarRatingsAndCommentsRequest;
+import com.student.soap.scheduleservice.contract.SoapCarRatingsAndCommentsResponse;
 import com.student.soap.userservice.contract.SoapEditRequest;
 import com.student.soap.userservice.contract.SoapGetRequest;
 import com.student.soap.userservice.contract.SoapGetResponse;
@@ -237,7 +244,13 @@ public class Translator {
 
 		return output;
 	}
-
+	public SoapCarRatingsAndCommentsRequest translateRatingsAndComments(int id) {
+		// TODO Auto-generated method stub
+		SoapCarRatingsAndCommentsRequest output = new SoapCarRatingsAndCommentsRequest();
+		output.setId(id);
+		return output;
+	}
+	
 	public List<HttpCarResponse> translate(SoapSearchCarsResponse input) {
 		List<HttpCarResponse> output = new ArrayList<>();
 		
@@ -258,4 +271,46 @@ public class Translator {
 		
 		return output;
 	}
+
+	public List<HttpCommentResponse> translate(SoapCarRatingsAndCommentsResponse internalResponse) {
+		List<HttpCommentResponse> response = new ArrayList<>();
+
+		for (SoapCarRatingsAndCommentsResponse.Comments.Comment commIn : internalResponse.getComments().getComment()) {
+			HttpCommentResponse commOut = new HttpCommentResponse();
+			commOut.setComment(commIn.getComment());
+			commOut.setRating(commIn.getRating());
+			commOut.setReplies(commIn.getReplies().getReply());
+			commOut.setDate(commIn.getDate());
+			commOut.setUserId(commIn.getUserId());
+			commOut.setUserName(commIn.getUserName());
+			response.add(commOut);
+		}
+
+		return response;
+	}
+
+	public SoapCarAvailabilityRequest translate(HttpCarAvailabilityRequest input) {
+		SoapCarAvailabilityRequest output = new SoapCarAvailabilityRequest();
+		
+		output.setId(input.getId());
+		output.setStartDate(input.getStartDate());
+		output.setEndDate(input.getEndDate());
+		
+		return output;
+	}
+
+	public SoapCarPhysicalRequest translate(HttpCarPhysicalReservationRequest input) {
+		// TODO Auto-generated method stub
+		SoapCarPhysicalRequest output = new SoapCarPhysicalRequest();
+		
+		output.setCarId(input.getCarId());
+		output.setStartDate(input.getStartDate());
+		output.setEndDate(input.getEndDate());
+		output.setPublisherId(input.getPublisherId());
+		output.setPublisherTypeId(input.getPublisherTypeId());
+		
+		return output;
+	}
+
+	
 }

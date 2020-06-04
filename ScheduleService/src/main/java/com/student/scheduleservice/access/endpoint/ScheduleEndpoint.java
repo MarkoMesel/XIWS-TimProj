@@ -10,6 +10,11 @@ import com.student.scheduleservice.internal.provider.ScheduleProvider;
 import com.student.scheduleservice.internal.translator.Translator;
 import com.student.scheduleservice.soap.contract.SoapCarAvailabilityRequest;
 import com.student.scheduleservice.soap.contract.SoapCarAvailabilityResponse;
+<<<<<<< HEAD
+import com.student.scheduleservice.soap.contract.SoapCarPhysicalRequest;
+import com.student.scheduleservice.soap.contract.SoapCarPhysicalResponse;
+=======
+>>>>>>> 90ae7a7f0050ecc99b4b2d909c7a43c5b16043ab
 import com.student.scheduleservice.soap.contract.SoapCarPriceRequest;
 import com.student.scheduleservice.soap.contract.SoapCarPriceResponse;
 import com.student.scheduleservice.soap.contract.SoapCarRatingRequest;
@@ -55,5 +60,14 @@ public class ScheduleEndpoint {
 		return scheduleProvider.getCarRatingsAndComments(request.getId());
 	}
 	
+<<<<<<< HEAD
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapCarPhysicalRequest")
+	@ResponsePayload
+	public SoapCarPhysicalResponse getCarPhysical(@RequestPayload SoapCarPhysicalRequest request) {
+		return scheduleProvider.getCarPhysical(request);
+	}
+	
+=======
+>>>>>>> 90ae7a7f0050ecc99b4b2d909c7a43c5b16043ab
 	
 }

@@ -137,4 +137,34 @@
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
+<<<<<<< HEAD
+    
+    <xs:element name="soapCarPhysicalRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="carId" type="xs:int"/>
+                <xs:element name="startDate" type="xs:date"/>
+                <xs:element name="endDate" type="xs:date"/>
+            	<xs:element name="token" type="xs:string"/>
+            	 <xs:element name="publisherId" type="xs:int"/>
+                <xs:element name="publisherTypeId" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapCarPhysicalResponse">
+        <xs:complexType>
+        	<xs:complexContent>
+        		<xs:extension base="tns:StatusType">
+        			
+        				<xs:sequence>
+        					<xs:element name="test" type="xs:string"/>
+        				</xs:sequence>
+        		
+            	</xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+=======
+>>>>>>> 90ae7a7f0050ecc99b4b2d909c7a43c5b16043ab
 </xs:schema>

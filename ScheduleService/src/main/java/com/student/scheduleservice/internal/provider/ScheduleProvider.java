@@ -1,14 +1,9 @@
 package com.student.scheduleservice.internal.provider;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
+
 import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,6 +12,7 @@ import com.student.scheduleservice.data.dal.CarPriceListDbModel;
 import com.student.scheduleservice.data.dal.CommentDbModel;
 import com.student.scheduleservice.data.dal.PriceDbModel;
 import com.student.scheduleservice.data.dal.ReservationDbModel;
+import com.student.scheduleservice.data.dal.UnavailabilityDbModel;
 import com.student.scheduleservice.data.repo.UnitOfWork;
 import com.student.scheduleservice.internal.contract.InternalCarPriceRequest;
 import com.student.scheduleservice.internal.contract.InternalCarPriceResponse;
@@ -25,7 +21,12 @@ import com.student.scheduleservice.soap.client.AgentServiceClient;
 import com.student.scheduleservice.soap.client.UserServiceClient;
 import com.student.scheduleservice.soap.contract.SoapCarAvailabilityRequest;
 import com.student.scheduleservice.soap.contract.SoapCarAvailabilityResponse;
+<<<<<<< HEAD
+import com.student.scheduleservice.soap.contract.SoapCarPhysicalRequest;
+import com.student.scheduleservice.soap.contract.SoapCarPhysicalResponse;
+=======
 import com.student.scheduleservice.soap.contract.SoapCarPriceRequest;
+>>>>>>> 90ae7a7f0050ecc99b4b2d909c7a43c5b16043ab
 import com.student.scheduleservice.soap.contract.SoapCarRatingsAndCommentsResponse;
 import com.student.soap.agentservice.contract.SoapAgentByIdRequest;
 import com.student.soap.agentservice.contract.SoapAgentByIdResponse;
@@ -180,4 +181,53 @@ public class ScheduleProvider {
 		response.setSuccess(true);
 		return response;
 	}
+<<<<<<< HEAD
+
+	public SoapCarPhysicalResponse getCarPhysical(SoapCarPhysicalRequest request) {
+		// TODO Auto-generated method stub
+		SoapCarPhysicalResponse response = new SoapCarPhysicalResponse();
+		// AuthenticationTokenParseResult token =
+		// jwtUtil.parseAuthenticationToken(request.getToken());
+
+		// proveri token
+		// ako je rezervacija potvrdjena, ne moze da rezervise
+		// pending rezervacije se automatski odbijaju
+
+		// provera da li agentov date ima preklapanja sa nekom od rezervacija
+
+		List<ReservationDbModel> reservations = unitOfWork.getReservationRepo().findByCarId(request.getCarId()).stream()
+				.filter(reservation -> reservation.getStartDate()
+						.compareTo(request.getStartDate().toGregorianCalendar().getTime()) >= 0
+						&& reservation.getStartDate()
+								.compareTo(request.getEndDate().toGregorianCalendar().getTime()) <= 0
+						|| reservation.getStartDate()
+								.compareTo(request.getStartDate().toGregorianCalendar().getTime()) <= 0
+								&& reservation.getEndDate()
+										.compareTo(request.getEndDate().toGregorianCalendar().getTime()) >= 0
+						|| reservation.getEndDate()
+								.compareTo(request.getStartDate().toGregorianCalendar().getTime()) >= 0
+								&& reservation.getEndDate()
+										.compareTo(request.getEndDate().toGregorianCalendar().getTime()) <= 0)
+				.collect(Collectors.toList());
+
+		for (ReservationDbModel reservation : reservations) {
+			response.setTest(reservation.getBundle().getState().getName());
+			if (reservation.getBundle().getState().getName().equals("RESERVATION_PAID")) {
+				response.setSuccess(false);
+				return response;
+			}
+		}
+		// u protivnom, ako ne postoji preklapanje sa rezervacijama, slobodan je da
+		// nastavi
+		UnavailabilityDbModel unavaible = new UnavailabilityDbModel();
+		unavaible.setCarId(request.getCarId());
+		unavaible.setStartDate(request.getStartDate().toGregorianCalendar().getTime());
+		unavaible.setEndDate(request.getEndDate().toGregorianCalendar().getTime());
+		unitOfWork.getUnavailabilityRepo().save(unavaible);
+		response.setSuccess(true);
+		return response;
+	}
+
+=======
+>>>>>>> 90ae7a7f0050ecc99b4b2d909c7a43c5b16043ab
 }
