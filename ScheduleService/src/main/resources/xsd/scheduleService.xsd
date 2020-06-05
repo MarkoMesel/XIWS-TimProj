@@ -13,9 +13,86 @@
 		</xs:sequence>
 	</xs:complexType>
 
+	<xs:element name="soapResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
 	<!--xs:element name="soapResponse"> <xs:complexType> <xs:complexContent> 
 		<xs:extension base="tns:StatusType"/> </xs:complexContent> </xs:complexType> 
 		</xs:element -->
+
+	<xs:element name="soapAddCarPriceListRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+				<xs:element name="carId" type="xs:int" />
+				<xs:element name="priceListId" type="xs:int" />
+				<xs:element name="publisherId" type="xs:int" />
+				<xs:element name="publisherTypeId" type="xs:int" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapAddPriceListRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+				<xs:element name="name" type="xs:string" />
+				<xs:element name="discountPercentage" type="xs:int" />
+				<xs:element name="mileageThreshold" type="xs:int" />
+				<xs:element name="mileagePenalty" type="xs:int" />
+				<xs:element name="warrantyPrice" type="xs:int" />
+				<xs:element name="publisherId" type="xs:int" />
+				<xs:element name="publisherTypeId" type="xs:int" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapAddPriceRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+				<xs:element name="startDate" type="xs:date" />
+				<xs:element name="endDate" type="xs:date" />
+				<xs:element name="carId" type="xs:int" />
+				<xs:element name="publisherId" type="xs:int" />
+				<xs:element name="publisherTypeId" type="xs:int" />
+				<xs:element name="price" type="xs:int" />
+				<xs:element name="priceListId" type="xs:int" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapDeleteCarPriceListRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+				<xs:element name="id" type="xs:int" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapDeletePriceListRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+				<xs:element name="id" type="xs:int" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapDeletePriceRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+				<xs:element name="id" type="xs:int" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 
 	<xs:element name="soapCarRatingRequest">
 		<xs:complexType>
