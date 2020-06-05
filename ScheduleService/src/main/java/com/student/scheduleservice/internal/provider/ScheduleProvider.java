@@ -21,12 +21,9 @@ import com.student.scheduleservice.soap.client.AgentServiceClient;
 import com.student.scheduleservice.soap.client.UserServiceClient;
 import com.student.scheduleservice.soap.contract.SoapCarAvailabilityRequest;
 import com.student.scheduleservice.soap.contract.SoapCarAvailabilityResponse;
-<<<<<<< HEAD
 import com.student.scheduleservice.soap.contract.SoapCarPhysicalRequest;
 import com.student.scheduleservice.soap.contract.SoapCarPhysicalResponse;
-=======
 import com.student.scheduleservice.soap.contract.SoapCarPriceRequest;
->>>>>>> 90ae7a7f0050ecc99b4b2d909c7a43c5b16043ab
 import com.student.scheduleservice.soap.contract.SoapCarRatingsAndCommentsResponse;
 import com.student.soap.agentservice.contract.SoapAgentByIdRequest;
 import com.student.soap.agentservice.contract.SoapAgentByIdResponse;
@@ -109,6 +106,10 @@ public class ScheduleProvider {
 				.sorted((l1, l2) -> ((BigInteger) l2.getUnixTimestamp()).compareTo(l1.getUnixTimestamp())).findFirst()
 				.orElse(null);
 
+		if (carPricelist == null) {
+			return response;
+		}
+		
 		// long currentTime = Instant.now().getEpochSecond();
 		List<PriceDbModel> prices = carPricelist.getPriceList().getPrices().stream()
 				.filter(price -> price.getStartDate().compareTo(request.getStartDate()) >= 0
@@ -181,7 +182,6 @@ public class ScheduleProvider {
 		response.setSuccess(true);
 		return response;
 	}
-<<<<<<< HEAD
 
 	public SoapCarPhysicalResponse getCarPhysical(SoapCarPhysicalRequest request) {
 		// TODO Auto-generated method stub
@@ -227,7 +227,4 @@ public class ScheduleProvider {
 		response.setSuccess(true);
 		return response;
 	}
-
-=======
->>>>>>> 90ae7a7f0050ecc99b4b2d909c7a43c5b16043ab
 }

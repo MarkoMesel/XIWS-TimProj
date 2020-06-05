@@ -243,19 +243,29 @@ public class CarProvider {
 			objectOut.setMileage(objectIn.getMileage());
 			objectOut.setChildSeats(objectIn.getChildSeats());
 			objectOut.setPublisherId(objectIn.getPublisherId());
+			objectOut.setPublisherTypeId(objectIn.getPublisherType().getId());
+			objectOut.setPublisherTypeName(objectIn.getPublisherType().getName());
 			
 			//Fetch publisher name
 			if(objectIn.getPublisherType().getName().equals("USER")) {
-				SoapGetResponse userResponse = userServiceClient.getUser(objectIn.getPublisherId());
-				if(userResponse.isSuccess()) {
-					objectOut.setPublisherName(userResponse.getFirstName()+" "+userResponse.getLastName());					
+				try {
+					SoapGetResponse userResponse = userServiceClient.getUser(objectIn.getPublisherId());
+					if(userResponse.isSuccess()) {
+						objectOut.setPublisherName(userResponse.getFirstName()+" "+userResponse.getLastName());					
+					}
+				} catch (Exception e) {
+					System.out.println(e);
 				}
 			}
 			
 			if(objectIn.getPublisherType().getName().equals("AGENT")) {
-				SoapAgentByIdResponse agentResponse = agentServiceClient.getAgent(objectIn.getPublisherId());
-				if(agentResponse.isSuccess()) {
-					objectOut.setPublisherName(agentResponse.getName());					
+				try {
+					SoapAgentByIdResponse agentResponse = agentServiceClient.getAgent(objectIn.getPublisherId());
+					if(agentResponse.isSuccess()) {
+						objectOut.setPublisherName(agentResponse.getName());					
+					}
+				} catch (Exception e) {
+					System.out.println(e);
 				}
 			}
 			
@@ -265,33 +275,41 @@ public class CarProvider {
 			});
 
 			// Fetch rating
-			SoapCarRatingResponse carRatingResponse = scheduleServiceClient.getCarRating(objectIn.getId());
-			if (carRatingResponse.isSuccess()) {
-				objectOut.setRating(carRatingResponse.getRating());
+			try {
+				SoapCarRatingResponse carRatingResponse = scheduleServiceClient.getCarRating(objectIn.getId());
+				if (carRatingResponse.isSuccess()) {
+					objectOut.setRating(carRatingResponse.getRating());
+				}
+			} catch (Exception e) {
+				System.out.println(e);
 			}
 
 			// Fetch prices
 			if (request.getStartDate() != null && request.getEndDate() != null) {
-				SoapCarPriceResponse carPriceResponse = scheduleServiceClient.getCarPrice(objectIn.getId(),
-						request.getStartDate(), request.getEndDate());
-				if (carPriceResponse.isSuccess()) {
-					objectOut.setCollisionWaranty(carPriceResponse.getCollisionWarranty());
-					objectOut.setMileagePenalty(carPriceResponse.getMileagePenalty());
-					objectOut.setMileageThreshold(carPriceResponse.getMileageThreshold());
-					objectOut.setPrice(carPriceResponse.getPrice());
-					objectOut.setDiscount(carPriceResponse.getDiscount());
-					objectOut.setTotalPrice(carPriceResponse.getTotalPrice());
+				try {
+					SoapCarPriceResponse carPriceResponse = scheduleServiceClient.getCarPrice(objectIn.getId(),
+							request.getStartDate(), request.getEndDate());
+					if (carPriceResponse.isSuccess()) {
+						objectOut.setCollisionWaranty(carPriceResponse.getCollisionWarranty());
+						objectOut.setMileagePenalty(carPriceResponse.getMileagePenalty());
+						objectOut.setMileageThreshold(carPriceResponse.getMileageThreshold());
+						objectOut.setPrice(carPriceResponse.getPrice());
+						objectOut.setDiscount(carPriceResponse.getDiscount());
+						objectOut.setTotalPrice(carPriceResponse.getTotalPrice());
 
-					// Calculate penalty
-					if (objectOut.getMileagePenalty() != null && objectOut.getMileageThreshold() != null
-							&& request.getPlannedMileage() != null
-							&& request.getPlannedMileage() > objectOut.getMileageThreshold()) {
-						int penalty = (request.getPlannedMileage() - objectOut.getMileageThreshold())
-								* objectOut.getMileagePenalty();
-						objectOut.setEstimatedPenaltyPrice(penalty);
-					} else {
-						objectOut.setEstimatedPenaltyPrice(0);
+						// Calculate penalty
+						if (objectOut.getMileagePenalty() != null && objectOut.getMileageThreshold() != null
+								&& request.getPlannedMileage() != null
+								&& request.getPlannedMileage() > objectOut.getMileageThreshold()) {
+							int penalty = (request.getPlannedMileage() - objectOut.getMileageThreshold())
+									* objectOut.getMileagePenalty();
+							objectOut.setEstimatedPenaltyPrice(penalty);
+						} else {
+							objectOut.setEstimatedPenaltyPrice(0);
+						}
 					}
+				} catch (Exception e) {
+					System.out.println(e);
 				}
 			}
 			
@@ -334,47 +352,63 @@ public class CarProvider {
 		
 		//Fetch publisher name
 		if(car.get().getPublisherType().getName().equals("USER")) {
-			SoapGetResponse userResponse = userServiceClient.getUser(car.get().getPublisherId());
-			if(userResponse.isSuccess()){
-				response.getCar().setPublisherName(userResponse.getFirstName()+" "+userResponse.getLastName());
+			try {
+				SoapGetResponse userResponse = userServiceClient.getUser(car.get().getPublisherId());
+				if(userResponse.isSuccess()){
+					response.getCar().setPublisherName(userResponse.getFirstName()+" "+userResponse.getLastName());
+				}
+			} catch (Exception e) {
+				System.out.println(e);
 			}
 		}
 		
 		if(car.get().getPublisherType().getName().equals("AGENT")) {
-			SoapAgentByIdResponse agentResponse = agentServiceClient.getAgent(car.get().getPublisherId());
-			if(agentResponse.isSuccess()) {
-				response.getCar().setPublisherName(agentResponse.getName());	
+			try {
+				SoapAgentByIdResponse agentResponse = agentServiceClient.getAgent(car.get().getPublisherId());
+				if(agentResponse.isSuccess()) {
+					response.getCar().setPublisherName(agentResponse.getName());	
+				}
+			} catch (Exception e) {
+				System.out.println(e);
 			}
 		}
 
 		// Fetch rating
-		SoapCarRatingResponse carRatingResponse = scheduleServiceClient.getCarRating(request.getId());
-		if (carRatingResponse.isSuccess()) {
-			response.getCar().setRating(carRatingResponse.getRating());
+		try {
+			SoapCarRatingResponse carRatingResponse = scheduleServiceClient.getCarRating(request.getId());
+			if (carRatingResponse.isSuccess()) {
+				response.getCar().setRating(carRatingResponse.getRating());
+			}
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 
 		// Fetch prices
 		if (request.getStartDate() != null && request.getEndDate() != null) {
-			SoapCarPriceResponse carPriceResponse = scheduleServiceClient.getCarPrice(request.getId(),
-					request.getStartDate(), request.getEndDate());
-			if (carPriceResponse.isSuccess()) {
-				response.getCar().setCollisionWaranty(carPriceResponse.getCollisionWarranty());
-				response.getCar().setMileagePenalty(carPriceResponse.getMileagePenalty());
-				response.getCar().setMileageThreshold(carPriceResponse.getMileageThreshold());
-				response.getCar().setPrice(carPriceResponse.getPrice());
-				response.getCar().setDiscount(carPriceResponse.getDiscount());
-				response.getCar().setTotalPrice(carPriceResponse.getTotalPrice());
+			try {
+				SoapCarPriceResponse carPriceResponse = scheduleServiceClient.getCarPrice(request.getId(),
+						request.getStartDate(), request.getEndDate());
+				if (carPriceResponse.isSuccess()) {
+					response.getCar().setCollisionWaranty(carPriceResponse.getCollisionWarranty());
+					response.getCar().setMileagePenalty(carPriceResponse.getMileagePenalty());
+					response.getCar().setMileageThreshold(carPriceResponse.getMileageThreshold());
+					response.getCar().setPrice(carPriceResponse.getPrice());
+					response.getCar().setDiscount(carPriceResponse.getDiscount());
+					response.getCar().setTotalPrice(carPriceResponse.getTotalPrice());
 
-				// Calculate penalty
-				if (response.getCar().getMileagePenalty() != null && response.getCar().getMileageThreshold() != null
-						&& request.getPlannedMileage() != null
-						&& request.getPlannedMileage() > response.getCar().getMileageThreshold()) {
-					int penalty = (request.getPlannedMileage() - response.getCar().getMileageThreshold())
-							* response.getCar().getMileagePenalty();
-					response.getCar().setEstimatedPenaltyPrice(penalty);
-				} else {
-					response.getCar().setEstimatedPenaltyPrice(0);
+					// Calculate penalty
+					if (response.getCar().getMileagePenalty() != null && response.getCar().getMileageThreshold() != null
+							&& request.getPlannedMileage() != null
+							&& request.getPlannedMileage() > response.getCar().getMileageThreshold()) {
+						int penalty = (request.getPlannedMileage() - response.getCar().getMileageThreshold())
+								* response.getCar().getMileagePenalty();
+						response.getCar().setEstimatedPenaltyPrice(penalty);
+					} else {
+						response.getCar().setEstimatedPenaltyPrice(0);
+					}
 				}
+			} catch (Exception e) {
+				System.out.println(e);
 			}
 		}
 

@@ -137,7 +137,6 @@
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
-<<<<<<< HEAD
     
     <xs:element name="soapCarPhysicalRequest">
         <xs:complexType>
@@ -165,6 +164,4 @@
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
-=======
->>>>>>> 90ae7a7f0050ecc99b4b2d909c7a43c5b16043ab
 </xs:schema>
