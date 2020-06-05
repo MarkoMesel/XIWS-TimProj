@@ -1,167 +1,179 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.student.com/scheduleservice/soap/contract"
-           targetNamespace="http://www.student.com/scheduleservice/soap/contract" elementFormDefault="qualified">
-        
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://www.student.com/scheduleservice/soap/contract"
+	targetNamespace="http://www.student.com/scheduleservice/soap/contract"
+	elementFormDefault="qualified">
+
 	<xs:complexType name="StatusType">
-    	<xs:sequence>
-        	<xs:element name="success" type="xs:boolean"/>
+		<xs:sequence>
+			<xs:element name="success" type="xs:boolean" />
+			<xs:element name="authorized" type="xs:boolean"
+				nillable="true" />
+
 		</xs:sequence>
 	</xs:complexType>
-           
- 	<!--xs:element name="soapResponse">
- 		<xs:complexType>
- 			<xs:complexContent>
-        		<xs:extension base="tns:StatusType"/>
-			</xs:complexContent>
+
+	<!--xs:element name="soapResponse"> <xs:complexType> <xs:complexContent> 
+		<xs:extension base="tns:StatusType"/> </xs:complexContent> </xs:complexType> 
+		</xs:element -->
+
+	<xs:element name="soapCarRatingRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="id" type="xs:int" />
+			</xs:sequence>
 		</xs:complexType>
-    </xs:element-->
-    
-    <xs:element name="soapCarRatingRequest">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="id" type="xs:int"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    
-    <xs:element name="soapCarRatingsAndCommentsRequest">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="id" type="xs:int"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    
-    <xs:element name="soapCarRatingsAndCommentsResponse">
+	</xs:element>
+
+	<xs:element name="soapCarRatingsAndCommentsRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="id" type="xs:int" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapCarRatingsAndCommentsResponse">
 		<xs:complexType>
 			<xs:complexContent>
-        		<xs:extension base="tns:StatusType">
-            		<xs:sequence>
-                		<xs:element name="comments">
+				<xs:extension base="tns:StatusType">
+					<xs:sequence>
+						<xs:element name="comments">
 							<xs:complexType>
-            					<xs:sequence>
-                					<xs:element name="comment" minOccurs="1" maxOccurs="unbounded">
-                						<xs:complexType>
-                							<xs:sequence>
-                								<xs:element name="rating" type="xs:int"/>
-                								<xs:element name="userId" type="xs:int"/>
-                								<xs:element name="comment" type="xs:string"/>
-                								<xs:element name="userName" type="xs:string"/>
-                								<xs:element name="date" type="xs:dateTime"/>
-                								<xs:element name="replies">
+								<xs:sequence>
+									<xs:element name="comment" minOccurs="1"
+										maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="rating" type="xs:int" />
+												<xs:element name="userId" type="xs:int" />
+												<xs:element name="comment" type="xs:string" />
+												<xs:element name="userName" type="xs:string" />
+												<xs:element name="date" type="xs:dateTime" />
+												<xs:element name="replies">
 													<xs:complexType>
-            											<xs:sequence>
-                											<xs:element name="reply" minOccurs="0" maxOccurs="unbounded">
-                												<xs:complexType>
-                													<xs:sequence>
-                														<xs:element name="publisherId" type="xs:int"/>
-                														<xs:element name="publisherTypeId" type="xs:int"/>
-                														<xs:element name="comment" type="xs:string"/>
-                														<xs:element name="publisherName" type="xs:string"/>
-                														<xs:element name="publisherTypeName" type="xs:string"/>
-                														<xs:element name="date" type="xs:dateTime"/>
-                													</xs:sequence>
-                												</xs:complexType>
-                											</xs:element>
-           												</xs:sequence>
-        											</xs:complexType>	
-                								</xs:element>
-                							</xs:sequence>
-                						</xs:complexType>
-                					</xs:element>
-           						</xs:sequence>
-        					</xs:complexType>	
-                		</xs:element>
-            		</xs:sequence>
-            	</xs:extension>
-        	</xs:complexContent>	
-        </xs:complexType>
-    </xs:element>
-    
-    <xs:element name="soapCarRatingResponse">
-        <xs:complexType>
-        	<xs:complexContent>
-        		<xs:extension base="tns:StatusType">
-            		<xs:sequence>
-                		<xs:element name="rating" type="xs:int"/>
-            		</xs:sequence>
-            	</xs:extension>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>
-    
+														<xs:sequence>
+															<xs:element name="reply" minOccurs="0"
+																maxOccurs="unbounded">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="publisherId"
+																			type="xs:int" />
+																		<xs:element name="publisherTypeId"
+																			type="xs:int" />
+																		<xs:element name="comment" type="xs:string" />
+																		<xs:element name="publisherName"
+																			type="xs:string" />
+																		<xs:element name="publisherTypeName"
+																			type="xs:string" />
+																		<xs:element name="date" type="xs:dateTime" />
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapCarRatingResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType">
+					<xs:sequence>
+						<xs:element name="rating" type="xs:int" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
 	<xs:element name="soapCarPriceRequest">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="id" type="xs:int"/>
-                <xs:element name="startDate" type="xs:date"/>
-                <xs:element name="endDate" type="xs:date"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
- 
-    <xs:element name="soapCarPriceResponse">
-        <xs:complexType>
-        	<xs:complexContent>
-        		<xs:extension base="tns:StatusType">
-            		<xs:sequence>
-                		<xs:element name="totalPrice" type="xs:int" nillable="true"/>
-                		<xs:element name="discount" type="xs:int" nillable="true"/>
-                		<xs:element name="price" type="xs:int" nillable="true"/>
-                		<xs:element name="mileagePenalty" type="xs:int" nillable="true"/>
-                		<xs:element name="mileageThreshold" type="xs:int" nillable="true"/>
-                		<xs:element name="collisionWarranty" type="xs:int" nillable="true"/>
-            		</xs:sequence>
-            	</xs:extension>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>
-    
-    <xs:element name="soapCarAvailabilityRequest">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="id" type="xs:int"/>
-                <xs:element name="startDate" type="xs:date"/>
-                <xs:element name="endDate" type="xs:date"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    
-    
-    <xs:element name="soapCarAvailabilityResponse">
-        <xs:complexType>
-        	<xs:complexContent>
-        		<xs:extension base="tns:StatusType">
-        		
-            	</xs:extension>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>
-    
-    <xs:element name="soapCarPhysicalRequest">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="carId" type="xs:int"/>
-                <xs:element name="startDate" type="xs:date"/>
-                <xs:element name="endDate" type="xs:date"/>
-            	<xs:element name="token" type="xs:string"/>
-            	 <xs:element name="publisherId" type="xs:int"/>
-                <xs:element name="publisherTypeId" type="xs:int"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    
-    <xs:element name="soapCarPhysicalResponse">
-        <xs:complexType>
-        	<xs:complexContent>
-        		<xs:extension base="tns:StatusType">
-        			
-        				<xs:sequence>
-        					<xs:element name="test" type="xs:string"/>
-        				</xs:sequence>
-        		
-            	</xs:extension>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="id" type="xs:int" />
+				<xs:element name="startDate" type="xs:date" />
+				<xs:element name="endDate" type="xs:date" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapCarPriceResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType">
+					<xs:sequence>
+						<xs:element name="totalPrice" type="xs:int"
+							nillable="true" />
+						<xs:element name="discount" type="xs:int"
+							nillable="true" />
+						<xs:element name="price" type="xs:int" nillable="true" />
+						<xs:element name="mileagePenalty" type="xs:int"
+							nillable="true" />
+						<xs:element name="mileageThreshold" type="xs:int"
+							nillable="true" />
+						<xs:element name="collisionWarranty" type="xs:int"
+							nillable="true" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapCarAvailabilityRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="id" type="xs:int" />
+				<xs:element name="startDate" type="xs:date" />
+				<xs:element name="endDate" type="xs:date" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="soapCarAvailabilityResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType">
+
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapCarPhysicalRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="carId" type="xs:int" />
+				<xs:element name="startDate" type="xs:date" />
+				<xs:element name="endDate" type="xs:date" />
+				<xs:element name="token" type="xs:string" />
+				<xs:element name="publisherId" type="xs:int" />
+				<xs:element name="publisherTypeId" type="xs:int" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapCarPhysicalResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType">
+
+					<xs:sequence>
+						<xs:element name="test" type="xs:string" />
+					</xs:sequence>
+
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

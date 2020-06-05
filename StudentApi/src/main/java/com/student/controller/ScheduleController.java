@@ -20,6 +20,7 @@ import com.student.http.contract.HttpRepliesAndCommentsResponse;
 import com.student.internal.translator.Translator;
 import com.student.soap.client.ScheduleServiceClient;
 import com.student.soap.scheduleservice.contract.SoapCarAvailabilityResponse;
+import com.student.soap.scheduleservice.contract.SoapCarPhysicalRequest;
 import com.student.soap.scheduleservice.contract.SoapCarPhysicalResponse;
 import com.student.soap.scheduleservice.contract.SoapCarRatingResponse;
 import com.student.soap.scheduleservice.contract.SoapCarRatingsAndCommentsRequest;
@@ -60,29 +61,37 @@ public class ScheduleController {
 		}
 		return new ResponseEntity<>(translator.translate(internalResponse), HttpStatus.OK);
 	}
-	
+
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@GetMapping(path = "schedule/car/available")
 	public ResponseEntity<Integer> getCarAvailability(@RequestBody HttpCarAvailabilityRequest request) {
 		SoapCarAvailabilityResponse internalResponse = scheduleServiceClient.send(translator.translate(request));
-		
+
 		if (!internalResponse.isSuccess()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>( HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping(path = "schedule/car/physicalReservation")
-	public ResponseEntity<Integer> getCarPhysicalReservation(@RequestHeader("token") String token, @RequestBody HttpCarPhysicalReservationRequest request) {
-		SoapCarPhysicalResponse internalResponse = scheduleServiceClient.send(translator.translate(request));
-		if(!internalResponse.isSuccess()) {
+	public ResponseEntity<Integer> getCarPhysicalReservation(@RequestHeader("token") String token,
+			@RequestBody HttpCarPhysicalReservationRequest request) {
+		SoapCarPhysicalRequest internalRequest = new SoapCarPhysicalRequest();
+		
+		internalRequest.setToken(token);
+		internalRequest.setCarId(request.getCarId());
+		internalRequest.setStartDate(request.getStartDate());
+		internalRequest.setEndDate(request.getEndDate());
+		internalRequest.setPublisherId(request.getPublisherId());
+		internalRequest.setPublisherTypeId(request.getPublisherTypeId());
+		
+		SoapCarPhysicalResponse internalResponse = scheduleServiceClient.send(internalRequest);
+
+		if (!internalResponse.isSuccess()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>( HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
- 
-	
-	
-	
+
 }
