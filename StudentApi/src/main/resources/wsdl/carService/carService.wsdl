@@ -238,8 +238,8 @@
 		<xs:complexType>
             <xs:sequence>
                 <xs:element name="id" type="xs:int"/>
-                <xs:element name="startDate" type="xs:date"/>
-                <xs:element name="endDate" type="xs:date"/>
+                <xs:element name="startDate" type="xs:dateTime"/>
+                <xs:element name="endDate" type="xs:dateTime"/>
                 <xs:element name="plannedMileage" nillable="true" type="xs:int"/>
             </xs:sequence>
         </xs:complexType>
@@ -339,8 +339,8 @@
 		<xs:complexType>
             <xs:sequence>
             	<xs:element name="locationId" type="xs:int"/>
-            	<xs:element name="startDate" type="xs:date"/>
-            	<xs:element name="endDate" type="xs:date"/>
+            	<xs:element name="startDate" type="xs:dateTime"/>
+            	<xs:element name="endDate" type="xs:dateTime"/>
                 <xs:element name="publisherTypeId" nillable="true" type="xs:int"/>
                 <xs:element name="modelId" nillable="true" type="xs:int"/>
                 <xs:element name="manufacturerId" nillable="true" type="xs:int"/>

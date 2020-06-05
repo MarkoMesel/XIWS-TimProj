@@ -1,5 +1,6 @@
 package com.student.internal.provider;
 
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -216,6 +217,13 @@ public class CarProvider {
 	public SoapSearchCarsResponse seachCars(SoapSearchCarsRequest request) {
 		SoapSearchCarsResponse response = new SoapSearchCarsResponse();
 
+		GregorianCalendar gregorianCalendar = new GregorianCalendar();
+		long requestMilis = request.getStartDate().toGregorianCalendar().getTimeInMillis();
+        long timeDifference = requestMilis - gregorianCalendar.getTimeInMillis();
+		if(timeDifference < 172800000 ) {
+			return response;
+		}
+		
 		List<CarDbModel> cars = unitOfWork.getCarRepo().findAll().stream()
 				.filter(car -> car.getLocation().getId() == request.getLocationId()).collect(Collectors.toList());
 
@@ -323,6 +331,13 @@ public class CarProvider {
 	public SoapCarResponse getCar(SoapCarRequest request) {
 		SoapCarResponse response = new SoapCarResponse();
 
+		GregorianCalendar gregorianCalendar = new GregorianCalendar();
+		long requestMilis = request.getStartDate().toGregorianCalendar().getTimeInMillis();
+        long timeDifference = requestMilis - gregorianCalendar.getTimeInMillis();
+		if(timeDifference < 172800000 ) {
+			return response;
+		}
+		
 		Optional<CarDbModel> car = unitOfWork.getCarRepo().findById(request.getId());
 		if (!car.isPresent()) {
 			response.setSuccess(false);
@@ -481,6 +496,8 @@ public class CarProvider {
 			return response;
 		}
 
+		response.setAuthorized(true);
+		
 		CarClassDbModel carClass = new CarClassDbModel();
 
 		carClass.setName(request.getName());
@@ -497,6 +514,8 @@ public class CarProvider {
 			response.setAuthorized(false);
 			return response;
 		}
+		
+		response.setAuthorized(true);
 
 		Optional<CarClassDbModel> carClass = unitOfWork.getCarClassRepo().findById(request.getId());
 		if (!carClass.isPresent()) {
@@ -522,6 +541,8 @@ public class CarProvider {
 			response.setAuthorized(false);
 			return response;
 		}
+		
+		response.setAuthorized(true);
 
 		CarManufacturerDbModel manufacturer = new CarManufacturerDbModel();
 
@@ -540,6 +561,8 @@ public class CarProvider {
 			return response;
 		}
 
+		response.setAuthorized(true);
+		
 		Optional<CarManufacturerDbModel> manufacturer = unitOfWork.getCarManufacturerRepo().findById(request.getId());
 		if (!manufacturer.isPresent()) {
 			response.setSuccess(false);
@@ -565,6 +588,8 @@ public class CarProvider {
 			return response;
 		}
 
+		response.setAuthorized(true);
+		
 		Optional<CarManufacturerDbModel> manufacturer = unitOfWork.getCarManufacturerRepo()
 				.findById(request.getManufacturerId());
 		if (!manufacturer.isPresent()) {
@@ -589,6 +614,8 @@ public class CarProvider {
 			response.setAuthorized(false);
 			return response;
 		}
+
+		response.setAuthorized(true);
 
 		Optional<CarModelDbModel> carModel = unitOfWork.getCarModelRepo().findById(request.getId());
 		if (!carModel.isPresent()) {
@@ -615,6 +642,8 @@ public class CarProvider {
 			return response;
 		}
 
+		response.setAuthorized(true);
+		
 		FuelTypeDbModel fuelType = new FuelTypeDbModel();
 
 		fuelType.setName(request.getName());
@@ -632,6 +661,8 @@ public class CarProvider {
 			return response;
 		}
 
+		response.setAuthorized(true);
+		
 		Optional<FuelTypeDbModel> fuelType = unitOfWork.getFuelTypeRepo().findById(request.getId());
 		if (!fuelType.isPresent()) {
 			response.setSuccess(false);
@@ -657,6 +688,8 @@ public class CarProvider {
 			return response;
 		}
 
+		response.setAuthorized(true);
+
 		TransmissionTypeDbModel transmissionType = new TransmissionTypeDbModel();
 
 		transmissionType.setName(request.getName());
@@ -673,6 +706,8 @@ public class CarProvider {
 			response.setAuthorized(false);
 			return response;
 		}
+
+		response.setAuthorized(true);
 
 		Optional<TransmissionTypeDbModel> transmissionType = unitOfWork.getTransmissionTypeRepo()
 				.findById(request.getId());
@@ -729,10 +764,12 @@ public class CarProvider {
 			return response;
 		}
 
-		LocationDbModel fuelType = new LocationDbModel();
+		response.setAuthorized(true);
 
-		fuelType.setName(request.getName());
-		unitOfWork.getLocationRepo().save(fuelType);
+		LocationDbModel location = new LocationDbModel();
+
+		location.setName(request.getName());
+		unitOfWork.getLocationRepo().save(location);
 
 		response.setSuccess(true);
 		return response;
@@ -745,15 +782,17 @@ public class CarProvider {
 			response.setAuthorized(false);
 			return response;
 		}
+		
+		response.setAuthorized(true);
 
-		Optional<LocationDbModel> fuelType = unitOfWork.getLocationRepo().findById(request.getId());
-		if (!fuelType.isPresent()) {
+		Optional<LocationDbModel> location = unitOfWork.getLocationRepo().findById(request.getId());
+		if (!location.isPresent()) {
 			response.setSuccess(false);
 			return response;
 		}
 
 		try {
-			unitOfWork.getLocationRepo().delete(fuelType.get());
+			unitOfWork.getLocationRepo().delete(location.get());
 		} catch (Exception e) {
 			response.setSuccess(false);
 			return response;

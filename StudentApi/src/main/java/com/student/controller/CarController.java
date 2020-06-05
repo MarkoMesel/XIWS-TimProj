@@ -167,7 +167,7 @@ public class CarController {
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@GetMapping(path = "car/getCar")
+	@PostMapping(path = "car/getCar")
 	public ResponseEntity<HttpCarResponse> getCar(@RequestBody HttpCarRequest request) {
 		SoapCarResponse internalResponse = carServiceClient.send(translator.translate(request));
 
