@@ -4,6 +4,7 @@ import java.math.BigInteger;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 import com.student.scheduleservice.data.dal.CarPriceListDbModel;
 import com.student.scheduleservice.data.dal.CommentDbModel;
 import com.student.scheduleservice.data.dal.PriceDbModel;
+import com.student.scheduleservice.data.dal.PriceListDbModel;
 import com.student.scheduleservice.data.dal.ReservationDbModel;
 import com.student.scheduleservice.data.dal.UnavailabilityDbModel;
 import com.student.scheduleservice.data.repo.UnitOfWork;
@@ -21,15 +23,23 @@ import com.student.scheduleservice.jwt.AuthenticationTokenParseResult;
 import com.student.scheduleservice.jwt.JwtUtil;
 import com.student.scheduleservice.soap.client.AgentServiceClient;
 import com.student.scheduleservice.soap.client.UserServiceClient;
+import com.student.scheduleservice.soap.contract.SoapAddCarPriceListRequest;
+import com.student.scheduleservice.soap.contract.SoapAddPriceListRequest;
+import com.student.scheduleservice.soap.contract.SoapAddPriceRequest;
 import com.student.scheduleservice.soap.contract.SoapCarAvailabilityRequest;
 import com.student.scheduleservice.soap.contract.SoapCarAvailabilityResponse;
 import com.student.scheduleservice.soap.contract.SoapCarPhysicalRequest;
 import com.student.scheduleservice.soap.contract.SoapCarPhysicalResponse;
 import com.student.scheduleservice.soap.contract.SoapCarRatingsAndCommentsResponse;
+import com.student.scheduleservice.soap.contract.SoapDeleteCarPriceListRequest;
+import com.student.scheduleservice.soap.contract.SoapDeletePriceListRequest;
+import com.student.scheduleservice.soap.contract.SoapDeletePriceRequest;
+import com.student.scheduleservice.soap.contract.SoapResponse;
 import com.student.soap.agentservice.contract.SoapAgentByIdRequest;
 import com.student.soap.agentservice.contract.SoapAgentByIdResponse;
 import com.student.soap.userservice.contract.SoapGetResponse;
 import com.student.soap.userservice.contract.SoapInternalGetUserRequest;
+
 
 @Component("ScheduleProvider")
 public class ScheduleProvider {
@@ -227,6 +237,162 @@ public class ScheduleProvider {
 		unavaible.setStartDate(request.getStartDate().toGregorianCalendar().getTime());
 		unavaible.setEndDate(request.getEndDate().toGregorianCalendar().getTime());
 		unitOfWork.getUnavailabilityRepo().save(unavaible);
+		response.setSuccess(true);
+		return response;
+	}
+
+	public SoapResponse addCarPriceList(SoapAddCarPriceListRequest request) {
+		// TODO Auto-generated method stub
+		SoapResponse response = new SoapResponse();
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+		
+		if (!jwtUtil.isAuthorized(token, 4, request.getPublisherId(), request.getPublisherTypeId())) {
+			response.setAuthorized(false);
+			return response;
+		}
+		response.setAuthorized(true);
+
+		CarPriceListDbModel carPriceList = new CarPriceListDbModel();
+		
+		Optional<PriceListDbModel> model = unitOfWork.getPriceListRepo().findById(request.getPriceListId());
+		
+		carPriceList.setCarId(request.getCarId());
+		carPriceList.setPriceList(model.get());
+		
+		unitOfWork.getCarPriceListRepo().save(carPriceList);
+		
+		response.setSuccess(true);
+		return response;
+	}
+
+	public SoapResponse deleteCarPriceList(SoapDeleteCarPriceListRequest request) {
+		// TODO Auto-generated method stub
+		SoapResponse response = new SoapResponse();
+		
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+		if (!token.isValid() || !jwtUtil.isAdmin(token)) {
+			response.setAuthorized(false);
+			return response;
+		}
+		
+		Optional<CarPriceListDbModel> carPriceList = unitOfWork.getCarPriceListRepo().findById(request.getId());
+		if(!carPriceList.isPresent()) {
+			response.setSuccess(false);
+			return response;
+		}
+		
+		try {
+			unitOfWork.getCarPriceListRepo().delete(carPriceList.get());
+		} catch (Exception e) {
+			response.setSuccess(false);
+			return response;
+		}
+		
+		response.setSuccess(true);
+		return response;
+	}
+
+	public SoapResponse addPriceList(SoapAddPriceListRequest request) {
+		// TODO Auto-generated method stub
+		SoapResponse response = new SoapResponse();
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+	
+		if (!jwtUtil.isAuthorized(token, 4, request.getPublisherId(), request.getPublisherTypeId())) {
+			response.setAuthorized(false);
+			return response;
+		}
+
+		response.setAuthorized(true);
+		
+		PriceListDbModel priceList = new PriceListDbModel();
+		priceList.setDiscountPercentage(request.getDiscountPercentage());
+		priceList.setMileagePenalty(request.getMileagePenalty());
+		priceList.setMileageThreshold(request.getMileageThreshold());
+		priceList.setName(request.getName());
+		priceList.setWarrantyPrice(request.getWarrantyPrice());
+		
+		try {
+			unitOfWork.getPriceListRepo().save(priceList);
+		} catch (Exception e) {
+			response.setSuccess(false);
+			return response;
+		}
+		
+		response.setSuccess(true);
+		return response;
+	}
+
+	public SoapResponse deletePriceList(SoapDeletePriceListRequest request) {
+		// TODO Auto-generated method stub
+		SoapResponse response = new SoapResponse();
+		
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+		if (!token.isValid() || !jwtUtil.isAdmin(token)) {
+			response.setAuthorized(false);
+			return response;
+		}
+		
+		Optional <PriceListDbModel> priceList = unitOfWork.getPriceListRepo().findById(request.getId());
+		if(!priceList.isPresent()) {
+			response.setSuccess(false);
+			return response;
+		}
+		try {
+			unitOfWork.getPriceListRepo().delete(priceList.get());
+		} catch (Exception e) {
+			response.setSuccess(false);
+			return response;
+		}
+		response.setSuccess(true);
+		return response;
+	}
+
+	public SoapResponse addPrice(SoapAddPriceRequest request) {
+		// TODO Auto-generated method stub
+		SoapResponse response = new SoapResponse();
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+	
+		if (!jwtUtil.isAuthorized(token, 4, request.getPublisherId(), request.getPublisherTypeId())) {
+			response.setAuthorized(false);
+			return response;
+		}
+
+		response.setAuthorized(true);
+		
+		PriceDbModel price = new PriceDbModel();
+		price.setStartDate(request.getStartDate().toGregorianCalendar().getTime());
+		price.setEndDate(request.getEndDate().toGregorianCalendar().getTime());
+		price.setPrice(request.getPrice());
+		price.setPriceList(unitOfWork.getPriceListRepo().findById(request.getPriceListId()).get());
+		price.setPublisherId(request.getPublisherId());
+		price.setPublisherType(unitOfWork.getPublisherTypeRepo().findById(request.getPublisherTypeId()).get());
+		
+		unitOfWork.getPriceRepo().save(price);
+		response.setSuccess(true);
+		return response;
+	}
+
+	public SoapResponse deletePrice(SoapDeletePriceRequest request) {
+		// TODO Auto-generated method stub
+		SoapResponse response = new SoapResponse();
+		
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+		if (!token.isValid() || !jwtUtil.isAdmin(token)) {
+			response.setAuthorized(false);
+			return response;
+		}
+		
+		Optional<PriceDbModel> price = unitOfWork.getPriceRepo().findById(request.getId());
+		if(!price.isPresent()) {
+			response.setSuccess(false);
+			return response;
+		}
+		try {
+			unitOfWork.getPriceRepo().delete(price.get());
+		} catch (Exception e) {
+			response.setSuccess(false);
+			return response;
+		}
 		response.setSuccess(true);
 		return response;
 	}
