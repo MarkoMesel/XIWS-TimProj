@@ -466,7 +466,6 @@ public class CarController {
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
-
 	@PostMapping(path = "car/search")
 	public ResponseEntity<List<HttpCarResponse>> search(@RequestBody HttpSearchCarsRequest request) {
 		
