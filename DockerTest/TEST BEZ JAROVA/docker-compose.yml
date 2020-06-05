@@ -1,0 +1,95 @@
+version: '3'
+
+services:
+    AgentService:
+        build: ./AgentService
+        image: serviceagent
+        container_name: serviceagent
+        networks:
+            - my-net
+        restart: on-failure
+        ports:
+            - "8083:8083"
+        environment:
+            LOG_STORAGE: /var/log/web-traffic.log
+        volumes:
+            - logs:/var/log
+      
+    CarService:
+        build: ./CarService
+        image: servicecar
+        container_name: servicecar
+        networks:
+            - my-net
+        restart: on-failure
+        ports:
+            - "8082:8082"
+        environment:
+            LOG_STORAGE: /var/log/web-traffic.log
+        volumes:
+            - logs:/var/log
+    
+    ScheduleService:
+        build: ./ScheduleService
+        image: serviceschedule
+        container_name: serviceschedule
+        networks:
+            - my-net
+        restart: on-failure
+        ports:
+            - "8084:8084"
+        environment:
+            LOG_STORAGE: /var/log/web-traffic.log
+        volumes:
+            - logs:/var/log
+            
+    StudentApi:
+        build: ./ScheduleService
+        image: studentapi
+        container_name: studentapi
+        networks:
+            - my-net
+        restart: on-failure
+        ports:
+            - "8085:8085"
+        environment:
+            LOG_STORAGE: /var/log/web-traffic.log
+        volumes:
+            - logs:/var/log
+    
+    UserService:
+        build: ./UserService
+        image: serviceuser
+        container_name: serviceuser
+        networks:
+            - my-net        
+        restart: on-failure
+        ports:
+            - "8081:8081"
+        environment:
+            LOG_STORAGE: /var/log/web-traffic.log
+        volumes:
+            - logs:/var/log  
+
+    FrontApp:
+        build: ./FrontApp
+        image: frontapp
+        container_name: frontapp
+        networks:
+            - my-net        
+        restart: on-failure
+        stdin_open: true
+        ports:
+            - "3000:3000"
+        environment:
+            LOG_STORAGE: /var/log/web-traffic.log
+        volumes:
+            - logs:/var/log              
+
+networks:
+  my-net:
+    driver: bridge
+
+volumes:
+  
+  logs:
