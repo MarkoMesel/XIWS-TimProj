@@ -12,6 +12,7 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.util.ResourceUtils;
 
@@ -20,6 +21,7 @@ import com.student.data.repo.CarImageRepo;
 import com.student.data.repo.CarRepo;
 
 @SpringBootApplication
+@EnableEurekaClient
 public class CarServiceApplication {
 
 	private CarRepo carRepo;
