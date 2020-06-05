@@ -299,18 +299,4 @@ public class Translator {
 		return output;
 	}
 
-	public SoapCarPhysicalRequest translate(HttpCarPhysicalReservationRequest input) {
-		// TODO Auto-generated method stub
-		SoapCarPhysicalRequest output = new SoapCarPhysicalRequest();
-		
-		output.setCarId(input.getCarId());
-		output.setStartDate(input.getStartDate());
-		output.setEndDate(input.getEndDate());
-		output.setPublisherId(input.getPublisherId());
-		output.setPublisherTypeId(input.getPublisherTypeId());
-		
-		return output;
-	}
-
-	
 }

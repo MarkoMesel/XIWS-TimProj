@@ -17,13 +17,14 @@ import com.student.scheduleservice.data.repo.UnitOfWork;
 import com.student.scheduleservice.internal.contract.InternalCarPriceRequest;
 import com.student.scheduleservice.internal.contract.InternalCarPriceResponse;
 import com.student.scheduleservice.internal.contract.InternalCarRatingResponse;
+import com.student.scheduleservice.jwt.AuthenticationTokenParseResult;
+import com.student.scheduleservice.jwt.JwtUtil;
 import com.student.scheduleservice.soap.client.AgentServiceClient;
 import com.student.scheduleservice.soap.client.UserServiceClient;
 import com.student.scheduleservice.soap.contract.SoapCarAvailabilityRequest;
 import com.student.scheduleservice.soap.contract.SoapCarAvailabilityResponse;
 import com.student.scheduleservice.soap.contract.SoapCarPhysicalRequest;
 import com.student.scheduleservice.soap.contract.SoapCarPhysicalResponse;
-import com.student.scheduleservice.soap.contract.SoapCarPriceRequest;
 import com.student.scheduleservice.soap.contract.SoapCarRatingsAndCommentsResponse;
 import com.student.soap.agentservice.contract.SoapAgentByIdRequest;
 import com.student.soap.agentservice.contract.SoapAgentByIdResponse;
@@ -36,14 +37,16 @@ public class ScheduleProvider {
 	private UnitOfWork unitOfWork;
 	private UserServiceClient userServiceClient;
 	private AgentServiceClient agentServiceClient;
+	private JwtUtil jwtUtil;
 
 	@Autowired
 	public ScheduleProvider(UnitOfWork unitOfWork, UserServiceClient userServiceClient,
-			AgentServiceClient agentServiceClient) {
+			AgentServiceClient agentServiceClient, JwtUtil jwtUtil) {
 		super();
 		this.unitOfWork = unitOfWork;
 		this.userServiceClient = userServiceClient;
 		this.agentServiceClient = agentServiceClient;
+		this.jwtUtil = jwtUtil;
 	}
 
 	public SoapCarRatingsAndCommentsResponse getCarRatingsAndComments(int id) {
@@ -109,7 +112,7 @@ public class ScheduleProvider {
 		if (carPricelist == null) {
 			return response;
 		}
-		
+
 		// long currentTime = Instant.now().getEpochSecond();
 		List<PriceDbModel> prices = carPricelist.getPriceList().getPrices().stream()
 				.filter(price -> price.getStartDate().compareTo(request.getStartDate()) >= 0
@@ -186,14 +189,14 @@ public class ScheduleProvider {
 	public SoapCarPhysicalResponse getCarPhysical(SoapCarPhysicalRequest request) {
 		// TODO Auto-generated method stub
 		SoapCarPhysicalResponse response = new SoapCarPhysicalResponse();
-		// AuthenticationTokenParseResult token =
-		// jwtUtil.parseAuthenticationToken(request.getToken());
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
 
-		// proveri token
-		// ako je rezervacija potvrdjena, ne moze da rezervise
-		// pending rezervacije se automatski odbijaju
+		if (!jwtUtil.isAuthorized(token, 3, request.getPublisherId(), request.getPublisherTypeId())) {
+			response.setAuthorized(false);
+			return response;
+		}
 
-		// provera da li agentov date ima preklapanja sa nekom od rezervacija
+		// response.setAuthorized(true);
 
 		List<ReservationDbModel> reservations = unitOfWork.getReservationRepo().findByCarId(request.getCarId()).stream()
 				.filter(reservation -> reservation.getStartDate()
@@ -217,7 +220,7 @@ public class ScheduleProvider {
 				return response;
 			}
 		}
-		// u protivnom, ako ne postoji preklapanje sa rezervacijama, slobodan je da
+		// u protivnom, ako ne postoji preklapanje sa rezervacijama koje su vec placene, slobodan je da
 		// nastavi
 		UnavailabilityDbModel unavaible = new UnavailabilityDbModel();
 		unavaible.setCarId(request.getCarId());
