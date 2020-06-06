@@ -161,7 +161,7 @@ public class UserController {
 	}
 	
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@DeleteMapping(path = "/user/{id}/delete")
+	@DeleteMapping(path = "/user/{id}")
 	@ResponseBody
 	public ResponseEntity<?> deleteUser(@RequestHeader("token") String token, @PathVariable int id) {
 		SoapDeleteUserRequest request = new SoapDeleteUserRequest();
