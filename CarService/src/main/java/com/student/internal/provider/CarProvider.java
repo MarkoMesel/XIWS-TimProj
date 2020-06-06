@@ -446,8 +446,8 @@ public class CarProvider {
 
 		AuthenticationTokenParseResult tokenParseResult = jwtUtil.parseAuthenticationToken(request.getToken());
 
-		if (!jwtUtil.isAutharized(tokenParseResult, 2, car.get().getId(), car.get().getPublisherType().getId())) {
-			response.setAuthorized(true);
+		if (!jwtUtil.isAutharized(tokenParseResult, 2, car.get().getPublisherId(), car.get().getPublisherType().getId())) {
+			response.setAuthorized(false);
 			return response;
 		}
 
@@ -474,9 +474,9 @@ public class CarProvider {
 
 		AuthenticationTokenParseResult tokenParseResult = jwtUtil.parseAuthenticationToken(request.getToken());
 
-		if (!jwtUtil.isAutharized(tokenParseResult, 2, image.get().getCar().getId(),
+		if (!jwtUtil.isAutharized(tokenParseResult, 2, image.get().getCar().getPublisherId(),
 				image.get().getCar().getPublisherType().getId())) {
-			response.setAuthorized(true);
+			response.setAuthorized(false);
 			return response;
 		}
 
