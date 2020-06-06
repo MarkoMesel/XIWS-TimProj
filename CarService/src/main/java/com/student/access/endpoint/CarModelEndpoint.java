@@ -8,39 +8,30 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import com.student.internal.provider.CarProvider;
 import com.student.internal.translator.Translator;
-import com.student.soap.carservice.contract.SoapAddCarClassRequest;
 import com.student.soap.carservice.contract.SoapAddCarModelRequest;
 import com.student.soap.carservice.contract.SoapAddCarRequest;
 import com.student.soap.carservice.contract.SoapAddFuelTypeRequest;
-import com.student.soap.carservice.contract.SoapAddLocationRequest;
 import com.student.soap.carservice.contract.SoapAddManufacturerRequest;
-import com.student.soap.carservice.contract.SoapAddTransmissionTypeRequest;
 import com.student.soap.carservice.contract.SoapAllCarModelsRequest;
-import com.student.soap.carservice.contract.SoapCarClassesRequest;
 import com.student.soap.carservice.contract.SoapCarManufacturersRequest;
 import com.student.soap.carservice.contract.SoapCarModelsByManufacturerRequest;
 import com.student.soap.carservice.contract.SoapCarModelsResponse;
 import com.student.soap.carservice.contract.SoapCarRequest;
 import com.student.soap.carservice.contract.SoapCarResponse;
 import com.student.soap.carservice.contract.SoapDeactivatePublisherRequest;
-import com.student.soap.carservice.contract.SoapDeleteCarClassRequest;
 import com.student.soap.carservice.contract.SoapDeleteCarModelRequest;
 import com.student.soap.carservice.contract.SoapDeleteFuelTypeRequest;
 import com.student.soap.carservice.contract.SoapDeleteImageRequest;
-import com.student.soap.carservice.contract.SoapDeleteLocationRequest;
 import com.student.soap.carservice.contract.SoapDeleteManufacturerRequest;
-import com.student.soap.carservice.contract.SoapDeleteTransmissionTypeRequest;
 import com.student.soap.carservice.contract.SoapFuelTypesRequest;
 import com.student.soap.carservice.contract.SoapGetImageRequest;
 import com.student.soap.carservice.contract.SoapGetImageResponse;
-import com.student.soap.carservice.contract.SoapLocationsRequest;
 import com.student.soap.carservice.contract.SoapNamedObjectsResponse;
 import com.student.soap.carservice.contract.SoapPostImageRequest;
 import com.student.soap.carservice.contract.SoapPostImageResponse;
 import com.student.soap.carservice.contract.SoapResponse;
 import com.student.soap.carservice.contract.SoapSearchCarsRequest;
 import com.student.soap.carservice.contract.SoapSearchCarsResponse;
-import com.student.soap.carservice.contract.SoapTransmissionTypesRequest;
 
 @Endpoint
 public class CarModelEndpoint {
@@ -53,12 +44,6 @@ public class CarModelEndpoint {
 	public CarModelEndpoint(CarProvider carProvider, Translator translator) {
 		this.carProvider = carProvider;
 		this.translator = translator;
-	}
-
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapCarManufacturersRequest")
-	@ResponsePayload
-	public SoapNamedObjectsResponse getCarManufacturers(@RequestPayload SoapCarManufacturersRequest request) {
-		return translator.soapTranslate(carProvider.getCarManufacturers());
 	}
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapAllCarModelsRequest")
@@ -73,72 +58,6 @@ public class CarModelEndpoint {
 		return translator.soapTranslate(carProvider.getCarModelsByManufacturerId(request.getManufacturerId()));
 	}
 	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapFuelTypesRequest")
-	@ResponsePayload
-	public SoapNamedObjectsResponse getFuelTypes(@RequestPayload SoapFuelTypesRequest request) {
-		return translator.soapTranslate(carProvider.getFuelTypes());
-	}
-	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapTransmissionTypesRequest")
-	@ResponsePayload
-	public SoapNamedObjectsResponse getTransmissionTypes(@RequestPayload SoapTransmissionTypesRequest request) {
-		return translator.soapTranslate(carProvider.getTransmissionTypes());
-	}
-	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapCarClassesRequest")
-	@ResponsePayload
-	public SoapNamedObjectsResponse getCarClasses(@RequestPayload SoapCarClassesRequest request) {
-		return translator.soapTranslate(carProvider.getCarClasses());
-	}
-	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapCarRequest")
-	@ResponsePayload
-	public SoapCarResponse getCarClasses(@RequestPayload SoapCarRequest request) {
-		return carProvider.getCar(request);
-	}
-	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapGetImageRequest")
-	@ResponsePayload
-	public SoapGetImageResponse getCarImage(@RequestPayload SoapGetImageRequest request) {
-		return carProvider.getCarImage(request);
-	}
-	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapPostImageRequest")
-	@ResponsePayload
-	public SoapPostImageResponse postCarImage(@RequestPayload SoapPostImageRequest request) {
-		return carProvider.postCarImage(request);
-	}
-	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapDeleteImageRequest")
-	@ResponsePayload
-	public SoapResponse deleteImage(@RequestPayload SoapDeleteImageRequest request) {
-		return carProvider.deleteCarImage(request);
-	}
-	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapAddCarClassRequest")
-	@ResponsePayload
-	public SoapResponse addCarClass(@RequestPayload SoapAddCarClassRequest request) {
-		return carProvider.addCarClass(request);
-	}
-	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapDeleteCarClassRequest")
-	@ResponsePayload
-	public SoapResponse deleteCarClass(@RequestPayload SoapDeleteCarClassRequest request) {
-		return carProvider.deleteCarClass(request);
-	}
-	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapAddManufacturerRequest")
-	@ResponsePayload
-	public SoapResponse addCarManufacturer(@RequestPayload SoapAddManufacturerRequest request) {
-		return carProvider.addManufacturer(request);
-	}
-	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapDeleteManufacturerRequest")
-	@ResponsePayload
-	public SoapResponse deleteCarManufacturer(@RequestPayload SoapDeleteManufacturerRequest request) {
-		return carProvider.deleteManufacturer(request);
-	}
-	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapAddCarModelRequest")
 	@ResponsePayload
 	public SoapResponse addCarModel(@RequestPayload SoapAddCarModelRequest request) {
@@ -149,65 +68,5 @@ public class CarModelEndpoint {
 	@ResponsePayload
 	public SoapResponse deleteCarModel(@RequestPayload SoapDeleteCarModelRequest request) {
 		return carProvider.deleteCarModel(request);
-	}
-	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapAddFuelTypeRequest")
-	@ResponsePayload
-	public SoapResponse addFuelType(@RequestPayload SoapAddFuelTypeRequest request) {
-		return carProvider.addFuelType(request);
-	}
-	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapDeleteFuelTypeRequest")
-	@ResponsePayload
-	public SoapResponse deleteFuelType(@RequestPayload SoapDeleteFuelTypeRequest request) {
-		return carProvider.deleteFuelType(request);
-	}
-	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapAddTransmissionTypeRequest")
-	@ResponsePayload
-	public SoapResponse addTransmissionType(@RequestPayload SoapAddTransmissionTypeRequest request) {
-		return carProvider.addTransmissionType(request);
-	}
-	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapDeleteTransmissionTypeRequest")
-	@ResponsePayload
-	public SoapResponse deleteTransmissionType(@RequestPayload SoapDeleteTransmissionTypeRequest request) {
-		return carProvider.deleteTransmissionType(request);
-	}
-	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapDeactivatePublisherRequest")
-	@ResponsePayload
-	public SoapResponse deactivatePublisher(@RequestPayload SoapDeactivatePublisherRequest request) {
-		return carProvider.deactivatePublisher(request);
-	}
-	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapAddCarRequest")
-	@ResponsePayload
-	public SoapResponse deactivatePublisher(@RequestPayload SoapAddCarRequest request) {
-		return carProvider.addCar(request);
-	}
-	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapLocationsRequest")
-	@ResponsePayload
-	public SoapNamedObjectsResponse getLocations(@RequestPayload SoapLocationsRequest request) {
-		return carProvider.getAllLocations();
-	}
-	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapAddLocationRequest")
-	@ResponsePayload
-	public SoapResponse addLocation(@RequestPayload SoapAddLocationRequest request) {
-		return carProvider.addLocation(request);
-	}
-	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapDeleteLocationRequest")
-	@ResponsePayload
-	public SoapResponse deleteLocation(@RequestPayload SoapDeleteLocationRequest request) {
-		return carProvider.deleteLocation(request);
-	}
-	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapSearchCarsRequest")
-	@ResponsePayload
-	public SoapSearchCarsResponse deleteLocation(@RequestPayload SoapSearchCarsRequest request) {
-		return carProvider.seachCars(request);
 	}
 }
