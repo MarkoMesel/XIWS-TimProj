@@ -206,7 +206,15 @@ public class UserProvider {
 				return response;
 			}
 			
-			unitOfWork.getUserRepo().delete(user.get());
+			//Change after KT2: soft delete ====================
+			//unitOfWork.getUserRepo().delete(user.get());
+			
+			Optional<StatusDbModel> deletedStatus = unitOfWork.getStatusRepo().findById(4);
+			
+			user.get().setStatus(deletedStatus.get());
+			
+			unitOfWork.getUserRepo().save(user.get());
+			
 		} catch (Exception e) {
 			response.setSuccess(false);
 			return response;
