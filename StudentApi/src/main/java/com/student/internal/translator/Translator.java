@@ -192,11 +192,12 @@ public class Translator {
 		SoapSearchCarsRequest output = new SoapSearchCarsRequest();
 		
 		output.setCarClassId(input.getCarClassId());
-		output.setChildSeats(input.getChildSeats());
+		output.setMinChildSeats(input.getMinChildSeats());
 		output.setFuelTypeId(input.getFuelTypeId());
 		output.setLocationId(input.getLocationId());
 		output.setManufacturerId(input.getManufacturerId());
-		output.setMileage(input.getMileage());
+		output.setMinMileage(input.getMinMileage());
+		output.setMaxMileage(input.getMaxMileage());
 		output.setModelId(input.getModelId());
 		output.setPublisherTypeId(input.getPublisherTypeId());
 		output.setTransmissionTypeId(input.getTransmissionTypeId());

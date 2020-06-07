@@ -7,6 +7,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -27,26 +29,24 @@ public class PriceListDbModel {
 	
 	private Integer warrantyPrice;
 	
+	private int publisherId;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "PUBLISHER_TYPE_ID")
+	private PublisherTypeDbModel publisherType;
+	
 	@OneToMany(mappedBy = "priceList", fetch = FetchType.EAGER)
 	private List<PriceDbModel> prices;
 	
 	@OneToMany(mappedBy = "priceList")
 	private List<CarPriceListDbModel> cars;
-	
-	public int getDiscountPercentage() {
-		return discountPercentage;
+
+	public int getId() {
+		return id;
 	}
 
-	public void setDiscountPercentage(int discountPercentage) {
-		this.discountPercentage = discountPercentage;
-	}
-
-	public int getWarrantyPrice() {
-		return warrantyPrice;
-	}
-
-	public void setWarrantyPrice(int warrantyPrice) {
-		this.warrantyPrice = warrantyPrice;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -57,28 +57,52 @@ public class PriceListDbModel {
 		this.name = name;
 	}
 
-	public int getId() {
-		return id;
+	public Integer getDiscountPercentage() {
+		return discountPercentage;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setDiscountPercentage(Integer discountPercentage) {
+		this.discountPercentage = discountPercentage;
 	}
 
-	public int getMileageThreshold() {
+	public Integer getMileageThreshold() {
 		return mileageThreshold;
 	}
 
-	public void setMileageThreshold(int mileageThreshold) {
+	public void setMileageThreshold(Integer mileageThreshold) {
 		this.mileageThreshold = mileageThreshold;
 	}
 
-	public int getMileagePenalty() {
+	public Integer getMileagePenalty() {
 		return mileagePenalty;
 	}
 
-	public void setMileagePenalty(int mileagePenalty) {
+	public void setMileagePenalty(Integer mileagePenalty) {
 		this.mileagePenalty = mileagePenalty;
+	}
+
+	public Integer getWarrantyPrice() {
+		return warrantyPrice;
+	}
+
+	public void setWarrantyPrice(Integer warrantyPrice) {
+		this.warrantyPrice = warrantyPrice;
+	}
+
+	public int getPublisherId() {
+		return publisherId;
+	}
+
+	public void setPublisherId(int publisherId) {
+		this.publisherId = publisherId;
+	}
+
+	public PublisherTypeDbModel getPublisherType() {
+		return publisherType;
+	}
+
+	public void setPublisherType(PublisherTypeDbModel publisherType) {
+		this.publisherType = publisherType;
 	}
 
 	public List<PriceDbModel> getPrices() {

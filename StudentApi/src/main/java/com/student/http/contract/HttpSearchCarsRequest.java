@@ -12,8 +12,9 @@ public class HttpSearchCarsRequest {
 	protected Integer fuelTypeId;
 	protected Integer transmissionTypeId;
 	protected Integer carClassId;
-	protected Integer mileage;
-	protected Integer childSeats;
+	protected Integer minMileage;
+	protected Integer maxMileage;
+	protected Integer minChildSeats;
 	protected Integer minPrice;
 	protected Integer maxPrice;
 	protected Integer plannedMileage;
@@ -73,17 +74,23 @@ public class HttpSearchCarsRequest {
 	public void setCarClassId(Integer carClassId) {
 		this.carClassId = carClassId;
 	}
-	public Integer getMileage() {
-		return mileage;
+	public Integer getMinMileage() {
+		return minMileage;
 	}
-	public void setMileage(Integer mileage) {
-		this.mileage = mileage;
+	public void setMinMileage(Integer minMileage) {
+		this.minMileage = minMileage;
 	}
-	public Integer getChildSeats() {
-		return childSeats;
+	public Integer getMaxMileage() {
+		return maxMileage;
 	}
-	public void setChildSeats(Integer childSeats) {
-		this.childSeats = childSeats;
+	public void setMaxMileage(Integer maxMileage) {
+		this.maxMileage = maxMileage;
+	}
+	public Integer getMinChildSeats() {
+		return minChildSeats;
+	}
+	public void setMinChildSeats(Integer minChildSeats) {
+		this.minChildSeats = minChildSeats;
 	}
 	public Integer getMinPrice() {
 		return minPrice;

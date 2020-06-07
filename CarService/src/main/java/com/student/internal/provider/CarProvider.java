@@ -225,10 +225,50 @@ public class CarProvider {
 		}
 		
 		List<CarDbModel> cars = unitOfWork.getCarRepo().findAll().stream()
-				.filter(car -> car.getLocation().getId() == request.getLocationId()).collect(Collectors.toList());
-
+				.filter(car -> car.getLocation().getId() == request.getLocationId() && car.isActive() == true).collect(Collectors.toList());
+		
+		if (request.getManufacturerId() != null) {
+			cars = cars.stream().filter(car -> car.getCarModel().getCarManufacturer().getId() == request.getManufacturerId())
+					.collect(Collectors.toList());
+		}
+		
+		if (request.getModelId() != null) {
+			cars = cars.stream().filter(car -> car.getCarModel().getId() == request.getModelId())
+					.collect(Collectors.toList());
+		}
+		
+		if (request.getFuelTypeId() != null) {
+			cars = cars.stream().filter(car -> car.getFuelType().getId() == request.getFuelTypeId())
+					.collect(Collectors.toList());
+		}
+		
+		if (request.getTransmissionTypeId() != null) {
+			cars = cars.stream().filter(car -> car.getTransmissionType().getId() == request.getTransmissionTypeId())
+					.collect(Collectors.toList());
+		}
+		
 		if (request.getCarClassId() != null) {
 			cars = cars.stream().filter(car -> car.getCarClass().getId() == request.getCarClassId())
+					.collect(Collectors.toList());
+		}
+		
+		if (request.getMinMileage() != null) {
+			cars = cars.stream().filter(car -> car.getMileage() >= request.getMinMileage())
+					.collect(Collectors.toList());
+		}
+		
+		if (request.getMaxMileage() != null) {
+			cars = cars.stream().filter(car -> car.getMileage() <= request.getMaxMileage())
+					.collect(Collectors.toList());
+		}
+		
+		if (request.getMinChildSeats() != null) {
+			cars = cars.stream().filter(car -> car.getChildSeats() >= request.getMinChildSeats())
+					.collect(Collectors.toList());
+		}
+		
+		if (request.getPublisherTypeId() != null) {
+			cars = cars.stream().filter(car -> car.getPublisherType().getId() == request.getPublisherTypeId())
 					.collect(Collectors.toList());
 		}
 
@@ -263,6 +303,7 @@ public class CarProvider {
 					}
 				} catch (Exception e) {
 					System.out.println(e);
+					continue;
 				}
 			}
 			
@@ -274,6 +315,7 @@ public class CarProvider {
 					}
 				} catch (Exception e) {
 					System.out.println(e);
+					continue;
 				}
 			}
 			
@@ -290,6 +332,7 @@ public class CarProvider {
 				}
 			} catch (Exception e) {
 				System.out.println(e);
+				continue;
 			}
 
 			// Fetch prices
@@ -298,6 +341,23 @@ public class CarProvider {
 					SoapCarPriceResponse carPriceResponse = scheduleServiceClient.getCarPrice(objectIn.getId(),
 							request.getStartDate(), request.getEndDate());
 					if (carPriceResponse.isSuccess()) {
+						
+						//Does car have warranty if it's requested?
+						if (request.isCollisionWarranty() != null && request.isCollisionWarranty() && carPriceResponse.getCollisionWarranty() == null) {
+							continue;
+						}
+						
+						//Does total price fit in in price range if requested?
+						//MIN PRICE
+						if (request.getMinPrice() != null && carPriceResponse.getTotalPrice() < request.getMinPrice()) {
+							continue;
+						}
+
+						//MAX PRICE
+						if (request.getMaxPrice() != null && carPriceResponse.getTotalPrice() > request.getMaxPrice()) {
+							continue;
+						}
+						
 						objectOut.setCollisionWaranty(carPriceResponse.getCollisionWarranty());
 						objectOut.setMileagePenalty(carPriceResponse.getMileagePenalty());
 						objectOut.setMileageThreshold(carPriceResponse.getMileageThreshold());
@@ -318,6 +378,7 @@ public class CarProvider {
 					}
 				} catch (Exception e) {
 					System.out.println(e);
+					continue;
 				}
 			}
 			
@@ -339,7 +400,7 @@ public class CarProvider {
 		}
 		
 		Optional<CarDbModel> car = unitOfWork.getCarRepo().findById(request.getId());
-		if (!car.isPresent()) {
+		if (!car.isPresent() || !car.get().isActive()) {
 			response.setSuccess(false);
 			return response;
 		}

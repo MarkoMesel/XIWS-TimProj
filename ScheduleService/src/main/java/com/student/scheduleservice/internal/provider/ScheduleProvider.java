@@ -310,6 +310,8 @@ public class ScheduleProvider {
 		priceList.setMileageThreshold(request.getMileageThreshold());
 		priceList.setName(request.getName());
 		priceList.setWarrantyPrice(request.getWarrantyPrice());
+		priceList.setPublisherId(request.getPublisherId());
+		priceList.setPublisherType(unitOfWork.getPublisherTypeRepo().findById(request.getPublisherTypeId()).get());
 		
 		try {
 			unitOfWork.getPriceListRepo().save(priceList);
@@ -364,8 +366,6 @@ public class ScheduleProvider {
 		price.setEndDate(request.getEndDate().toGregorianCalendar().getTime());
 		price.setPrice(request.getPrice());
 		price.setPriceList(unitOfWork.getPriceListRepo().findById(request.getPriceListId()).get());
-		price.setPublisherId(request.getPublisherId());
-		price.setPublisherType(unitOfWork.getPublisherTypeRepo().findById(request.getPublisherTypeId()).get());
 		
 		unitOfWork.getPriceRepo().save(price);
 		response.setSuccess(true);

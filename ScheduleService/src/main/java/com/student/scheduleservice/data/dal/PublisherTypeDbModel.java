@@ -28,6 +28,9 @@ public class PublisherTypeDbModel {
 	
 	@OneToMany(mappedBy = "publisherType")
 	private List<CommentDbModel> comments;
+	
+	@OneToMany(mappedBy = "publisherType")
+	private List<PriceListDbModel> priceLists;
 
 	public int getId() {
 		return id;

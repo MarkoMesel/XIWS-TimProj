@@ -347,8 +347,9 @@
                 <xs:element name="fuelTypeId" nillable="true" type="xs:int"/>
                 <xs:element name="transmissionTypeId" nillable="true" type="xs:int"/>
                 <xs:element name="carClassId" nillable="true" type="xs:int"/>
-                <xs:element name="mileage" nillable="true" type="xs:int"/>
-                <xs:element name="childSeats" nillable="true" type="xs:int"/>
+                <xs:element name="minMileage" nillable="true" type="xs:int"/>
+                <xs:element name="maxMileage" nillable="true" type="xs:int"/>
+                <xs:element name="minChildSeats" nillable="true" type="xs:int"/>
                 <xs:element name="minPrice" nillable="true" type="xs:int"/>
                 <xs:element name="maxPrice" nillable="true" type="xs:int"/>
                 <xs:element name="plannedMileage" nillable="true" type="xs:int"/>

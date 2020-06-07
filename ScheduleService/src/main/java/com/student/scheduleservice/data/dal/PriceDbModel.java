@@ -39,12 +39,6 @@ public class PriceDbModel {
 
 	private int price;
 	
-	private int publisherId;
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "PUBLISHER_TYPE_ID")
-	private PublisherTypeDbModel publisherType;
-	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "PRICE_LIST_ID")
 	private PriceListDbModel priceList;
@@ -64,22 +58,6 @@ public class PriceDbModel {
 
 	public void setPrice(int price) {
 		this.price = price;
-	}
-
-	public int getPublisherId() {
-		return publisherId;
-	}
-
-	public void setPublisherId(int publisherId) {
-		this.publisherId = publisherId;
-	}
-
-	public PublisherTypeDbModel getPublisherType() {
-		return publisherType;
-	}
-
-	public void setPublisherType(PublisherTypeDbModel publisherType) {
-		this.publisherType = publisherType;
 	}
 
 	public PriceListDbModel getPriceList() {
