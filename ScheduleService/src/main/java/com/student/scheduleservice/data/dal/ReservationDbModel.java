@@ -22,6 +22,9 @@ public class ReservationDbModel {
 	private int carId;
 	private Date startDate;
 	private Date endDate;
+	private int totalPrice;
+	private Integer extraCharges;
+	private boolean WarrantyIncluded;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "BUNDLE_ID")
@@ -73,5 +76,29 @@ public class ReservationDbModel {
 
 	public void setBundle(BundleDbModel bundle) {
 		this.bundle = bundle;
+	}
+
+	public int getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(int totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public Integer getExtraCharges() {
+		return extraCharges;
+	}
+
+	public void setExtraCharges(Integer extraCharges) {
+		this.extraCharges = extraCharges;
+	}
+
+	public boolean isWarrantyIncluded() {
+		return WarrantyIncluded;
+	}
+
+	public void setWarrantyIncluded(boolean warrantyIncluded) {
+		WarrantyIncluded = warrantyIncluded;
 	}
 }

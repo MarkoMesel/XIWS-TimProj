@@ -93,6 +93,36 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
+	
+	<xs:element name="soapCartBundleRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+				<xs:element name="agentId" type="xs:int" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapCartUnbundleRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+				<xs:element name="agentId" type="xs:int" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapCartAddCarRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+				<xs:element name="carId" type="xs:int" />
+				<xs:element name="startDate" type="xs:dateTime" />
+				<xs:element name="endDate" type="xs:dateTime" />
+				<xs:element name="collisionWarranty" type="xs:boolean" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 
 	<xs:element name="soapCarRatingRequest">
 		<xs:complexType>

@@ -90,6 +90,36 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
+	
+	<xs:element name="soapCartBundleRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="agentId" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapCartUnbundleRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="agentId" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapCartAddCarRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="carId" type="xs:int"/>
+				<xs:element name="startDate" type="xs:dateTime"/>
+				<xs:element name="endDate" type="xs:dateTime"/>
+				<xs:element name="collisionWarranty" type="xs:boolean"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 
 	<xs:element name="soapCarRatingRequest">
 		<xs:complexType>
@@ -281,6 +311,10 @@
     <wsdl:part element="tns:soapCarPhysicalRequest" name="soapCarPhysicalRequest">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="soapCartBundleRequest">
+    <wsdl:part element="tns:soapCartBundleRequest" name="soapCartBundleRequest">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="soapCarRatingResponse">
     <wsdl:part element="tns:soapCarRatingResponse" name="soapCarRatingResponse">
     </wsdl:part>
@@ -289,8 +323,16 @@
     <wsdl:part element="tns:soapCarAvailabilityResponse" name="soapCarAvailabilityResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="soapCartUnbundleRequest">
+    <wsdl:part element="tns:soapCartUnbundleRequest" name="soapCartUnbundleRequest">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="soapCarRatingRequest">
     <wsdl:part element="tns:soapCarRatingRequest" name="soapCarRatingRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCartAddCarRequest">
+    <wsdl:part element="tns:soapCartAddCarRequest" name="soapCartAddCarRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapCarPriceRequest">
@@ -348,11 +390,23 @@
       <wsdl:input message="tns:soapDeletePriceRequest" name="soapDeletePriceRequest">
     </wsdl:input>
     </wsdl:operation>
+    <wsdl:operation name="soapCartBundle">
+      <wsdl:input message="tns:soapCartBundleRequest" name="soapCartBundleRequest">
+    </wsdl:input>
+    </wsdl:operation>
     <wsdl:operation name="soapCarRating">
       <wsdl:input message="tns:soapCarRatingRequest" name="soapCarRatingRequest">
     </wsdl:input>
       <wsdl:output message="tns:soapCarRatingResponse" name="soapCarRatingResponse">
     </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapCartUnbundle">
+      <wsdl:input message="tns:soapCartUnbundleRequest" name="soapCartUnbundleRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCartAddCar">
+      <wsdl:input message="tns:soapCartAddCarRequest" name="soapCartAddCarRequest">
+    </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="soapCarPrice">
       <wsdl:input message="tns:soapCarPriceRequest" name="soapCarPriceRequest">
@@ -428,6 +482,12 @@
         <soap:body use="literal"/>
       </wsdl:input>
     </wsdl:operation>
+    <wsdl:operation name="soapCartBundle">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCartBundleRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
     <wsdl:operation name="soapCarRating">
       <soap:operation soapAction=""/>
       <wsdl:input name="soapCarRatingRequest">
@@ -436,6 +496,18 @@
       <wsdl:output name="soapCarRatingResponse">
         <soap:body use="literal"/>
       </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapCartUnbundle">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCartUnbundleRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCartAddCar">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCartAddCarRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="soapCarPrice">
       <soap:operation soapAction=""/>

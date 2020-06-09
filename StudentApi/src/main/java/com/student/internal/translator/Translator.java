@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 import com.student.http.contract.HttpAddCarRequest;
 import com.student.http.contract.HttpCarAvailabilityRequest;
 import com.student.http.contract.HttpCarModelResponse;
-import com.student.http.contract.HttpCarPhysicalReservationRequest;
 import com.student.http.contract.HttpCarRequest;
 import com.student.http.contract.HttpCarResponse;
+import com.student.http.contract.HttpCartAddCarRequest;
 import com.student.http.contract.HttpCommentResponse;
 import com.student.http.contract.HttpEditRequest;
 import com.student.http.contract.HttpGetResponse;
@@ -29,10 +29,10 @@ import com.student.soap.carservice.contract.SoapNamedObjectsResponse;
 import com.student.soap.carservice.contract.SoapSearchCarsRequest;
 import com.student.soap.carservice.contract.SoapSearchCarsResponse;
 import com.student.soap.scheduleservice.contract.SoapCarAvailabilityRequest;
-import com.student.soap.scheduleservice.contract.SoapCarPhysicalRequest;
 import com.student.soap.scheduleservice.contract.SoapCarRatingRequest;
 import com.student.soap.scheduleservice.contract.SoapCarRatingsAndCommentsRequest;
 import com.student.soap.scheduleservice.contract.SoapCarRatingsAndCommentsResponse;
+import com.student.soap.scheduleservice.contract.SoapCartAddCarRequest;
 import com.student.soap.userservice.contract.SoapEditRequest;
 import com.student.soap.userservice.contract.SoapGetRequest;
 import com.student.soap.userservice.contract.SoapGetResponse;
@@ -296,6 +296,18 @@ public class Translator {
 		output.setId(input.getId());
 		output.setStartDate(input.getStartDate());
 		output.setEndDate(input.getEndDate());
+		
+		return output;
+	}
+
+	public SoapCartAddCarRequest translate(String token, HttpCartAddCarRequest input) {
+		SoapCartAddCarRequest output = new SoapCartAddCarRequest();
+		
+		output.setToken(token);
+		output.setCarId(input.getCarId());
+		output.setStartDate(input.getStartDate());
+		output.setEndDate(input.getEndDate());
+		output.setCollisionWarranty(input.isCollisionWarranty());
 		
 		return output;
 	}

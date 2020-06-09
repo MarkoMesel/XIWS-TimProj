@@ -23,16 +23,12 @@ public class BundleDbModel {
 	private int userId;
 
 	private int publisherId;
-	
-	private int totalPrice;
-
-	private Integer extraCharges;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "PUBLISHER_TYPE_ID")
 	private PublisherTypeDbModel publisherType;
 
-	@OneToMany(mappedBy = "bundle")
+	@OneToMany(mappedBy = "bundle", fetch = FetchType.EAGER)
 	private List<ReservationDbModel> reservations;
 
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -96,21 +92,5 @@ public class BundleDbModel {
 
 	public void setMessages(List<MessageDbModel> messages) {
 		this.messages = messages;
-	}
-
-	public int getTotalPrice() {
-		return totalPrice;
-	}
-
-	public void setTotalPrice(int totalPrice) {
-		this.totalPrice = totalPrice;
-	}
-
-	public Integer getExtraCharges() {
-		return extraCharges;
-	}
-
-	public void setExtraCharges(Integer extraCharges) {
-		this.extraCharges = extraCharges;
 	}
 }
