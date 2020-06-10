@@ -23,6 +23,10 @@ public class AgentServiceClient {
         return (TResponse) webServiceTemplate.marshalSendAndReceive("http://localhost:8083/ws",request);
     }
 	
-	
-
+    public SoapAgentByIdResponse getAgent(int id){
+    	SoapAgentByIdRequest request = new SoapAgentByIdRequest();
+    	request.setAgentId(id);
+    	
+        return (SoapAgentByIdResponse) webServiceTemplate.marshalSendAndReceive("http://localhost:8083/ws",request);
+    }
 }

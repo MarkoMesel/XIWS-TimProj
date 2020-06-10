@@ -123,7 +123,7 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<generatePackage>com.student.soap.carService.contract</generatePackage>
+							<generatePackage>com.student.soap.carservice.contract</generatePackage>
 							<generateDirectory>${project.basedir}/src/main/java</generateDirectory>
 							<schemaDirectory>${project.basedir}/src/main/resources/wsdl/carService</schemaDirectory>
 							<schemaIncludes>

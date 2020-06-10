@@ -22,4 +22,11 @@ public class UserServiceClient {
 	public <TRequest,TResponse> TResponse send(TRequest request){
         return (TResponse) webServiceTemplate.marshalSendAndReceive("http://localhost:8081/ws",request);
     }
+	
+    public SoapGetResponse getUser(int id){
+    	SoapInternalGetUserRequest request = new SoapInternalGetUserRequest();
+    	request.setId(id);
+    	
+        return (SoapGetResponse) webServiceTemplate.marshalSendAndReceive("http://localhost:8081/ws",request);
+    }
 }

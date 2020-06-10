@@ -1,10 +1,13 @@
 package com.student.scheduleservice.internal.provider;
 
 import java.math.BigInteger;
-
+import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,7 +38,6 @@ import com.student.scheduleservice.soap.contract.SoapDeleteCarPriceListRequest;
 import com.student.scheduleservice.soap.contract.SoapDeletePriceListRequest;
 import com.student.scheduleservice.soap.contract.SoapDeletePriceRequest;
 import com.student.scheduleservice.soap.contract.SoapResponse;
-import com.student.soap.agentservice.contract.SoapAgentByIdRequest;
 import com.student.soap.agentservice.contract.SoapAgentByIdResponse;
 import com.student.soap.userservice.contract.SoapGetResponse;
 import com.student.soap.userservice.contract.SoapInternalGetUserRequest;
@@ -65,28 +67,34 @@ public class ScheduleProvider {
 
 		unitOfWork.getReservationRepo().findByCarId(id).forEach(reservationIn -> {
 			SoapCarRatingsAndCommentsResponse.Comments.Comment ratingAndComment = new SoapCarRatingsAndCommentsResponse.Comments.Comment();
-			List<CommentDbModel> lista = unitOfWork.getCommentRepo().findByReservationId(reservationIn.getId());
-			// SoapGetResponse getUser =
-			// userServiceClient.getUser(lista.get(0).getPublisherId());
+			List<CommentDbModel> reservations = unitOfWork.getCommentRepo().findByReservationId(reservationIn.getId());
 			SoapInternalGetUserRequest userRequest = new SoapInternalGetUserRequest();
-			userRequest.setId(lista.get(0).getPublisherId());
+			userRequest.setId(reservations.get(0).getPublisherId());
 			SoapGetResponse getUser = userServiceClient.send(userRequest);
 
-			ratingAndComment.setUserId(lista.get(0).getId());
+			ratingAndComment.setUserId(reservations.get(0).getId());
 			ratingAndComment.setUserName(getUser.getFirstName() + " " + getUser.getLastName());
-			ratingAndComment.setComment(lista.get(0).getComment());
+			ratingAndComment.setComment(reservations.get(0).getComment());
 			ratingAndComment.setRating(reservationIn.getRating());
 			ratingAndComment.setReplies(new SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies());
 
-			for (int i = 1; i < lista.size(); i++) {
-				SoapAgentByIdRequest getAgent = new SoapAgentByIdRequest();
-				getAgent.setAgentId(lista.get(i).getPublisherId());
-				SoapAgentByIdResponse agent = agentServiceClient.send(getAgent);
+			for (int i = 1; i < reservations.size(); i++) {
 				SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply reply = new SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply();
-				reply.setPublisherName(agent.getName());
-				reply.setComment(lista.get(i).getComment());
-				reply.setPublisherId(lista.get(i).getPublisherId());
-				reply.setPublisherTypeId(lista.get(i).getPublisherType().getId());
+				
+				reply.setPublisherName(fetchPublisherName(reservations.get(i).getPublisherType().getName(), reservations.get(i).getPublisherId()));
+				
+				reply.setComment(reservations.get(i).getComment());
+				reply.setPublisherId(reservations.get(i).getPublisherId());
+				reply.setPublisherTypeId(reservations.get(i).getPublisherType().getId());
+				reply.setPublisherTypeName(reservations.get(i).getPublisherType().getName());
+				final GregorianCalendar calendar = new GregorianCalendar();
+	            calendar.setTimeInMillis(reservations.get(i).getUnixTimestamp().longValue());
+				try {
+					reply.setDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar));
+				} catch (DatatypeConfigurationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				ratingAndComment.getReplies().getReply().add(reply);
 			}
 			response.getComments().getComment().add(ratingAndComment);
@@ -398,5 +406,35 @@ public class ScheduleProvider {
 		}
 		response.setSuccess(true);
 		return response;
+	}
+	
+	public String fetchPublisherName(String publisherTypeName, Integer publisherId) {
+		//Fetch publisher name
+		//If user
+		if(publisherTypeName.equals("USER")) {
+			try {
+				SoapGetResponse userResponse = userServiceClient.getUser(publisherId);
+				if(userResponse.isSuccess()) {
+					return userResponse.getFirstName()+" "+userResponse.getLastName();	
+				}
+			} catch (Exception e) {
+				System.out.println(e);
+				return null;
+			}
+		}
+		
+		//If agent
+		if(publisherTypeName.equals("AGENT")) {
+			try {
+				SoapAgentByIdResponse agentResponse = agentServiceClient.getAgent(publisherId);
+				if(agentResponse.isSuccess()) {
+					return agentResponse.getName();
+				}
+			} catch (Exception e) {
+				System.out.println(e);
+				return null;
+			}
+		}
+		return null;
 	}
 }

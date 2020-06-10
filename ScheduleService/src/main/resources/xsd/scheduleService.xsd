@@ -123,6 +123,68 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
+	
+	<xs:element name="soapCartRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="Car">
+    	<xs:sequence>
+        	<xs:element name="carId" type="xs:int" nillable="true"/>
+        	<xs:element name="reservationId" type="xs:int" nillable="true"/>
+        	<xs:element name="locationId" type="xs:int" nillable="true"/>
+        	<xs:element name="locationName" type="xs:string"/>
+        	<xs:element name="modelId" type="xs:int" nillable="true"/>
+        	<xs:element name="modelName" type="xs:string"/>
+        	<xs:element name="manufacturerId" type="xs:int" nillable="true"/>
+        	<xs:element name="manufacturerName" type="xs:string"/>
+        	<xs:element name="fuelTypeId" type="xs:int" nillable="true"/>
+        	<xs:element name="fuelTypeName" type="xs:string"/>
+        	<xs:element name="transmissionTypeId" type="xs:int" nillable="true"/>
+        	<xs:element name="transmissionTypeName" type="xs:string"/>
+        	<xs:element name="carClassId" type="xs:int" nillable="true"/>
+        	<xs:element name="carClassName" type="xs:string"/>
+        	<xs:element name="mileage" type="xs:int" nillable="true"/>
+        	<xs:element name="mileageThreshold" type="xs:int" nillable="true"/>
+        	<xs:element name="mileagePenalty" type="xs:int" nillable="true"/>
+        	<xs:element name="warrantyIncluded" type="xs:boolean" nillable="true"/>
+        	<xs:element name="totalPrice" type="xs:int" nillable="true"/>
+        	<xs:element name="childSeats" type="xs:int" nillable="true"/>
+        	<xs:element name="rating" type="xs:int" nillable="true"/>
+        	<xs:element name="publisherId" type="xs:int" nillable="true"/>
+        	<xs:element name="publisherName" type="xs:string"/>
+        	<xs:element name="publisherTypeId" type="xs:int" nillable="true"/>
+        	<xs:element name="publisherTypeName" type="xs:string"/>
+        	<xs:element name="image" minOccurs="0" maxOccurs="unbounded" type="xs:int"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="Bundle">
+    	<xs:sequence>
+        	<xs:element name="bundleId" type="xs:int" nillable="true"/>
+        	<xs:element name="publisherId" type="xs:int" nillable="true"/>
+        	<xs:element name="publisherName" type="xs:string"/>
+        	<xs:element name="publisherTypeId" type="xs:int" nillable="true"/>
+        	<xs:element name="publisherTypeName" type="xs:string"/>
+        	<xs:element name="car" type="tns:Car" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="soapCartResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType">
+					<xs:sequence>
+        				<xs:element name="bundle" type="tns:Bundle" minOccurs="1" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 
 	<xs:element name="soapCarRatingRequest">
 		<xs:complexType>

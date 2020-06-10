@@ -9,7 +9,7 @@ INSERT INTO RESERVATION_STATE ( ID, NAME) VALUES (7, 'CART');
 INSERT INTO RESERVATION_STATE ( ID, NAME) VALUES (8, 'DENIED');
 
 --PUBLISHER-TYPE------------------------------------
-INSERT INTO PUBLISHER_TYPE (ID, NAME) VALUES (1, 'BASIC');
+INSERT INTO PUBLISHER_TYPE (ID, NAME) VALUES (1, 'USER');
 INSERT INTO PUBLISHER_TYPE (ID, NAME) VALUES (2, 'AGENT');
 
 --PRICE-LIST-----------------------------------------------
@@ -163,115 +163,118 @@ VALUES (16, 4, 4, 4, PARSEDATETIME('4 Jan 2020, 08:00:00 AM','dd MMM yyyy, hh:mm
 
 --COMMENT-------------------------------
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (1, 1, 1, 1, TRUE, '1589927112', 'Beautiful car, great service');
+VALUES (1, 1, 1, 1, TRUE, '1591826330946', 'Beautiful car, great service');
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (2, 1, 2, 1, TRUE, '1589927112', 'Thank you, we hope to see you again soon!');
+VALUES (2, 1, 2, 1, TRUE, '1591826330946', 'Thank you, we hope to see you again soon!');
+
+INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
+VALUES (3, 1, 1, 1, TRUE, '1591826330946', 'OK, Thank you!');
 
 ---
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (3, 1, 1, 2, TRUE, '1589927112', 'The car was very dirty and there was a rattling noise coming from the engine.');
+VALUES (4, 1, 1, 2, TRUE, '1591826330946', 'The car was very dirty and there was a rattling noise coming from the engine.');
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (4, 1, 2, 2, TRUE, '1589927112', 'We are sorry to hear you had a bad experience. All cars are thoroughly cleaned. We also consider all complaints very seriously. We hope to see you again!');
+VALUES (5, 1, 2, 2, TRUE, '1591826330946', 'We are sorry to hear you had a bad experience. All cars are thoroughly cleaned. We also consider all complaints very seriously. We hope to see you again!');
 
 --
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (5, 1, 1, 3, TRUE, '1589927112', 'Never again!!');
+VALUES (6, 1, 1, 3, TRUE, '1591826330946', 'Never again!!');
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (6, 1, 2, 3, TRUE, '1589927112', 'Dear customer, we are sorry you had a bad experience. We still hope to remedy any complaints you may have, and hope to serve you in the future.');
+VALUES (7, 1, 2, 3, TRUE, '1591826330946', 'Dear customer, we are sorry you had a bad experience. We still hope to remedy any complaints you may have, and hope to serve you in the future.');
 
 --
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (7, 1, 1, 4, TRUE, '1589927112', 'You get what you pay for');
+VALUES (8, 1, 1, 4, TRUE, '1591826330946', 'You get what you pay for');
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (8, 1, 2, 4, TRUE, '1589927112', 'Dear user, thank you for your comment and rating. We try to keep our services at low cost. The cars are maintained after every use.');
+VALUES (9, 1, 2, 4, TRUE, '1591826330946', 'Dear user, thank you for your comment and rating. We try to keep our services at low cost. The cars are maintained after every use.');
 
 --
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (9, 1, 1, 5, TRUE, '1589927112', 'Will reserve again');
+VALUES (10, 1, 1, 5, TRUE, '1591826330946', 'Will reserve again');
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (10, 1, 2, 5, TRUE, '1589927112', 'Dear customer, we are happy to hear you are satisfied with our services. Thank you, we hope to see you again soon!');
+VALUES (11, 1, 2, 5, TRUE, '1591826330946', 'Dear customer, we are happy to hear you are satisfied with our services. Thank you, we hope to see you again soon!');
 
 --
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (11, 1, 1, 6, TRUE, '1589927112', 'Such a great car');
+VALUES (12, 1, 1, 6, TRUE, '1591826330946', 'Such a great car');
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (12, 1, 2, 6, TRUE, '1589927112', 'Thank you for your comment and rating. We are happy to hear you are satisfied with our car and services. We hope to see you again soon!');
+VALUES (13, 1, 2, 6, TRUE, '1591826330946', 'Thank you for your comment and rating. We are happy to hear you are satisfied with our car and services. We hope to see you again soon!');
 
 --
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (13, 1, 1, 7, TRUE, '1589927112', 'I am 76 years old and just returned this car after reserving it for 5 days. Owned many cars in my lifetime,Corvett, Land rover,fords and on and on , cannot compare to this car. ');
+VALUES (14, 1, 1, 7, TRUE, '1591826330946', 'I am 76 years old and just returned this car after reserving it for 5 days. Owned many cars in my lifetime,Corvett, Land rover,fords and on and on , cannot compare to this car. ');
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (14, 1, 2, 7, TRUE, '1589927112', 'Thank you for your rating and comment, we hope to see you again soon!');
+VALUES (15, 1, 2, 7, TRUE, '1591826330946', 'Thank you for your rating and comment, we hope to see you again soon!');
 
 --
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (15, 1, 1, 8, TRUE, '1589927112', 'I gave 4 stars because of the price');
+VALUES (16, 1, 1, 8, TRUE, '1591826330946', 'I gave 4 stars because of the price');
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (16, 1, 2, 8, TRUE, '1589927112', 'Dear customer, thank you for your reply and rating. Our prices are as low as possible, while still maintaining good services.');
+VALUES (17, 1, 2, 8, TRUE, '1591826330946', 'Dear customer, thank you for your reply and rating. Our prices are as low as possible, while still maintaining good services.');
 
 --
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (17, 1, 1, 9, TRUE, '1589927112', 'Just no.');
+VALUES (18, 1, 1, 9, TRUE, '1591826330946', 'Just no.');
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (18, 1, 2, 9, TRUE, '1589927112', 'We are sorry you are not satisfied with our services. We hope to see you again and resolve any issues that you may have had.');
+VALUES (19, 1, 2, 9, TRUE, '1591826330946', 'We are sorry you are not satisfied with our services. We hope to see you again and resolve any issues that you may have had.');
 
 --
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (19, 1, 1, 10, TRUE, '1589927112', 'Dirty, old, rusted, do not want to be caught in it ever again');
+VALUES (20, 1, 1, 10, TRUE, '1591826330946', 'Dirty, old, rusted, do not want to be caught in it ever again');
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (20, 1, 2, 10, TRUE, '1589927112', 'Dear customer, we are sorry to hear you had a bad experience. We hope to see you again and resolve any issues that you may have had.');
+VALUES (21, 1, 2, 10, TRUE, '1591826330946', 'Dear customer, we are sorry to hear you had a bad experience. We hope to see you again and resolve any issues that you may have had.');
 --
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (21, 1, 1, 11, TRUE, '1589927112', 'It looks nothing like in the picture. Someone crashed in the door and it does not close well. Had to slam the door at every cross-road');
-
---
-
-INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (22, 1, 1, 13, TRUE, '1589927112','You get what you pay for, it is worth the money but it is not in mint condition');
-
-INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (23, 1, 2, 13, TRUE, '1589927112','Dear user, thank you for your comment and rating. We try to keep our services at low cost. The cars are maintained after every use.');
+VALUES (22, 1, 1, 11, TRUE, '1591826330946', 'It looks nothing like in the picture. Someone crashed in the door and it does not close well. Had to slam the door at every cross-road');
 
 --
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (24, 1, 1, 14, TRUE, '1589927112','There was a weird smell, otherwise ok');
+VALUES (23, 1, 1, 13, TRUE, '1591826330946','You get what you pay for, it is worth the money but it is not in mint condition');
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (25, 1, 2, 14, TRUE, '1589927112','Dear customer, we are sorry to hear you had a bad experience. We hope to see you again and resolve any other issues you may have had.');
+VALUES (24, 1, 2, 13, TRUE, '1591826330946','Dear user, thank you for your comment and rating. We try to keep our services at low cost. The cars are maintained after every use.');
 
 --
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (26, 1, 1, 15, TRUE, '1589927112','I rented this car for my sons prom, he was very happy');
+VALUES (25, 1, 1, 14, TRUE, '1591826330946','There was a weird smell, otherwise ok');
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (27, 1, 2, 15, TRUE, '1589927112','Thank you, we hope to see you again soon!');
+VALUES (26, 1, 2, 14, TRUE, '1591826330946','Dear customer, we are sorry to hear you had a bad experience. We hope to see you again and resolve any other issues you may have had.');
 
 --
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (28, 1, 1, 16, TRUE, '1589927112','It would not start so I was late, but it was ok after that');
+VALUES (27, 1, 1, 15, TRUE, '1591826330946','I rented this car for my sons prom, he was very happy');
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (29, 1, 2, 16, TRUE, '1589927112','Thank you for your rating and comment, we hope we managed to resolve your issues in time. Hope to see you again soon!');
+VALUES (28, 1, 2, 15, TRUE, '1591826330946','Thank you, we hope to see you again soon!');
+
+--
+
+INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
+VALUES (29, 1, 1, 16, TRUE, '1591826330946','It would not start so I was late, but it was ok after that');
+
+INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
+VALUES (30, 1, 2, 16, TRUE, '1591826330946','Thank you for your rating and comment, we hope we managed to resolve your issues in time. Hope to see you again soon!');

@@ -1,8 +1,12 @@
 package com.student.scheduleservice.internal.provider;
 
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,10 +20,14 @@ import com.student.scheduleservice.jwt.JwtUtil;
 import com.student.scheduleservice.soap.client.AgentServiceClient;
 import com.student.scheduleservice.soap.client.CarServiceClient;
 import com.student.scheduleservice.soap.client.UserServiceClient;
+import com.student.scheduleservice.soap.contract.Bundle;
+import com.student.scheduleservice.soap.contract.Car;
 import com.student.scheduleservice.soap.contract.SoapCartAddCarRequest;
+import com.student.scheduleservice.soap.contract.SoapCartRequest;
+import com.student.scheduleservice.soap.contract.SoapCartResponse;
 import com.student.scheduleservice.soap.contract.SoapResponse;
-import com.student.soap.carService.contract.SoapCarRequest;
-import com.student.soap.carService.contract.SoapCarResponse;
+import com.student.soap.carservice.contract.SoapCarRequest;
+import com.student.soap.carservice.contract.SoapCarResponse;
 
 @Component("CartProvider")
 public class CartProvider {
@@ -108,6 +116,89 @@ public class CartProvider {
 		}
 		
 		unitOfWork.getReservationRepo().save(reservation);
+		response.setSuccess(true);
+		return response;
+	}
+	
+	public SoapCartResponse getCart(SoapCartRequest request) {
+		SoapCartResponse response = new SoapCartResponse();
+		
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+
+		if (!token.isValid() || token.getUserId() == null || !token.getRoleName().equals("BASIC")) {
+			response.setAuthorized(false);
+			return response;
+		}
+
+		response.setAuthorized(true);
+		
+		List<BundleDbModel> bundles = unitOfWork.getBundleRepo().findByUserIdAndStateId(token.getUserId(), 7);
+		for(BundleDbModel bundleIn: bundles)
+		{
+			Bundle bundleOut = new Bundle();
+			bundleOut.setBundleId(bundleIn.getId());
+			bundleOut.setPublisherId(bundleIn.getPublisherId());
+			bundleOut.setPublisherTypeId(bundleIn.getPublisherType().getId());
+			bundleOut.setPublisherTypeName(bundleIn.getPublisherType().getName());
+			
+			//Fetch publisher name
+			bundleOut.setPublisherName(scheduleProvider.fetchPublisherName(bundleIn.getPublisherType().getName(), bundleIn.getPublisherId()));
+			
+			for(ReservationDbModel reservationIn: bundleIn.getReservations()) {				
+				try {
+					Car reservationOut = new Car();
+					
+					// fetch car
+					SoapCarRequest soapCarRequest = new SoapCarRequest();
+					soapCarRequest.setId(reservationIn.getCarId());
+					GregorianCalendar startDateGreg = new GregorianCalendar();
+					startDateGreg.setTime(reservationIn.getStartDate());
+					GregorianCalendar endDateGreg = new GregorianCalendar();
+					endDateGreg.setTime(reservationIn.getEndDate());
+					soapCarRequest.setStartDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(startDateGreg));
+					soapCarRequest.setEndDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(endDateGreg));
+					SoapCarResponse soapCarResponse = carServiceClient.send(soapCarRequest);
+
+					if (!soapCarResponse.isSuccess()) {
+						return response;
+					}
+					
+					reservationOut.setReservationId(reservationIn.getId());
+					reservationOut.setCarId(reservationIn.getCarId());
+					reservationOut.setWarrantyIncluded(reservationIn.isWarrantyIncluded());
+					reservationOut.setTotalPrice(reservationIn.getTotalPrice());
+					
+					reservationOut.setMileagePenalty(soapCarResponse.getCar().getMileagePenalty());
+					reservationOut.setMileageThreshold(soapCarResponse.getCar().getMileageThreshold());
+					reservationOut.setCarClassId(soapCarResponse.getCar().getCarClassId());
+					reservationOut.setCarClassName(soapCarResponse.getCar().getCarClassName());
+					reservationOut.setLocationId(soapCarResponse.getCar().getLocationId());
+					reservationOut.setLocationName(soapCarResponse.getCar().getLocationName());
+					reservationOut.setModelId(soapCarResponse.getCar().getModelId());
+					reservationOut.setModelName(soapCarResponse.getCar().getModelName());
+					reservationOut.setManufacturerId(soapCarResponse.getCar().getManufacturerId());
+					reservationOut.setManufacturerName(soapCarResponse.getCar().getManufacturerName());
+					reservationOut.setFuelTypeName(soapCarResponse.getCar().getFuelTypeName());
+					reservationOut.setFuelTypeId(soapCarResponse.getCar().getFuelTypeId());
+					reservationOut.setTransmissionTypeName(soapCarResponse.getCar().getTransmissionTypeName());
+					reservationOut.setTransmissionTypeId(soapCarResponse.getCar().getTransmissionTypeId());
+					reservationOut.setMileage(soapCarResponse.getCar().getMileage());
+					reservationOut.setChildSeats(soapCarResponse.getCar().getChildSeats());
+					reservationOut.setPublisherId(soapCarResponse.getCar().getPublisherId());
+					reservationOut.setPublisherTypeId(soapCarResponse.getCar().getPublisherTypeId());
+					reservationOut.setPublisherTypeName(soapCarResponse.getCar().getPublisherTypeName());
+					reservationOut.setRating(soapCarResponse.getCar().getRating());
+					reservationOut.getImage().addAll(soapCarResponse.getCar().getImage());
+					
+					bundleOut.getCar().add(reservationOut);
+				} catch (DatatypeConfigurationException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			response.getBundle().add(bundleOut);
+		}
+		
 		response.setSuccess(true);
 		return response;
 	}

@@ -11,6 +11,7 @@ import com.student.http.contract.HttpCarModelResponse;
 import com.student.http.contract.HttpCarRequest;
 import com.student.http.contract.HttpCarResponse;
 import com.student.http.contract.HttpCartAddCarRequest;
+import com.student.http.contract.HttpCartResponse;
 import com.student.http.contract.HttpCommentResponse;
 import com.student.http.contract.HttpEditRequest;
 import com.student.http.contract.HttpGetResponse;
@@ -28,11 +29,13 @@ import com.student.soap.carservice.contract.SoapCarResponse;
 import com.student.soap.carservice.contract.SoapNamedObjectsResponse;
 import com.student.soap.carservice.contract.SoapSearchCarsRequest;
 import com.student.soap.carservice.contract.SoapSearchCarsResponse;
+import com.student.soap.scheduleservice.contract.Bundle;
 import com.student.soap.scheduleservice.contract.SoapCarAvailabilityRequest;
 import com.student.soap.scheduleservice.contract.SoapCarRatingRequest;
 import com.student.soap.scheduleservice.contract.SoapCarRatingsAndCommentsRequest;
 import com.student.soap.scheduleservice.contract.SoapCarRatingsAndCommentsResponse;
 import com.student.soap.scheduleservice.contract.SoapCartAddCarRequest;
+import com.student.soap.scheduleservice.contract.SoapCartResponse;
 import com.student.soap.userservice.contract.SoapEditRequest;
 import com.student.soap.userservice.contract.SoapGetRequest;
 import com.student.soap.userservice.contract.SoapGetResponse;
@@ -308,6 +311,55 @@ public class Translator {
 		output.setStartDate(input.getStartDate());
 		output.setEndDate(input.getEndDate());
 		output.setCollisionWarranty(input.isCollisionWarranty());
+		
+		return output;
+	}
+
+	public List<HttpCartResponse> translate(SoapCartResponse input) {
+		List<HttpCartResponse> output = new ArrayList<>();
+		
+		for(Bundle bundleIn: input.getBundle()) {
+			HttpCartResponse bundleOut = new HttpCartResponse();
+			bundleOut.setBundleId(bundleIn.getBundleId());
+			bundleOut.setPublisherId(bundleIn.getPublisherId());
+			bundleOut.setPublisherName(bundleIn.getPublisherName());
+			bundleOut.setPublisherTypeId(bundleIn.getPublisherTypeId());
+			bundleOut.setPublisherTypeName(bundleIn.getPublisherTypeName());
+			
+			for(com.student.soap.scheduleservice.contract.Car carIn: bundleIn.getCar()) {
+				HttpCartResponse.Car carOut = new HttpCartResponse.Car();
+				
+				carOut.setReservationId(carIn.getReservationId());
+				carOut.setCarId(carIn.getCarId());
+				carOut.setWarrantyIncluded(carIn.isWarrantyIncluded());
+				carOut.setTotalPrice(carIn.getTotalPrice());				
+				carOut.setMileagePenalty(carIn.getMileagePenalty());
+				carOut.setMileageThreshold(carIn.getMileageThreshold());
+				carOut.setCarClassId(carIn.getCarClassId());
+				carOut.setCarClassName(carIn.getCarClassName());
+				carOut.setLocationId(carIn.getLocationId());
+				carOut.setLocationName(carIn.getLocationName());
+				carOut.setModelId(carIn.getModelId());
+				carOut.setModelName(carIn.getModelName());
+				carOut.setManufacturerId(carIn.getManufacturerId());
+				carOut.setManufacturerName(carIn.getManufacturerName());
+				carOut.setFuelTypeName(carIn.getFuelTypeName());
+				carOut.setFuelTypeId(carIn.getFuelTypeId());
+				carOut.setTransmissionTypeName(carIn.getTransmissionTypeName());
+				carOut.setTransmissionTypeId(carIn.getTransmissionTypeId());
+				carOut.setMileage(carIn.getMileage());
+				carOut.setChildSeats(carIn.getChildSeats());
+				carOut.setPublisherId(carIn.getPublisherId());
+				carOut.setPublisherTypeId(carIn.getPublisherTypeId());
+				carOut.setPublisherTypeName(carIn.getPublisherTypeName());
+				carOut.setRating(carIn.getRating());
+				carOut.getImages().addAll(carIn.getImage());
+				
+				bundleOut.getCars().add(carOut);
+			}
+			
+			output.add(bundleOut);
+		}
 		
 		return output;
 	}

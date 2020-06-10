@@ -120,6 +120,68 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
+	
+	<xs:element name="soapCartRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="Car">
+    	<xs:sequence>
+        	<xs:element name="carId" nillable="true" type="xs:int"/>
+        	<xs:element name="reservationId" nillable="true" type="xs:int"/>
+        	<xs:element name="locationId" nillable="true" type="xs:int"/>
+        	<xs:element name="locationName" type="xs:string"/>
+        	<xs:element name="modelId" nillable="true" type="xs:int"/>
+        	<xs:element name="modelName" type="xs:string"/>
+        	<xs:element name="manufacturerId" nillable="true" type="xs:int"/>
+        	<xs:element name="manufacturerName" type="xs:string"/>
+        	<xs:element name="fuelTypeId" nillable="true" type="xs:int"/>
+        	<xs:element name="fuelTypeName" type="xs:string"/>
+        	<xs:element name="transmissionTypeId" nillable="true" type="xs:int"/>
+        	<xs:element name="transmissionTypeName" type="xs:string"/>
+        	<xs:element name="carClassId" nillable="true" type="xs:int"/>
+        	<xs:element name="carClassName" type="xs:string"/>
+        	<xs:element name="mileage" nillable="true" type="xs:int"/>
+        	<xs:element name="mileageThreshold" nillable="true" type="xs:int"/>
+        	<xs:element name="mileagePenalty" nillable="true" type="xs:int"/>
+        	<xs:element name="warrantyIncluded" nillable="true" type="xs:boolean"/>
+        	<xs:element name="totalPrice" nillable="true" type="xs:int"/>
+        	<xs:element name="childSeats" nillable="true" type="xs:int"/>
+        	<xs:element name="rating" nillable="true" type="xs:int"/>
+        	<xs:element name="publisherId" nillable="true" type="xs:int"/>
+        	<xs:element name="publisherName" type="xs:string"/>
+        	<xs:element name="publisherTypeId" nillable="true" type="xs:int"/>
+        	<xs:element name="publisherTypeName" type="xs:string"/>
+        	<xs:element maxOccurs="unbounded" minOccurs="0" name="image" type="xs:int"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="Bundle">
+    	<xs:sequence>
+        	<xs:element name="bundleId" nillable="true" type="xs:int"/>
+        	<xs:element name="publisherId" nillable="true" type="xs:int"/>
+        	<xs:element name="publisherName" type="xs:string"/>
+        	<xs:element name="publisherTypeId" nillable="true" type="xs:int"/>
+        	<xs:element name="publisherTypeName" type="xs:string"/>
+        	<xs:element maxOccurs="unbounded" minOccurs="1" name="car" type="tns:Car"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="soapCartResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType">
+					<xs:sequence>
+        				<xs:element maxOccurs="unbounded" minOccurs="1" name="bundle" type="tns:Bundle"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 
 	<xs:element name="soapCarRatingRequest">
 		<xs:complexType>
@@ -327,6 +389,10 @@
     <wsdl:part element="tns:soapCartUnbundleRequest" name="soapCartUnbundleRequest">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="soapCartResponse">
+    <wsdl:part element="tns:soapCartResponse" name="soapCartResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="soapCarRatingRequest">
     <wsdl:part element="tns:soapCarRatingRequest" name="soapCarRatingRequest">
     </wsdl:part>
@@ -337,6 +403,10 @@
   </wsdl:message>
   <wsdl:message name="soapCarPriceRequest">
     <wsdl:part element="tns:soapCarPriceRequest" name="soapCarPriceRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCartRequest">
+    <wsdl:part element="tns:soapCartRequest" name="soapCartRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapDeleteCarPriceListRequest">
@@ -403,6 +473,12 @@
     <wsdl:operation name="soapCartUnbundle">
       <wsdl:input message="tns:soapCartUnbundleRequest" name="soapCartUnbundleRequest">
     </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCart">
+      <wsdl:input message="tns:soapCartRequest" name="soapCartRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:soapCartResponse" name="soapCartResponse">
+    </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="soapCartAddCar">
       <wsdl:input message="tns:soapCartAddCarRequest" name="soapCartAddCarRequest">
@@ -502,6 +578,15 @@
       <wsdl:input name="soapCartUnbundleRequest">
         <soap:body use="literal"/>
       </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCart">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCartRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="soapCartResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="soapCartAddCar">
       <soap:operation soapAction=""/>
