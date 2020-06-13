@@ -1,0 +1,1417 @@
+{
+	"info": {
+		"_postman_id": "73cf9cd2-ce59-4145-9215-d07d3dcc9250",
+		"name": "XML",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\t\t\n\t\"email\":\"korisnik@mail.com\",\n\t\"firstName\":\"Korisnik1\",\n\t\"lastName\":\"Korisnik1\",\n\t\"phone\":\"202020\",\n\t\"password\":\"Asd123CV\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8085/user/register",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"admin@mail.com\",\n\t\"password\":\"student123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8085/user/login",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"user",
+								"login"
+							]
+						},
+						"description": "Sifra je uvek student123\r\nstudent@mail.com - obican korisnik\r\nagent@mail.com - korisnik agencije 1\r\nadmin@mail.com - system admin\r\n\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "GetProfile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBR0VOVCIsInJvbGVJZCI6MiwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9XSwidXNlcklkIjoyLCJwdXJwb3NlIjoiQVVUSEVOVElDQVRJT04ifQ.h0eRnMA-zRY9Aig4T9DLynXUtR3njjMyPQZmqFwymKnt2gn3DMqPT-1zozftY4WZSeVnrqWdPuOmuA_VycC6eG-ra_6muDm4gcvep0tDKaOyOn2ZYHibojjLtuBq9pKGBe6i37ExM1Rkjx42rgCg2VcBaxcptqB7ioMgUfYQAONGYIkHix3U_mlAYYqo-ISOyLUn4x67ZxO5Mufu-Ml9Xrs0bwgXBzAY05nfvsFKFs1CXZM5UtUzddJj1ri305fgYiBUi243cPKsPncbBsjiPE2A1c6Sn3a36tr4KM5S3yEMImNtUcNQ_9vgMcF3pSWpKrFx52hXYwb_DqBM9vvqFw",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8085/user/getProfile",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"user",
+								"getProfile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditProfile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBR0VOVCIsInJvbGVJZCI6MiwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9XSwidXNlcklkIjoyLCJwdXJwb3NlIjoiQVVUSEVOVElDQVRJT04ifQ.h0eRnMA-zRY9Aig4T9DLynXUtR3njjMyPQZmqFwymKnt2gn3DMqPT-1zozftY4WZSeVnrqWdPuOmuA_VycC6eG-ra_6muDm4gcvep0tDKaOyOn2ZYHibojjLtuBq9pKGBe6i37ExM1Rkjx42rgCg2VcBaxcptqB7ioMgUfYQAONGYIkHix3U_mlAYYqo-ISOyLUn4x67ZxO5Mufu-Ml9Xrs0bwgXBzAY05nfvsFKFs1CXZM5UtUzddJj1ri305fgYiBUi243cPKsPncbBsjiPE2A1c6Sn3a36tr4KM5S3yEMImNtUcNQ_9vgMcF3pSWpKrFx52hXYwb_DqBM9vvqFw",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Novo IME\",\r\n    \"lastName\": \"Korisnik1\",\r\n    \"phone\": \"202020\",\r\n    \"email\": \"korisnik@mail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8085/user/editProfile",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"user",
+								"editProfile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8085/user/verify/eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwidXNlcklkIjo0LCJwdXJwb3NlIjoiRU1BSUxfVkVSSUZJQ0FUSU9OIn0.YHzRKfEu5hOhrppkraetdZbTDDZMc07OZVb-F_9IQq-3_Z-7O7zwhO1bLpEJDGTTA_LrHvnlDpyzs-DqTB6dzDKLZVTGI-2rMRrCVoZ5kD_D9bJDZks3lZQn9ED2QRdBOtURBekrmbel8sqnsVe2sHGD__UV10wKUmYMvHKqcBEC8CJhvBZTA5d7UjtMNHkv3b5p0SkVfgh4gicjbYOgV6rbX86nKVahU2rogRyzBI0FsCdDTZMrW5-0PE9VGXWhjN4gRrQggce1LfPAAfFNaqPRNmMjKi6he2dKsJZ3GlbZRrRb2TugNe5_SrF7tUj7M6JTNFF4yHuR30h7uxtk_Q",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"user",
+								"verify",
+								"eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwidXNlcklkIjo0LCJwdXJwb3NlIjoiRU1BSUxfVkVSSUZJQ0FUSU9OIn0.YHzRKfEu5hOhrppkraetdZbTDDZMc07OZVb-F_9IQq-3_Z-7O7zwhO1bLpEJDGTTA_LrHvnlDpyzs-DqTB6dzDKLZVTGI-2rMRrCVoZ5kD_D9bJDZks3lZQn9ED2QRdBOtURBekrmbel8sqnsVe2sHGD__UV10wKUmYMvHKqcBEC8CJhvBZTA5d7UjtMNHkv3b5p0SkVfgh4gicjbYOgV6rbX86nKVahU2rogRyzBI0FsCdDTZMrW5-0PE9VGXWhjN4gRrQggce1LfPAAfFNaqPRNmMjKi6he2dKsJZ3GlbZRrRb2TugNe5_SrF7tUj7M6JTNFF4yHuR30h7uxtk_Q"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8085/user/1/activate",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"user",
+								"1",
+								"activate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBRE1JTiIsInJvbGVJZCI6MywicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOm51bGwsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOm51bGwsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6bnVsbCwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6bnVsbCwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjpudWxsfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6bnVsbH1dLCJ1c2VySWQiOjMsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.kYXPsV0y18V7emZMUmmUdMGmaTXbpMr-CEOmH5dn5PNSkWoiiwcYLoc-JnYbKAAvCSUyOjKHUakL-lPfF4pK99-TQqpDuRx37T9DLkxglq1duJ6v5EXna8lTO7AjV2j_3jh5shx03Bridfa5k0WiTNenYfwt_Rsd_cGQXZ1Kcj-0fTBV8hkGfs_5LGOC5eJ5Yb_v3QjH7I2f4d_AxTfC-rfaXlYi5oQnzUGsTTBKPDFb8KRVxCPHgqWlHSpBzfRH3KFYrLgiK9RSMerrvzQ_xHKVHaPBPR5qtzYJ4bRUBljXDc_0jZAFgPB8abN_k8OVCk0-BokPR2HGGv7Oqptcrg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:8085/user/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Block User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBRE1JTiIsInJvbGVJZCI6MywicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOm51bGwsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOm51bGwsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6bnVsbCwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6bnVsbCwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjpudWxsfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6bnVsbH1dLCJ1c2VySWQiOjMsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.kYXPsV0y18V7emZMUmmUdMGmaTXbpMr-CEOmH5dn5PNSkWoiiwcYLoc-JnYbKAAvCSUyOjKHUakL-lPfF4pK99-TQqpDuRx37T9DLkxglq1duJ6v5EXna8lTO7AjV2j_3jh5shx03Bridfa5k0WiTNenYfwt_Rsd_cGQXZ1Kcj-0fTBV8hkGfs_5LGOC5eJ5Yb_v3QjH7I2f4d_AxTfC-rfaXlYi5oQnzUGsTTBKPDFb8KRVxCPHgqWlHSpBzfRH3KFYrLgiK9RSMerrvzQ_xHKVHaPBPR5qtzYJ4bRUBljXDc_0jZAFgPB8abN_k8OVCk0-BokPR2HGGv7Oqptcrg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:8085/user/2/block",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"user",
+								"2",
+								"block"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "CarService",
+			"item": [
+				{
+					"name": "Image",
+					"item": [
+						{
+							"name": "Get Image",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:8085/car/image/1",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"image",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post Image",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBRE1JTiIsInJvbGVJZCI6MywicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOm51bGwsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOm51bGwsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6bnVsbCwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6bnVsbCwicmVzb3VyY2VJZCI6bnVsbH1dLCJ1c2VySWQiOjMsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.gxjT1pC00d8xMHQziCBbeT7E9HQdxtK-n9zIX9JDsXSx-lmxud2TGL5oXjh-7R6MGFJx7ASTkFF8V15GrNGq6SnlsQSq4zNMQHgjRKNVznLfmqMN8MvuSR8jXG29nOMmQBcFNAXMPjbjaWy74eIME8XOSQshajUW-mhYDhT-LUu6EaMOm6WmhXNXQjP5yUAD-T8pyb3W0dVJl_eor-hqLP5NnXAVFF_lau2325jF3csHuM2yDRA2ce_7vUr0L-OdU10xE6iNx63HnaKY2s3rfNsZcGGlnarhIpQRkXXdds4zU0sbLFGLRS6Najhh_2CQNzmSWdZVyJz4L_X1BLVXMg",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/D:/viber_image_2020-03-01_17-15-52.jpg"
+										}
+									],
+									"options": {
+										"formdata": {}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:8085/car/1/image",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"1",
+										"image"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Image",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBRE1JTiIsInJvbGVJZCI6MywicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOm51bGwsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOm51bGwsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6bnVsbCwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6bnVsbCwicmVzb3VyY2VJZCI6bnVsbH1dLCJ1c2VySWQiOjMsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.gxjT1pC00d8xMHQziCBbeT7E9HQdxtK-n9zIX9JDsXSx-lmxud2TGL5oXjh-7R6MGFJx7ASTkFF8V15GrNGq6SnlsQSq4zNMQHgjRKNVznLfmqMN8MvuSR8jXG29nOMmQBcFNAXMPjbjaWy74eIME8XOSQshajUW-mhYDhT-LUu6EaMOm6WmhXNXQjP5yUAD-T8pyb3W0dVJl_eor-hqLP5NnXAVFF_lau2325jF3csHuM2yDRA2ce_7vUr0L-OdU10xE6iNx63HnaKY2s3rfNsZcGGlnarhIpQRkXXdds4zU0sbLFGLRS6Najhh_2CQNzmSWdZVyJz4L_X1BLVXMg",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/D:/viber_image_2020-03-01_17-15-52.jpg"
+										}
+									],
+									"options": {
+										"formdata": {}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:8085/car/image/14",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"image",
+										"14"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Car",
+					"item": [
+						{
+							"name": "Get Car",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\":\"5\",\n\t\"startDate\":\"2020-09-01T19:00:00.000Z\",\n\t\"endDate\":\"2020-09-03T19:00:00.000Z\",\n\t\"plannedMileage\": null\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:8085/car/getCar",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"getCar"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Car",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBR0VOVCIsInJvbGVJZCI6MiwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX1dLCJ1c2VySWQiOjIsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.h4WgArg176txU5NGarpgAdjg0ZVHsmKHc1f8sGuo0HkWbZIvQDyLfAyupC3w24QBXGWtjxaePUd3y3Aj6RzuIQukFvNqVsSesIin6zet48M-AhJIbfUE_O-dh-CPh27l1-l43rP3-q91xMbzjFJjgQ-6jd7eLNPGl4MOd0kHS-RXOjD7AZRTpUnrFekeU-HBYihcp5MSVScNQA6TzhoUCdhECQrCKTlZMCS1RP7ThoVTOATG1pQemn-3_rDYpXevi8dKppWhk8tCUHRKvAlKpesgNkrMKslM0Otw_eRYoiIxVYyiVr1a0_Ep749UIcsIWHgXyWNS59huGtqtttPt-Q",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"modelId\": 1,\r\n    \"fuelTypeId\": 1,\r\n    \"transmissionTypeId\": 1,\r\n    \"carClassId\": 3,\r\n    \"mileage\": 225000,\r\n    \"childSeats\": 1,\r\n    \"publisherId\":1,\r\n    \"publisherTypeId\":2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:8085/car/add",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search Cars",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"locationId\": \"1\",\n\t\"startDate\":\"2020-09-01T10:00:00.000Z\",\n\t\"endDate\":\"2020-09-03T15:00:00.000Z\",\n\t\"publisherTypeId\": null,\n\t\"manufacturerId\": null,\n\t\"modelId\": null,\n\t\"fuelTypeId\": null,\n\t\"transmissionTypeId\": null,\n\t\"carClassId\": null,\n\t\"minMileage\": null,\n\t\"maxMileage\": null,\n\t\"minChildSeats\": null,\n\t\"maxPrice\": null,\n\t\"minPrice\": null,\n\t\"plannedMileage\": null,\n\t\"collisionWarranty\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:8085/car/search",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"search"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Car Class",
+					"item": [
+						{
+							"name": "Get all Car Classes",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:8085/car/classes",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"classes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Car Class",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBRE1JTiIsInJvbGVJZCI6MywicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOm51bGwsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOm51bGwsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6bnVsbCwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6bnVsbCwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjpudWxsfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6bnVsbH1dLCJ1c2VySWQiOjMsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.kYXPsV0y18V7emZMUmmUdMGmaTXbpMr-CEOmH5dn5PNSkWoiiwcYLoc-JnYbKAAvCSUyOjKHUakL-lPfF4pK99-TQqpDuRx37T9DLkxglq1duJ6v5EXna8lTO7AjV2j_3jh5shx03Bridfa5k0WiTNenYfwt_Rsd_cGQXZ1Kcj-0fTBV8hkGfs_5LGOC5eJ5Yb_v3QjH7I2f4d_AxTfC-rfaXlYi5oQnzUGsTTBKPDFb8KRVxCPHgqWlHSpBzfRH3KFYrLgiK9RSMerrvzQ_xHKVHaPBPR5qtzYJ4bRUBljXDc_0jZAFgPB8abN_k8OVCk0-BokPR2HGGv7Oqptcrg",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\":\"NewCarClass\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:8085/car/classes",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"classes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Car Class",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBRE1JTiIsInJvbGVJZCI6MywicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOm51bGwsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOm51bGwsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6bnVsbCwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6bnVsbCwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjpudWxsfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6bnVsbH1dLCJ1c2VySWQiOjMsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.kYXPsV0y18V7emZMUmmUdMGmaTXbpMr-CEOmH5dn5PNSkWoiiwcYLoc-JnYbKAAvCSUyOjKHUakL-lPfF4pK99-TQqpDuRx37T9DLkxglq1duJ6v5EXna8lTO7AjV2j_3jh5shx03Bridfa5k0WiTNenYfwt_Rsd_cGQXZ1Kcj-0fTBV8hkGfs_5LGOC5eJ5Yb_v3QjH7I2f4d_AxTfC-rfaXlYi5oQnzUGsTTBKPDFb8KRVxCPHgqWlHSpBzfRH3KFYrLgiK9RSMerrvzQ_xHKVHaPBPR5qtzYJ4bRUBljXDc_0jZAFgPB8abN_k8OVCk0-BokPR2HGGv7Oqptcrg",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://localhost:8085/car/classes/5",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"classes",
+										"5"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Manufacturers",
+					"item": [
+						{
+							"name": "Get all Manufactures",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:8085/car/manufacturers",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"manufacturers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Manufacturer",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"type": "text",
+										"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBRE1JTiIsInJvbGVJZCI6MywicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOm51bGwsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOm51bGwsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6bnVsbCwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6bnVsbCwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjpudWxsfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6bnVsbH1dLCJ1c2VySWQiOjMsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.kYXPsV0y18V7emZMUmmUdMGmaTXbpMr-CEOmH5dn5PNSkWoiiwcYLoc-JnYbKAAvCSUyOjKHUakL-lPfF4pK99-TQqpDuRx37T9DLkxglq1duJ6v5EXna8lTO7AjV2j_3jh5shx03Bridfa5k0WiTNenYfwt_Rsd_cGQXZ1Kcj-0fTBV8hkGfs_5LGOC5eJ5Yb_v3QjH7I2f4d_AxTfC-rfaXlYi5oQnzUGsTTBKPDFb8KRVxCPHgqWlHSpBzfRH3KFYrLgiK9RSMerrvzQ_xHKVHaPBPR5qtzYJ4bRUBljXDc_0jZAFgPB8abN_k8OVCk0-BokPR2HGGv7Oqptcrg"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\":\"NewCarClass\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:8085/car/manufacturers",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"manufacturers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Manufacturer",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBRE1JTiIsInJvbGVJZCI6MywicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOm51bGwsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOm51bGwsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6bnVsbCwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6bnVsbCwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjpudWxsfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6bnVsbH1dLCJ1c2VySWQiOjMsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.kYXPsV0y18V7emZMUmmUdMGmaTXbpMr-CEOmH5dn5PNSkWoiiwcYLoc-JnYbKAAvCSUyOjKHUakL-lPfF4pK99-TQqpDuRx37T9DLkxglq1duJ6v5EXna8lTO7AjV2j_3jh5shx03Bridfa5k0WiTNenYfwt_Rsd_cGQXZ1Kcj-0fTBV8hkGfs_5LGOC5eJ5Yb_v3QjH7I2f4d_AxTfC-rfaXlYi5oQnzUGsTTBKPDFb8KRVxCPHgqWlHSpBzfRH3KFYrLgiK9RSMerrvzQ_xHKVHaPBPR5qtzYJ4bRUBljXDc_0jZAFgPB8abN_k8OVCk0-BokPR2HGGv7Oqptcrg",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://localhost:8085/car/manufacturers/11",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"manufacturers",
+										"11"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Locations",
+					"item": [
+						{
+							"name": "Get all Locations",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:8085/car/locations",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"locations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Location",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"type": "text",
+										"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBRE1JTiIsInJvbGVJZCI6MywicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOm51bGwsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOm51bGwsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6bnVsbCwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6bnVsbCwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjpudWxsfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6bnVsbH1dLCJ1c2VySWQiOjMsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.kYXPsV0y18V7emZMUmmUdMGmaTXbpMr-CEOmH5dn5PNSkWoiiwcYLoc-JnYbKAAvCSUyOjKHUakL-lPfF4pK99-TQqpDuRx37T9DLkxglq1duJ6v5EXna8lTO7AjV2j_3jh5shx03Bridfa5k0WiTNenYfwt_Rsd_cGQXZ1Kcj-0fTBV8hkGfs_5LGOC5eJ5Yb_v3QjH7I2f4d_AxTfC-rfaXlYi5oQnzUGsTTBKPDFb8KRVxCPHgqWlHSpBzfRH3KFYrLgiK9RSMerrvzQ_xHKVHaPBPR5qtzYJ4bRUBljXDc_0jZAFgPB8abN_k8OVCk0-BokPR2HGGv7Oqptcrg"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\":\"NewCarClass\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:8085/car/locations",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"locations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Location",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "token",
+										"type": "text",
+										"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBRE1JTiIsInJvbGVJZCI6MywicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOm51bGwsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOm51bGwsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6bnVsbCwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6bnVsbCwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjpudWxsfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6bnVsbH1dLCJ1c2VySWQiOjMsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.kYXPsV0y18V7emZMUmmUdMGmaTXbpMr-CEOmH5dn5PNSkWoiiwcYLoc-JnYbKAAvCSUyOjKHUakL-lPfF4pK99-TQqpDuRx37T9DLkxglq1duJ6v5EXna8lTO7AjV2j_3jh5shx03Bridfa5k0WiTNenYfwt_Rsd_cGQXZ1Kcj-0fTBV8hkGfs_5LGOC5eJ5Yb_v3QjH7I2f4d_AxTfC-rfaXlYi5oQnzUGsTTBKPDFb8KRVxCPHgqWlHSpBzfRH3KFYrLgiK9RSMerrvzQ_xHKVHaPBPR5qtzYJ4bRUBljXDc_0jZAFgPB8abN_k8OVCk0-BokPR2HGGv7Oqptcrg"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\":\"NewCarClass\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:8085/car/locations/21",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"locations",
+										"21"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Models",
+					"item": [
+						{
+							"name": "Get all Models",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:8085/car/models",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"models"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Model",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"type": "text",
+										"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBRE1JTiIsInJvbGVJZCI6MywicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOm51bGwsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOm51bGwsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6bnVsbCwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6bnVsbCwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjpudWxsfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6bnVsbH1dLCJ1c2VySWQiOjMsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.kYXPsV0y18V7emZMUmmUdMGmaTXbpMr-CEOmH5dn5PNSkWoiiwcYLoc-JnYbKAAvCSUyOjKHUakL-lPfF4pK99-TQqpDuRx37T9DLkxglq1duJ6v5EXna8lTO7AjV2j_3jh5shx03Bridfa5k0WiTNenYfwt_Rsd_cGQXZ1Kcj-0fTBV8hkGfs_5LGOC5eJ5Yb_v3QjH7I2f4d_AxTfC-rfaXlYi5oQnzUGsTTBKPDFb8KRVxCPHgqWlHSpBzfRH3KFYrLgiK9RSMerrvzQ_xHKVHaPBPR5qtzYJ4bRUBljXDc_0jZAFgPB8abN_k8OVCk0-BokPR2HGGv7Oqptcrg"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\":\"NewCarClass\",\n\t\"manufacturerId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:8085/car/models",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"models"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Model",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "token",
+										"type": "text",
+										"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBRE1JTiIsInJvbGVJZCI6MywicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOm51bGwsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOm51bGwsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6bnVsbCwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6bnVsbCwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjpudWxsfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6bnVsbH1dLCJ1c2VySWQiOjMsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.kYXPsV0y18V7emZMUmmUdMGmaTXbpMr-CEOmH5dn5PNSkWoiiwcYLoc-JnYbKAAvCSUyOjKHUakL-lPfF4pK99-TQqpDuRx37T9DLkxglq1duJ6v5EXna8lTO7AjV2j_3jh5shx03Bridfa5k0WiTNenYfwt_Rsd_cGQXZ1Kcj-0fTBV8hkGfs_5LGOC5eJ5Yb_v3QjH7I2f4d_AxTfC-rfaXlYi5oQnzUGsTTBKPDFb8KRVxCPHgqWlHSpBzfRH3KFYrLgiK9RSMerrvzQ_xHKVHaPBPR5qtzYJ4bRUBljXDc_0jZAFgPB8abN_k8OVCk0-BokPR2HGGv7Oqptcrg"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\":\"NewCarClass\",\n\t\"manufacturerId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:8085/car/models/19",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"models",
+										"19"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Models by Manufacturer",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:8085/car/manufacturer/1/models",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"manufacturer",
+										"1",
+										"models"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Fuel Types",
+					"item": [
+						{
+							"name": "Get all Fuel Types",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:8085/car/fuelTypes",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"fuelTypes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Fuel Type",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"type": "text",
+										"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBRE1JTiIsInJvbGVJZCI6MywicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOm51bGwsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOm51bGwsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6bnVsbCwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6bnVsbCwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjpudWxsfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6bnVsbH1dLCJ1c2VySWQiOjMsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.kYXPsV0y18V7emZMUmmUdMGmaTXbpMr-CEOmH5dn5PNSkWoiiwcYLoc-JnYbKAAvCSUyOjKHUakL-lPfF4pK99-TQqpDuRx37T9DLkxglq1duJ6v5EXna8lTO7AjV2j_3jh5shx03Bridfa5k0WiTNenYfwt_Rsd_cGQXZ1Kcj-0fTBV8hkGfs_5LGOC5eJ5Yb_v3QjH7I2f4d_AxTfC-rfaXlYi5oQnzUGsTTBKPDFb8KRVxCPHgqWlHSpBzfRH3KFYrLgiK9RSMerrvzQ_xHKVHaPBPR5qtzYJ4bRUBljXDc_0jZAFgPB8abN_k8OVCk0-BokPR2HGGv7Oqptcrg"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\":\"NewCarClass\",\n\t\"manufacturerId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:8085/car/fuelTypes",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"fuelTypes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Fuel Type",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "token",
+										"type": "text",
+										"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBRE1JTiIsInJvbGVJZCI6MywicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOm51bGwsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOm51bGwsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6bnVsbCwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6bnVsbCwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjpudWxsfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6bnVsbH1dLCJ1c2VySWQiOjMsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.kYXPsV0y18V7emZMUmmUdMGmaTXbpMr-CEOmH5dn5PNSkWoiiwcYLoc-JnYbKAAvCSUyOjKHUakL-lPfF4pK99-TQqpDuRx37T9DLkxglq1duJ6v5EXna8lTO7AjV2j_3jh5shx03Bridfa5k0WiTNenYfwt_Rsd_cGQXZ1Kcj-0fTBV8hkGfs_5LGOC5eJ5Yb_v3QjH7I2f4d_AxTfC-rfaXlYi5oQnzUGsTTBKPDFb8KRVxCPHgqWlHSpBzfRH3KFYrLgiK9RSMerrvzQ_xHKVHaPBPR5qtzYJ4bRUBljXDc_0jZAFgPB8abN_k8OVCk0-BokPR2HGGv7Oqptcrg"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\":\"NewCarClass\",\n\t\"manufacturerId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:8085/car/fuelTypes/6",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"fuelTypes",
+										"6"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Transmission Type",
+					"item": [
+						{
+							"name": "Get all Transmission Types",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:8085/car/transmissionTypes",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"transmissionTypes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add TransmissionType",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"type": "text",
+										"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBRE1JTiIsInJvbGVJZCI6MywicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOm51bGwsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOm51bGwsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6bnVsbCwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6bnVsbCwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjpudWxsfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6bnVsbH1dLCJ1c2VySWQiOjMsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.kYXPsV0y18V7emZMUmmUdMGmaTXbpMr-CEOmH5dn5PNSkWoiiwcYLoc-JnYbKAAvCSUyOjKHUakL-lPfF4pK99-TQqpDuRx37T9DLkxglq1duJ6v5EXna8lTO7AjV2j_3jh5shx03Bridfa5k0WiTNenYfwt_Rsd_cGQXZ1Kcj-0fTBV8hkGfs_5LGOC5eJ5Yb_v3QjH7I2f4d_AxTfC-rfaXlYi5oQnzUGsTTBKPDFb8KRVxCPHgqWlHSpBzfRH3KFYrLgiK9RSMerrvzQ_xHKVHaPBPR5qtzYJ4bRUBljXDc_0jZAFgPB8abN_k8OVCk0-BokPR2HGGv7Oqptcrg"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\":\"NewCarClass\",\n\t\"manufacturerId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:8085/car/transmissionTypes",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"transmissionTypes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Transmission Type",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "token",
+										"type": "text",
+										"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBRE1JTiIsInJvbGVJZCI6MywicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOm51bGwsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOm51bGwsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6bnVsbCwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6bnVsbCwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjpudWxsfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6bnVsbH1dLCJ1c2VySWQiOjMsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.kYXPsV0y18V7emZMUmmUdMGmaTXbpMr-CEOmH5dn5PNSkWoiiwcYLoc-JnYbKAAvCSUyOjKHUakL-lPfF4pK99-TQqpDuRx37T9DLkxglq1duJ6v5EXna8lTO7AjV2j_3jh5shx03Bridfa5k0WiTNenYfwt_Rsd_cGQXZ1Kcj-0fTBV8hkGfs_5LGOC5eJ5Yb_v3QjH7I2f4d_AxTfC-rfaXlYi5oQnzUGsTTBKPDFb8KRVxCPHgqWlHSpBzfRH3KFYrLgiK9RSMerrvzQ_xHKVHaPBPR5qtzYJ4bRUBljXDc_0jZAFgPB8abN_k8OVCk0-BokPR2HGGv7Oqptcrg"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\":\"NewCarClass\",\n\t\"manufacturerId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:8085/car/transmissionTypes/4",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"car",
+										"transmissionTypes",
+										"4"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "52713ff8-46d8-468f-8ebc-38a9120da8e1",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "b49ee920-9d9b-4352-94b4-e97b86471dca",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "Add To Cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJCQVNJQyIsInJvbGVJZCI6MSwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjEsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJVU0VSIiwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjIsInJlc291cmNlVHlwZUlkIjoxLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgSW1hZ2UiLCJyZXNvdXJjZVR5cGVOYW1lIjoiVVNFUiIsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjo0LCJyZXNvdXJjZVR5cGVJZCI6MSwicGVybWlzc2lvbk5hbWUiOiJBZGQgUHJpY2UiLCJyZXNvdXJjZVR5cGVOYW1lIjoiVVNFUiIsInJlc291cmNlSWQiOm51bGx9XSwidXNlcklkIjoxLCJwdXJwb3NlIjoiQVVUSEVOVElDQVRJT04ifQ.t5_IX0-ef91YS-keyr_NIT67h2gHsFDzN7yRTw1oTjHNj-HM8RyfUK-gkhkbYDPwBMV8dGvl0sqkLAFAXvaKNbRA2C53Np4iN0PEZHtrNnAOT215A_Jr2gCFBBhaSi_CaV82tV-pwp2AQM7FZBsl2Rhgc-Y9Bql_yoLEnfbTBrv7yzrmxGJiWvzBZKHS4p81r1I6r8BOcy5eqaqUwN_1bQni9rhocMwNbqoCs8cwtGXy_FvGaPCLIyLKfLtHBLJNSjXmqstecIkivLROs_7VMZ1CAuFPTE6W2zpEbS9ELzz80xkNx3GzEBtcRzFd4YgowPRPgSsP_KaHE7jTM57F9g",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"carId\":\"1\",\n\t\"startDate\":\"2020-09-01T19:00:00.000Z\",\n\t\"endDate\":\"2020-09-03T19:00:00.000Z\",\n\t\"collisionWarranty\":false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8085/schedule/cart",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cart",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJCQVNJQyIsInJvbGVJZCI6MSwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjEsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJVU0VSIiwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjIsInJlc291cmNlVHlwZUlkIjoxLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgSW1hZ2UiLCJyZXNvdXJjZVR5cGVOYW1lIjoiVVNFUiIsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjo0LCJyZXNvdXJjZVR5cGVJZCI6MSwicGVybWlzc2lvbk5hbWUiOiJBZGQgUHJpY2UiLCJyZXNvdXJjZVR5cGVOYW1lIjoiVVNFUiIsInJlc291cmNlSWQiOm51bGx9XSwidXNlcklkIjoxLCJwdXJwb3NlIjoiQVVUSEVOVElDQVRJT04ifQ.t5_IX0-ef91YS-keyr_NIT67h2gHsFDzN7yRTw1oTjHNj-HM8RyfUK-gkhkbYDPwBMV8dGvl0sqkLAFAXvaKNbRA2C53Np4iN0PEZHtrNnAOT215A_Jr2gCFBBhaSi_CaV82tV-pwp2AQM7FZBsl2Rhgc-Y9Bql_yoLEnfbTBrv7yzrmxGJiWvzBZKHS4p81r1I6r8BOcy5eqaqUwN_1bQni9rhocMwNbqoCs8cwtGXy_FvGaPCLIyLKfLtHBLJNSjXmqstecIkivLROs_7VMZ1CAuFPTE6W2zpEbS9ELzz80xkNx3GzEBtcRzFd4YgowPRPgSsP_KaHE7jTM57F9g"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:8085/schedule/cart",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove from Cart",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJCQVNJQyIsInJvbGVJZCI6MSwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjEsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJVU0VSIiwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjIsInJlc291cmNlVHlwZUlkIjoxLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgSW1hZ2UiLCJyZXNvdXJjZVR5cGVOYW1lIjoiVVNFUiIsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjo0LCJyZXNvdXJjZVR5cGVJZCI6MSwicGVybWlzc2lvbk5hbWUiOiJBZGQgUHJpY2UiLCJyZXNvdXJjZVR5cGVOYW1lIjoiVVNFUiIsInJlc291cmNlSWQiOm51bGx9XSwidXNlcklkIjoxLCJwdXJwb3NlIjoiQVVUSEVOVElDQVRJT04ifQ.t5_IX0-ef91YS-keyr_NIT67h2gHsFDzN7yRTw1oTjHNj-HM8RyfUK-gkhkbYDPwBMV8dGvl0sqkLAFAXvaKNbRA2C53Np4iN0PEZHtrNnAOT215A_Jr2gCFBBhaSi_CaV82tV-pwp2AQM7FZBsl2Rhgc-Y9Bql_yoLEnfbTBrv7yzrmxGJiWvzBZKHS4p81r1I6r8BOcy5eqaqUwN_1bQni9rhocMwNbqoCs8cwtGXy_FvGaPCLIyLKfLtHBLJNSjXmqstecIkivLROs_7VMZ1CAuFPTE6W2zpEbS9ELzz80xkNx3GzEBtcRzFd4YgowPRPgSsP_KaHE7jTM57F9g"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8085/schedule/cart/17",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"cart",
+								"17"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bundle",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJCQVNJQyIsInJvbGVJZCI6MSwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjEsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJVU0VSIiwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjIsInJlc291cmNlVHlwZUlkIjoxLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgSW1hZ2UiLCJyZXNvdXJjZVR5cGVOYW1lIjoiVVNFUiIsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjo0LCJyZXNvdXJjZVR5cGVJZCI6MSwicGVybWlzc2lvbk5hbWUiOiJBZGQgUHJpY2UiLCJyZXNvdXJjZVR5cGVOYW1lIjoiVVNFUiIsInJlc291cmNlSWQiOm51bGx9XSwidXNlcklkIjoxLCJwdXJwb3NlIjoiQVVUSEVOVElDQVRJT04ifQ.t5_IX0-ef91YS-keyr_NIT67h2gHsFDzN7yRTw1oTjHNj-HM8RyfUK-gkhkbYDPwBMV8dGvl0sqkLAFAXvaKNbRA2C53Np4iN0PEZHtrNnAOT215A_Jr2gCFBBhaSi_CaV82tV-pwp2AQM7FZBsl2Rhgc-Y9Bql_yoLEnfbTBrv7yzrmxGJiWvzBZKHS4p81r1I6r8BOcy5eqaqUwN_1bQni9rhocMwNbqoCs8cwtGXy_FvGaPCLIyLKfLtHBLJNSjXmqstecIkivLROs_7VMZ1CAuFPTE6W2zpEbS9ELzz80xkNx3GzEBtcRzFd4YgowPRPgSsP_KaHE7jTM57F9g"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"publisherId\" : 1,\r\n    \"publisherTypeId\" : 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8085/schedule/cart/bundle",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"cart",
+								"bundle"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unbundle",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJCQVNJQyIsInJvbGVJZCI6MSwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjEsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJVU0VSIiwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjIsInJlc291cmNlVHlwZUlkIjoxLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgSW1hZ2UiLCJyZXNvdXJjZVR5cGVOYW1lIjoiVVNFUiIsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjo0LCJyZXNvdXJjZVR5cGVJZCI6MSwicGVybWlzc2lvbk5hbWUiOiJBZGQgUHJpY2UiLCJyZXNvdXJjZVR5cGVOYW1lIjoiVVNFUiIsInJlc291cmNlSWQiOm51bGx9XSwidXNlcklkIjoxLCJwdXJwb3NlIjoiQVVUSEVOVElDQVRJT04ifQ.t5_IX0-ef91YS-keyr_NIT67h2gHsFDzN7yRTw1oTjHNj-HM8RyfUK-gkhkbYDPwBMV8dGvl0sqkLAFAXvaKNbRA2C53Np4iN0PEZHtrNnAOT215A_Jr2gCFBBhaSi_CaV82tV-pwp2AQM7FZBsl2Rhgc-Y9Bql_yoLEnfbTBrv7yzrmxGJiWvzBZKHS4p81r1I6r8BOcy5eqaqUwN_1bQni9rhocMwNbqoCs8cwtGXy_FvGaPCLIyLKfLtHBLJNSjXmqstecIkivLROs_7VMZ1CAuFPTE6W2zpEbS9ELzz80xkNx3GzEBtcRzFd4YgowPRPgSsP_KaHE7jTM57F9g"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"publisherId\" : 1,\r\n    \"publisherTypeId\" : 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8085/schedule/cart/unbundle",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"cart",
+								"unbundle"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Comment",
+			"item": [
+				{
+					"name": "Get Car Comments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8085/schedule/car/5/comments",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"car",
+								"5",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Reservations Pending Rating",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJCQVNJQyIsInJvbGVJZCI6MSwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjEsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJVU0VSIiwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjIsInJlc291cmNlVHlwZUlkIjoxLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgSW1hZ2UiLCJyZXNvdXJjZVR5cGVOYW1lIjoiVVNFUiIsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjo0LCJyZXNvdXJjZVR5cGVJZCI6MSwicGVybWlzc2lvbk5hbWUiOiJBZGQgUHJpY2UiLCJyZXNvdXJjZVR5cGVOYW1lIjoiVVNFUiIsInJlc291cmNlSWQiOm51bGx9XSwidXNlcklkIjoxLCJwdXJwb3NlIjoiQVVUSEVOVElDQVRJT04ifQ.t5_IX0-ef91YS-keyr_NIT67h2gHsFDzN7yRTw1oTjHNj-HM8RyfUK-gkhkbYDPwBMV8dGvl0sqkLAFAXvaKNbRA2C53Np4iN0PEZHtrNnAOT215A_Jr2gCFBBhaSi_CaV82tV-pwp2AQM7FZBsl2Rhgc-Y9Bql_yoLEnfbTBrv7yzrmxGJiWvzBZKHS4p81r1I6r8BOcy5eqaqUwN_1bQni9rhocMwNbqoCs8cwtGXy_FvGaPCLIyLKfLtHBLJNSjXmqstecIkivLROs_7VMZ1CAuFPTE6W2zpEbS9ELzz80xkNx3GzEBtcRzFd4YgowPRPgSsP_KaHE7jTM57F9g",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:8085/schedule/ratings/pending",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"ratings",
+								"pending"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Rating",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJCQVNJQyIsInJvbGVJZCI6MSwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjEsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJVU0VSIiwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjIsInJlc291cmNlVHlwZUlkIjoxLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgSW1hZ2UiLCJyZXNvdXJjZVR5cGVOYW1lIjoiVVNFUiIsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjo0LCJyZXNvdXJjZVR5cGVJZCI6MSwicGVybWlzc2lvbk5hbWUiOiJBZGQgUHJpY2UiLCJyZXNvdXJjZVR5cGVOYW1lIjoiVVNFUiIsInJlc291cmNlSWQiOm51bGx9XSwidXNlcklkIjoxLCJwdXJwb3NlIjoiQVVUSEVOVElDQVRJT04ifQ.t5_IX0-ef91YS-keyr_NIT67h2gHsFDzN7yRTw1oTjHNj-HM8RyfUK-gkhkbYDPwBMV8dGvl0sqkLAFAXvaKNbRA2C53Np4iN0PEZHtrNnAOT215A_Jr2gCFBBhaSi_CaV82tV-pwp2AQM7FZBsl2Rhgc-Y9Bql_yoLEnfbTBrv7yzrmxGJiWvzBZKHS4p81r1I6r8BOcy5eqaqUwN_1bQni9rhocMwNbqoCs8cwtGXy_FvGaPCLIyLKfLtHBLJNSjXmqstecIkivLROs_7VMZ1CAuFPTE6W2zpEbS9ELzz80xkNx3GzEBtcRzFd4YgowPRPgSsP_KaHE7jTM57F9g",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"reservationId\" : 18,\r\n    \"rating\" : 3,\r\n    \"comment\": \"Lorum Ipsum\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8085/schedule/ratings",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"ratings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Approve",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBRE1JTiIsInJvbGVJZCI6MywicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOm51bGwsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOm51bGwsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6bnVsbCwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6bnVsbCwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjpudWxsfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6bnVsbH1dLCJ1c2VySWQiOjMsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.kYXPsV0y18V7emZMUmmUdMGmaTXbpMr-CEOmH5dn5PNSkWoiiwcYLoc-JnYbKAAvCSUyOjKHUakL-lPfF4pK99-TQqpDuRx37T9DLkxglq1duJ6v5EXna8lTO7AjV2j_3jh5shx03Bridfa5k0WiTNenYfwt_Rsd_cGQXZ1Kcj-0fTBV8hkGfs_5LGOC5eJ5Yb_v3QjH7I2f4d_AxTfC-rfaXlYi5oQnzUGsTTBKPDFb8KRVxCPHgqWlHSpBzfRH3KFYrLgiK9RSMerrvzQ_xHKVHaPBPR5qtzYJ4bRUBljXDc_0jZAFgPB8abN_k8OVCk0-BokPR2HGGv7Oqptcrg"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:8085/schedule/comments/1/approve",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"comments",
+								"1",
+								"approve"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reject",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBRE1JTiIsInJvbGVJZCI6MywicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOm51bGwsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOm51bGwsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6bnVsbCwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6bnVsbCwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjpudWxsfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6bnVsbH1dLCJ1c2VySWQiOjMsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.kYXPsV0y18V7emZMUmmUdMGmaTXbpMr-CEOmH5dn5PNSkWoiiwcYLoc-JnYbKAAvCSUyOjKHUakL-lPfF4pK99-TQqpDuRx37T9DLkxglq1duJ6v5EXna8lTO7AjV2j_3jh5shx03Bridfa5k0WiTNenYfwt_Rsd_cGQXZ1Kcj-0fTBV8hkGfs_5LGOC5eJ5Yb_v3QjH7I2f4d_AxTfC-rfaXlYi5oQnzUGsTTBKPDFb8KRVxCPHgqWlHSpBzfRH3KFYrLgiK9RSMerrvzQ_xHKVHaPBPR5qtzYJ4bRUBljXDc_0jZAFgPB8abN_k8OVCk0-BokPR2HGGv7Oqptcrg"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:8085/schedule/comments/29/reject",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"comments",
+								"29",
+								"reject"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Comments Pending Approval",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBRE1JTiIsInJvbGVJZCI6MywicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOm51bGwsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOm51bGwsInJlc291cmNlSWQiOm51bGx9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6bnVsbCwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6bnVsbCwicmVzb3VyY2VJZCI6bnVsbH0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjpudWxsfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6bnVsbH1dLCJ1c2VySWQiOjMsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.kYXPsV0y18V7emZMUmmUdMGmaTXbpMr-CEOmH5dn5PNSkWoiiwcYLoc-JnYbKAAvCSUyOjKHUakL-lPfF4pK99-TQqpDuRx37T9DLkxglq1duJ6v5EXna8lTO7AjV2j_3jh5shx03Bridfa5k0WiTNenYfwt_Rsd_cGQXZ1Kcj-0fTBV8hkGfs_5LGOC5eJ5Yb_v3QjH7I2f4d_AxTfC-rfaXlYi5oQnzUGsTTBKPDFb8KRVxCPHgqWlHSpBzfRH3KFYrLgiK9RSMerrvzQ_xHKVHaPBPR5qtzYJ4bRUBljXDc_0jZAFgPB8abN_k8OVCk0-BokPR2HGGv7Oqptcrg"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:8085/schedule/comments/pending",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"comments",
+								"pending"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

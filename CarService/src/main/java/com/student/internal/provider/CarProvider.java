@@ -391,7 +391,8 @@ public class CarProvider {
 
 	public SoapCarResponse getCar(SoapCarRequest request) {
 		SoapCarResponse response = new SoapCarResponse();
-
+		response.setCar(new Car());
+		
 		boolean priceRequired = request.getStartDate()!= null && request.getEndDate()!= null;
 
 		Optional<CarDbModel> car = unitOfWork.getCarRepo().findById(request.getId());
@@ -437,8 +438,6 @@ public class CarProvider {
 				}
 			}
 		}
-
-		response.setCar(new Car());
 
 		response.getCar().setId(car.get().getId());
 		response.getCar().setLocationId(car.get().getLocation().getId());

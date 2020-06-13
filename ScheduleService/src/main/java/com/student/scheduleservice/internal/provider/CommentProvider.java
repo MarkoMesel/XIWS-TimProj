@@ -159,7 +159,7 @@ public class CommentProvider {
 
 		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
 
-		if (!token.isValid() || !token.getRoleName().equals("BASIC")) {
+		if (!token.isValid() || !token.getRoleName().equals("ADMIN")) {
 			response.setAuthorized(false);
 			return response;
 		}
