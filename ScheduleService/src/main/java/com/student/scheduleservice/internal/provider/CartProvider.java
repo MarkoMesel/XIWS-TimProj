@@ -23,8 +23,11 @@ import com.student.scheduleservice.soap.client.UserServiceClient;
 import com.student.scheduleservice.soap.contract.Bundle;
 import com.student.scheduleservice.soap.contract.Car;
 import com.student.scheduleservice.soap.contract.SoapCartAddCarRequest;
+import com.student.scheduleservice.soap.contract.SoapCartBundleRequest;
+import com.student.scheduleservice.soap.contract.SoapCartRemoveCarRequest;
 import com.student.scheduleservice.soap.contract.SoapCartRequest;
 import com.student.scheduleservice.soap.contract.SoapCartResponse;
+import com.student.scheduleservice.soap.contract.SoapCartUnbundleRequest;
 import com.student.scheduleservice.soap.contract.SoapResponse;
 import com.student.soap.carservice.contract.SoapCarRequest;
 import com.student.soap.carservice.contract.SoapCarResponse;
@@ -63,7 +66,7 @@ public class CartProvider {
 		}
 
 		response.setAuthorized(true);
-		
+
 		// fetch car
 		SoapCarRequest soapCarRequest = new SoapCarRequest();
 		soapCarRequest.setId(request.getCarId());
@@ -74,20 +77,24 @@ public class CartProvider {
 		if (!soapCarResponse.isSuccess()) {
 			return response;
 		}
-		
-		//check for existing bundle
-		BundleDbModel bundle = unitOfWork.getBundleRepo()
-				.findByUserIdAndStateIdAndPublisherIdAndPublisherTypeId(token.getUserId(), 7, soapCarResponse.getCar().getPublisherId(), soapCarResponse.getCar().getPublisherTypeId());
 
-		//check if the car is already in cart
-		//TODO: allow same car at different date? Not MVP
-		if(bundle!= null) {
-			int existingCarInCart = bundle.getReservations().stream().filter(reservation->reservation.getCarId()==request.getCarId()).collect(Collectors.toList()).size();
-			if( existingCarInCart>0) {
-				return response;				
+		// check for existing bundle
+		List<BundleDbModel> bundles = unitOfWork.getBundleRepo().findByUserIdAndStateIdAndPublisherIdAndPublisherTypeId(
+				token.getUserId(), 7, soapCarResponse.getCar().getPublisherId(),
+				soapCarResponse.getCar().getPublisherTypeId());
+		BundleDbModel bundle = null;
+		// check if the car is already in cart
+		// TODO: allow same car at different date? Not MVP
+		if (bundles.size() == 1) {
+			bundle = bundles.get(0);
+			int existingCarInCart = bundle.getReservations().stream()
+					.filter(reservation -> reservation.getCarId() == request.getCarId()).collect(Collectors.toList())
+					.size();
+			if (existingCarInCart > 0) {
+				return response;
 			}
 		}
-		
+
 		if (bundle == null || bundle.getReservations().size() <= 1) {
 			bundle = new BundleDbModel();
 			bundle.setUserId(token.getUserId());
@@ -107,22 +114,22 @@ public class CartProvider {
 		reservation.setCarId(request.getCarId());
 		reservation.setStartDate(request.getStartDate().toGregorianCalendar().getTime());
 		reservation.setEndDate(request.getEndDate().toGregorianCalendar().getTime());
-		
-		if(request.isCollisionWarranty()) {
-			reservation.setTotalPrice(soapCarResponse.getCar().getTotalPrice() + soapCarResponse.getCar().getCollisionWaranty());			
-		}
-		else {
+
+		if (request.isCollisionWarranty()) {
+			reservation.setTotalPrice(
+					soapCarResponse.getCar().getTotalPrice() + soapCarResponse.getCar().getCollisionWaranty());
+		} else {
 			reservation.setTotalPrice(soapCarResponse.getCar().getTotalPrice());
 		}
-		
+
 		unitOfWork.getReservationRepo().save(reservation);
 		response.setSuccess(true);
 		return response;
 	}
-	
+
 	public SoapCartResponse getCart(SoapCartRequest request) {
 		SoapCartResponse response = new SoapCartResponse();
-		
+
 		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
 
 		if (!token.isValid() || token.getUserId() == null || !token.getRoleName().equals("BASIC")) {
@@ -131,23 +138,23 @@ public class CartProvider {
 		}
 
 		response.setAuthorized(true);
-		
+
 		List<BundleDbModel> bundles = unitOfWork.getBundleRepo().findByUserIdAndStateId(token.getUserId(), 7);
-		for(BundleDbModel bundleIn: bundles)
-		{
+		for (BundleDbModel bundleIn : bundles) {
 			Bundle bundleOut = new Bundle();
 			bundleOut.setBundleId(bundleIn.getId());
 			bundleOut.setPublisherId(bundleIn.getPublisherId());
 			bundleOut.setPublisherTypeId(bundleIn.getPublisherType().getId());
 			bundleOut.setPublisherTypeName(bundleIn.getPublisherType().getName());
-			
-			//Fetch publisher name
-			bundleOut.setPublisherName(scheduleProvider.fetchPublisherName(bundleIn.getPublisherType().getName(), bundleIn.getPublisherId()));
-			
-			for(ReservationDbModel reservationIn: bundleIn.getReservations()) {				
+
+			// Fetch publisher name
+			bundleOut.setPublisherName(scheduleProvider.fetchPublisherName(bundleIn.getPublisherType().getName(),
+					bundleIn.getPublisherId()));
+
+			for (ReservationDbModel reservationIn : bundleIn.getReservations()) {
 				try {
 					Car reservationOut = new Car();
-					
+
 					// fetch car
 					SoapCarRequest soapCarRequest = new SoapCarRequest();
 					soapCarRequest.setId(reservationIn.getCarId());
@@ -162,12 +169,12 @@ public class CartProvider {
 					if (!soapCarResponse.isSuccess()) {
 						return response;
 					}
-					
+
 					reservationOut.setReservationId(reservationIn.getId());
 					reservationOut.setCarId(reservationIn.getCarId());
 					reservationOut.setWarrantyIncluded(reservationIn.isWarrantyIncluded());
 					reservationOut.setTotalPrice(reservationIn.getTotalPrice());
-					
+
 					reservationOut.setMileagePenalty(soapCarResponse.getCar().getMileagePenalty());
 					reservationOut.setMileageThreshold(soapCarResponse.getCar().getMileageThreshold());
 					reservationOut.setCarClassId(soapCarResponse.getCar().getCarClassId());
@@ -189,16 +196,139 @@ public class CartProvider {
 					reservationOut.setPublisherTypeName(soapCarResponse.getCar().getPublisherTypeName());
 					reservationOut.setRating(soapCarResponse.getCar().getRating());
 					reservationOut.getImage().addAll(soapCarResponse.getCar().getImage());
-					
+
 					bundleOut.getCar().add(reservationOut);
 				} catch (DatatypeConfigurationException e) {
 					e.printStackTrace();
 				}
 			}
-			
+
 			response.getBundle().add(bundleOut);
 		}
-		
+
+		response.setSuccess(true);
+		return response;
+	}
+
+	public SoapResponse removeCarFromCart(SoapCartRemoveCarRequest request) {
+		SoapResponse response = new SoapResponse();
+
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+
+		if (!token.isValid() || token.getUserId() == null || !token.getRoleName().equals("BASIC")) {
+			response.setAuthorized(false);
+			return response;
+		}
+
+		response.setAuthorized(true);
+
+		Optional<ReservationDbModel> car = unitOfWork.getReservationRepo().findById(request.getReservationId());
+		if (!car.isPresent() || car.get().getBundle().getState().getId() != 7
+				|| car.get().getBundle().getUserId() != token.getUserId()) {
+			return response;
+		}
+
+		BundleDbModel bundle = car.get().getBundle();
+
+		if (bundle.getReservations().size() == 1) {
+			unitOfWork.getBundleRepo().delete(bundle);
+		} else {
+			// need to fetch the reservation through the bundle, else exception
+			ReservationDbModel reservation = bundle.getReservations().stream()
+					.filter(x -> x.getId() == request.getReservationId()).findFirst().get();
+			unitOfWork.getReservationRepo().delete(reservation);
+		}
+
+		response.setSuccess(true);
+		return response;
+	}
+
+	public SoapResponse bundle(SoapCartBundleRequest request) {
+		SoapResponse response = new SoapResponse();
+
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+
+		if (!token.isValid() || token.getUserId() == null || !token.getRoleName().equals("BASIC")) {
+			response.setAuthorized(false);
+			return response;
+		}
+
+		response.setAuthorized(true);
+
+		List<BundleDbModel> bundles = unitOfWork.getBundleRepo().findByUserIdAndStateIdAndPublisherIdAndPublisherTypeId(
+				token.getUserId(), 7, request.getPublisherId(), request.getPublisherTypeId());
+		if (bundles.size() <= 1) {
+			return response;
+		}
+
+		BundleDbModel bundle = new BundleDbModel();
+		bundle.setPublisherId(request.getPublisherId());
+		bundle.setPublisherType(unitOfWork.getPublisherTypeRepo().findById(request.getPublisherTypeId()).get());
+		bundle.setState(unitOfWork.getReservationStateRepo().findById(7).get());
+		bundle.setUserId(token.getUserId());
+		unitOfWork.getBundleRepo().save(bundle);
+
+		for (BundleDbModel existingBundle : bundles) {
+			for (ReservationDbModel existingReservation : existingBundle.getReservations()) {
+				ReservationDbModel reservation = new ReservationDbModel();
+				reservation.setEndDate(existingReservation.getEndDate());
+				reservation.setCarId(existingReservation.getCarId());
+				reservation.setStartDate(existingReservation.getStartDate());
+				reservation.setTotalPrice(existingReservation.getTotalPrice());
+				reservation.setWarrantyIncluded(existingReservation.isWarrantyIncluded());
+				reservation.setBundle(bundle);
+
+				unitOfWork.getReservationRepo().save(reservation);
+			}
+			unitOfWork.getBundleRepo().delete(existingBundle);
+		}
+
+		response.setSuccess(true);
+		return response;
+	}
+
+	public SoapResponse unbundle(SoapCartUnbundleRequest request) {
+		SoapResponse response = new SoapResponse();
+
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+
+		if (!token.isValid() || token.getUserId() == null || !token.getRoleName().equals("BASIC")) {
+			response.setAuthorized(false);
+			return response;
+		}
+
+		response.setAuthorized(true);
+
+		List<BundleDbModel> bundles = unitOfWork.getBundleRepo().findByUserIdAndStateIdAndPublisherIdAndPublisherTypeId(
+				token.getUserId(), 7, request.getPublisherId(), request.getPublisherTypeId());
+		if (bundles.size() != 1 || bundles.get(0).getReservations().size() <= 1) {
+			return response;
+		}
+
+		BundleDbModel existingBundle = bundles.get(0);
+
+		for (ReservationDbModel existingReservation : existingBundle.getReservations()) {
+			BundleDbModel bundle = new BundleDbModel();
+			bundle.setPublisherId(existingBundle.getPublisherId());
+			bundle.setPublisherType(existingBundle.getPublisherType());
+			bundle.setState(existingBundle.getState());
+			bundle.setUserId(existingBundle.getUserId());
+
+			unitOfWork.getBundleRepo().save(bundle);
+
+			ReservationDbModel reservation = new ReservationDbModel();
+			reservation.setEndDate(existingReservation.getEndDate());
+			reservation.setCarId(existingReservation.getCarId());
+			reservation.setStartDate(existingReservation.getStartDate());
+			reservation.setTotalPrice(existingReservation.getTotalPrice());
+			reservation.setWarrantyIncluded(existingReservation.isWarrantyIncluded());
+			reservation.setBundle(bundle);
+
+			unitOfWork.getReservationRepo().save(reservation);
+		}
+
+		unitOfWork.getBundleRepo().delete(existingBundle);
+
 		response.setSuccess(true);
 		return response;
 	}

@@ -1,7 +1,9 @@
 package com.student.scheduleservice.data.dal;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -28,14 +30,14 @@ public class BundleDbModel {
 	@JoinColumn(name = "PUBLISHER_TYPE_ID")
 	private PublisherTypeDbModel publisherType;
 
-	@OneToMany(mappedBy = "bundle", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "bundle", cascade = CascadeType.REFRESH, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<ReservationDbModel> reservations;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "STATE_ID")
 	private ReservationStateDbModel state;
 
-	@OneToMany(mappedBy = "reservation")
+	@OneToMany(mappedBy = "bundle")
 	private List<MessageDbModel> messages;
 
 	public int getId() {
@@ -71,6 +73,9 @@ public class BundleDbModel {
 	}
 
 	public List<ReservationDbModel> getReservations() {
+		if(reservations == null) {
+			reservations = new ArrayList<>();
+		}
 		return reservations;
 	}
 

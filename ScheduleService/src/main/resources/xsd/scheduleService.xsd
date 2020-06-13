@@ -98,7 +98,8 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="token" type="xs:string" />
-				<xs:element name="agentId" type="xs:int" />
+				<xs:element name="publisherId" type="xs:int" />
+				<xs:element name="publisherTypeId" type="xs:int" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -107,7 +108,8 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="token" type="xs:string" />
-				<xs:element name="agentId" type="xs:int" />
+				<xs:element name="publisherId" type="xs:int" />
+				<xs:element name="publisherTypeId" type="xs:int" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -120,6 +122,15 @@
 				<xs:element name="startDate" type="xs:dateTime" />
 				<xs:element name="endDate" type="xs:dateTime" />
 				<xs:element name="collisionWarranty" type="xs:boolean" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapCartRemoveCarRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+				<xs:element name="reservationId" type="xs:int" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>

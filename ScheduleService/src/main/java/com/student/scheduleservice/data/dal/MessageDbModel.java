@@ -13,25 +13,25 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
-@Table(name="Message")
+@Table(name = "Message")
 public class MessageDbModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	private int publisherId;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "PUBLISHER_TYPE_ID")
 	private PublisherTypeDbModel publisherType;
-	
+
 	@NotEmpty
 	private String message;
-	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="RESERVATION_ID")
-	private ReservationDbModel reservation;
-	
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "BUNDLE_ID")
+	private BundleDbModel bundle;
+
 	private BigInteger unixTimestamp;
 
 	public int getId() {
@@ -50,12 +50,12 @@ public class MessageDbModel {
 		this.message = message;
 	}
 
-	public ReservationDbModel getReservation() {
-		return reservation;
+	public BundleDbModel getBundle() {
+		return bundle;
 	}
 
-	public void setReservation(ReservationDbModel reservation) {
-		this.reservation = reservation;
+	public void setBundle(BundleDbModel bundle) {
+		this.bundle = bundle;
 	}
 
 	public BigInteger getUnixTimestamp() {

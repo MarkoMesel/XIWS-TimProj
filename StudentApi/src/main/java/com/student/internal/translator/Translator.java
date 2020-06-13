@@ -11,6 +11,7 @@ import com.student.http.contract.HttpCarModelResponse;
 import com.student.http.contract.HttpCarRequest;
 import com.student.http.contract.HttpCarResponse;
 import com.student.http.contract.HttpCartAddCarRequest;
+import com.student.http.contract.HttpCartBundleRequest;
 import com.student.http.contract.HttpCartResponse;
 import com.student.http.contract.HttpCommentResponse;
 import com.student.http.contract.HttpEditRequest;
@@ -35,7 +36,9 @@ import com.student.soap.scheduleservice.contract.SoapCarRatingRequest;
 import com.student.soap.scheduleservice.contract.SoapCarRatingsAndCommentsRequest;
 import com.student.soap.scheduleservice.contract.SoapCarRatingsAndCommentsResponse;
 import com.student.soap.scheduleservice.contract.SoapCartAddCarRequest;
+import com.student.soap.scheduleservice.contract.SoapCartBundleRequest;
 import com.student.soap.scheduleservice.contract.SoapCartResponse;
+import com.student.soap.scheduleservice.contract.SoapCartUnbundleRequest;
 import com.student.soap.userservice.contract.SoapEditRequest;
 import com.student.soap.userservice.contract.SoapGetRequest;
 import com.student.soap.userservice.contract.SoapGetResponse;
@@ -312,6 +315,24 @@ public class Translator {
 		output.setEndDate(input.getEndDate());
 		output.setCollisionWarranty(input.isCollisionWarranty());
 		
+		return output;
+	}
+	
+	public SoapCartBundleRequest translateBundle(String token, HttpCartBundleRequest input) {
+		SoapCartBundleRequest output = new SoapCartBundleRequest();
+		
+		output.setToken(token);
+		output.setPublisherId(input.getPublisherId());
+		output.setPublisherTypeId(input.getPublisherTypeId());
+		return output;
+	}
+	
+	public SoapCartUnbundleRequest translateUnbundle(String token, HttpCartBundleRequest input) {
+		SoapCartUnbundleRequest output = new SoapCartUnbundleRequest();
+		
+		output.setToken(token);
+		output.setPublisherId(input.getPublisherId());
+		output.setPublisherTypeId(input.getPublisherTypeId());
 		return output;
 	}
 
