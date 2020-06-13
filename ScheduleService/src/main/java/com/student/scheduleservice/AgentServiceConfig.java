@@ -10,7 +10,7 @@ public class AgentServiceConfig {
 	@Bean
     public Jaxb2Marshaller agentServiceMarshaller(){
         Jaxb2Marshaller jaxb2Marshaller = new Jaxb2Marshaller();
-        jaxb2Marshaller.setPackagesToScan("com.student.soap.agentservice.contract");
+        jaxb2Marshaller.setPackagesToScan("com.student.soap.contract.agentservice");
         return jaxb2Marshaller;
     }
 }

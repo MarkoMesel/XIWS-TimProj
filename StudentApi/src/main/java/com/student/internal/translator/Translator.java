@@ -20,32 +20,35 @@ import com.student.http.contract.HttpLoginRequest;
 import com.student.http.contract.HttpLoginResponse;
 import com.student.http.contract.HttpNamedObjectResponse;
 import com.student.http.contract.HttpRegisterRequest;
+import com.student.http.contract.HttpRepliesAndCommentsResponse;
 import com.student.http.contract.HttpSearchCarsRequest;
-import com.student.soap.carservice.contract.Car;
-import com.student.soap.carservice.contract.NamedObject;
-import com.student.soap.carservice.contract.SoapAddCarRequest;
-import com.student.soap.carservice.contract.SoapCarModelsResponse;
-import com.student.soap.carservice.contract.SoapCarRequest;
-import com.student.soap.carservice.contract.SoapCarResponse;
-import com.student.soap.carservice.contract.SoapNamedObjectsResponse;
-import com.student.soap.carservice.contract.SoapSearchCarsRequest;
-import com.student.soap.carservice.contract.SoapSearchCarsResponse;
-import com.student.soap.scheduleservice.contract.Bundle;
-import com.student.soap.scheduleservice.contract.SoapCarAvailabilityRequest;
-import com.student.soap.scheduleservice.contract.SoapCarRatingRequest;
-import com.student.soap.scheduleservice.contract.SoapCarRatingsAndCommentsRequest;
-import com.student.soap.scheduleservice.contract.SoapCarRatingsAndCommentsResponse;
-import com.student.soap.scheduleservice.contract.SoapCartAddCarRequest;
-import com.student.soap.scheduleservice.contract.SoapCartBundleRequest;
-import com.student.soap.scheduleservice.contract.SoapCartResponse;
-import com.student.soap.scheduleservice.contract.SoapCartUnbundleRequest;
-import com.student.soap.userservice.contract.SoapEditRequest;
-import com.student.soap.userservice.contract.SoapGetRequest;
-import com.student.soap.userservice.contract.SoapGetResponse;
-import com.student.soap.userservice.contract.SoapLoginRequest;
-import com.student.soap.userservice.contract.SoapLoginResponse;
-import com.student.soap.userservice.contract.SoapRegisterRequest;
-import com.student.soap.userservice.contract.SoapVerifyRequest;
+import com.student.soap.contract.carservice.NamedObject;
+import com.student.soap.contract.carservice.SoapAddCarRequest;
+import com.student.soap.contract.carservice.SoapCarModelsResponse;
+import com.student.soap.contract.carservice.SoapCarRequest;
+import com.student.soap.contract.carservice.SoapCarResponse;
+import com.student.soap.contract.carservice.SoapNamedObjectsResponse;
+import com.student.soap.contract.carservice.SoapSearchCarsRequest;
+import com.student.soap.contract.carservice.SoapSearchCarsResponse;
+import com.student.soap.contract.scheduleservice.Bundle;
+import com.student.soap.contract.scheduleservice.Comment;
+import com.student.soap.contract.scheduleservice.Rating;
+import com.student.soap.contract.scheduleservice.SoapCarAvailabilityRequest;
+import com.student.soap.contract.scheduleservice.SoapCarRatingRequest;
+import com.student.soap.contract.scheduleservice.SoapCarRatingsAndCommentsRequest;
+import com.student.soap.contract.scheduleservice.SoapCarRatingsAndCommentsResponse;
+import com.student.soap.contract.scheduleservice.SoapCartAddCarRequest;
+import com.student.soap.contract.scheduleservice.SoapCartBundleRequest;
+import com.student.soap.contract.scheduleservice.SoapCartResponse;
+import com.student.soap.contract.scheduleservice.SoapCartUnbundleRequest;
+import com.student.soap.contract.scheduleservice.SoapPendingCommentsResponse;
+import com.student.soap.contract.userservice.SoapEditRequest;
+import com.student.soap.contract.userservice.SoapGetRequest;
+import com.student.soap.contract.userservice.SoapGetResponse;
+import com.student.soap.contract.userservice.SoapLoginRequest;
+import com.student.soap.contract.userservice.SoapLoginResponse;
+import com.student.soap.contract.userservice.SoapRegisterRequest;
+import com.student.soap.contract.userservice.SoapVerifyRequest;
 
 @Component("Translator")
 public class Translator {
@@ -196,7 +199,7 @@ public class Translator {
 
 	public SoapSearchCarsRequest translate(HttpSearchCarsRequest input) {
 		SoapSearchCarsRequest output = new SoapSearchCarsRequest();
-		
+
 		output.setCarClassId(input.getCarClassId());
 		output.setMinChildSeats(input.getMinChildSeats());
 		output.setFuelTypeId(input.getFuelTypeId());
@@ -213,11 +216,11 @@ public class Translator {
 		output.setPlannedMileage(input.getPlannedMileage());
 		output.setMaxPrice(input.getMaxPrice());
 		output.setMinPrice(input.getMinPrice());
-		
+
 		return output;
 	}
-	
-	public HttpCarResponse translate(Car input) {
+
+	public HttpCarResponse translate(com.student.soap.contract.carservice.Car input) {
 		HttpCarResponse output = new HttpCarResponse();
 
 		output.setId(input.getId());
@@ -251,45 +254,58 @@ public class Translator {
 
 		return output;
 	}
+
 	public SoapCarRatingsAndCommentsRequest translateRatingsAndComments(int id) {
-		// TODO Auto-generated method stub
 		SoapCarRatingsAndCommentsRequest output = new SoapCarRatingsAndCommentsRequest();
 		output.setId(id);
 		return output;
 	}
-	
+
 	public List<HttpCarResponse> translate(SoapSearchCarsResponse input) {
 		List<HttpCarResponse> output = new ArrayList<>();
-		
-		for(Car car: input.getCar()) {
+
+		for (com.student.soap.contract.carservice.Car car : input.getCar()) {
 			output.add(translate(car));
 		}
-		
+
 		return output;
 	}
 
 	public SoapCarRequest translate(HttpCarRequest input) {
 		SoapCarRequest output = new SoapCarRequest();
-		
+
 		output.setId(input.getId());
 		output.setPlannedMileage(input.getPlannedMileage());
 		output.setStartDate(input.getStartDate());
 		output.setEndDate(input.getEndDate());
-		
+
 		return output;
 	}
 
-	public List<HttpCommentResponse> translate(SoapCarRatingsAndCommentsResponse internalResponse) {
-		List<HttpCommentResponse> response = new ArrayList<>();
+	public List<HttpRepliesAndCommentsResponse> translate(SoapCarRatingsAndCommentsResponse internalResponse) {
+		List<HttpRepliesAndCommentsResponse> response = new ArrayList<>();
 
-		for (SoapCarRatingsAndCommentsResponse.Comments.Comment commIn : internalResponse.getComments().getComment()) {
-			HttpCommentResponse commOut = new HttpCommentResponse();
+		for (Rating commIn : internalResponse.getComment()) {
+			HttpRepliesAndCommentsResponse commOut = new HttpRepliesAndCommentsResponse();
 			commOut.setComment(commIn.getComment());
 			commOut.setRating(commIn.getRating());
-			commOut.setReplies(commIn.getReplies().getReply());
 			commOut.setDate(commIn.getDate());
 			commOut.setUserId(commIn.getUserId());
 			commOut.setUserName(commIn.getUserName());
+
+			for (Comment replyIn : commIn.getReply()) {
+				HttpCommentResponse replyOut = new HttpCommentResponse();
+				replyOut.setComment(replyIn.getComment());
+				replyOut.setDate(replyIn.getDate());
+				replyOut.setPublisherId(replyIn.getPublisherId());
+				replyOut.setPublisherName(replyIn.getPublisherName());
+				replyOut.setPublisherTypeId(replyIn.getPublisherTypeId());
+				replyOut.setPublisherTypeName(replyIn.getPublisherTypeName());
+				replyOut.setId(replyIn.getId());
+
+				commOut.getReplies().add(replyOut);
+			}
+
 			response.add(commOut);
 		}
 
@@ -298,38 +314,38 @@ public class Translator {
 
 	public SoapCarAvailabilityRequest translate(HttpCarAvailabilityRequest input) {
 		SoapCarAvailabilityRequest output = new SoapCarAvailabilityRequest();
-		
+
 		output.setId(input.getId());
 		output.setStartDate(input.getStartDate());
 		output.setEndDate(input.getEndDate());
-		
+
 		return output;
 	}
 
 	public SoapCartAddCarRequest translate(String token, HttpCartAddCarRequest input) {
 		SoapCartAddCarRequest output = new SoapCartAddCarRequest();
-		
+
 		output.setToken(token);
 		output.setCarId(input.getCarId());
 		output.setStartDate(input.getStartDate());
 		output.setEndDate(input.getEndDate());
 		output.setCollisionWarranty(input.isCollisionWarranty());
-		
+
 		return output;
 	}
-	
+
 	public SoapCartBundleRequest translateBundle(String token, HttpCartBundleRequest input) {
 		SoapCartBundleRequest output = new SoapCartBundleRequest();
-		
+
 		output.setToken(token);
 		output.setPublisherId(input.getPublisherId());
 		output.setPublisherTypeId(input.getPublisherTypeId());
 		return output;
 	}
-	
+
 	public SoapCartUnbundleRequest translateUnbundle(String token, HttpCartBundleRequest input) {
 		SoapCartUnbundleRequest output = new SoapCartUnbundleRequest();
-		
+
 		output.setToken(token);
 		output.setPublisherId(input.getPublisherId());
 		output.setPublisherTypeId(input.getPublisherTypeId());
@@ -338,22 +354,22 @@ public class Translator {
 
 	public List<HttpCartResponse> translate(SoapCartResponse input) {
 		List<HttpCartResponse> output = new ArrayList<>();
-		
-		for(Bundle bundleIn: input.getBundle()) {
+
+		for (Bundle bundleIn : input.getBundle()) {
 			HttpCartResponse bundleOut = new HttpCartResponse();
 			bundleOut.setBundleId(bundleIn.getBundleId());
 			bundleOut.setPublisherId(bundleIn.getPublisherId());
 			bundleOut.setPublisherName(bundleIn.getPublisherName());
 			bundleOut.setPublisherTypeId(bundleIn.getPublisherTypeId());
 			bundleOut.setPublisherTypeName(bundleIn.getPublisherTypeName());
-			
-			for(com.student.soap.scheduleservice.contract.Car carIn: bundleIn.getCar()) {
+
+			for (com.student.soap.contract.scheduleservice.Car carIn : bundleIn.getCar()) {
 				HttpCartResponse.Car carOut = new HttpCartResponse.Car();
-				
+
 				carOut.setReservationId(carIn.getReservationId());
 				carOut.setCarId(carIn.getCarId());
 				carOut.setWarrantyIncluded(carIn.isWarrantyIncluded());
-				carOut.setTotalPrice(carIn.getTotalPrice());				
+				carOut.setTotalPrice(carIn.getTotalPrice());
 				carOut.setMileagePenalty(carIn.getMileagePenalty());
 				carOut.setMileageThreshold(carIn.getMileageThreshold());
 				carOut.setCarClassId(carIn.getCarClassId());
@@ -375,11 +391,31 @@ public class Translator {
 				carOut.setPublisherTypeName(carIn.getPublisherTypeName());
 				carOut.setRating(carIn.getRating());
 				carOut.getImages().addAll(carIn.getImage());
-				
+
 				bundleOut.getCars().add(carOut);
 			}
-			
+
 			output.add(bundleOut);
+		}
+
+		return output;
+	}
+
+	public List<HttpCommentResponse> translate(SoapPendingCommentsResponse input) {
+		 List<HttpCommentResponse> output = new ArrayList<>();
+		 
+		for( Comment replyIn : input.getPendingComment()) {
+			HttpCommentResponse replyOut = new HttpCommentResponse();
+			
+			replyOut.setComment(replyIn.getComment());
+			replyOut.setDate(replyIn.getDate());
+			replyOut.setPublisherId(replyIn.getPublisherId());
+			replyOut.setPublisherName(replyIn.getPublisherName());
+			replyOut.setPublisherTypeId(replyIn.getPublisherTypeId());
+			replyOut.setPublisherTypeName(replyIn.getPublisherTypeName());
+			replyOut.setId(replyIn.getId());
+			
+			output.add(replyOut);
 		}
 		
 		return output;

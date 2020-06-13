@@ -1,7 +1,5 @@
 package com.student.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,23 +17,19 @@ import com.student.http.contract.HttpAddPriceListRequest;
 import com.student.http.contract.HttpAddPriceRequest;
 import com.student.http.contract.HttpCarAvailabilityRequest;
 import com.student.http.contract.HttpCarPhysicalReservationRequest;
-import com.student.http.contract.HttpCommentResponse;
-import com.student.http.contract.HttpRepliesAndCommentsResponse;
 import com.student.internal.translator.Translator;
 import com.student.soap.client.ScheduleServiceClient;
-import com.student.soap.scheduleservice.contract.SoapAddCarPriceListRequest;
-import com.student.soap.scheduleservice.contract.SoapAddPriceListRequest;
-import com.student.soap.scheduleservice.contract.SoapAddPriceRequest;
-import com.student.soap.scheduleservice.contract.SoapCarAvailabilityResponse;
-import com.student.soap.scheduleservice.contract.SoapCarPhysicalRequest;
-import com.student.soap.scheduleservice.contract.SoapCarPhysicalResponse;
-import com.student.soap.scheduleservice.contract.SoapCarRatingResponse;
-import com.student.soap.scheduleservice.contract.SoapCarRatingsAndCommentsRequest;
-import com.student.soap.scheduleservice.contract.SoapCarRatingsAndCommentsResponse;
-import com.student.soap.scheduleservice.contract.SoapDeleteCarPriceListRequest;
-import com.student.soap.scheduleservice.contract.SoapDeletePriceListRequest;
-import com.student.soap.scheduleservice.contract.SoapDeletePriceRequest;
-import com.student.soap.scheduleservice.contract.SoapResponse;
+import com.student.soap.contract.scheduleservice.SoapAddCarPriceListRequest;
+import com.student.soap.contract.scheduleservice.SoapAddPriceListRequest;
+import com.student.soap.contract.scheduleservice.SoapAddPriceRequest;
+import com.student.soap.contract.scheduleservice.SoapCarAvailabilityResponse;
+import com.student.soap.contract.scheduleservice.SoapCarPhysicalRequest;
+import com.student.soap.contract.scheduleservice.SoapCarPhysicalResponse;
+import com.student.soap.contract.scheduleservice.SoapCarRatingResponse;
+import com.student.soap.contract.scheduleservice.SoapDeleteCarPriceListRequest;
+import com.student.soap.contract.scheduleservice.SoapDeletePriceListRequest;
+import com.student.soap.contract.scheduleservice.SoapDeletePriceRequest;
+import com.student.soap.contract.scheduleservice.SoapResponse;
 
 @Controller
 public class ScheduleController {
@@ -58,19 +52,6 @@ public class ScheduleController {
 		}
 
 		return new ResponseEntity<>(internalResponse.getRating(), HttpStatus.OK);
-	}
-
-	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@GetMapping(path = "schedule/car/{id}/comments")
-	public ResponseEntity<List<HttpCommentResponse>> getComments(@PathVariable("id") int id) {
-		SoapCarRatingsAndCommentsRequest request = new SoapCarRatingsAndCommentsRequest();
-		request.setId(id);
-		SoapCarRatingsAndCommentsResponse internalResponse = scheduleServiceClient
-				.send(translator.translateRatingsAndComments(id));
-		if (!internalResponse.isSuccess()) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<>(translator.translate(internalResponse), HttpStatus.OK);
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")

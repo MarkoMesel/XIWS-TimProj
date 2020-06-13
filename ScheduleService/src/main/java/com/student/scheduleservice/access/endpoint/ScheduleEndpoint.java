@@ -8,23 +8,21 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import com.student.scheduleservice.internal.provider.ScheduleProvider;
 import com.student.scheduleservice.internal.translator.Translator;
-import com.student.scheduleservice.soap.contract.SoapAddCarPriceListRequest;
-import com.student.scheduleservice.soap.contract.SoapAddPriceListRequest;
-import com.student.scheduleservice.soap.contract.SoapAddPriceRequest;
-import com.student.scheduleservice.soap.contract.SoapCarAvailabilityRequest;
-import com.student.scheduleservice.soap.contract.SoapCarAvailabilityResponse;
-import com.student.scheduleservice.soap.contract.SoapCarPhysicalRequest;
-import com.student.scheduleservice.soap.contract.SoapCarPhysicalResponse;
-import com.student.scheduleservice.soap.contract.SoapCarPriceRequest;
-import com.student.scheduleservice.soap.contract.SoapCarPriceResponse;
-import com.student.scheduleservice.soap.contract.SoapCarRatingRequest;
-import com.student.scheduleservice.soap.contract.SoapCarRatingResponse;
-import com.student.scheduleservice.soap.contract.SoapCarRatingsAndCommentsRequest;
-import com.student.scheduleservice.soap.contract.SoapCarRatingsAndCommentsResponse;
-import com.student.scheduleservice.soap.contract.SoapDeleteCarPriceListRequest;
-import com.student.scheduleservice.soap.contract.SoapDeletePriceListRequest;
-import com.student.scheduleservice.soap.contract.SoapDeletePriceRequest;
-import com.student.scheduleservice.soap.contract.SoapResponse;
+import com.student.soap.contract.scheduleservice.SoapAddCarPriceListRequest;
+import com.student.soap.contract.scheduleservice.SoapAddPriceListRequest;
+import com.student.soap.contract.scheduleservice.SoapAddPriceRequest;
+import com.student.soap.contract.scheduleservice.SoapCarAvailabilityRequest;
+import com.student.soap.contract.scheduleservice.SoapCarAvailabilityResponse;
+import com.student.soap.contract.scheduleservice.SoapCarPhysicalRequest;
+import com.student.soap.contract.scheduleservice.SoapCarPhysicalResponse;
+import com.student.soap.contract.scheduleservice.SoapCarPriceRequest;
+import com.student.soap.contract.scheduleservice.SoapCarPriceResponse;
+import com.student.soap.contract.scheduleservice.SoapCarRatingRequest;
+import com.student.soap.contract.scheduleservice.SoapCarRatingResponse;
+import com.student.soap.contract.scheduleservice.SoapDeleteCarPriceListRequest;
+import com.student.soap.contract.scheduleservice.SoapDeletePriceListRequest;
+import com.student.soap.contract.scheduleservice.SoapDeletePriceRequest;
+import com.student.soap.contract.scheduleservice.SoapResponse;
 
 @Endpoint
 public class ScheduleEndpoint {
@@ -58,11 +56,6 @@ public class ScheduleEndpoint {
 		return scheduleProvider.getCarAvailability(request);
 	}
 	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapCarRatingsAndCommentsRequest")
-	@ResponsePayload
-	public SoapCarRatingsAndCommentsResponse getCommentsAndRatings(@RequestPayload SoapCarRatingsAndCommentsRequest request) {
-		return scheduleProvider.getCarRatingsAndComments(request.getId());
-	}
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapCarPhysicalRequest")
 	@ResponsePayload
 	public SoapCarPhysicalResponse getCarPhysical(@RequestPayload SoapCarPhysicalRequest request) {

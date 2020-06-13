@@ -1,16 +1,66 @@
 package com.student.http.contract;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 public class HttpRepliesAndCommentsResponse {
+	private int rating;
+	private String comment;
+	private List<HttpCommentResponse> replies;
+	private int userId;
+	private XMLGregorianCalendar date;
+	private String userName;
 
-	private List<HttpCommentResponse> comments;
-
-	public List<HttpCommentResponse> getComments() {
-		return comments;
+	public XMLGregorianCalendar getDate() {
+		return date;
 	}
 
-	public void setComments(List<HttpCommentResponse> comments) {
-		this.comments = comments;
+	public void setDate(XMLGregorianCalendar date) {
+		this.date = date;
+	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public List<HttpCommentResponse> getReplies() {
+		if (replies == null) {
+			replies = new ArrayList<>();
+		}
+		return replies;
+	}
+
+	public void setReplies(List<HttpCommentResponse> replies) {
+		this.replies = replies;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 }

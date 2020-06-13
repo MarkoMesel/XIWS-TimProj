@@ -9,7 +9,7 @@ public class UserServiceConfig {
     @Bean
     public Jaxb2Marshaller userServiceMarshaller(){
         Jaxb2Marshaller jaxb2Marshaller = new Jaxb2Marshaller();
-        jaxb2Marshaller.setPackagesToScan("com.student.soap.userservice.contract");
+        jaxb2Marshaller.setPackagesToScan("com.student.soap.contract.userservice");
         return jaxb2Marshaller;
     }
 }

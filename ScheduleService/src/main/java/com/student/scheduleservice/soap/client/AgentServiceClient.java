@@ -6,8 +6,8 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
-import com.student.soap.agentservice.contract.SoapAgentByIdRequest;
-import com.student.soap.agentservice.contract.SoapAgentByIdResponse;
+import com.student.soap.contract.agentservice.SoapAgentByIdRequest;
+import com.student.soap.contract.agentservice.SoapAgentByIdResponse;
 
 @Component("AgentServiceClient")
 public class AgentServiceClient {

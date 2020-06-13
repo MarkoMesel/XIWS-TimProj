@@ -6,8 +6,8 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
-import com.student.soap.userservice.contract.SoapGetResponse;
-import com.student.soap.userservice.contract.SoapInternalGetUserRequest;
+import com.student.soap.contract.userservice.SoapGetResponse;
+import com.student.soap.contract.userservice.SoapInternalGetUserRequest;
 
 @Component("UserServiceClient")
 public class UserServiceClient {

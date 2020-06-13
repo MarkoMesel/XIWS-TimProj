@@ -7,9 +7,7 @@
 	<xs:complexType name="StatusType">
 		<xs:sequence>
 			<xs:element name="success" type="xs:boolean" />
-			<xs:element name="authorized" type="xs:boolean"
-				nillable="true" />
-
+			<xs:element name="authorized" type="xs:boolean" nillable="true" />
 		</xs:sequence>
 	</xs:complexType>
 
@@ -114,6 +112,56 @@
 		</xs:complexType>
 	</xs:element>
 	
+	<xs:element name="soapPendingCommentsRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:complexType name="Comment">
+		<xs:sequence>
+			<xs:element name="id" type="xs:int" />
+			<xs:element name="comment" type="xs:string"/>
+			<xs:element name="publisherId" type="xs:int"/>
+        	<xs:element name="publisherName" type="xs:string"/>
+        	<xs:element name="publisherTypeId" type="xs:int"/>
+        	<xs:element name="publisherTypeName" type="xs:string"/>
+        	<xs:element name="date" type="xs:dateTime"/>
+		</xs:sequence>
+	</xs:complexType>
+		
+	<xs:element name="soapPendingCommentsResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType">
+					<xs:sequence>
+        	<xs:element name="pendingComment" type="tns:Comment" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapApproveCommentRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+				<xs:element name="commentId" type="xs:int" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapRejectCommentRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+				<xs:element name="commentId" type="xs:int" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
 	<xs:element name="soapCartAddCarRequest">
 		<xs:complexType>
 			<xs:sequence>
@@ -213,52 +261,23 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:complexType name="Rating">
+		<xs:sequence>
+			<xs:element name="rating" type="xs:int" />
+			<xs:element name="userId" type="xs:int" />
+			<xs:element name="comment" type="xs:string" />
+			<xs:element name="userName" type="xs:string" />
+			<xs:element name="date" type="xs:dateTime" />
+			<xs:element type="tns:Comment" name="reply" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
 	<xs:element name="soapCarRatingsAndCommentsResponse">
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="tns:StatusType">
 					<xs:sequence>
-						<xs:element name="comments">
-							<xs:complexType>
-								<xs:sequence>
-									<xs:element name="comment" minOccurs="1"
-										maxOccurs="unbounded">
-										<xs:complexType>
-											<xs:sequence>
-												<xs:element name="rating" type="xs:int" />
-												<xs:element name="userId" type="xs:int" />
-												<xs:element name="comment" type="xs:string" />
-												<xs:element name="userName" type="xs:string" />
-												<xs:element name="date" type="xs:dateTime" />
-												<xs:element name="replies">
-													<xs:complexType>
-														<xs:sequence>
-															<xs:element name="reply" minOccurs="0"
-																maxOccurs="unbounded">
-																<xs:complexType>
-																	<xs:sequence>
-																		<xs:element name="publisherId"
-																			type="xs:int" />
-																		<xs:element name="publisherTypeId"
-																			type="xs:int" />
-																		<xs:element name="comment" type="xs:string" />
-																		<xs:element name="publisherName"
-																			type="xs:string" />
-																		<xs:element name="publisherTypeName"
-																			type="xs:string" />
-																		<xs:element name="date" type="xs:dateTime" />
-																	</xs:sequence>
-																</xs:complexType>
-															</xs:element>
-														</xs:sequence>
-													</xs:complexType>
-												</xs:element>
-											</xs:sequence>
-										</xs:complexType>
-									</xs:element>
-								</xs:sequence>
-							</xs:complexType>
-						</xs:element>
+						<xs:element type="tns:Rating" name="comment" minOccurs="1" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>

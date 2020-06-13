@@ -19,10 +19,10 @@ import com.student.http.contract.HttpCartBundleRequest;
 import com.student.http.contract.HttpCartResponse;
 import com.student.internal.translator.Translator;
 import com.student.soap.client.ScheduleServiceClient;
-import com.student.soap.scheduleservice.contract.SoapCartRemoveCarRequest;
-import com.student.soap.scheduleservice.contract.SoapCartRequest;
-import com.student.soap.scheduleservice.contract.SoapCartResponse;
-import com.student.soap.scheduleservice.contract.SoapResponse;
+import com.student.soap.contract.scheduleservice.SoapCartRemoveCarRequest;
+import com.student.soap.contract.scheduleservice.SoapCartRequest;
+import com.student.soap.contract.scheduleservice.SoapCartResponse;
+import com.student.soap.contract.scheduleservice.SoapResponse;
 
 @Controller
 public class CartController {
@@ -68,7 +68,7 @@ public class CartController {
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@DeleteMapping(path = "schedule/cart/{reservationId}")
-	public ResponseEntity<?> getCart(@RequestHeader("token") String token, @PathVariable int reservationId) {
+	public ResponseEntity<?> removeCarFromCart(@RequestHeader("token") String token, @PathVariable int reservationId) {
 		SoapCartRemoveCarRequest internalRequest = new SoapCartRemoveCarRequest();
 		internalRequest.setToken(token);
 		internalRequest.setReservationId(reservationId);

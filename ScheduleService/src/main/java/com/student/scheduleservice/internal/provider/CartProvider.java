@@ -17,42 +17,35 @@ import com.student.scheduleservice.data.dal.ReservationDbModel;
 import com.student.scheduleservice.data.repo.UnitOfWork;
 import com.student.scheduleservice.jwt.AuthenticationTokenParseResult;
 import com.student.scheduleservice.jwt.JwtUtil;
-import com.student.scheduleservice.soap.client.AgentServiceClient;
 import com.student.scheduleservice.soap.client.CarServiceClient;
-import com.student.scheduleservice.soap.client.UserServiceClient;
-import com.student.scheduleservice.soap.contract.Bundle;
-import com.student.scheduleservice.soap.contract.Car;
-import com.student.scheduleservice.soap.contract.SoapCartAddCarRequest;
-import com.student.scheduleservice.soap.contract.SoapCartBundleRequest;
-import com.student.scheduleservice.soap.contract.SoapCartRemoveCarRequest;
-import com.student.scheduleservice.soap.contract.SoapCartRequest;
-import com.student.scheduleservice.soap.contract.SoapCartResponse;
-import com.student.scheduleservice.soap.contract.SoapCartUnbundleRequest;
-import com.student.scheduleservice.soap.contract.SoapResponse;
-import com.student.soap.carservice.contract.SoapCarRequest;
-import com.student.soap.carservice.contract.SoapCarResponse;
+import com.student.soap.contract.carservice.SoapCarRequest;
+import com.student.soap.contract.carservice.SoapCarResponse;
+import com.student.soap.contract.scheduleservice.Bundle;
+import com.student.soap.contract.scheduleservice.Car;
+import com.student.soap.contract.scheduleservice.SoapCartAddCarRequest;
+import com.student.soap.contract.scheduleservice.SoapCartBundleRequest;
+import com.student.soap.contract.scheduleservice.SoapCartRemoveCarRequest;
+import com.student.soap.contract.scheduleservice.SoapCartRequest;
+import com.student.soap.contract.scheduleservice.SoapCartResponse;
+import com.student.soap.contract.scheduleservice.SoapCartUnbundleRequest;
+import com.student.soap.contract.scheduleservice.SoapResponse;
 
 @Component("CartProvider")
 public class CartProvider {
 
 	private UnitOfWork unitOfWork;
-	private UserServiceClient userServiceClient;
-	private AgentServiceClient agentServiceClient;
 	private CarServiceClient carServiceClient;
-	private ScheduleProvider scheduleProvider;
+	private ProviderUtil providerUtil;
 	private JwtUtil jwtUtil;
 
 	@Autowired
-	public CartProvider(UnitOfWork unitOfWork, UserServiceClient userServiceClient,
-			AgentServiceClient agentServiceClient, JwtUtil jwtUtil, ScheduleProvider scheduleProvider,
-			CarServiceClient carServiceClient) {
+	public CartProvider(UnitOfWork unitOfWork, JwtUtil jwtUtil,
+			CarServiceClient carServiceClient, ProviderUtil providerUtil) {
 		super();
 		this.unitOfWork = unitOfWork;
-		this.userServiceClient = userServiceClient;
-		this.agentServiceClient = agentServiceClient;
 		this.carServiceClient = carServiceClient;
 		this.jwtUtil = jwtUtil;
-		this.scheduleProvider = scheduleProvider;
+		this.providerUtil = providerUtil;
 	}
 
 	public SoapResponse addCarToCart(SoapCartAddCarRequest request) {
@@ -148,7 +141,7 @@ public class CartProvider {
 			bundleOut.setPublisherTypeName(bundleIn.getPublisherType().getName());
 
 			// Fetch publisher name
-			bundleOut.setPublisherName(scheduleProvider.fetchPublisherName(bundleIn.getPublisherType().getName(),
+			bundleOut.setPublisherName(providerUtil.fetchPublisherName(bundleIn.getPublisherType().getName(),
 					bundleIn.getPublisherId()));
 
 			for (ReservationDbModel reservationIn : bundleIn.getReservations()) {

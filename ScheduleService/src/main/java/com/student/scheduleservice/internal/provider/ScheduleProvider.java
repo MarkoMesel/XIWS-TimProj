@@ -1,19 +1,14 @@
 package com.student.scheduleservice.internal.provider;
 
 import java.math.BigInteger;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.student.scheduleservice.data.dal.CarPriceListDbModel;
-import com.student.scheduleservice.data.dal.CommentDbModel;
 import com.student.scheduleservice.data.dal.PriceDbModel;
 import com.student.scheduleservice.data.dal.PriceListDbModel;
 import com.student.scheduleservice.data.dal.ReservationDbModel;
@@ -24,85 +19,30 @@ import com.student.scheduleservice.internal.contract.InternalCarPriceResponse;
 import com.student.scheduleservice.internal.contract.InternalCarRatingResponse;
 import com.student.scheduleservice.jwt.AuthenticationTokenParseResult;
 import com.student.scheduleservice.jwt.JwtUtil;
-import com.student.scheduleservice.soap.client.AgentServiceClient;
-import com.student.scheduleservice.soap.client.UserServiceClient;
-import com.student.scheduleservice.soap.contract.SoapAddCarPriceListRequest;
-import com.student.scheduleservice.soap.contract.SoapAddPriceListRequest;
-import com.student.scheduleservice.soap.contract.SoapAddPriceRequest;
-import com.student.scheduleservice.soap.contract.SoapCarAvailabilityRequest;
-import com.student.scheduleservice.soap.contract.SoapCarAvailabilityResponse;
-import com.student.scheduleservice.soap.contract.SoapCarPhysicalRequest;
-import com.student.scheduleservice.soap.contract.SoapCarPhysicalResponse;
-import com.student.scheduleservice.soap.contract.SoapCarRatingsAndCommentsResponse;
-import com.student.scheduleservice.soap.contract.SoapDeleteCarPriceListRequest;
-import com.student.scheduleservice.soap.contract.SoapDeletePriceListRequest;
-import com.student.scheduleservice.soap.contract.SoapDeletePriceRequest;
-import com.student.scheduleservice.soap.contract.SoapResponse;
-import com.student.soap.agentservice.contract.SoapAgentByIdResponse;
-import com.student.soap.userservice.contract.SoapGetResponse;
-import com.student.soap.userservice.contract.SoapInternalGetUserRequest;
+import com.student.soap.contract.scheduleservice.SoapAddCarPriceListRequest;
+import com.student.soap.contract.scheduleservice.SoapAddPriceListRequest;
+import com.student.soap.contract.scheduleservice.SoapAddPriceRequest;
+import com.student.soap.contract.scheduleservice.SoapCarAvailabilityRequest;
+import com.student.soap.contract.scheduleservice.SoapCarAvailabilityResponse;
+import com.student.soap.contract.scheduleservice.SoapCarPhysicalRequest;
+import com.student.soap.contract.scheduleservice.SoapCarPhysicalResponse;
+import com.student.soap.contract.scheduleservice.SoapDeleteCarPriceListRequest;
+import com.student.soap.contract.scheduleservice.SoapDeletePriceListRequest;
+import com.student.soap.contract.scheduleservice.SoapDeletePriceRequest;
+import com.student.soap.contract.scheduleservice.SoapResponse;
 
 
 @Component("ScheduleProvider")
 public class ScheduleProvider {
 
 	private UnitOfWork unitOfWork;
-	private UserServiceClient userServiceClient;
-	private AgentServiceClient agentServiceClient;
 	private JwtUtil jwtUtil;
 
 	@Autowired
-	public ScheduleProvider(UnitOfWork unitOfWork, UserServiceClient userServiceClient,
-			AgentServiceClient agentServiceClient, JwtUtil jwtUtil) {
+	public ScheduleProvider(UnitOfWork unitOfWork, JwtUtil jwtUtil) {
 		super();
 		this.unitOfWork = unitOfWork;
-		this.userServiceClient = userServiceClient;
-		this.agentServiceClient = agentServiceClient;
 		this.jwtUtil = jwtUtil;
-	}
-
-	public SoapCarRatingsAndCommentsResponse getCarRatingsAndComments(int id) {
-		SoapCarRatingsAndCommentsResponse response = new SoapCarRatingsAndCommentsResponse();
-		response.setComments(new SoapCarRatingsAndCommentsResponse.Comments());
-
-		unitOfWork.getReservationRepo().findByCarId(id).forEach(reservationIn -> {
-			SoapCarRatingsAndCommentsResponse.Comments.Comment ratingAndComment = new SoapCarRatingsAndCommentsResponse.Comments.Comment();
-			List<CommentDbModel> reservations = unitOfWork.getCommentRepo().findByReservationId(reservationIn.getId());
-			SoapInternalGetUserRequest userRequest = new SoapInternalGetUserRequest();
-			userRequest.setId(reservations.get(0).getPublisherId());
-			SoapGetResponse getUser = userServiceClient.send(userRequest);
-
-			ratingAndComment.setUserId(reservations.get(0).getId());
-			ratingAndComment.setUserName(getUser.getFirstName() + " " + getUser.getLastName());
-			ratingAndComment.setComment(reservations.get(0).getComment());
-			ratingAndComment.setRating(reservationIn.getRating());
-			ratingAndComment.setReplies(new SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies());
-
-			for (int i = 1; i < reservations.size(); i++) {
-				SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply reply = new SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply();
-				
-				reply.setPublisherName(fetchPublisherName(reservations.get(i).getPublisherType().getName(), reservations.get(i).getPublisherId()));
-				
-				reply.setComment(reservations.get(i).getComment());
-				reply.setPublisherId(reservations.get(i).getPublisherId());
-				reply.setPublisherTypeId(reservations.get(i).getPublisherType().getId());
-				reply.setPublisherTypeName(reservations.get(i).getPublisherType().getName());
-				final GregorianCalendar calendar = new GregorianCalendar();
-	            calendar.setTimeInMillis(reservations.get(i).getUnixTimestamp().longValue());
-				try {
-					reply.setDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar));
-				} catch (DatatypeConfigurationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				ratingAndComment.getReplies().getReply().add(reply);
-			}
-			response.getComments().getComment().add(ratingAndComment);
-
-		});
-
-		response.setSuccess(true);
-		return response;
 	}
 
 	public InternalCarRatingResponse getCarRating(int id) {
@@ -406,35 +346,5 @@ public class ScheduleProvider {
 		}
 		response.setSuccess(true);
 		return response;
-	}
-	
-	public String fetchPublisherName(String publisherTypeName, Integer publisherId) {
-		//Fetch publisher name
-		//If user
-		if(publisherTypeName.equals("USER")) {
-			try {
-				SoapGetResponse userResponse = userServiceClient.getUser(publisherId);
-				if(userResponse.isSuccess()) {
-					return userResponse.getFirstName()+" "+userResponse.getLastName();	
-				}
-			} catch (Exception e) {
-				System.out.println(e);
-				return null;
-			}
-		}
-		
-		//If agent
-		if(publisherTypeName.equals("AGENT")) {
-			try {
-				SoapAgentByIdResponse agentResponse = agentServiceClient.getAgent(publisherId);
-				if(agentResponse.isSuccess()) {
-					return agentResponse.getName();
-				}
-			} catch (Exception e) {
-				System.out.println(e);
-				return null;
-			}
-		}
-		return null;
 	}
 }

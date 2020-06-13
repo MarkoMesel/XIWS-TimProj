@@ -21,12 +21,12 @@ import com.student.http.contract.HttpLoginResponse;
 import com.student.http.contract.HttpRegisterRequest;
 import com.student.internal.translator.Translator;
 import com.student.soap.client.UserServiceClient;
-import com.student.soap.userservice.contract.SoapActivateUserRequest;
-import com.student.soap.userservice.contract.SoapBlockUserRequest;
-import com.student.soap.userservice.contract.SoapDeleteUserRequest;
-import com.student.soap.userservice.contract.SoapGetResponse;
-import com.student.soap.userservice.contract.SoapLoginResponse;
-import com.student.soap.userservice.contract.SoapResponse;
+import com.student.soap.contract.userservice.SoapActivateUserRequest;
+import com.student.soap.contract.userservice.SoapBlockUserRequest;
+import com.student.soap.contract.userservice.SoapDeleteUserRequest;
+import com.student.soap.contract.userservice.SoapGetResponse;
+import com.student.soap.contract.userservice.SoapLoginResponse;
+import com.student.soap.contract.userservice.SoapResponse;
 
 @Controller
 public class UserController {

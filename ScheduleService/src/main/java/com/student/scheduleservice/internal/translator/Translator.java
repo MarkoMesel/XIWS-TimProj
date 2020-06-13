@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 import com.student.scheduleservice.internal.contract.InternalCarPriceRequest;
 import com.student.scheduleservice.internal.contract.InternalCarPriceResponse;
 import com.student.scheduleservice.internal.contract.InternalCarRatingResponse;
-import com.student.scheduleservice.soap.contract.SoapCarPriceRequest;
-import com.student.scheduleservice.soap.contract.SoapCarPriceResponse;
-import com.student.scheduleservice.soap.contract.SoapCarRatingResponse;
+import com.student.soap.contract.scheduleservice.SoapCarPriceRequest;
+import com.student.soap.contract.scheduleservice.SoapCarPriceResponse;
+import com.student.soap.contract.scheduleservice.SoapCarRatingResponse;
 
 @Component("Translator")
 public class Translator {

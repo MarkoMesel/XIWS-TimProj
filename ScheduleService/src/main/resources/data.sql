@@ -271,10 +271,19 @@ VALUES (27, 1, 1, 15, TRUE, '1591826330946','I rented this car for my sons prom,
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
 VALUES (28, 1, 2, 15, TRUE, '1591826330946','Thank you, we hope to see you again soon!');
 
+INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
+VALUES (29, 1, 1, 15, NULL, '1591826330946','Thanks');
+
+INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
+VALUES (30, 1, 1, 15, NULL, '1591826330946','^&%"£$^%*)*_"&_s%^%!!!');
+
 --
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (29, 1, 1, 16, TRUE, '1591826330946','It would not start so I was late, but it was ok after that');
+VALUES (31, 1, 1, 16, TRUE, '1591826330946','It would not start so I was late, but it was ok after that');
 
 INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
-VALUES (30, 1, 2, 16, TRUE, '1591826330946','Thank you for your rating and comment, we hope we managed to resolve your issues in time. Hope to see you again soon!');
+VALUES (32, 1, 2, 16, TRUE, '1591826330946','Thank you for your rating and comment, we hope we managed to resolve your issues in time. Hope to see you again soon!');
+
+INSERT INTO COMMENT (ID, PUBLISHER_ID, PUBLISHER_TYPE_ID, RESERVATION_ID, APPROVED, UNIX_TIMESTAMP, COMMENT)
+VALUES (33, 1, 1, 16, NULL, '1591826330946','Hopefully you will fix the cars in the meantime.');

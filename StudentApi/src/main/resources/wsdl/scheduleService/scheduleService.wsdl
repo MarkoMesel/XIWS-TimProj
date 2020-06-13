@@ -6,7 +6,6 @@
 		<xs:sequence>
 			<xs:element name="success" type="xs:boolean"/>
 			<xs:element name="authorized" nillable="true" type="xs:boolean"/>
-
 		</xs:sequence>
 	</xs:complexType>
 
@@ -111,6 +110,56 @@
 		</xs:complexType>
 	</xs:element>
 	
+	<xs:element name="soapPendingCommentsRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:complexType name="Comment">
+		<xs:sequence>
+			<xs:element name="id" type="xs:int"/>
+			<xs:element name="comment" type="xs:string"/>
+			<xs:element name="publisherId" type="xs:int"/>
+        	<xs:element name="publisherName" type="xs:string"/>
+        	<xs:element name="publisherTypeId" type="xs:int"/>
+        	<xs:element name="publisherTypeName" type="xs:string"/>
+        	<xs:element name="date" type="xs:dateTime"/>
+		</xs:sequence>
+	</xs:complexType>
+		
+	<xs:element name="soapPendingCommentsResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType">
+					<xs:sequence>
+        	<xs:element maxOccurs="unbounded" minOccurs="0" name="pendingComment" type="tns:Comment"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapApproveCommentRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="commentId" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapRejectCommentRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="commentId" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
 	<xs:element name="soapCartAddCarRequest">
 		<xs:complexType>
 			<xs:sequence>
@@ -210,46 +259,23 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:complexType name="Rating">
+		<xs:sequence>
+			<xs:element name="rating" type="xs:int"/>
+			<xs:element name="userId" type="xs:int"/>
+			<xs:element name="comment" type="xs:string"/>
+			<xs:element name="userName" type="xs:string"/>
+			<xs:element name="date" type="xs:dateTime"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="reply" type="tns:Comment"/>
+		</xs:sequence>
+	</xs:complexType>
+
 	<xs:element name="soapCarRatingsAndCommentsResponse">
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="tns:StatusType">
 					<xs:sequence>
-						<xs:element name="comments">
-							<xs:complexType>
-								<xs:sequence>
-									<xs:element maxOccurs="unbounded" minOccurs="1" name="comment">
-										<xs:complexType>
-											<xs:sequence>
-												<xs:element name="rating" type="xs:int"/>
-												<xs:element name="userId" type="xs:int"/>
-												<xs:element name="comment" type="xs:string"/>
-												<xs:element name="userName" type="xs:string"/>
-												<xs:element name="date" type="xs:dateTime"/>
-												<xs:element name="replies">
-													<xs:complexType>
-														<xs:sequence>
-															<xs:element maxOccurs="unbounded" minOccurs="0" name="reply">
-																<xs:complexType>
-																	<xs:sequence>
-																		<xs:element name="publisherId" type="xs:int"/>
-																		<xs:element name="publisherTypeId" type="xs:int"/>
-																		<xs:element name="comment" type="xs:string"/>
-																		<xs:element name="publisherName" type="xs:string"/>
-																		<xs:element name="publisherTypeName" type="xs:string"/>
-																		<xs:element name="date" type="xs:dateTime"/>
-																	</xs:sequence>
-																</xs:complexType>
-															</xs:element>
-														</xs:sequence>
-													</xs:complexType>
-												</xs:element>
-											</xs:sequence>
-										</xs:complexType>
-									</xs:element>
-								</xs:sequence>
-							</xs:complexType>
-						</xs:element>
+						<xs:element maxOccurs="unbounded" minOccurs="1" name="comment" type="tns:Rating"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -352,10 +378,6 @@
     <wsdl:part element="tns:soapCarAvailabilityRequest" name="soapCarAvailabilityRequest">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="soapAddPriceListRequest">
-    <wsdl:part element="tns:soapAddPriceListRequest" name="soapAddPriceListRequest">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="soapAddCarPriceListRequest">
     <wsdl:part element="tns:soapAddCarPriceListRequest" name="soapAddCarPriceListRequest">
     </wsdl:part>
@@ -364,20 +386,12 @@
     <wsdl:part element="tns:soapCarRatingsAndCommentsResponse" name="soapCarRatingsAndCommentsResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="soapCarRatingsAndCommentsRequest">
-    <wsdl:part element="tns:soapCarRatingsAndCommentsRequest" name="soapCarRatingsAndCommentsRequest">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="soapCarPhysicalResponse">
     <wsdl:part element="tns:soapCarPhysicalResponse" name="soapCarPhysicalResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapResponse">
     <wsdl:part element="tns:soapResponse" name="soapResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="soapDeletePriceRequest">
-    <wsdl:part element="tns:soapDeletePriceRequest" name="soapDeletePriceRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapCarPhysicalRequest">
@@ -392,20 +406,20 @@
     <wsdl:part element="tns:soapCarRatingResponse" name="soapCarRatingResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="soapCarAvailabilityResponse">
-    <wsdl:part element="tns:soapCarAvailabilityResponse" name="soapCarAvailabilityResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="soapCartUnbundleRequest">
     <wsdl:part element="tns:soapCartUnbundleRequest" name="soapCartUnbundleRequest">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="soapCartResponse">
-    <wsdl:part element="tns:soapCartResponse" name="soapCartResponse">
+  <wsdl:message name="soapPendingCommentsResponse">
+    <wsdl:part element="tns:soapPendingCommentsResponse" name="soapPendingCommentsResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapCarRatingRequest">
     <wsdl:part element="tns:soapCarRatingRequest" name="soapCarRatingRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapRejectCommentRequest">
+    <wsdl:part element="tns:soapRejectCommentRequest" name="soapRejectCommentRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapCartAddCarRequest">
@@ -416,20 +430,48 @@
     <wsdl:part element="tns:soapCarPriceRequest" name="soapCarPriceRequest">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="soapCartRemoveCarRequest">
-    <wsdl:part element="tns:soapCartRemoveCarRequest" name="soapCartRemoveCarRequest">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="soapCartRequest">
-    <wsdl:part element="tns:soapCartRequest" name="soapCartRequest">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="soapDeleteCarPriceListRequest">
     <wsdl:part element="tns:soapDeleteCarPriceListRequest" name="soapDeleteCarPriceListRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapCarPriceResponse">
     <wsdl:part element="tns:soapCarPriceResponse" name="soapCarPriceResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapAddPriceListRequest">
+    <wsdl:part element="tns:soapAddPriceListRequest" name="soapAddPriceListRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapApproveCommentRequest">
+    <wsdl:part element="tns:soapApproveCommentRequest" name="soapApproveCommentRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCarRatingsAndCommentsRequest">
+    <wsdl:part element="tns:soapCarRatingsAndCommentsRequest" name="soapCarRatingsAndCommentsRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapDeletePriceRequest">
+    <wsdl:part element="tns:soapDeletePriceRequest" name="soapDeletePriceRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCarAvailabilityResponse">
+    <wsdl:part element="tns:soapCarAvailabilityResponse" name="soapCarAvailabilityResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCartResponse">
+    <wsdl:part element="tns:soapCartResponse" name="soapCartResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapPendingCommentsRequest">
+    <wsdl:part element="tns:soapPendingCommentsRequest" name="soapPendingCommentsRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCartRemoveCarRequest">
+    <wsdl:part element="tns:soapCartRemoveCarRequest" name="soapCartRemoveCarRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCartRequest">
+    <wsdl:part element="tns:soapCartRequest" name="soapCartRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapDeletePriceListRequest">
@@ -446,10 +488,6 @@
     </wsdl:input>
       <wsdl:output message="tns:soapCarAvailabilityResponse" name="soapCarAvailabilityResponse">
     </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="soapAddPriceList">
-      <wsdl:input message="tns:soapAddPriceListRequest" name="soapAddPriceListRequest">
-    </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="soapAddCarPriceList">
       <wsdl:input message="tns:soapAddCarPriceListRequest" name="soapAddCarPriceListRequest">
@@ -471,10 +509,6 @@
       <wsdl:output message="tns:soapResponse" name="soapResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="soapDeletePrice">
-      <wsdl:input message="tns:soapDeletePriceRequest" name="soapDeletePriceRequest">
-    </wsdl:input>
-    </wsdl:operation>
     <wsdl:operation name="soapCartBundle">
       <wsdl:input message="tns:soapCartBundleRequest" name="soapCartBundleRequest">
     </wsdl:input>
@@ -489,11 +523,15 @@
       <wsdl:input message="tns:soapCartUnbundleRequest" name="soapCartUnbundleRequest">
     </wsdl:input>
     </wsdl:operation>
-    <wsdl:operation name="soapCart">
-      <wsdl:input message="tns:soapCartRequest" name="soapCartRequest">
+    <wsdl:operation name="soapPendingComments">
+      <wsdl:input message="tns:soapPendingCommentsRequest" name="soapPendingCommentsRequest">
     </wsdl:input>
-      <wsdl:output message="tns:soapCartResponse" name="soapCartResponse">
+      <wsdl:output message="tns:soapPendingCommentsResponse" name="soapPendingCommentsResponse">
     </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapRejectComment">
+      <wsdl:input message="tns:soapRejectCommentRequest" name="soapRejectCommentRequest">
+    </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="soapCartAddCar">
       <wsdl:input message="tns:soapCartAddCarRequest" name="soapCartAddCarRequest">
@@ -505,12 +543,30 @@
       <wsdl:output message="tns:soapCarPriceResponse" name="soapCarPriceResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="soapCartRemoveCar">
-      <wsdl:input message="tns:soapCartRemoveCarRequest" name="soapCartRemoveCarRequest">
-    </wsdl:input>
-    </wsdl:operation>
     <wsdl:operation name="soapDeleteCarPriceList">
       <wsdl:input message="tns:soapDeleteCarPriceListRequest" name="soapDeleteCarPriceListRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddPriceList">
+      <wsdl:input message="tns:soapAddPriceListRequest" name="soapAddPriceListRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapApproveComment">
+      <wsdl:input message="tns:soapApproveCommentRequest" name="soapApproveCommentRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeletePrice">
+      <wsdl:input message="tns:soapDeletePriceRequest" name="soapDeletePriceRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCart">
+      <wsdl:input message="tns:soapCartRequest" name="soapCartRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:soapCartResponse" name="soapCartResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapCartRemoveCar">
+      <wsdl:input message="tns:soapCartRemoveCarRequest" name="soapCartRemoveCarRequest">
     </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="soapDeletePriceList">
@@ -534,12 +590,6 @@
       <wsdl:output name="soapCarAvailabilityResponse">
         <soap:body use="literal"/>
       </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="soapAddPriceList">
-      <soap:operation soapAction=""/>
-      <wsdl:input name="soapAddPriceListRequest">
-        <soap:body use="literal"/>
-      </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="soapAddCarPriceList">
       <soap:operation soapAction=""/>
@@ -571,12 +621,6 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="soapDeletePrice">
-      <soap:operation soapAction=""/>
-      <wsdl:input name="soapDeletePriceRequest">
-        <soap:body use="literal"/>
-      </wsdl:input>
-    </wsdl:operation>
     <wsdl:operation name="soapCartBundle">
       <soap:operation soapAction=""/>
       <wsdl:input name="soapCartBundleRequest">
@@ -598,14 +642,20 @@
         <soap:body use="literal"/>
       </wsdl:input>
     </wsdl:operation>
-    <wsdl:operation name="soapCart">
+    <wsdl:operation name="soapPendingComments">
       <soap:operation soapAction=""/>
-      <wsdl:input name="soapCartRequest">
+      <wsdl:input name="soapPendingCommentsRequest">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="soapCartResponse">
+      <wsdl:output name="soapPendingCommentsResponse">
         <soap:body use="literal"/>
       </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapRejectComment">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapRejectCommentRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="soapCartAddCar">
       <soap:operation soapAction=""/>
@@ -622,15 +672,42 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="soapCartRemoveCar">
-      <soap:operation soapAction=""/>
-      <wsdl:input name="soapCartRemoveCarRequest">
-        <soap:body use="literal"/>
-      </wsdl:input>
-    </wsdl:operation>
     <wsdl:operation name="soapDeleteCarPriceList">
       <soap:operation soapAction=""/>
       <wsdl:input name="soapDeleteCarPriceListRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddPriceList">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapAddPriceListRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapApproveComment">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapApproveCommentRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeletePrice">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapDeletePriceRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCart">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCartRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="soapCartResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapCartRemoveCar">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCartRemoveCarRequest">
         <soap:body use="literal"/>
       </wsdl:input>
     </wsdl:operation>

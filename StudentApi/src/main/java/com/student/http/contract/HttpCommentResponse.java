@@ -1,65 +1,56 @@
 package com.student.http.contract;
 
-import java.util.List;
-
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import com.student.soap.scheduleservice.contract.SoapCarRatingsAndCommentsResponse.Comments.Comment.Replies.Reply;
-
 public class HttpCommentResponse {
-
-	private int rating;
-	private String comment;
-	private List<Reply> replies;
-	private int userId;
-	private String userName;
-	private XMLGregorianCalendar date;
-
-	public int getUserId() {
-		return userId;
+	private int id;
+    private int publisherId;
+    private int publisherTypeId;
+    private String comment;
+    private String publisherName;
+    private String publisherTypeName;
+    private XMLGregorianCalendar date;
+    
+	public int getId() {
+		return id;
 	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setId(int id) {
+		this.id = id;
 	}
-
-	public String getUserName() {
-		return userName;
+	public int getPublisherId() {
+		return publisherId;
 	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setPublisherId(int publisherId) {
+		this.publisherId = publisherId;
 	}
-
-	public XMLGregorianCalendar getDate() {
-		return date;
+	public int getPublisherTypeId() {
+		return publisherTypeId;
 	}
-
-	public void setDate(XMLGregorianCalendar date) {
-		this.date = date;
+	public void setPublisherTypeId(int publisherTypeId) {
+		this.publisherTypeId = publisherTypeId;
 	}
-
-	public List<Reply> getReplies() {
-		return replies;
-	}
-
-	public int getRating() {
-		return rating;
-	}
-
-	public void setRating(int rating) {
-		this.rating = rating;
-	}
-
 	public String getComment() {
 		return comment;
 	}
-
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-
-	public void setReplies(List<Reply> list) {
-		this.replies = list;
+	public String getPublisherName() {
+		return publisherName;
+	}
+	public void setPublisherName(String publisherName) {
+		this.publisherName = publisherName;
+	}
+	public String getPublisherTypeName() {
+		return publisherTypeName;
+	}
+	public void setPublisherTypeName(String publisherTypeName) {
+		this.publisherTypeName = publisherTypeName;
+	}
+	public XMLGregorianCalendar getDate() {
+		return date;
+	}
+	public void setDate(XMLGregorianCalendar date) {
+		this.date = date;
 	}
 }

@@ -8,4 +8,6 @@ import com.student.scheduleservice.data.dal.CommentDbModel;
 
 public interface CommentRepo extends CrudRepository<CommentDbModel, Integer> {
 	List<CommentDbModel> findByReservationId(Integer reservationId);
+
+	List<CommentDbModel> findByApproved(Boolean approved);
 }

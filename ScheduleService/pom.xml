@@ -95,7 +95,7 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<generatePackage>com.student.soap.agentservice.contract</generatePackage>
+							<generatePackage>com.student.soap.contract.agentservice</generatePackage>
 							<generateDirectory>${project.basedir}/src/main/java</generateDirectory>
 							<schemaDirectory>${project.basedir}/src/main/resources/wsdl/agentService</schemaDirectory>
 							<schemaIncludes>
@@ -109,7 +109,7 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<generatePackage>com.student.soap.userservice.contract</generatePackage>
+							<generatePackage>com.student.soap.contract.userservice</generatePackage>
 							<generateDirectory>${project.basedir}/src/main/java</generateDirectory>
 							<schemaDirectory>${project.basedir}/src/main/resources/wsdl/userService</schemaDirectory>
 							<schemaIncludes>
@@ -123,7 +123,7 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<generatePackage>com.student.soap.carservice.contract</generatePackage>
+							<generatePackage>com.student.soap.contract.carservice</generatePackage>
 							<generateDirectory>${project.basedir}/src/main/java</generateDirectory>
 							<schemaDirectory>${project.basedir}/src/main/resources/wsdl/carService</schemaDirectory>
 							<schemaIncludes>
@@ -137,7 +137,7 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<generatePackage>com.student.scheduleservice.soap.contract</generatePackage>
+							<generatePackage>com.student.soap.contract.scheduleservice</generatePackage>
 							<generateDirectory>${project.basedir}/src/main/java</generateDirectory>
 							<schemaDirectory>${project.basedir}/src/main/resources/xsd/</schemaDirectory>
 						</configuration>

@@ -7,13 +7,13 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import com.student.scheduleservice.internal.provider.CartProvider;
-import com.student.scheduleservice.soap.contract.SoapCartAddCarRequest;
-import com.student.scheduleservice.soap.contract.SoapCartBundleRequest;
-import com.student.scheduleservice.soap.contract.SoapCartRemoveCarRequest;
-import com.student.scheduleservice.soap.contract.SoapCartRequest;
-import com.student.scheduleservice.soap.contract.SoapCartResponse;
-import com.student.scheduleservice.soap.contract.SoapCartUnbundleRequest;
-import com.student.scheduleservice.soap.contract.SoapResponse;
+import com.student.soap.contract.scheduleservice.SoapCartAddCarRequest;
+import com.student.soap.contract.scheduleservice.SoapCartBundleRequest;
+import com.student.soap.contract.scheduleservice.SoapCartRemoveCarRequest;
+import com.student.soap.contract.scheduleservice.SoapCartRequest;
+import com.student.soap.contract.scheduleservice.SoapCartResponse;
+import com.student.soap.contract.scheduleservice.SoapCartUnbundleRequest;
+import com.student.soap.contract.scheduleservice.SoapResponse;
 
 @Endpoint
 public class CartEndpoint {

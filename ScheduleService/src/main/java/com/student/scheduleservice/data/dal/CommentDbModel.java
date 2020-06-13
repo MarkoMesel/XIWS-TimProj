@@ -28,7 +28,7 @@ public class CommentDbModel {
 	@NotEmpty
 	private String comment;
 	
-	private boolean approved;
+	private Boolean approved;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="RESERVATION_ID")
@@ -52,11 +52,11 @@ public class CommentDbModel {
 		this.comment = comment;
 	}
 
-	public boolean isApproved() {
+	public Boolean getApproved() {
 		return approved;
 	}
 
-	public void setApproved(boolean approved) {
+	public void setApproved(Boolean approved) {
 		this.approved = approved;
 	}
 
