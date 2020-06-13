@@ -7,11 +7,14 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import com.student.scheduleservice.internal.provider.CommentProvider;
+import com.student.soap.contract.scheduleservice.SoapAddRatingRequest;
 import com.student.soap.contract.scheduleservice.SoapApproveCommentRequest;
 import com.student.soap.contract.scheduleservice.SoapCarRatingsAndCommentsRequest;
 import com.student.soap.contract.scheduleservice.SoapCarRatingsAndCommentsResponse;
 import com.student.soap.contract.scheduleservice.SoapPendingCommentsRequest;
 import com.student.soap.contract.scheduleservice.SoapPendingCommentsResponse;
+import com.student.soap.contract.scheduleservice.SoapPendingRatingRequest;
+import com.student.soap.contract.scheduleservice.SoapPendingRatingResponse;
 import com.student.soap.contract.scheduleservice.SoapRejectCommentRequest;
 import com.student.soap.contract.scheduleservice.SoapResponse;
 
@@ -49,5 +52,17 @@ public class CommentEndpoint {
 	@ResponsePayload
 	public SoapResponse rejectComment(@RequestPayload SoapRejectCommentRequest request) {
 		return commentProvider.reject(request);
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapPendingRatingRequest")
+	@ResponsePayload
+	public SoapPendingRatingResponse rejectComment(@RequestPayload SoapPendingRatingRequest request) {
+		return commentProvider.getPendingRating(request);
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapAddRatingRequest")
+	@ResponsePayload
+	public SoapResponse addRating(@RequestPayload SoapAddRatingRequest request) {
+		return commentProvider.addRating(request);
 	}
 }

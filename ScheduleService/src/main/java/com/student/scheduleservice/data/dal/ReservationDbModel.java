@@ -1,6 +1,7 @@
 package com.student.scheduleservice.data.dal;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -29,6 +31,9 @@ public class ReservationDbModel {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "BUNDLE_ID")
 	private BundleDbModel bundle;
+	
+	@OneToMany(mappedBy = "reservation")
+	private List<CommentDbModel> comments;
 
 	public int getId() {
 		return id;
@@ -100,5 +105,13 @@ public class ReservationDbModel {
 
 	public void setWarrantyIncluded(boolean warrantyIncluded) {
 		WarrantyIncluded = warrantyIncluded;
+	}
+
+	public List<CommentDbModel> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<CommentDbModel> comments) {
+		this.comments = comments;
 	}
 }

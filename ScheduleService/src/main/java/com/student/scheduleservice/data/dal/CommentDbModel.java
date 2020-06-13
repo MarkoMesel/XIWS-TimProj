@@ -34,7 +34,7 @@ public class CommentDbModel {
 	@JoinColumn(name="RESERVATION_ID")
 	private ReservationDbModel reservation;
 	
-	private BigInteger unixTimestamp;
+	private Long unixTimestamp;
 
 	public int getId() {
 		return id;
@@ -68,11 +68,11 @@ public class CommentDbModel {
 		this.reservation = reservation;
 	}
 
-	public BigInteger getUnixTimestamp() {
+	public Long getUnixTimestamp() {
 		return unixTimestamp;
 	}
 
-	public void setUnixTimestamp(BigInteger unixTimestamp) {
+	public void setUnixTimestamp(Long unixTimestamp) {
 		this.unixTimestamp = unixTimestamp;
 	}
 

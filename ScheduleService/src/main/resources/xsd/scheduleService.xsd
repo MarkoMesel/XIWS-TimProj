@@ -137,7 +137,7 @@
 			<xs:complexContent>
 				<xs:extension base="tns:StatusType">
 					<xs:sequence>
-        	<xs:element name="pendingComment" type="tns:Comment" minOccurs="0" maxOccurs="unbounded"/>
+        				<xs:element name="pendingComment" type="tns:Comment" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -212,6 +212,7 @@
         	<xs:element name="mileagePenalty" type="xs:int" nillable="true"/>
         	<xs:element name="warrantyIncluded" type="xs:boolean" nillable="true"/>
         	<xs:element name="totalPrice" type="xs:int" nillable="true"/>
+        	<xs:element name="extraCharges" type="xs:int" nillable="true"/>
         	<xs:element name="childSeats" type="xs:int" nillable="true"/>
         	<xs:element name="rating" type="xs:int" nillable="true"/>
         	<xs:element name="publisherId" type="xs:int" nillable="true"/>
@@ -238,7 +239,38 @@
 			<xs:complexContent>
 				<xs:extension base="tns:StatusType">
 					<xs:sequence>
-        				<xs:element name="bundle" type="tns:Bundle" minOccurs="1" maxOccurs="unbounded"/>
+        				<xs:element name="bundle" type="tns:Bundle" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapAddRatingRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+        		<xs:element name="reservationId" type="xs:int"/>
+        		<xs:element name="rating" type="xs:int"/>
+        		<xs:element name="comment" type="xs:string" nillable="true"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapPendingRatingRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapPendingRatingResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType">
+					<xs:sequence>
+        				<xs:element name="car" type="tns:Car" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -343,7 +375,6 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="tns:StatusType">
-
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -366,11 +397,9 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="tns:StatusType">
-
 					<xs:sequence>
 						<xs:element name="test" type="xs:string" />
 					</xs:sequence>
-
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

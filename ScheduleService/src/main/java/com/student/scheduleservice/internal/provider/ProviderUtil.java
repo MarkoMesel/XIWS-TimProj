@@ -1,5 +1,6 @@
 package com.student.scheduleservice.internal.provider;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -60,6 +61,17 @@ public class ProviderUtil {
 	public XMLGregorianCalendar getXmlGregorianCalendar(Long timestamp) {
 		final GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTimeInMillis(timestamp);
+		try {
+			return DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
+		} catch (DatatypeConfigurationException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public XMLGregorianCalendar getXmlGregorianCalendar(Date date) {
+		final GregorianCalendar calendar = new GregorianCalendar();
+		calendar.setTime(date);
 		try {
 			return DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
 		} catch (DatatypeConfigurationException e) {

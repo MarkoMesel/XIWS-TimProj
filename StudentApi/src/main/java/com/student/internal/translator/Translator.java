@@ -21,6 +21,7 @@ import com.student.http.contract.HttpLoginResponse;
 import com.student.http.contract.HttpNamedObjectResponse;
 import com.student.http.contract.HttpRegisterRequest;
 import com.student.http.contract.HttpRepliesAndCommentsResponse;
+import com.student.http.contract.HttpReservationResponse;
 import com.student.http.contract.HttpSearchCarsRequest;
 import com.student.soap.contract.carservice.NamedObject;
 import com.student.soap.contract.carservice.SoapAddCarRequest;
@@ -42,6 +43,7 @@ import com.student.soap.contract.scheduleservice.SoapCartBundleRequest;
 import com.student.soap.contract.scheduleservice.SoapCartResponse;
 import com.student.soap.contract.scheduleservice.SoapCartUnbundleRequest;
 import com.student.soap.contract.scheduleservice.SoapPendingCommentsResponse;
+import com.student.soap.contract.scheduleservice.SoapPendingRatingResponse;
 import com.student.soap.contract.userservice.SoapEditRequest;
 import com.student.soap.contract.userservice.SoapGetRequest;
 import com.student.soap.contract.userservice.SoapGetResponse;
@@ -364,7 +366,7 @@ public class Translator {
 			bundleOut.setPublisherTypeName(bundleIn.getPublisherTypeName());
 
 			for (com.student.soap.contract.scheduleservice.Car carIn : bundleIn.getCar()) {
-				HttpCartResponse.Car carOut = new HttpCartResponse.Car();
+				HttpReservationResponse carOut = new HttpReservationResponse();
 
 				carOut.setReservationId(carIn.getReservationId());
 				carOut.setCarId(carIn.getCarId());
@@ -389,6 +391,7 @@ public class Translator {
 				carOut.setPublisherId(carIn.getPublisherId());
 				carOut.setPublisherTypeId(carIn.getPublisherTypeId());
 				carOut.setPublisherTypeName(carIn.getPublisherTypeName());
+				carOut.setPublisherName(carIn.getPublisherName());
 				carOut.setRating(carIn.getRating());
 				carOut.getImages().addAll(carIn.getImage());
 
@@ -418,6 +421,46 @@ public class Translator {
 			output.add(replyOut);
 		}
 		
+		return output;
+	}
+
+	public List<HttpReservationResponse> translate(SoapPendingRatingResponse input) {
+		List<HttpReservationResponse> output = new ArrayList<>();
+		
+		for (com.student.soap.contract.scheduleservice.Car carIn : input.getCar()) {
+			HttpReservationResponse carOut = new HttpReservationResponse();
+
+			carOut.setReservationId(carIn.getReservationId());
+			carOut.setCarId(carIn.getCarId());
+			carOut.setWarrantyIncluded(carIn.isWarrantyIncluded());
+			carOut.setTotalPrice(carIn.getTotalPrice());
+			carOut.setMileagePenalty(carIn.getMileagePenalty());
+			carOut.setMileageThreshold(carIn.getMileageThreshold());
+			carOut.setCarClassId(carIn.getCarClassId());
+			carOut.setCarClassName(carIn.getCarClassName());
+			carOut.setLocationId(carIn.getLocationId());
+			carOut.setLocationName(carIn.getLocationName());
+			carOut.setModelId(carIn.getModelId());
+			carOut.setModelName(carIn.getModelName());
+			carOut.setManufacturerId(carIn.getManufacturerId());
+			carOut.setManufacturerName(carIn.getManufacturerName());
+			carOut.setFuelTypeName(carIn.getFuelTypeName());
+			carOut.setFuelTypeId(carIn.getFuelTypeId());
+			carOut.setTransmissionTypeName(carIn.getTransmissionTypeName());
+			carOut.setTransmissionTypeId(carIn.getTransmissionTypeId());
+			carOut.setMileage(carIn.getMileage());
+			carOut.setChildSeats(carIn.getChildSeats());
+			carOut.setPublisherId(carIn.getPublisherId());
+			carOut.setPublisherName(carIn.getPublisherName());
+			carOut.setPublisherTypeId(carIn.getPublisherTypeId());
+			carOut.setPublisherTypeName(carIn.getPublisherTypeName());
+			carOut.setRating(carIn.getRating());
+			carOut.getImages().addAll(carIn.getImage());
+			carOut.setExtraCharges(carIn.getExtraCharges());
+
+			output.add(carOut);
+		}
+
 		return output;
 	}
 

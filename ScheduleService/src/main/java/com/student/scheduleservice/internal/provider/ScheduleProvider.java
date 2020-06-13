@@ -73,7 +73,7 @@ public class ScheduleProvider {
 
 		//TODO: check for unavailabilities
 		
-		//TODO: check fot existing reservations
+		//TODO: check for existing reservations
 		
 		List<PriceDbModel> prices = carPricelist.getPriceList().getPrices().stream()
 				.filter(price -> price.getStartDate().compareTo(request.getStartDate()) >= 0

@@ -135,7 +135,7 @@
 			<xs:complexContent>
 				<xs:extension base="tns:StatusType">
 					<xs:sequence>
-        	<xs:element maxOccurs="unbounded" minOccurs="0" name="pendingComment" type="tns:Comment"/>
+        				<xs:element maxOccurs="unbounded" minOccurs="0" name="pendingComment" type="tns:Comment"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -210,6 +210,7 @@
         	<xs:element name="mileagePenalty" nillable="true" type="xs:int"/>
         	<xs:element name="warrantyIncluded" nillable="true" type="xs:boolean"/>
         	<xs:element name="totalPrice" nillable="true" type="xs:int"/>
+        	<xs:element name="extraCharges" nillable="true" type="xs:int"/>
         	<xs:element name="childSeats" nillable="true" type="xs:int"/>
         	<xs:element name="rating" nillable="true" type="xs:int"/>
         	<xs:element name="publisherId" nillable="true" type="xs:int"/>
@@ -236,7 +237,38 @@
 			<xs:complexContent>
 				<xs:extension base="tns:StatusType">
 					<xs:sequence>
-        				<xs:element maxOccurs="unbounded" minOccurs="1" name="bundle" type="tns:Bundle"/>
+        				<xs:element maxOccurs="unbounded" minOccurs="0" name="bundle" type="tns:Bundle"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapAddRatingRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+        		<xs:element name="reservationId" type="xs:int"/>
+        		<xs:element name="rating" type="xs:int"/>
+        		<xs:element name="comment" nillable="true" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapPendingRatingRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapPendingRatingResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType">
+					<xs:sequence>
+        				<xs:element maxOccurs="unbounded" minOccurs="0" name="car" type="tns:Car"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -336,7 +368,6 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="tns:StatusType">
-
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -359,11 +390,9 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="tns:StatusType">
-
 					<xs:sequence>
 						<xs:element name="test" type="xs:string"/>
 					</xs:sequence>
-
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -392,6 +421,14 @@
   </wsdl:message>
   <wsdl:message name="soapResponse">
     <wsdl:part element="tns:soapResponse" name="soapResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapAddRatingRequest">
+    <wsdl:part element="tns:soapAddRatingRequest" name="soapAddRatingRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapPendingRatingResponse">
+    <wsdl:part element="tns:soapPendingRatingResponse" name="soapPendingRatingResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapCarPhysicalRequest">
@@ -436,6 +473,10 @@
   </wsdl:message>
   <wsdl:message name="soapCarPriceResponse">
     <wsdl:part element="tns:soapCarPriceResponse" name="soapCarPriceResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapPendingRatingRequest">
+    <wsdl:part element="tns:soapPendingRatingRequest" name="soapPendingRatingRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapAddPriceListRequest">
@@ -507,6 +548,16 @@
     </wsdl:operation>
     <wsdl:operation name="soap">
       <wsdl:output message="tns:soapResponse" name="soapResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddRating">
+      <wsdl:input message="tns:soapAddRatingRequest" name="soapAddRatingRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapPendingRating">
+      <wsdl:input message="tns:soapPendingRatingRequest" name="soapPendingRatingRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:soapPendingRatingResponse" name="soapPendingRatingResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="soapCartBundle">
@@ -618,6 +669,21 @@
     <wsdl:operation name="soap">
       <soap:operation soapAction=""/>
       <wsdl:output name="soapResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddRating">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapAddRatingRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapPendingRating">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapPendingRatingRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="soapPendingRatingResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
