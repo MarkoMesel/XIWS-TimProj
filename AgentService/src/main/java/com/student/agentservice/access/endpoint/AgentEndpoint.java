@@ -12,8 +12,6 @@ import com.student.agentservice.soap.contract.SoapAgentByIdResponse;
 import com.student.agentservice.soap.contract.SoapAgentsRequest;
 import com.student.agentservice.soap.contract.SoapAgentsResponse;
 
-import javassist.Translator;
-
 @Endpoint
 public class AgentEndpoint {
 	private static final String NAMESPACE_URI = "http://www.student.com/agentservice/soap/contract";

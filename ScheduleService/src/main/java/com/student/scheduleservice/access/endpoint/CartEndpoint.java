@@ -7,11 +7,11 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import com.student.scheduleservice.internal.provider.CartProvider;
+import com.student.soap.contract.scheduleservice.SoapBundlesResponse;
 import com.student.soap.contract.scheduleservice.SoapCartAddCarRequest;
 import com.student.soap.contract.scheduleservice.SoapCartBundleRequest;
 import com.student.soap.contract.scheduleservice.SoapCartRemoveCarRequest;
 import com.student.soap.contract.scheduleservice.SoapCartRequest;
-import com.student.soap.contract.scheduleservice.SoapCartResponse;
 import com.student.soap.contract.scheduleservice.SoapCartUnbundleRequest;
 import com.student.soap.contract.scheduleservice.SoapResponse;
 
@@ -35,7 +35,7 @@ public class CartEndpoint {
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapCartRequest")
 	@ResponsePayload
-	public SoapCartResponse getCart(@RequestPayload SoapCartRequest request) {
+	public SoapBundlesResponse getCart(@RequestPayload SoapCartRequest request) {
 		return cartProvider.getCart(request);
 	}
 	

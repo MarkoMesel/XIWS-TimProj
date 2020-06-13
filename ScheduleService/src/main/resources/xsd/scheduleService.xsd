@@ -19,10 +19,6 @@
 		</xs:complexType>
 	</xs:element>
 
-	<!--xs:element name="soapResponse"> <xs:complexType> <xs:complexContent> 
-		<xs:extension base="tns:StatusType"/> </xs:complexContent> </xs:complexType> 
-		</xs:element -->
-
 	<xs:element name="soapAddCarPriceListRequest">
 		<xs:complexType>
 			<xs:sequence>
@@ -120,7 +116,7 @@
 		</xs:complexType>
 	</xs:element>
 	
-	<xs:complexType name="Comment">
+	<xs:complexType name="Correspondence">
 		<xs:sequence>
 			<xs:element name="id" type="xs:int" />
 			<xs:element name="comment" type="xs:string"/>
@@ -137,7 +133,7 @@
 			<xs:complexContent>
 				<xs:extension base="tns:StatusType">
 					<xs:sequence>
-        				<xs:element name="pendingComment" type="tns:Comment" minOccurs="0" maxOccurs="unbounded"/>
+        				<xs:element name="pendingComment" type="tns:Correspondence" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -230,11 +226,13 @@
         	<xs:element name="publisherName" type="xs:string"/>
         	<xs:element name="publisherTypeId" type="xs:int" nillable="true"/>
         	<xs:element name="publisherTypeName" type="xs:string"/>
+        	<xs:element name="stateName" type="xs:string"/>
+        	<xs:element name="stateId" type="xs:int"/>
         	<xs:element name="car" type="tns:Car" minOccurs="1" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
 	
-	<xs:element name="soapCartResponse">
+	<xs:element name="soapBundlesResponse">
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="tns:StatusType">
@@ -300,7 +298,7 @@
 			<xs:element name="comment" type="xs:string" />
 			<xs:element name="userName" type="xs:string" />
 			<xs:element name="date" type="xs:dateTime" />
-			<xs:element type="tns:Comment" name="reply" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element type="tns:Correspondence" name="reply" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -399,6 +397,96 @@
 				<xs:extension base="tns:StatusType">
 					<xs:sequence>
 						<xs:element name="test" type="xs:string" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapReserveRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapRejectReservationRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+				<xs:element name="bundleId" type="xs:int" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapCancelReservationRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+				<xs:element name="bundleId" type="xs:int" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapApproveReservationRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+				<xs:element name="bundleId" type="xs:int" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapReservationsRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapPayReservationRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+				<xs:element name="bundleId" type="xs:int" />
+				<xs:element name="card" type="xs:string" />
+				<xs:element name="CCV" type="xs:string" />
+				<xs:element name="firstName" type="xs:string" />
+				<xs:element name="lastName" type="xs:string" />
+				<xs:element name="address" type="xs:string" />
+				<xs:element name="validDay" type="xs:string" />
+				<xs:element name="validMonth" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapMessagesRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+				<xs:element name="bundleId" type="xs:int" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapAddMessageRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+				<xs:element name="bundleId" type="xs:int" />
+				<xs:element name="message" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapMessagesResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType">
+					<xs:sequence>
+        				<xs:element name="message" type="tns:Correspondence" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>

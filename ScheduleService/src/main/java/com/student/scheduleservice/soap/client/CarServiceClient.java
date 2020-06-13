@@ -16,6 +16,7 @@ public class CarServiceClient {
 		webServiceTemplate = new WebServiceTemplate(jaxb2Marshaller);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <TRequest,TResponse> TResponse send(TRequest request){
         return (TResponse) webServiceTemplate.marshalSendAndReceive("http://localhost:8082/ws",request);
     }

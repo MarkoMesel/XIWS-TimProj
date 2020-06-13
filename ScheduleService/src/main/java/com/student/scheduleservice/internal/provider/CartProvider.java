@@ -22,11 +22,11 @@ import com.student.soap.contract.carservice.SoapCarRequest;
 import com.student.soap.contract.carservice.SoapCarResponse;
 import com.student.soap.contract.scheduleservice.Bundle;
 import com.student.soap.contract.scheduleservice.Car;
+import com.student.soap.contract.scheduleservice.SoapBundlesResponse;
 import com.student.soap.contract.scheduleservice.SoapCartAddCarRequest;
 import com.student.soap.contract.scheduleservice.SoapCartBundleRequest;
 import com.student.soap.contract.scheduleservice.SoapCartRemoveCarRequest;
 import com.student.soap.contract.scheduleservice.SoapCartRequest;
-import com.student.soap.contract.scheduleservice.SoapCartResponse;
 import com.student.soap.contract.scheduleservice.SoapCartUnbundleRequest;
 import com.student.soap.contract.scheduleservice.SoapResponse;
 
@@ -120,8 +120,8 @@ public class CartProvider {
 		return response;
 	}
 
-	public SoapCartResponse getCart(SoapCartRequest request) {
-		SoapCartResponse response = new SoapCartResponse();
+	public SoapBundlesResponse getCart(SoapCartRequest request) {
+		SoapBundlesResponse response = new SoapBundlesResponse();
 
 		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
 

@@ -19,9 +19,9 @@ import com.student.http.contract.HttpCartBundleRequest;
 import com.student.http.contract.HttpCartResponse;
 import com.student.internal.translator.Translator;
 import com.student.soap.client.ScheduleServiceClient;
+import com.student.soap.contract.scheduleservice.SoapBundlesResponse;
 import com.student.soap.contract.scheduleservice.SoapCartRemoveCarRequest;
 import com.student.soap.contract.scheduleservice.SoapCartRequest;
-import com.student.soap.contract.scheduleservice.SoapCartResponse;
 import com.student.soap.contract.scheduleservice.SoapResponse;
 
 @Controller
@@ -53,7 +53,7 @@ public class CartController {
 	public ResponseEntity<List<HttpCartResponse>> getCart(@RequestHeader("token") String token) {
 		SoapCartRequest internalRequest = new SoapCartRequest();
 		internalRequest.setToken(token);
-		SoapCartResponse internalResponse = scheduleServiceClient.send(internalRequest);
+		SoapBundlesResponse internalResponse = scheduleServiceClient.send(internalRequest);
 
 		if (!internalResponse.isAuthorized()) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

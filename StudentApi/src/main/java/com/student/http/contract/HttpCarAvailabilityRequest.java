@@ -1,7 +1,5 @@
 package com.student.http.contract;
 
-import java.util.Date;
-
 import javax.xml.datatype.XMLGregorianCalendar;
 
 public class HttpCarAvailabilityRequest {

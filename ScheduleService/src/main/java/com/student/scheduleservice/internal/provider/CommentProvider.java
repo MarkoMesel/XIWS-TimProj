@@ -20,7 +20,7 @@ import com.student.scheduleservice.soap.client.CarServiceClient;
 import com.student.soap.contract.carservice.SoapCarRequest;
 import com.student.soap.contract.carservice.SoapCarResponse;
 import com.student.soap.contract.scheduleservice.Car;
-import com.student.soap.contract.scheduleservice.Comment;
+import com.student.soap.contract.scheduleservice.Correspondence;
 import com.student.soap.contract.scheduleservice.Rating;
 import com.student.soap.contract.scheduleservice.SoapAddRatingRequest;
 import com.student.soap.contract.scheduleservice.SoapApproveCommentRequest;
@@ -84,7 +84,7 @@ public class CommentProvider {
 				if (!commentIn.getApproved()) {
 					continue;
 				}
-				Comment reply = new Comment();
+				Correspondence reply = new Correspondence();
 
 				String publisherName = providerUtil.fetchPublisherName(commentIn.getPublisherType().getName(),
 						commentIn.getPublisherId());
@@ -169,7 +169,7 @@ public class CommentProvider {
 		List<CommentDbModel> comments = unitOfWork.getCommentRepo().findByApproved(null);
 
 		for (CommentDbModel commentIn : comments) {
-			Comment commentOut = new Comment();
+			Correspondence commentOut = new Correspondence();
 			commentOut.setId(commentIn.getId());
 			commentOut.setPublisherId(commentIn.getPublisherId());
 			commentOut.setPublisherTypeId(commentIn.getPublisherType().getId());

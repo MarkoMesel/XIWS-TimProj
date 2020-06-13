@@ -16,7 +16,8 @@ public class ScheduleServiceClient {
     	webServiceTemplate = new WebServiceTemplate(jaxb2Marshaller);
 	}   
 	
-    public <TRequest,TResponse> TResponse send(TRequest request){
+    @SuppressWarnings("unchecked")
+	public <TRequest,TResponse> TResponse send(TRequest request){
         return (TResponse) webServiceTemplate.marshalSendAndReceive("http://localhost:8084/ws",request);
     }
 }

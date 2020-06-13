@@ -1,7 +1,5 @@
 package com.student.scheduleservice.data.dal;
 
-import java.math.BigInteger;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;

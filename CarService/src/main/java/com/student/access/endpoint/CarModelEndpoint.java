@@ -9,29 +9,11 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import com.student.internal.provider.CarProvider;
 import com.student.internal.translator.Translator;
 import com.student.soap.carservice.contract.SoapAddCarModelRequest;
-import com.student.soap.carservice.contract.SoapAddCarRequest;
-import com.student.soap.carservice.contract.SoapAddFuelTypeRequest;
-import com.student.soap.carservice.contract.SoapAddManufacturerRequest;
 import com.student.soap.carservice.contract.SoapAllCarModelsRequest;
-import com.student.soap.carservice.contract.SoapCarManufacturersRequest;
 import com.student.soap.carservice.contract.SoapCarModelsByManufacturerRequest;
 import com.student.soap.carservice.contract.SoapCarModelsResponse;
-import com.student.soap.carservice.contract.SoapCarRequest;
-import com.student.soap.carservice.contract.SoapCarResponse;
-import com.student.soap.carservice.contract.SoapDeactivatePublisherRequest;
 import com.student.soap.carservice.contract.SoapDeleteCarModelRequest;
-import com.student.soap.carservice.contract.SoapDeleteFuelTypeRequest;
-import com.student.soap.carservice.contract.SoapDeleteImageRequest;
-import com.student.soap.carservice.contract.SoapDeleteManufacturerRequest;
-import com.student.soap.carservice.contract.SoapFuelTypesRequest;
-import com.student.soap.carservice.contract.SoapGetImageRequest;
-import com.student.soap.carservice.contract.SoapGetImageResponse;
-import com.student.soap.carservice.contract.SoapNamedObjectsResponse;
-import com.student.soap.carservice.contract.SoapPostImageRequest;
-import com.student.soap.carservice.contract.SoapPostImageResponse;
 import com.student.soap.carservice.contract.SoapResponse;
-import com.student.soap.carservice.contract.SoapSearchCarsRequest;
-import com.student.soap.carservice.contract.SoapSearchCarsResponse;
 
 @Endpoint
 public class CarModelEndpoint {

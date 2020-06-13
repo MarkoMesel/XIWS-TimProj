@@ -32,15 +32,15 @@ import com.student.soap.contract.carservice.SoapNamedObjectsResponse;
 import com.student.soap.contract.carservice.SoapSearchCarsRequest;
 import com.student.soap.contract.carservice.SoapSearchCarsResponse;
 import com.student.soap.contract.scheduleservice.Bundle;
-import com.student.soap.contract.scheduleservice.Comment;
+import com.student.soap.contract.scheduleservice.Correspondence;
 import com.student.soap.contract.scheduleservice.Rating;
+import com.student.soap.contract.scheduleservice.SoapBundlesResponse;
 import com.student.soap.contract.scheduleservice.SoapCarAvailabilityRequest;
 import com.student.soap.contract.scheduleservice.SoapCarRatingRequest;
 import com.student.soap.contract.scheduleservice.SoapCarRatingsAndCommentsRequest;
 import com.student.soap.contract.scheduleservice.SoapCarRatingsAndCommentsResponse;
 import com.student.soap.contract.scheduleservice.SoapCartAddCarRequest;
 import com.student.soap.contract.scheduleservice.SoapCartBundleRequest;
-import com.student.soap.contract.scheduleservice.SoapCartResponse;
 import com.student.soap.contract.scheduleservice.SoapCartUnbundleRequest;
 import com.student.soap.contract.scheduleservice.SoapPendingCommentsResponse;
 import com.student.soap.contract.scheduleservice.SoapPendingRatingResponse;
@@ -295,7 +295,7 @@ public class Translator {
 			commOut.setUserId(commIn.getUserId());
 			commOut.setUserName(commIn.getUserName());
 
-			for (Comment replyIn : commIn.getReply()) {
+			for (Correspondence replyIn : commIn.getReply()) {
 				HttpCommentResponse replyOut = new HttpCommentResponse();
 				replyOut.setComment(replyIn.getComment());
 				replyOut.setDate(replyIn.getDate());
@@ -354,7 +354,7 @@ public class Translator {
 		return output;
 	}
 
-	public List<HttpCartResponse> translate(SoapCartResponse input) {
+	public List<HttpCartResponse> translate(SoapBundlesResponse input) {
 		List<HttpCartResponse> output = new ArrayList<>();
 
 		for (Bundle bundleIn : input.getBundle()) {
@@ -407,7 +407,7 @@ public class Translator {
 	public List<HttpCommentResponse> translate(SoapPendingCommentsResponse input) {
 		 List<HttpCommentResponse> output = new ArrayList<>();
 		 
-		for( Comment replyIn : input.getPendingComment()) {
+		for( Correspondence replyIn : input.getPendingComment()) {
 			HttpCommentResponse replyOut = new HttpCommentResponse();
 			
 			replyOut.setComment(replyIn.getComment());
