@@ -54,7 +54,7 @@ public class CommentProvider {
 		SoapCarRatingsAndCommentsResponse response = new SoapCarRatingsAndCommentsResponse();
 
 		List<ReservationDbModel> reservations = unitOfWork.getReservationRepo().findByCarId(id).stream()
-				.filter(reservation -> reservation.getBundle().getState().getId() == 6).collect(Collectors.toList());
+				.filter(reservation -> reservation.getBundle().getState().getId() == providerUtil.getCompletedState().getId()).collect(Collectors.toList());
 
 		for (ReservationDbModel reservationIn : reservations) {
 			List<CommentDbModel> comments = unitOfWork.getCommentRepo().findByReservationId(reservationIn.getId());
@@ -198,7 +198,7 @@ public class CommentProvider {
 
 		response.setAuthorized(true);
 
-		List<BundleDbModel> bundles = unitOfWork.getBundleRepo().findByUserIdAndStateId(token.getUserId(), 6);
+		List<BundleDbModel> bundles = unitOfWork.getBundleRepo().findByUserIdAndStateId(token.getUserId(), providerUtil.getCompletedState().getId());
 
 		for (BundleDbModel bundle : bundles) {
 			for (ReservationDbModel reservationIn : bundle.getReservations()) {

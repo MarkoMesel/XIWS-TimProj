@@ -1,12 +1,14 @@
 package com.student.scheduleservice.internal.provider;
 
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.student.scheduleservice.data.dal.BundleDbModel;
-import com.student.scheduleservice.data.dal.ReservationStateDbModel;
+import com.student.scheduleservice.data.dal.ReservationDbModel;
 import com.student.scheduleservice.data.repo.UnitOfWork;
 import com.student.scheduleservice.jwt.AuthenticationTokenParseResult;
 import com.student.scheduleservice.jwt.JwtUtil;
@@ -24,11 +26,13 @@ public class ReservationProvider {
 
 	private UnitOfWork unitOfWork;
 	private JwtUtil jwtUtil;
+	private ProviderUtil providerUtil;
 
 	@Autowired
-	public ReservationProvider(UnitOfWork unitOfWork, JwtUtil jwtUtil) {
+	public ReservationProvider(UnitOfWork unitOfWork, JwtUtil jwtUtil, ProviderUtil providerUtil) {
 		this.unitOfWork = unitOfWork;
 		this.jwtUtil = jwtUtil;
+		this.providerUtil = providerUtil;
 	}
 
 	public SoapResponse reserve(SoapReserveRequest request) {
@@ -43,17 +47,10 @@ public class ReservationProvider {
 
 		response.setAuthorized(true);
 		
-		List<BundleDbModel> bundles = unitOfWork.getBundleRepo().findByUserIdAndStateId(token.getUserId(), 7);
-		
-		ReservationStateDbModel pendingState;
-		try {
-			pendingState = unitOfWork.getReservationStateRepo().findById(1).get();
-		} catch (Exception e) {
-			return response;
-		}
+		List<BundleDbModel> bundles = unitOfWork.getBundleRepo().findByUserIdAndStateId(token.getUserId(), providerUtil.getCartState().getId());
 		
 		for(BundleDbModel bundle: bundles) {
-			bundle.setState(pendingState);
+			bundle.setState(providerUtil.getPendingState());
 			unitOfWork.getBundleRepo().save(bundle);
 		}
 		
@@ -94,5 +91,25 @@ public class ReservationProvider {
 
 		response.setSuccess(true);
 		return response;
+	}
+	
+	@Scheduled(fixedRate = 2000)
+	public void switchToComplete() {
+		List<BundleDbModel> bundles = unitOfWork.getBundleRepo().findByStateId(providerUtil.getReservedState().getId());
+
+		GregorianCalendar currentDateTime = new GregorianCalendar();
+		
+		for(BundleDbModel bundle : bundles) {
+			for(ReservationDbModel reservation : bundle.getReservations()) {
+				//Da li ima nezavrsenih rezervacija
+				if(reservation.getEndDate().after(currentDateTime.getTime())) {
+					//preskoci budle
+					break;
+				}
+				
+				bundle.setState(providerUtil.getCompletedState());
+				unitOfWork.getBundleRepo().save(bundle);
+			}
+		}
 	}
 }

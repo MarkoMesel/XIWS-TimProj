@@ -73,7 +73,7 @@ public class CartProvider {
 
 		// check for existing bundle
 		List<BundleDbModel> bundles = unitOfWork.getBundleRepo().findByUserIdAndStateIdAndPublisherIdAndPublisherTypeId(
-				token.getUserId(), 7, soapCarResponse.getCar().getPublisherId(),
+				token.getUserId(), providerUtil.getCartState().getId(), soapCarResponse.getCar().getPublisherId(),
 				soapCarResponse.getCar().getPublisherTypeId());
 		BundleDbModel bundle = null;
 		// check if the car is already in cart
@@ -91,7 +91,7 @@ public class CartProvider {
 		if (bundle == null || bundle.getReservations().size() <= 1) {
 			bundle = new BundleDbModel();
 			bundle.setUserId(token.getUserId());
-			bundle.setState(unitOfWork.getReservationStateRepo().findById(7).get());
+			bundle.setState(providerUtil.getCartState());
 
 			bundle.setPublisherId(soapCarResponse.getCar().getPublisherId());
 			Optional<PublisherTypeDbModel> publisherType = unitOfWork.getPublisherTypeRepo()
@@ -132,7 +132,7 @@ public class CartProvider {
 
 		response.setAuthorized(true);
 
-		List<BundleDbModel> bundles = unitOfWork.getBundleRepo().findByUserIdAndStateId(token.getUserId(), 7);
+		List<BundleDbModel> bundles = unitOfWork.getBundleRepo().findByUserIdAndStateId(token.getUserId(), providerUtil.getCartState().getId());
 		for (BundleDbModel bundleIn : bundles) {
 			Bundle bundleOut = new Bundle();
 			bundleOut.setBundleId(bundleIn.getId());
@@ -216,7 +216,7 @@ public class CartProvider {
 		response.setAuthorized(true);
 
 		Optional<ReservationDbModel> car = unitOfWork.getReservationRepo().findById(request.getReservationId());
-		if (!car.isPresent() || car.get().getBundle().getState().getId() != 7
+		if (!car.isPresent() || car.get().getBundle().getState().getId() != providerUtil.getCartState().getId()
 				|| car.get().getBundle().getUserId() != token.getUserId()) {
 			return response;
 		}
@@ -249,7 +249,7 @@ public class CartProvider {
 		response.setAuthorized(true);
 
 		List<BundleDbModel> bundles = unitOfWork.getBundleRepo().findByUserIdAndStateIdAndPublisherIdAndPublisherTypeId(
-				token.getUserId(), 7, request.getPublisherId(), request.getPublisherTypeId());
+				token.getUserId(), providerUtil.getCartState().getId(), request.getPublisherId(), request.getPublisherTypeId());
 		if (bundles.size() <= 1) {
 			return response;
 		}
@@ -257,7 +257,7 @@ public class CartProvider {
 		BundleDbModel bundle = new BundleDbModel();
 		bundle.setPublisherId(request.getPublisherId());
 		bundle.setPublisherType(unitOfWork.getPublisherTypeRepo().findById(request.getPublisherTypeId()).get());
-		bundle.setState(unitOfWork.getReservationStateRepo().findById(7).get());
+		bundle.setState(providerUtil.getCartState());
 		bundle.setUserId(token.getUserId());
 		unitOfWork.getBundleRepo().save(bundle);
 
@@ -293,7 +293,7 @@ public class CartProvider {
 		response.setAuthorized(true);
 
 		List<BundleDbModel> bundles = unitOfWork.getBundleRepo().findByUserIdAndStateIdAndPublisherIdAndPublisherTypeId(
-				token.getUserId(), 7, request.getPublisherId(), request.getPublisherTypeId());
+				token.getUserId(), providerUtil.getCartState().getId(), request.getPublisherId(), request.getPublisherTypeId());
 		if (bundles.size() != 1 || bundles.get(0).getReservations().size() <= 1) {
 			return response;
 		}

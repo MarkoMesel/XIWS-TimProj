@@ -59,7 +59,7 @@ public class ScheduleEndpoint {
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapCarPhysicalRequest")
 	@ResponsePayload
 	public SoapCarPhysicalResponse getCarPhysical(@RequestPayload SoapCarPhysicalRequest request) {
-		return scheduleProvider.getCarPhysical(request);
+		return scheduleProvider.addUnavailability(request);
 	}
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapAddCarPriceListRequest")

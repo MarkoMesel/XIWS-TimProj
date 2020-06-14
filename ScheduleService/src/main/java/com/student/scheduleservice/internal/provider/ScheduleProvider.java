@@ -1,6 +1,7 @@
 package com.student.scheduleservice.internal.provider;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,18 +32,19 @@ import com.student.soap.contract.scheduleservice.SoapDeletePriceListRequest;
 import com.student.soap.contract.scheduleservice.SoapDeletePriceRequest;
 import com.student.soap.contract.scheduleservice.SoapResponse;
 
-
 @Component("ScheduleProvider")
 public class ScheduleProvider {
 
 	private UnitOfWork unitOfWork;
 	private JwtUtil jwtUtil;
+	private ProviderUtil providerUtil;
 
 	@Autowired
-	public ScheduleProvider(UnitOfWork unitOfWork, JwtUtil jwtUtil) {
+	public ScheduleProvider(UnitOfWork unitOfWork, JwtUtil jwtUtil, ProviderUtil providerUtil) {
 		super();
 		this.unitOfWork = unitOfWork;
 		this.jwtUtil = jwtUtil;
+		this.providerUtil = providerUtil;
 	}
 
 	public InternalCarRatingResponse getCarRating(int id) {
@@ -71,10 +73,10 @@ public class ScheduleProvider {
 			return response;
 		}
 
-		//TODO: check for unavailabilities
-		
-		//TODO: check for existing reservations
-		
+		// TODO: check for unavailabilities
+
+		// TODO: check for existing reservations
+
 		List<PriceDbModel> prices = carPricelist.getPriceList().getPrices().stream()
 				.filter(price -> price.getStartDate().compareTo(request.getStartDate()) >= 0
 						&& price.getEndDate().compareTo(request.getEndDate()) >= 0)
@@ -147,8 +149,8 @@ public class ScheduleProvider {
 		return response;
 	}
 
-	public SoapCarPhysicalResponse getCarPhysical(SoapCarPhysicalRequest request) {
-		// TODO Auto-generated method stub
+	public SoapCarPhysicalResponse addUnavailability(SoapCarPhysicalRequest request) {
+
 		SoapCarPhysicalResponse response = new SoapCarPhysicalResponse();
 		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
 
@@ -157,46 +159,43 @@ public class ScheduleProvider {
 			return response;
 		}
 
-		// response.setAuthorized(true);
+		response.setAuthorized(true);
 
+		Date requestStartTime = request.getStartDate().toGregorianCalendar().getTime();
+		Date requestEndTime = request.getEndDate().toGregorianCalendar().getTime();
+
+		//TODO: ocisti logicku jednacinu
 		List<ReservationDbModel> reservations = unitOfWork.getReservationRepo().findByCarId(request.getCarId()).stream()
-				.filter(reservation -> reservation.getStartDate()
-						.compareTo(request.getStartDate().toGregorianCalendar().getTime()) >= 0
-						&& reservation.getStartDate()
-								.compareTo(request.getEndDate().toGregorianCalendar().getTime()) <= 0
-						|| reservation.getStartDate()
-								.compareTo(request.getStartDate().toGregorianCalendar().getTime()) <= 0
-								&& reservation.getEndDate()
-										.compareTo(request.getEndDate().toGregorianCalendar().getTime()) >= 0
-						|| reservation.getEndDate()
-								.compareTo(request.getStartDate().toGregorianCalendar().getTime()) >= 0
-								&& reservation.getEndDate()
-										.compareTo(request.getEndDate().toGregorianCalendar().getTime()) <= 0)
+				.filter(reservation -> reservation.getStartDate().compareTo(requestStartTime) >= 0
+						&& reservation.getStartDate().compareTo(requestEndTime) <= 0
+						|| reservation.getStartDate().compareTo(requestStartTime) <= 0
+								&& reservation.getEndDate().compareTo(requestEndTime) >= 0
+						|| reservation.getEndDate().compareTo(requestStartTime) >= 0
+								&& reservation.getEndDate().compareTo(requestEndTime) <= 0)
+				.filter(reservation -> reservation.getBundle().getState().getId() == providerUtil.getReservedState()
+						.getId())
 				.collect(Collectors.toList());
 
-		for (ReservationDbModel reservation : reservations) {
-			response.setTest(reservation.getBundle().getState().getName());
-			if (reservation.getBundle().getState().getName().equals("RESERVATION_PAID")) {
-				response.setSuccess(false);
-				return response;
-			}
+		if (reservations.size() > 0) {
+			return response;
 		}
-		// u protivnom, ako ne postoji preklapanje sa rezervacijama koje su vec placene, slobodan je da
-		// nastavi
+
 		UnavailabilityDbModel unavaible = new UnavailabilityDbModel();
 		unavaible.setCarId(request.getCarId());
 		unavaible.setStartDate(request.getStartDate().toGregorianCalendar().getTime());
 		unavaible.setEndDate(request.getEndDate().toGregorianCalendar().getTime());
 		unitOfWork.getUnavailabilityRepo().save(unavaible);
+
+		// TODO: odbijanje ostalih zahteva
+
 		response.setSuccess(true);
 		return response;
 	}
 
 	public SoapResponse addCarPriceList(SoapAddCarPriceListRequest request) {
-		// TODO Auto-generated method stub
 		SoapResponse response = new SoapResponse();
 		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
-		
+
 		if (!jwtUtil.isAuthorized(token, 4, request.getPublisherId(), request.getPublisherTypeId())) {
 			response.setAuthorized(false);
 			return response;
@@ -204,57 +203,55 @@ public class ScheduleProvider {
 		response.setAuthorized(true);
 
 		CarPriceListDbModel carPriceList = new CarPriceListDbModel();
-		
+
 		Optional<PriceListDbModel> model = unitOfWork.getPriceListRepo().findById(request.getPriceListId());
-		
+
 		carPriceList.setCarId(request.getCarId());
 		carPriceList.setPriceList(model.get());
-		
+
 		unitOfWork.getCarPriceListRepo().save(carPriceList);
-		
+
 		response.setSuccess(true);
 		return response;
 	}
 
 	public SoapResponse deleteCarPriceList(SoapDeleteCarPriceListRequest request) {
-		// TODO Auto-generated method stub
 		SoapResponse response = new SoapResponse();
-		
+
 		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
 		if (!token.isValid() || !jwtUtil.isAdmin(token)) {
 			response.setAuthorized(false);
 			return response;
 		}
-		
+
 		Optional<CarPriceListDbModel> carPriceList = unitOfWork.getCarPriceListRepo().findById(request.getId());
-		if(!carPriceList.isPresent()) {
+		if (!carPriceList.isPresent()) {
 			response.setSuccess(false);
 			return response;
 		}
-		
+
 		try {
 			unitOfWork.getCarPriceListRepo().delete(carPriceList.get());
 		} catch (Exception e) {
 			response.setSuccess(false);
 			return response;
 		}
-		
+
 		response.setSuccess(true);
 		return response;
 	}
 
 	public SoapResponse addPriceList(SoapAddPriceListRequest request) {
-		// TODO Auto-generated method stub
 		SoapResponse response = new SoapResponse();
 		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
-	
+
 		if (!jwtUtil.isAuthorized(token, 4, request.getPublisherId(), request.getPublisherTypeId())) {
 			response.setAuthorized(false);
 			return response;
 		}
 
 		response.setAuthorized(true);
-		
+
 		PriceListDbModel priceList = new PriceListDbModel();
 		priceList.setDiscountPercentage(request.getDiscountPercentage());
 		priceList.setMileagePenalty(request.getMileagePenalty());
@@ -263,30 +260,29 @@ public class ScheduleProvider {
 		priceList.setWarrantyPrice(request.getWarrantyPrice());
 		priceList.setPublisherId(request.getPublisherId());
 		priceList.setPublisherType(unitOfWork.getPublisherTypeRepo().findById(request.getPublisherTypeId()).get());
-		
+
 		try {
 			unitOfWork.getPriceListRepo().save(priceList);
 		} catch (Exception e) {
 			response.setSuccess(false);
 			return response;
 		}
-		
+
 		response.setSuccess(true);
 		return response;
 	}
 
 	public SoapResponse deletePriceList(SoapDeletePriceListRequest request) {
-		// TODO Auto-generated method stub
 		SoapResponse response = new SoapResponse();
-		
+
 		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
 		if (!token.isValid() || !jwtUtil.isAdmin(token)) {
 			response.setAuthorized(false);
 			return response;
 		}
-		
-		Optional <PriceListDbModel> priceList = unitOfWork.getPriceListRepo().findById(request.getId());
-		if(!priceList.isPresent()) {
+
+		Optional<PriceListDbModel> priceList = unitOfWork.getPriceListRepo().findById(request.getId());
+		if (!priceList.isPresent()) {
 			response.setSuccess(false);
 			return response;
 		}
@@ -301,40 +297,38 @@ public class ScheduleProvider {
 	}
 
 	public SoapResponse addPrice(SoapAddPriceRequest request) {
-		// TODO Auto-generated method stub
 		SoapResponse response = new SoapResponse();
 		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
-	
+
 		if (!jwtUtil.isAuthorized(token, 4, request.getPublisherId(), request.getPublisherTypeId())) {
 			response.setAuthorized(false);
 			return response;
 		}
 
 		response.setAuthorized(true);
-		
+
 		PriceDbModel price = new PriceDbModel();
 		price.setStartDate(request.getStartDate().toGregorianCalendar().getTime());
 		price.setEndDate(request.getEndDate().toGregorianCalendar().getTime());
 		price.setPrice(request.getPrice());
 		price.setPriceList(unitOfWork.getPriceListRepo().findById(request.getPriceListId()).get());
-		
+
 		unitOfWork.getPriceRepo().save(price);
 		response.setSuccess(true);
 		return response;
 	}
 
 	public SoapResponse deletePrice(SoapDeletePriceRequest request) {
-		// TODO Auto-generated method stub
 		SoapResponse response = new SoapResponse();
-		
+
 		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
 		if (!token.isValid() || !jwtUtil.isAdmin(token)) {
 			response.setAuthorized(false);
 			return response;
 		}
-		
+
 		Optional<PriceDbModel> price = unitOfWork.getPriceRepo().findById(request.getId());
-		if(!price.isPresent()) {
+		if (!price.isPresent()) {
 			response.setSuccess(false);
 			return response;
 		}

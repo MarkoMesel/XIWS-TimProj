@@ -10,6 +10,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.student.scheduleservice.data.dal.ReservationStateDbModel;
+import com.student.scheduleservice.data.repo.UnitOfWork;
 import com.student.scheduleservice.soap.client.AgentServiceClient;
 import com.student.scheduleservice.soap.client.UserServiceClient;
 import com.student.soap.contract.agentservice.SoapAgentByIdResponse;
@@ -20,14 +22,40 @@ public class ProviderUtil {
 	
 	private UserServiceClient userServiceClient;
 	private AgentServiceClient agentServiceClient;
+	private UnitOfWork unitOfWork;
 	
 	@Autowired
-	public ProviderUtil(UserServiceClient userServiceClient, AgentServiceClient agentServiceClient) {
+	public ProviderUtil(UserServiceClient userServiceClient, AgentServiceClient agentServiceClient, UnitOfWork unitOfWork) {
 		super();
 		this.userServiceClient = userServiceClient;
 		this.agentServiceClient = agentServiceClient;
+		this.unitOfWork = unitOfWork;
 	}
 
+	public ReservationStateDbModel getCartState() {
+		return unitOfWork.getReservationStateRepo().findById(1).get();
+	}
+	
+	public ReservationStateDbModel getPendingState() {
+		return unitOfWork.getReservationStateRepo().findById(2).get();
+	}
+	
+	public ReservationStateDbModel getCanceledState() {
+		return unitOfWork.getReservationStateRepo().findById(3).get();
+	}
+	
+	public ReservationStateDbModel getReservedState() {
+		return unitOfWork.getReservationStateRepo().findById(4).get();
+	}
+	
+	public ReservationStateDbModel getRejectedState() {
+		return unitOfWork.getReservationStateRepo().findById(5).get();
+	}
+	
+	public ReservationStateDbModel getCompletedState() {
+		return unitOfWork.getReservationStateRepo().findById(6).get();
+	}
+	
 	public String fetchPublisherName(String publisherTypeName, Integer publisherId) {
 		//Fetch publisher name
 		//If user
