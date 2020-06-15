@@ -2,13 +2,12 @@ package com.student.http.contract;
 
 public class HttpAddCarRequest {
 	private int modelId;
+	private int locationId;
 	private int fuelTypeId;
 	private int transmissionTypeId;
 	private int carClassId;
 	private int mileage;
 	private int childSeats;
-	private int publisherId;
-	private int publisherTypeId;
 	
 	public int getModelId() {
 		return modelId;
@@ -46,16 +45,12 @@ public class HttpAddCarRequest {
 	public void setChildSeats(int childSeats) {
 		this.childSeats = childSeats;
 	}
-	public int getPublisherId() {
-		return publisherId;
+
+	public int getLocationId() {
+		return locationId;
 	}
-	public void setPublisherId(int publisherId) {
-		this.publisherId = publisherId;
-	}
-	public int getPublisherTypeId() {
-		return publisherTypeId;
-	}
-	public void setPublisherTypeId(int publisherTypeId) {
-		this.publisherTypeId = publisherTypeId;
+
+	public void setLocationId(int locationId) {
+		this.locationId = locationId;
 	}
 }

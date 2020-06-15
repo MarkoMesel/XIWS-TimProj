@@ -3,6 +3,7 @@ package com.student.data.dal;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,7 +21,7 @@ public class CarManufacturerDbModel {
 	@NotEmpty
 	private String name;
 	
-	@OneToMany(mappedBy = "manufacturer")
+	@OneToMany(mappedBy = "manufacturer", fetch=FetchType.EAGER)
 	private List<CarModelDbModel> models;
 
 	public int getId() {

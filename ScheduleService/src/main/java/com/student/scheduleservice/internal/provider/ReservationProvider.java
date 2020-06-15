@@ -47,7 +47,7 @@ public class ReservationProvider {
 			return false;
 		}
 		
-		boolean hasUserPermission = token.getRoleName().equals("BASIC") && permission.getResourceId() == null && permission.getResourceTypeId() == 1;
+		boolean hasUserPermission = token.getRoleName().equals("BASIC") && permission.getResourceId() == token.getUserId() && permission.getResourceTypeId() == 1;
 		boolean hasPublisherPermission = token.getRoleName().equals("AGENT") && permission.getResourceId()!=null && permission.getResourceTypeId() == 2;
 		
 		//Da li je korisnik ili agent?
@@ -217,12 +217,9 @@ public class ReservationProvider {
 			return response;
 		}
 		
-		int publisherId = token.getRoleName().equals("BASIC") ? token.getUserId() : requiredPermission.getResourceId();
-		int publisherTypeId =  token.getRoleId();
-		
 		// find all bundles that are not in cart
 		List<BundleDbModel> bundles = unitOfWork.getBundleRepo()
-				.findByPublisherIdAndPublisherTypeId(publisherId, publisherTypeId)
+				.findByPublisherIdAndPublisherTypeId(requiredPermission.getResourceId(),  token.getRoleId())
 				.stream()
 				.filter(bundle -> bundle.getState().getId() != providerUtil.getCartState().getId())
 				.collect(Collectors.toList());

@@ -196,8 +196,7 @@ public class Translator {
 		output.setFuelTypeId(input.getFuelTypeId());
 		output.setMileage(input.getMileage());
 		output.setModelId(input.getModelId());
-		output.setPublisherId(input.getPublisherId());
-		output.setPublisherTypeId(input.getPublisherTypeId());
+		output.setLocationId(input.getLocationId());
 		output.setTransmissionTypeId(input.getTransmissionTypeId());
 		output.setToken(token);
 		return output;

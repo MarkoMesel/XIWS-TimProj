@@ -15,12 +15,14 @@ import com.student.data.dal.CarManufacturerDbModel;
 import com.student.data.dal.CarModelDbModel;
 import com.student.data.dal.FuelTypeDbModel;
 import com.student.data.dal.LocationDbModel;
+import com.student.data.dal.PublisherTypeDbModel;
 import com.student.data.dal.TransmissionTypeDbModel;
 import com.student.data.repo.UnitOfWork;
 import com.student.internal.contract.InternalCarModelsResponse;
 import com.student.internal.contract.InternalNamedObjectsResponse;
 import com.student.jwt.AuthenticationTokenParseResult;
 import com.student.jwt.JwtUtil;
+import com.student.jwt.Permission;
 import com.student.soap.agentservice.contract.SoapAgentByIdResponse;
 import com.student.soap.carservice.contract.Car;
 import com.student.soap.carservice.contract.NamedObject;
@@ -75,22 +77,44 @@ public class CarProvider {
 		this.agentServiceClient = agentServiceClient;
 		this.jwtUtil = jwtUtil;
 	}
+	
+	private boolean authanticated(AuthenticationTokenParseResult token, Permission permission) {
+		if (!token.isValid() || permission == null)
+		{			
+			return false;
+		}
+		
+		boolean hasUserPermission = token.getRoleName().equals("BASIC") && permission.getResourceId() == token.getUserId() && permission.getResourceTypeId() == 1;
+		boolean hasPublisherPermission = token.getRoleName().equals("AGENT") && permission.getResourceId()!=null && permission.getResourceTypeId() == 2;
+		
+		if( !hasUserPermission && !hasPublisherPermission ) {
+			return false;
+		}
+		
+		return true;
+	}
 
 	public SoapResponse addCar(SoapAddCarRequest request) {
 		SoapResponse response = new SoapResponse();
 		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
 
-		if (!jwtUtil.isAutharized(token, 1, request.getPublisherId(), request.getPublisherTypeId())) {
+		Permission requiredPermission = token.getPermissions().stream()
+				.filter(permission -> permission.getPermissionId() == 1 ).findFirst().orElse(null);
+		
+		if(!authanticated(token, requiredPermission)){
 			response.setAuthorized(false);
 			return response;
 		}
+		
+		int publisherId = requiredPermission.getResourceId();
+		int publisherTypeId =  token.getRoleId();
 
 		response.setAuthorized(true);
 
 		// If the publisher is a user, he can't have more than 3 cars
 		if (token.getRoleId() == 1) {
 			List<CarDbModel> cars = unitOfWork.getCarRepo()
-					.findByPublisherIdAndPublisherTypeId(request.getPublisherId(), request.getPublisherTypeId());
+					.findByPublisherIdAndPublisherTypeId(publisherId, publisherTypeId);
 			if (cars.size() >= 3) {
 				response.setSuccess(false);
 				return response;
@@ -98,14 +122,53 @@ public class CarProvider {
 		}
 
 		CarDbModel car = new CarDbModel();
-		car.setCarClass(unitOfWork.getCarClassRepo().findById(request.getCarClassId()).get());
-		car.setCarModel(unitOfWork.getCarModelRepo().findById(request.getModelId()).get());
+		
+		Optional<LocationDbModel> location = unitOfWork.getLocationRepo().findById(request.getLocationId());
+		if (!location.isPresent()) {
+			response.setSuccess(false);
+			return response;
+		}
+		car.setLocation(location.get());
+		
+		Optional<CarClassDbModel> carClass = unitOfWork.getCarClassRepo().findById(request.getCarClassId());
+		if (!carClass.isPresent()) {
+			response.setSuccess(false);
+			return response;
+		}
+		car.setCarClass(carClass.get());
+		
+		Optional<CarModelDbModel> model =  unitOfWork.getCarModelRepo().findById(request.getModelId());
+		if(!model.isPresent()) {
+			response.setSuccess(false);
+			return response;
+		}
+		car.setCarModel(model.get());
+		
+		Optional<FuelTypeDbModel> fuelType = unitOfWork.getFuelTypeRepo().findById(request.getFuelTypeId());
+		if(!fuelType.isPresent()) {
+			response.setSuccess(false);
+			return response;
+		}
+		car.setFuelType(fuelType.get());
+		
+		Optional<TransmissionTypeDbModel> transmissionType = unitOfWork.getTransmissionTypeRepo().findById(request.getTransmissionTypeId());
+		if(!transmissionType.isPresent()) {
+			response.setSuccess(false);
+			return response;
+		}
+		car.setTransmissionType(transmissionType.get());
+		
+		Optional<PublisherTypeDbModel> publisherType = unitOfWork.getPublisherTypeRepo().findById(publisherTypeId);
+		if(!publisherType.isPresent()) {
+			response.setSuccess(false);
+			return response;
+		}
+		car.setPublisherType(publisherType.get());
+		
 		car.setChildSeats(request.getChildSeats());
-		car.setFuelType(unitOfWork.getFuelTypeRepo().findById(request.getFuelTypeId()).get());
 		car.setMileage(request.getMileage());
-		car.setTransmissionType(unitOfWork.getTransmissionTypeRepo().findById(request.getTransmissionTypeId()).get());
-		car.setPublisherType(unitOfWork.getPublisherTypeRepo().findById(request.getPublisherTypeId()).get());
-		car.setPublisherId(request.getPublisherId());
+		car.setPublisherId(publisherId);
+		car.setActive(true);
 
 		unitOfWork.getCarRepo().save(car);
 

@@ -386,13 +386,13 @@
 								"header": [
 									{
 										"key": "token",
-										"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBR0VOVCIsInJvbGVJZCI6MiwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX1dLCJ1c2VySWQiOjIsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.h4WgArg176txU5NGarpgAdjg0ZVHsmKHc1f8sGuo0HkWbZIvQDyLfAyupC3w24QBXGWtjxaePUd3y3Aj6RzuIQukFvNqVsSesIin6zet48M-AhJIbfUE_O-dh-CPh27l1-l43rP3-q91xMbzjFJjgQ-6jd7eLNPGl4MOd0kHS-RXOjD7AZRTpUnrFekeU-HBYihcp5MSVScNQA6TzhoUCdhECQrCKTlZMCS1RP7ThoVTOATG1pQemn-3_rDYpXevi8dKppWhk8tCUHRKvAlKpesgNkrMKslM0Otw_eRYoiIxVYyiVr1a0_Ep749UIcsIWHgXyWNS59huGtqtttPt-Q",
+										"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJCQVNJQyIsInJvbGVJZCI6MSwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjEsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJVU0VSIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjIsInJlc291cmNlVHlwZUlkIjoxLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgSW1hZ2UiLCJyZXNvdXJjZVR5cGVOYW1lIjoiVVNFUiIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjo0LCJyZXNvdXJjZVR5cGVJZCI6MSwicGVybWlzc2lvbk5hbWUiOiJBZGQgUHJpY2UiLCJyZXNvdXJjZVR5cGVOYW1lIjoiVVNFUiIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjo1LCJyZXNvdXJjZVR5cGVJZCI6MSwicGVybWlzc2lvbk5hbWUiOiJNYW5hZ2UgcmVzZXJ2YXRpb25zIiwicmVzb3VyY2VUeXBlTmFtZSI6IlVTRVIiLCJyZXNvdXJjZUlkIjoxfV0sInVzZXJJZCI6MSwicHVycG9zZSI6IkFVVEhFTlRJQ0FUSU9OIn0.N0urVjPozr9VzhN2yLU5YU_inY-ZfzuMDLKSm_RR09GngNoljFQTKJxBKCgv2rrT2rDDZ0vwj18belgMR_VV8AR1_VMnYzKEoVg5aRjqcbcA8PyV4UwwNasSXG-TQPzWFQiSkG2q_2EqQlxx2JucNAW3jbVcXIYzyVFovQvKuV7hxAm1xxNoxvJQEzeV1IwHoX4hOt7UqaGVtzAq-jlllQkLP6kV5-5k6Yxj0Tb70X1K3gvbDFECuAVqKpB8ftStvIFzn0MSdOS37gRqNwzwvVht-ZfhjsAatVWcBBxV64L9M25WSmKg_5iDt33RC6yBPSTIFuArSctQtM6pnUHK2Q",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"modelId\": 1,\r\n    \"fuelTypeId\": 1,\r\n    \"transmissionTypeId\": 1,\r\n    \"carClassId\": 3,\r\n    \"mileage\": 225000,\r\n    \"childSeats\": 1,\r\n    \"publisherId\":1,\r\n    \"publisherTypeId\":2\r\n}",
+									"raw": "{\r\n    \"locationId\":1,\r\n    \"modelId\": 5,\r\n    \"fuelTypeId\": 1,\r\n    \"transmissionTypeId\": 1,\r\n    \"carClassId\": 3,\r\n    \"mileage\": 225000,\r\n    \"childSeats\": 1\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"

@@ -323,8 +323,7 @@
 		<xs:complexType>
             <xs:sequence>
                 <xs:element name="token" type="xs:string"/>
-                <xs:element name="publisherId" type="xs:int"/>
-                <xs:element name="publisherTypeId" type="xs:int"/>
+                <xs:element name="locationId" type="xs:int"/>
                 <xs:element name="modelId" type="xs:int"/>
                 <xs:element name="fuelTypeId" type="xs:int"/>
                 <xs:element name="transmissionTypeId" type="xs:int"/>

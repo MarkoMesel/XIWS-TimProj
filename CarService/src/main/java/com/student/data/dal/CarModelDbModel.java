@@ -24,7 +24,7 @@ public class CarModelDbModel {
 	@JoinColumn(name="MANUFACTURER_ID")
 	private CarManufacturerDbModel manufacturer;
 	
-	@OneToMany(mappedBy = "carModel")
+	@OneToMany(mappedBy = "carModel", fetch=FetchType.EAGER)
 	private List<CarDbModel> cars;
 	
 	@NotEmpty
