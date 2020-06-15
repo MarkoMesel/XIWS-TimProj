@@ -17,6 +17,8 @@ import com.student.data.repo.UserRepo;
 import com.student.internal.contract.InternalLoginRequest;
 import com.student.internal.contract.InternalLoginResponse;
 import com.student.jwt.JwtUtil;
+import com.student.soap.contract.SoapLoginRequest;
+import com.student.soap.contract.SoapLoginResponse;
 
 @Component("LoginProvider")
 public class LoginProvider {
@@ -32,20 +34,9 @@ public class LoginProvider {
 		passwordEncoder = new BCryptPasswordEncoder(10, new SecureRandom());
 	}
 	
-	public InternalLoginResponse login(InternalLoginRequest request) 
+	public SoapLoginResponse login(SoapLoginRequest request) 
 	{
-		InternalLoginResponse response = new InternalLoginResponse();
-		
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		Validator validator = factory.getValidator();
-
-		Set<ConstraintViolation<InternalLoginRequest>> constraintViolations = validator.validate(request);
-		
-		if (!constraintViolations.isEmpty()) 
-		{ 		
-			response.setSuccess(false);
-			return response;
-		}
+		SoapLoginResponse response = new SoapLoginResponse();
 		
 		UserDbModel user = userRepo.findByEmail(request.getEmail());
 		
@@ -60,6 +51,9 @@ public class LoginProvider {
 		}
 		
 		response.setToken(jwtUtil.getAuthenticationToken(user));
+		response.setId(user.getId());
+		response.setRoleId(user.getRole().getId());
+		response.setRoleName(user.getRole().getName());
 		response.setSuccess(true);
 		
 		return response;

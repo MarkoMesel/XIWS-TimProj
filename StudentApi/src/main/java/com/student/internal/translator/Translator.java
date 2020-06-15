@@ -54,6 +54,7 @@ import com.student.soap.contract.userservice.SoapVerifyRequest;
 
 @Component("Translator")
 public class Translator {
+	
 	// Login
 	public SoapLoginRequest translate(HttpLoginRequest input) {
 		SoapLoginRequest output = new SoapLoginRequest();
@@ -65,6 +66,9 @@ public class Translator {
 	public HttpLoginResponse httpTranslate(SoapLoginResponse input) {
 		HttpLoginResponse output = new HttpLoginResponse();
 		output.setToken(input.getToken());
+		output.setId(input.getId());
+		output.setRoleId(input.getRoleId());
+		output.setRoleName(input.getRoleName());
 		return output;
 	}
 
