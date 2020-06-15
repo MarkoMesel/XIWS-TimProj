@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.student.http.contract.HttpCartAddCarRequest;
 import com.student.http.contract.HttpCartBundleRequest;
-import com.student.http.contract.HttpCartResponse;
+import com.student.http.contract.HttpBundleResponse;
 import com.student.internal.translator.Translator;
 import com.student.soap.client.ScheduleServiceClient;
 import com.student.soap.contract.scheduleservice.SoapBundlesResponse;
@@ -50,7 +50,7 @@ public class CartController {
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@GetMapping(path = "schedule/cart")
-	public ResponseEntity<List<HttpCartResponse>> getCart(@RequestHeader("token") String token) {
+	public ResponseEntity<List<HttpBundleResponse>> getCart(@RequestHeader("token") String token) {
 		SoapCartRequest internalRequest = new SoapCartRequest();
 		internalRequest.setToken(token);
 		SoapBundlesResponse internalResponse = scheduleServiceClient.send(internalRequest);
@@ -63,7 +63,7 @@ public class CartController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		return new ResponseEntity<List<HttpCartResponse>>(translator.translate(internalResponse), HttpStatus.OK);
+		return new ResponseEntity<List<HttpBundleResponse>>(translator.translate(internalResponse), HttpStatus.OK);
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")

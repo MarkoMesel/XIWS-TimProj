@@ -221,11 +221,13 @@
 	
 	<xs:complexType name="Bundle">
     	<xs:sequence>
-        	<xs:element name="bundleId" type="xs:int" nillable="true"/>
-        	<xs:element name="publisherId" type="xs:int" nillable="true"/>
+        	<xs:element name="bundleId" type="xs:int"/>
+        	<xs:element name="publisherId" type="xs:int"/>
         	<xs:element name="publisherName" type="xs:string"/>
-        	<xs:element name="publisherTypeId" type="xs:int" nillable="true"/>
+        	<xs:element name="publisherTypeId" type="xs:int"/>
         	<xs:element name="publisherTypeName" type="xs:string"/>
+        	<xs:element name="userId" type="xs:int"/>
+        	<xs:element name="userName" type="xs:string"/>
         	<xs:element name="stateName" type="xs:string"/>
         	<xs:element name="stateId" type="xs:int"/>
         	<xs:element name="car" type="tns:Car" minOccurs="1" maxOccurs="unbounded"/>
@@ -438,7 +440,7 @@
 		</xs:complexType>
 	</xs:element>
 	
-	<xs:element name="soapReservationsRequest">
+	<xs:element name="soapUserReservationsRequest">
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="token" type="xs:string" />
@@ -446,18 +448,10 @@
 		</xs:complexType>
 	</xs:element>
 	
-	<xs:element name="soapPayReservationRequest">
+	<xs:element name="soapPublisherReservationsRequest">
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="token" type="xs:string" />
-				<xs:element name="bundleId" type="xs:int" />
-				<xs:element name="card" type="xs:string" />
-				<xs:element name="CCV" type="xs:string" />
-				<xs:element name="firstName" type="xs:string" />
-				<xs:element name="lastName" type="xs:string" />
-				<xs:element name="address" type="xs:string" />
-				<xs:element name="validDay" type="xs:string" />
-				<xs:element name="validMonth" type="xs:string" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>

@@ -121,85 +121,18 @@ public class CartProvider {
 	}
 
 	public SoapBundlesResponse getCart(SoapCartRequest request) {
-		SoapBundlesResponse response = new SoapBundlesResponse();
-
 		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
 
 		if (!token.isValid() || token.getUserId() == null || !token.getRoleName().equals("BASIC")) {
+			SoapBundlesResponse response = new SoapBundlesResponse();
 			response.setAuthorized(false);
 			return response;
 		}
 
-		response.setAuthorized(true);
-
 		List<BundleDbModel> bundles = unitOfWork.getBundleRepo().findByUserIdAndStateId(token.getUserId(), providerUtil.getCartState().getId());
-		for (BundleDbModel bundleIn : bundles) {
-			Bundle bundleOut = new Bundle();
-			bundleOut.setBundleId(bundleIn.getId());
-			bundleOut.setPublisherId(bundleIn.getPublisherId());
-			bundleOut.setPublisherTypeId(bundleIn.getPublisherType().getId());
-			bundleOut.setPublisherTypeName(bundleIn.getPublisherType().getName());
-
-			// Fetch publisher name
-			bundleOut.setPublisherName(providerUtil.fetchPublisherName(bundleIn.getPublisherType().getName(),
-					bundleIn.getPublisherId()));
-
-			for (ReservationDbModel reservationIn : bundleIn.getReservations()) {
-				try {
-					Car reservationOut = new Car();
-
-					// fetch car
-					SoapCarRequest soapCarRequest = new SoapCarRequest();
-					soapCarRequest.setId(reservationIn.getCarId());
-					GregorianCalendar startDateGreg = new GregorianCalendar();
-					startDateGreg.setTime(reservationIn.getStartDate());
-					GregorianCalendar endDateGreg = new GregorianCalendar();
-					endDateGreg.setTime(reservationIn.getEndDate());
-					soapCarRequest.setStartDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(startDateGreg));
-					soapCarRequest.setEndDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(endDateGreg));
-					SoapCarResponse soapCarResponse = carServiceClient.send(soapCarRequest);
-
-					if (!soapCarResponse.isSuccess()) {
-						return response;
-					}
-
-					reservationOut.setReservationId(reservationIn.getId());
-					reservationOut.setCarId(reservationIn.getCarId());
-					reservationOut.setWarrantyIncluded(reservationIn.isWarrantyIncluded());
-					reservationOut.setTotalPrice(reservationIn.getTotalPrice());
-
-					reservationOut.setMileagePenalty(soapCarResponse.getCar().getMileagePenalty());
-					reservationOut.setMileageThreshold(soapCarResponse.getCar().getMileageThreshold());
-					reservationOut.setCarClassId(soapCarResponse.getCar().getCarClassId());
-					reservationOut.setCarClassName(soapCarResponse.getCar().getCarClassName());
-					reservationOut.setLocationId(soapCarResponse.getCar().getLocationId());
-					reservationOut.setLocationName(soapCarResponse.getCar().getLocationName());
-					reservationOut.setModelId(soapCarResponse.getCar().getModelId());
-					reservationOut.setModelName(soapCarResponse.getCar().getModelName());
-					reservationOut.setManufacturerId(soapCarResponse.getCar().getManufacturerId());
-					reservationOut.setManufacturerName(soapCarResponse.getCar().getManufacturerName());
-					reservationOut.setFuelTypeName(soapCarResponse.getCar().getFuelTypeName());
-					reservationOut.setFuelTypeId(soapCarResponse.getCar().getFuelTypeId());
-					reservationOut.setTransmissionTypeName(soapCarResponse.getCar().getTransmissionTypeName());
-					reservationOut.setTransmissionTypeId(soapCarResponse.getCar().getTransmissionTypeId());
-					reservationOut.setMileage(soapCarResponse.getCar().getMileage());
-					reservationOut.setChildSeats(soapCarResponse.getCar().getChildSeats());
-					reservationOut.setPublisherId(soapCarResponse.getCar().getPublisherId());
-					reservationOut.setPublisherTypeId(soapCarResponse.getCar().getPublisherTypeId());
-					reservationOut.setPublisherTypeName(soapCarResponse.getCar().getPublisherTypeName());
-					reservationOut.setRating(soapCarResponse.getCar().getRating());
-					reservationOut.getImage().addAll(soapCarResponse.getCar().getImage());
-
-					bundleOut.getCar().add(reservationOut);
-				} catch (DatatypeConfigurationException e) {
-					e.printStackTrace();
-				}
-			}
-
-			response.getBundle().add(bundleOut);
-		}
-
-		response.setSuccess(true);
+		
+		SoapBundlesResponse response = providerUtil.getSoapBundles(bundles);
+		
 		return response;
 	}
 
