@@ -9,12 +9,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import 'react-bootstrap/Accordion';
 import 'semantic-ui-css/semantic.min.css';
-import ClientSearchCar from './ClientSearchCar.js';
+import ClientCarSearch from './ClientCarSearch.js';
 import SearchResults from './SearchResults';
-import ProductListing from './ProductListing';
+import MoreDetails from './MoreDetails';
 import ShoppingCart from './ShoppingCart';
 import RegistrationInfo from './RegistrationInfo';
-import ClientCarPost from './ClientCarPost';
+import CarPost from './CarPost';
+import AdminDbManage from './AdminDbManage';
 
 class App extends Component {
   render() {
@@ -24,12 +25,13 @@ class App extends Component {
             <Switch>
               <Route exact path='/login' component={Login}></Route>
               <Route exact path='/register' component={Register}></Route>
-              <Route exact path={["/", "/home", "/homepage"]} component={ClientSearchCar}></Route>
+              <Route exact path={["/", "/home", "/homepage"]} component={ClientCarSearch}></Route>
               <Route exact path='/searchresults' component={SearchResults}></Route>
-              <Route path='/productlisting/:carID' component={ProductListing}></Route>
+              <Route exact path='/moredetails' component={MoreDetails}></Route>
               <Route path= '/cart' component={ShoppingCart}></Route>
               <Route exact path='registrationinfo' component={RegistrationInfo}></Route>
-              <Route exact path="/postcar" component={ClientCarPost}></Route>
+              <Route exact path="/postcar" component={CarPost}></Route>
+              <Route exact path='/admindb' component={AdminDbManage}></Route>
             </Switch>
           </div>
         </Router>

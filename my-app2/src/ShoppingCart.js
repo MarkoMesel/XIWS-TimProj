@@ -5,112 +5,166 @@ import BackupPhoto from './img/t2.jpg';
 import { FormCheck } from 'react-bootstrap';
 import './ShoppingCart.css';
 import './index.css';
+import { Button, ButtonGroup } from 'react-bootstrap';
 
+const axiosConfig = {
+    headers: {
+        'token': localStorage.getItem('token')
+    }
+};
 
 class ShoppingCart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            daysarray: '',
-            cars: [],
-            numberOfDays: sessionStorage.getItem('numberOfDays'),
-            startDate: sessionStorage.getItem('StartDate'),
-            endDate: sessionStorage.getItem('EndDate'),
-            userMileage: sessionStorage.getItem('UserMileage'),
-
-            carsConfirmed: [],
+            bundles: [],
+            publisherNameList: [],
+            publisherIdList: [],
+            pubIdList2: '',
         }
-        this.confirmedRent = this.confirmedRent.bind(this);
-
+        this.handleRemoveFromCart = this.handleRemoveFromCart.bind(this);
+        this.handleBundle = this.handleBundle.bind(this);
+        this.handleUnbundle = this.handleUnbundle.bind(this);
+        this.handleDupes = this.handleDupes.bind(this);
     }
 
     componentDidMount() {
 
-        let selectedCars = sessionStorage.getItem("SelectedCars");
-        selectedCars = JSON.parse(selectedCars);
-
-        if (selectedCars === null) {
-            return <h1>Your Cart is empty</h1>
-        } else {
-            var uniqueSelectedCars = selectedCars.filter(function (item, pos) {
-                return selectedCars.indexOf(item) === pos;
-            });
-
-            uniqueSelectedCars.map((k) => {
-                /*
-                post umesto geta
-                newformdata = startdate, enddate, k
-                axios.post(newformdata,axiosconfig)
-                
-                */ 
-                axios.get("https://localhost:8085/car/getCar" + k)
-                    .then(res => {
-                        const cars = res.data;
-                        this.setState({ cars: this.state.cars.concat(cars) });
-                    })
-            });
+        if (localStorage.getItem('token') === null) {
+            this.props.history.push("/login");
         }
+
+        axios.get(
+            'https://localhost:8085/schedule/cart', axiosConfig)
+            .then(response => {
+                if (response.status === 200) {
+                    console.log('nije greska u get cart');
+                    const responsebundles = response.data;
+                    this.setState({ bundles: responsebundles });
+        
+                    this.state.bundles.map((k) => {
+
+                        const pubNameList = this.state.publisherNameList;
+                        const pubIdList = this.state.publisherIdList;
+
+                        pubNameList.push(k.publisherName);
+                        pubIdList.push(k.publisherId);
+                        this.setState({pubIdList2: pubIdList});
+                    });
+                }
+            }).catch(response => {
+                console.log('greska u get cart');
+            }); 
+            this.setState({ state: this.state });
+
+      
     }
 
-    confirmedRent(event){
+    handleRemoveFromCart = (event) => {
 
+        const reservationId = event.target.value;
+        let deleteLink = 'https://localhost:8085/schedule/cart/' + event.target.value;
+
+        axios.delete(deleteLink,
+            axiosConfig,
+            reservationId)
+            .then(response => {
+                if (response.status === 200) {
+                    console.log('greska u remove from cart')
+                }
+            }).catch(response => {
+                console.log("greska u remove from cart");
+            });
+    }
+    handleBundle = (event) => {
+
+        const bundleData = {
+            publisherId: event.target.value,
+            publisherTypeId: 2
+        }
+
+        axios.post('https://localhost:8085/schedule/cart/bundle', axiosConfig, bundleData)
+            .then(response => {
+                console.log("bundle radi");
+                window.location.reload(true);
+
+            }).catch(response => {
+                console.log("bundle ne radi");
+            })
+    }
+
+    handleUnbundle = (event) => {
+        const unbundleData = {
+            publisherId: event.target.value,
+            publisherTypeId: 2
+        }
+
+        axios.post('https://localhost:8085/schedule/cart/unbundle', axiosConfig, unbundleData)
+            .then(response => {
+                console.log("unbundle radi");
+                window.location.reload(true);
+
+            }).catch(response => {
+                console.log("unbundle ne radi");
+            })
+    }
+
+    handleDupes = (event) =>{
+        (function(a){
+            let map = new Map();
+          
+            a.forEach(e => {
+              if(map.has(e)) {
+                let count = map.get(e);
+                console.log(count)
+                map.set(e, count + 1);
+              } else {
+                map.set(e, 1);
+              }
+            });
+          
+            let hasDup = false;
+            let dups = [];
+            map.forEach((value, key) => {
+              if(value > 1) {
+                hasDup = true;
+                dups.push(key);
+              }
+            });
+             console.log(dups);
+             return hasDup;
+           })(this.state.pubIdList2);
     }
 
     render() {
+        let bundles = this.state.bundles;
 
-        let cars = this.state.cars;
-        const userMileage = this.state.userMileage;
+        const mapCart = bundles.map((bundle) => {
+            return <div className="colummn5" key={bundle.bundleId}>
 
-        console.log("user mileage" + userMileage);
-        const mapCars = cars.map((car) => {
-            return <div className="tcolummn" key={car.id}>
-                <div className="tcolumn">
-                    <img alt={BackupPhoto} className="tphoto" src={'http://localhost:8082/car/getImage/' + car.images[0]}></img>
-                </div>
+                {bundle.cars.map((car) =>
+                    <div className="colummn5" key={car.carId}>
+                        <div className="group">
+                            <ul> Agent ID: {car.publisherId}</ul>
+                            <ul> Agent Type: {car.publisherTypeId}</ul>
 
-                <div className="tcolumn2">
-                    <ul className="list-group">
-                        <li >{car.manufacturerName} {car.modelName} ID: {car.id} </li>
-                        <li>Price for {this.state.numberOfDays} days: ${car.pricePerDay * this.state.numberOfDays} </li>
+                            <ul>Car name: {car.manufacturerName} {car.modelName} {car.carId}</ul>
+                            <ul>Total Price: $ {car.totalPrice}</ul>
+                            <Button className="buttonSend5" value={car.publisherId} disabled={!(bundle.cars.length === 1)} onClick={this.handleBundle}>Bundle</Button>
+                            <Button className="buttonSend5" value={car.publisherId} disabled={(bundle.cars.length === 1)} onClick={this.handleUnbundle}>Unbundle</Button>
+                            <Button className="buttonRemoveFromCart5" id={car.reservationId} value={car.reservationId} onClick={this.handleRemoveFromCart}>Remove</Button>
+                            <Button className="ttt" id={car.reservationId} value={car.reservationId} onClick={this.handleDupes}>Do list</Button>
 
-                        {userMileage === null &&
-                            <div>
-                                <li>Mileage penalty: ${car.mileagePenalty} per km</li>
-                                <li>Total price: $ {car.pricePerDay * this.state.numberOfDays}</li>
-                            </div>
-                        }
-                        {userMileage !== null && car.mileageThreshold < userMileage &&
-                            <div>
-                                <li>Total mileage penalty: ${car.mileagePenalty * (userMileage - car.mileageThreshold)}</li>
-                                <li>Total price: ${car.pricePerDay * this.state.numberOfDays + car.mileagePenalty * (userMileage - car.mileageThreshold)}</li>
-                            </div>
-                        }
-                    </ul>
-                    <div className="row">
-                        <div className="col-sm-5">
-                            <div className="form-group">
-                                <span className="form-label">Confirm car</span>
-                                <FormCheck type="checkbox" onChange={this.confirmedRent} />
-                            </div>
-                        </div>
-                        <div className="col-sm-5">
-                            <div className="form-group">
-                                <span className="form-label">Bundle car</span>
-                                <FormCheck type="checkbox" onChange={this.handleToggle} />
-                            </div>
                         </div>
                     </div>
-                </div>
+                )}
             </div>
         });
-
-
-
         return (
             <div className="body">
                 <NavigationTab></NavigationTab>
                 <h2 className="ttitle">Your Shopping cart:</h2>
-                {mapCars}
+                {mapCart}
             </div>
         );
     }

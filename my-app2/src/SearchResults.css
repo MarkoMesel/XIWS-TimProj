@@ -1,6 +1,6 @@
 .photo {
-    height: 240px;
-    width: 320px;
+    height: 330px;
+    width: 440px;
 }
 
 .column {
@@ -8,7 +8,6 @@
     width: 25%;
     padding: 5px;
     height: 300px;
-    
 }
 
 .column2 {
@@ -22,7 +21,7 @@
     float: left;
     width: 950px;
     padding: 5px;
-    height: 275px;
+    height: 355px;
     border-style: groove;
     margin-left: 400px;
     margin-right: 400px;

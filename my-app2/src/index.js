@@ -9,7 +9,7 @@ import Register from './Register';
 import * as serviceWorker from './serviceWorker';
 import App from './App';
 import SearchResults from './SearchResults';
-import ProductListing from './ProductListing';
+import ProductListing from './MoreDetails';
 
 ReactDOM.render(
     <App />,

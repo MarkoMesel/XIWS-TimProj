@@ -138,6 +138,7 @@ class Login extends Component {
             })
         if (localStorage.token !== null) {
             this.props.history.push("/homepage");
+            this.forceUpdate(NavigationTab);
         }
     }
 }

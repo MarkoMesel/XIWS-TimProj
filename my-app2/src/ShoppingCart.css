@@ -1,51 +1,55 @@
-.tphoto {
-    height: 120px;
-    width: 160px;
+.photo5 {
+    height: 200px;
+    width: 355px;
 }
 
-.tcolumn {
+.column5 {
     float: left;
-    width: 130px;
+    width: 50%;
     padding: 5px;
-    height: 150px;
-    
+    height: 300px;
 }
 
-.tcolumn2 {
+.column25 {
     float: right;
-    width: 60%;
+    width: 25%;
     padding: 5px;
-    height: 150px;
+    height: 300px;
 }
 
-.tcolummn {
-    float: left;
-    width: 500px;
+.column225 {
+    float: right;
+    width: 50%;
     padding: 5px;
-    height: 150px;
+    height: 300px;
+}
+
+.colummn5 {
+    float: left;
+    width: 400px;
+    padding: 5px;
+    height: 200px;
     border-style: groove;
     margin-left: 400px;
-    margin-right: 400px;
+    margin-right: 800px;
 }
 
-.body {
+.body5 {
     padding-top: 60px;
     display: flex;
     flex-direction: column;
 }
 
-.buttons-nav {
+.buttonSend5{
+    margin-left: 40px;
+}
+
+.buttons-nav5 {
     float:left;
     border:1px;
 }
 
-.ttitle{
-    float:left;
-    margin-left:400px;
-    margin-bottom: 50px;
-}
-
-.button-group{
+.button-group5{
     margin-left: 400px;
     width: 300px;
     float: left;

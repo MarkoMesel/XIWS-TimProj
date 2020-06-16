@@ -19,9 +19,12 @@ class SearchResults extends Component {
             currentPage: 1,
             carsPerPage: 4,
             selectedCars: [],
+            startDateStored: sessionStorage.getItem("startDate"),
+            endDateStored: sessionStorage.getItem("endDate"),
+            collisionWarrantStored: sessionStorage.getItem("collisionWarranty")
         }
         this.handleClick = this.handleClick.bind(this);
-        this.handleButtonPressed = this.handleButtonPressed.bind(this);
+        this.moreDetailsPressed = this.moreDetailsPressed.bind(this);
         this.sortByPrice = this.sortByPrice.bind(this);
         this.sortbyMileage = this.sortbyMileage.bind(this);
         this.handleAddToCartPressed = this.handleAddToCartPressed.bind(this);
@@ -29,44 +32,59 @@ class SearchResults extends Component {
     }
 
     componentDidMount() {
+        let searchData = sessionStorage.getItem("searchData");       
+
         const axiosConfig = {
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             }
-          };
-        let searchData = sessionStorage.getItem("searchData");
-          axios.post(
+        };
+        axios.post(
             'https://localhost:8085/car/search',
             searchData, axiosConfig)
             .then(response => {
                 if (response.status === 200) {
-                    console.log('nije greska');
-                    
+                    console.log('Nije greska u mount');
+
                     const cars = response.data;
                     this.setState({ cars });
-      
-                    let EndDate = this.state.endDate;
-                    let StartDate = this.state.startDate;
-                    var nDays = (    Date.UTC(EndDate.getFullYear(), EndDate.getMonth(), EndDate.getDate()) -
-                    Date.UTC(StartDate.getFullYear(), StartDate.getMonth(), StartDate.getDate())) / 86400000;
-                    sessionStorage.setItem('numberOfDays',nDays);
-                    sessionStorage.setItem('StartDate', searchData.startDate);
-                    sessionStorage.setItem('EndDate', searchData.endDate);
-                    sessionStorage.setItem('UserMileage', searchData.expectedMileage);                   
                 }
             }).catch(response => {
-                console.log('greska');
+                console.log('greska u mount');
             });
 
     }
 
     handleAddToCartPressed = (event) => {
 
+        const cartData = {
+            startDate: this.state.startDateStored,
+            endDate: this.state.endDateStored,
+            collisionWaranty: this.state.collisionWarrantStored,
+            carId: event.target.value,
+        } 
+        console.log(cartData)
+        const axiosConfig = {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+                'token': localStorage.getItem("token")
+            }
+        };
+
+        axios.post('https://localhost:8085/schedule/cart', 
+            cartData, axiosConfig)
+            .then(response => {
+                if (response.status === 204) {
+                    console.log('Nije greska u add to cart');
+                }
+            }).catch(response => {
+                console.log('greska u add to cart');
+            });
+
         const selectedCars = this.state.selectedCars;
-    
         selectedCars.push(event.target.value);
-        sessionStorage.setItem("SelectedCars",JSON.stringify(selectedCars))
-        
+        sessionStorage.setItem("SelectedCars", JSON.stringify(selectedCars))
+
     }
 
     handleClick(event) {
@@ -75,30 +93,30 @@ class SearchResults extends Component {
         });
     }
 
-    handleButtonPressed = (event) => {
+    moreDetailsPressed = (event) => {
         this.setState({
             chosenCar: event.target.value
         })
-        let moreDetailsLink = "/productlisting/" + event.target.value;
-        window.open(moreDetailsLink, "_blank");
+        sessionStorage.setItem('carDetailsId', event.target.value);
+        window.open("/moredetails/");
     }
 
     sortByPrice() {
         this.setState({
-            cars: this.state.cars.sort((a, b) => a.pricePerDay - b.pricePerDay)
+            cars: this.state.cars.sort((a, b) => a.totalPrice - b.totalPrice)
         })
     }
 
     sortbyMileage() {
         this.setState({
             cars: this.state.cars.sort((a, b) => a.mileage - b.mileage)
-        })   
+        })
     }
 
     sortbyRating() {
         this.setState({
-            cars: this.state.cars.sort((a, b) => b.carRating - a.carRating)
-        })   
+            cars: this.state.cars.sort((a, b) => b.rating - a.rating)
+        })
     }
 
     render() {
@@ -106,9 +124,10 @@ class SearchResults extends Component {
         const { currentPage, carsPerPage } = this.state;
         const indexofLastCar = currentPage * carsPerPage;
         const indexofFirstCar = indexofLastCar - carsPerPage;
-
         const currentCars = cars.slice(indexofFirstCar, indexofLastCar);
+
         const renderCars = currentCars.map((car) => {
+
             return <div className="colummn" key={car.id}>
                 <div className="column">
                     <img alt={BackupPhoto} className="photo" src={'https://localhost:8085/car/image/' + car.images[0]}></img>
@@ -121,15 +140,18 @@ class SearchResults extends Component {
                         <li className="list-group-item">Mileage: {car.mileage} km</li>
                         <li className="list-group-item">Mileage threshold: {car.mileageThreshold} km</li>
                         <li className="list-group-item">Mileage penalty: ${car.mileagePenalty} per km</li>
+                        <li className="list-group-item">Estimated penalty: ${car.estimatedPenalty} per km</li>
+                        <li className="list-group-item">Discount: $ {car.discount}</li>
                     </ul>
-                    <Button variant="primary" value={car.id} size="md" onClick={this.handleButtonPressed} >
+
+                    <Button variant="primary" value={car.id} size="md" onClick={this.moreDetailsPressed} >
                         More details
                             </Button>
-                    <Button variant="primary" value={car.id} className="btn" ref={btn => { this.btn = btn; }} disabled={false}
-                        size="md" onClick={this.handleAddToCartPressed} >
+                    <Button variant="primary" id={car.id} value={car.id} className="btn" size="md" onClick={this.handleAddToCartPressed} >
                         Add to Cart
                             </Button>
                 </div>
+
                 <div className="column2">
                     <ul className="list-group">
                         <li className="list-group-item">{car.manufacturerName} {car.modelName} ID: {car.id}</li>
@@ -137,14 +159,14 @@ class SearchResults extends Component {
                         <li className="list-group-item">Transmission: {car.transmissionTypeName}</li>
                         <li className="list-group-item">Fuel type: {car.fuelTypeName}</li>
                         <li className="list-group-item">Price: ${car.price}</li>
+                        <li className="list-group-item">Total price: ${car.totalPrice}</li>
                         <li className="list-group-item">Average rating: {car.rating}</li>
-
+                        <li className="list-group-item">Rented by: {car.publisherName}</li>
                     </ul>
                 </div>
-
             </div>
-
         });
+
         // Logic for displaying page numbers
         const pageNumbers = [];
         for (let i = 1; i <= Math.ceil(cars.length / carsPerPage); i++) {
@@ -159,38 +181,25 @@ class SearchResults extends Component {
                         onClick={this.handleClick}>{number}</Button>
                 </div>
             );
-
         });
 
-
         return (
-
             <div className="body">
                 <NavigationTab></NavigationTab>
-
                 <ButtonGroup className="button-group" aria-label="Basic example">
                     <Button size="sm" onClick={this.sortByPrice}> Sort by Price</Button>
                     <Button size="sm" onClick={this.sortbyMileage}> Sort by Mileage</Button>
                     <Button size="sm" onClick={this.sortbyRating}> Sort by Rating</Button>
                 </ButtonGroup>
-
                 {renderCars}
-
                 <nav aria-label="pagination-tab">
                     <ul className="pagination">
                         {renderPageNumbers}
                     </ul>
                 </nav>
             </div >
-
         );
     }
-
-
-
 }
-
-
-
 export default SearchResults;
 
