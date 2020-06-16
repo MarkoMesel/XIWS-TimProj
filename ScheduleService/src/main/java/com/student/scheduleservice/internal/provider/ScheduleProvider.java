@@ -172,7 +172,7 @@ public class ScheduleProvider {
 								&& reservation.getEndDate().compareTo(requestEndTime) >= 0
 						|| reservation.getEndDate().compareTo(requestStartTime) >= 0
 								&& reservation.getEndDate().compareTo(requestEndTime) <= 0)
-				.filter(reservation -> reservation.getBundle().getState().getId() == providerUtil.getReservedState()
+				.filter(reservation -> reservation.getBundle().getState().getId() == providerUtil.getPaidState()
 						.getId())
 				.collect(Collectors.toList());
 

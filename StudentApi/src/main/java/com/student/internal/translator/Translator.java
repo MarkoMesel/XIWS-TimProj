@@ -12,7 +12,7 @@ import com.student.http.contract.HttpCarRequest;
 import com.student.http.contract.HttpCarResponse;
 import com.student.http.contract.HttpCartAddCarRequest;
 import com.student.http.contract.HttpCartBundleRequest;
-import com.student.http.contract.HttpCartResponse;
+import com.student.http.contract.HttpBundleResponse;
 import com.student.http.contract.HttpCommentResponse;
 import com.student.http.contract.HttpEditRequest;
 import com.student.http.contract.HttpGetResponse;
@@ -54,6 +54,7 @@ import com.student.soap.contract.userservice.SoapVerifyRequest;
 
 @Component("Translator")
 public class Translator {
+	
 	// Login
 	public SoapLoginRequest translate(HttpLoginRequest input) {
 		SoapLoginRequest output = new SoapLoginRequest();
@@ -65,6 +66,9 @@ public class Translator {
 	public HttpLoginResponse httpTranslate(SoapLoginResponse input) {
 		HttpLoginResponse output = new HttpLoginResponse();
 		output.setToken(input.getToken());
+		output.setId(input.getId());
+		output.setRoleId(input.getRoleId());
+		output.setRoleName(input.getRoleName());
 		return output;
 	}
 
@@ -192,8 +196,7 @@ public class Translator {
 		output.setFuelTypeId(input.getFuelTypeId());
 		output.setMileage(input.getMileage());
 		output.setModelId(input.getModelId());
-		output.setPublisherId(input.getPublisherId());
-		output.setPublisherTypeId(input.getPublisherTypeId());
+		output.setLocationId(input.getLocationId());
 		output.setTransmissionTypeId(input.getTransmissionTypeId());
 		output.setToken(token);
 		return output;
@@ -354,17 +357,21 @@ public class Translator {
 		return output;
 	}
 
-	public List<HttpCartResponse> translate(SoapBundlesResponse input) {
-		List<HttpCartResponse> output = new ArrayList<>();
+	public List<HttpBundleResponse> translate(SoapBundlesResponse input) {
+		List<HttpBundleResponse> output = new ArrayList<>();
 
 		for (Bundle bundleIn : input.getBundle()) {
-			HttpCartResponse bundleOut = new HttpCartResponse();
+			HttpBundleResponse bundleOut = new HttpBundleResponse();
 			bundleOut.setBundleId(bundleIn.getBundleId());
 			bundleOut.setPublisherId(bundleIn.getPublisherId());
 			bundleOut.setPublisherName(bundleIn.getPublisherName());
 			bundleOut.setPublisherTypeId(bundleIn.getPublisherTypeId());
 			bundleOut.setPublisherTypeName(bundleIn.getPublisherTypeName());
-
+			bundleOut.setStateId(bundleIn.getStateId());
+			bundleOut.setStateName(bundleIn.getStateName());
+			bundleOut.setUserId(bundleIn.getUserId());
+			bundleOut.setUserName(bundleIn.getUserName());
+			
 			for (com.student.soap.contract.scheduleservice.Car carIn : bundleIn.getCar()) {
 				HttpReservationResponse carOut = new HttpReservationResponse();
 

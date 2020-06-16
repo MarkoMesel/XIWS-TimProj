@@ -51,6 +51,9 @@
         		<xs:extension base="tns:StatusType">
             		<xs:sequence>
                 		<xs:element name="token" type="xs:string"/>
+                		<xs:element name="id" type="xs:int"/>
+                		<xs:element name="roleId" type="xs:int"/>
+                		<xs:element name="roleName" type="xs:string"/>
             		</xs:sequence>
             	</xs:extension>
             </xs:complexContent>

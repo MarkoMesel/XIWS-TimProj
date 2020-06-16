@@ -10,11 +10,11 @@ import com.student.scheduleservice.internal.provider.ReservationProvider;
 import com.student.soap.contract.scheduleservice.SoapApproveReservationRequest;
 import com.student.soap.contract.scheduleservice.SoapBundlesResponse;
 import com.student.soap.contract.scheduleservice.SoapCancelReservationRequest;
-import com.student.soap.contract.scheduleservice.SoapPayReservationRequest;
+import com.student.soap.contract.scheduleservice.SoapPublisherReservationsRequest;
 import com.student.soap.contract.scheduleservice.SoapRejectReservationRequest;
-import com.student.soap.contract.scheduleservice.SoapReservationsRequest;
 import com.student.soap.contract.scheduleservice.SoapReserveRequest;
 import com.student.soap.contract.scheduleservice.SoapResponse;
+import com.student.soap.contract.scheduleservice.SoapUserReservationsRequest;
 
 @Endpoint
 public class ReservationEndpoint {
@@ -34,7 +34,7 @@ public class ReservationEndpoint {
 		return reservationProvider.reserve(request);
 	}
 	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "SoapApproveReservationRequest")
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapApproveReservationRequest")
 	@ResponsePayload
 	public SoapResponse approve(@RequestPayload SoapApproveReservationRequest request) {
 		return reservationProvider.approve(request);
@@ -52,15 +52,15 @@ public class ReservationEndpoint {
 		return reservationProvider.cancel(request);
 	}
 	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapPayReservationRequest")
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapUserReservationsRequest")
 	@ResponsePayload
-	public SoapResponse pay(@RequestPayload SoapPayReservationRequest request) {
-		return reservationProvider.pay(request);
+	public SoapBundlesResponse pay(@RequestPayload SoapUserReservationsRequest request) {
+		return reservationProvider.getUserBundles(request);
 	}
 	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapReservationsRequest")
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapPublisherReservationsRequest")
 	@ResponsePayload
-	public SoapBundlesResponse pay(@RequestPayload SoapReservationsRequest request) {
-		return reservationProvider.getBundles(request);
+	public SoapBundlesResponse pay(@RequestPayload SoapPublisherReservationsRequest request) {
+		return reservationProvider.getPublisherBundles(request);
 	}
 }
