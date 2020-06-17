@@ -8,7 +8,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public class HttpRepliesAndCommentsResponse {
 	private int rating;
 	private String comment;
-	private List<HttpCommentResponse> replies;
+	private List<HttpCorrespondenceResponse> replies;
 	private int userId;
 	private XMLGregorianCalendar date;
 	private String userName;
@@ -37,14 +37,14 @@ public class HttpRepliesAndCommentsResponse {
 		this.comment = comment;
 	}
 
-	public List<HttpCommentResponse> getReplies() {
+	public List<HttpCorrespondenceResponse> getReplies() {
 		if (replies == null) {
 			replies = new ArrayList<>();
 		}
 		return replies;
 	}
 
-	public void setReplies(List<HttpCommentResponse> replies) {
+	public void setReplies(List<HttpCorrespondenceResponse> replies) {
 		this.replies = replies;
 	}
 

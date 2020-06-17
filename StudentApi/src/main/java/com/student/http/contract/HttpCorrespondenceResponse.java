@@ -2,7 +2,7 @@ package com.student.http.contract;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
-public class HttpCommentResponse {
+public class HttpCorrespondenceResponse {
 	private int id;
     private int publisherId;
     private int publisherTypeId;

@@ -1,7 +1,5 @@
 package com.student.scheduleservice.data.dal;
 
-import java.math.BigInteger;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -32,7 +30,7 @@ public class MessageDbModel {
 	@JoinColumn(name = "BUNDLE_ID")
 	private BundleDbModel bundle;
 
-	private BigInteger unixTimestamp;
+	private Long unixTimestamp;
 
 	public int getId() {
 		return id;
@@ -58,11 +56,11 @@ public class MessageDbModel {
 		this.bundle = bundle;
 	}
 
-	public BigInteger getUnixTimestamp() {
+	public Long getUnixTimestamp() {
 		return unixTimestamp;
 	}
 
-	public void setUnixTimestamp(BigInteger unixTimestamp) {
+	public void setUnixTimestamp(Long unixTimestamp) {
 		this.unixTimestamp = unixTimestamp;
 	}
 

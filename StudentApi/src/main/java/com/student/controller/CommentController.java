@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.student.http.contract.HttpAddRatingRequest;
-import com.student.http.contract.HttpCommentResponse;
+import com.student.http.contract.HttpCorrespondenceResponse;
 import com.student.http.contract.HttpRepliesAndCommentsResponse;
 import com.student.http.contract.HttpReservationResponse;
 import com.student.internal.translator.Translator;
@@ -56,7 +56,7 @@ public class CommentController {
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@GetMapping(path = "schedule/comments/pending")
-	public ResponseEntity<List<HttpCommentResponse>> getPendingComments(@RequestHeader("token") String token) {
+	public ResponseEntity<List<HttpCorrespondenceResponse>> getPendingComments(@RequestHeader("token") String token) {
 		SoapPendingCommentsRequest internalRequest = new SoapPendingCommentsRequest();
 		internalRequest.setToken(token);
 		SoapPendingCommentsResponse internalResponse = scheduleServiceClient.send(internalRequest);
@@ -69,7 +69,7 @@ public class CommentController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		return new ResponseEntity<List<HttpCommentResponse>>(translator.translate(internalResponse), HttpStatus.OK);
+		return new ResponseEntity<List<HttpCorrespondenceResponse>>(translator.translate(internalResponse), HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "*", allowedHeaders = "*")

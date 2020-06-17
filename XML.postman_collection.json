@@ -1555,6 +1555,75 @@
 				}
 			],
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Chat",
+			"item": [
+				{
+					"name": "Get messages",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBR0VOVCIsInJvbGVJZCI6MiwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjUsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6Ik1hbmFnZSByZXNlcnZhdGlvbnMiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NiwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQ2hhdCIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9XSwidXNlcklkIjoyLCJwdXJwb3NlIjoiQVVUSEVOVElDQVRJT04ifQ.eEGjmoTKCYqcMbDasp1QhsLldEuFrDhXawEjmG1uwyDgS1fxk2oOeAubiPzLnDB03m1-1-2dcQJxZUzwL-UrYcTIXMzfh3IrwAPuLjeEJKOYsSlS20CSnOA6SNa7EPSc9I9DrJGG7LMQmlQScp4rKL8_f4c0-dMGN01bK1ULneeIROOArcwhkAXLcmfwHVCmDPNcjRklNg-LHGFDdiydwAkMBk0pkvbpVWUZM1qinvKda0RI1p__MIc5mRLPB7hIQBeOcDDbhu-o82bSyGxQ_vuhxUFRV_UnHvPBE8Mu0JpEzqW12YJcYLQlhCDsUzhJ2DoRIIH3gkULGoGGO9V0_g",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:8085/schedule/bundle/53/chat",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"bundle",
+								"53",
+								"chat"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add message",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBR0VOVCIsInJvbGVJZCI6MiwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjUsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6Ik1hbmFnZSByZXNlcnZhdGlvbnMiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NiwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQ2hhdCIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9XSwidXNlcklkIjoyLCJwdXJwb3NlIjoiQVVUSEVOVElDQVRJT04ifQ.eEGjmoTKCYqcMbDasp1QhsLldEuFrDhXawEjmG1uwyDgS1fxk2oOeAubiPzLnDB03m1-1-2dcQJxZUzwL-UrYcTIXMzfh3IrwAPuLjeEJKOYsSlS20CSnOA6SNa7EPSc9I9DrJGG7LMQmlQScp4rKL8_f4c0-dMGN01bK1ULneeIROOArcwhkAXLcmfwHVCmDPNcjRklNg-LHGFDdiydwAkMBk0pkvbpVWUZM1qinvKda0RI1p__MIc5mRLPB7hIQBeOcDDbhu-o82bSyGxQ_vuhxUFRV_UnHvPBE8Mu0JpEzqW12YJcYLQlhCDsUzhJ2DoRIIH3gkULGoGGO9V0_g"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\":\"Hello 456\",\r\n    \"bundleId\": \"53\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8085/schedule/chat",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"chat"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"protocolProfileBehavior": {}

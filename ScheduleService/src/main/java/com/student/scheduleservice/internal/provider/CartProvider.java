@@ -1,12 +1,8 @@
 package com.student.scheduleservice.internal.provider;
 
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,8 +16,6 @@ import com.student.scheduleservice.jwt.JwtUtil;
 import com.student.scheduleservice.soap.client.CarServiceClient;
 import com.student.soap.contract.carservice.SoapCarRequest;
 import com.student.soap.contract.carservice.SoapCarResponse;
-import com.student.soap.contract.scheduleservice.Bundle;
-import com.student.soap.contract.scheduleservice.Car;
 import com.student.soap.contract.scheduleservice.SoapBundlesResponse;
 import com.student.soap.contract.scheduleservice.SoapCartAddCarRequest;
 import com.student.soap.contract.scheduleservice.SoapCartBundleRequest;
