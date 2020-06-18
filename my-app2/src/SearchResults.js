@@ -19,6 +19,7 @@ class SearchResults extends Component {
             currentPage: 1,
             carsPerPage: 4,
             selectedCars: [],
+            roleId: localStorage.getItem("roleId"),
             startDateStored: sessionStorage.getItem("startDate"),
             endDateStored: sessionStorage.getItem("endDate"),
             collisionWarrantStored: sessionStorage.getItem("collisionWarranty")
@@ -127,7 +128,6 @@ class SearchResults extends Component {
         const currentCars = cars.slice(indexofFirstCar, indexofLastCar);
 
         const renderCars = currentCars.map((car) => {
-
             return <div className="colummn" key={car.id}>
                 <div className="column">
                     <img alt={BackupPhoto} className="photo" src={'https://localhost:8085/car/image/' + car.images[0]}></img>
@@ -147,14 +147,14 @@ class SearchResults extends Component {
                     <Button variant="primary" value={car.id} size="md" onClick={this.moreDetailsPressed} >
                         More details
                             </Button>
-                    <Button variant="primary" id={car.id} value={car.id} className="btn" size="md" onClick={this.handleAddToCartPressed} >
+                    <Button variant="primary" disabled={this.state.roleId!=='1'} id={car.id} value={car.id} className="btn" size="md" onClick={this.handleAddToCartPressed} >
                         Add to Cart
                             </Button>
                 </div>
 
                 <div className="column2">
                     <ul className="list-group">
-                        <li className="list-group-item">{car.manufacturerName} {car.modelName} ID: {car.id}</li>
+                        <li className="list-group-item">{car.manufacturerName} {car.modelName} ID:{car.id}</li>
                         <li className="list-group-item">Class: {car.carClassName}</li>
                         <li className="list-group-item">Transmission: {car.transmissionTypeName}</li>
                         <li className="list-group-item">Fuel type: {car.fuelTypeName}</li>

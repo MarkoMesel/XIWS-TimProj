@@ -16,6 +16,9 @@ import ShoppingCart from './ShoppingCart';
 import RegistrationInfo from './RegistrationInfo';
 import CarPost from './CarPost';
 import AdminDbManage from './AdminDbManage';
+import ClientRateCar from './ClientRateCar';
+import AdminRateManage from './AdminRateManage';
+import AdminUserManage from './AdminUserManage';
 
 class App extends Component {
   render() {
@@ -28,10 +31,13 @@ class App extends Component {
               <Route exact path={["/", "/home", "/homepage"]} component={ClientCarSearch}></Route>
               <Route exact path='/searchresults' component={SearchResults}></Route>
               <Route exact path='/moredetails' component={MoreDetails}></Route>
-              <Route path= '/cart' component={ShoppingCart}></Route>
+              <Route exact path= '/cart' component={ShoppingCart}></Route>
               <Route exact path='registrationinfo' component={RegistrationInfo}></Route>
               <Route exact path="/postcar" component={CarPost}></Route>
               <Route exact path='/admindb' component={AdminDbManage}></Route>
+              <Route exact path="/ratecar" component={ClientRateCar}></Route>
+              <Route exact path="/adminrate" component={AdminRateManage}></Route>
+              <Route exact path="/adminuser" component={AdminUserManage}></Route>
             </Switch>
           </div>
         </Router>

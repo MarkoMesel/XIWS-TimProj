@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Carousel, CarouselItem, Container, Card} from "react-bootstrap";
+import { Carousel, CarouselItem, Container, Card } from "react-bootstrap";
 
 import './MoreDetails.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
@@ -23,7 +23,8 @@ class MoreDetails extends Component {
 
         const axiosConfig = {
             headers: {
-                'Content-Type': 'application/json;charset=utf-8'
+                'Content-Type': 'application/json;charset=utf-8',
+                'token': localStorage.getItem('token')
             }
         };
 
@@ -33,7 +34,7 @@ class MoreDetails extends Component {
             endDate: sessionStorage.getItem('EndDate'),
             plannedMileage: sessionStorage.getItem('plannedMileage')
         }
-        
+
         let postData = JSON.stringify(carData);
 
 
@@ -42,15 +43,31 @@ class MoreDetails extends Component {
             postData, axiosConfig)
             .then(response => {
                 if (response.status === 200) {
-                    console.log('nije greska');
+                    console.log('nije greska u getcar');
                     const car = response.data;
                     this.setState({ car });
                     const images = response.data.images;
                     this.setState({ images });
                 }
             }).catch(response => {
-                console.log('greska');
+                console.log('greska getcar');
             });
+        let commentLink = 'https://localhost:8085/schedule/car/' + carData.id + '/comments'
+
+        axios.get(
+            commentLink, axiosConfig)
+            .then(response => {
+                if (response.status === 200) {
+                    console.log('nije greska comments');
+                    const responsebundles = response.data;
+                    this.setState({ reviews: responsebundles });
+
+                }
+            }).catch(response => {
+                console.log('greska comments');
+            });
+
+        this.setState({ state: this.state });
     }
 
     ratingChanged = (newRating) => {
@@ -63,16 +80,19 @@ class MoreDetails extends Component {
     render() {
         let car = this.state.car;
         let images = this.state.images;
-        let reviews = this.state.reviews;
+        let reviewBundles = this.state.reviews;
+        console.log(car);
 
-        const reviewsMap = reviews.map((r) => {
-            return <div key={r}>
+        const reviewsMap = reviewBundles.map((bundle) => {
+            return <div key={bundle}>
                 <Card className="review-card">
-                <p className="lead">Rating: {r.rating}</p>
-                <p className="lead">Comment: {r.comment}</p>
+                    <p className="lead">Rating: {bundle.rating}</p>
+                    <p className="lead">Comment: {bundle.comment}</p>
+                    {bundle.replies.map((reply) =>
+                        <p>{reply.publisherName} {reply.publisherId} : {reply.comment}</p>
+                    )}
                 </Card>
             </div>
-
         });
 
         const renderImages = images.map((im) => {
@@ -88,7 +108,7 @@ class MoreDetails extends Component {
         return (
             <div>
                 <NavigationTab></NavigationTab>
-                <div  className="mt-5 pt-4">
+                <div className="mt-5 pt-4">
                     <div className="container dark-grey-text mt-5">
 
 
@@ -114,20 +134,15 @@ class MoreDetails extends Component {
                                 <p className="lead font-weight-bold" size="large">{car.manufacturerName} {car.modelName}</p>
 
                                 <p className="lead">
-                                    <span>Starting at ${car.price} per day</span>
+                                    <p >This vehicle runs on {car.fuelTypeName} and has {car.transmissionTypeName} transmission. </p>
+
+                                    <p >Take the advantage of its {car.carClassName} design!</p>
+                                    <p >It comes with {car.childSeats} child seats. </p>
+                                    <p >Overall rating: {car.rating} </p>
+                                    <p > Offered by {car.publisherName} in {car.locationName}</p>
                                 </p>
 
-                                <p >This vehicle runs on {car.fuelTypeName} and has {car.transmissionTypeName} transmission. </p>
 
-                                <p >Take the advantage of its {car.carClassName} design!</p>
-
-                                <p >Mileage: {car.mileage}km</p>
-                                <p >Mileage Threshold: {car.mileageThreshold}km</p>
-                                <p >You will incur additional fee of  ${car.mileagePenalty} per kilometer over the mileage threshold</p>
-                                <p >Number of child seats: {car.childSeats} </p>
-                                <p >Collision warranty cost: {car.collisionWaranty} </p>
-                                <p > Offered by {car.publisherName} in {car.locationName}</p>
-                                <p >Average user Score: {car.carRating} </p>
 
 
 

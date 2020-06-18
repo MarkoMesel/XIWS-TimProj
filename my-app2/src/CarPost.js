@@ -59,14 +59,17 @@ class CarPost extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
     this.handleUserInputPriceTo = this.handleUserInputPriceTo.bind(this);
-    this.handleTimeChange = this.handleTimeChange.bind(this);
-    this.handleEndTimeChange = this.handleEndTimeChange.bind(this);
+
     this.handlePickupLocationDropdownChange = this.handlePickupLocationDropdownChange.bind(this);
 
   }
  
 
   componentDidMount() {
+    let role = localStorage.getItem('roleId');
+    console.log(role)
+
+
 
     let manufacturerRequest = "https://localhost:8085/car/manufacturers";
     let modelRequest = "https://localhost:8085/car/models";
@@ -109,18 +112,6 @@ class CarPost extends Component {
       .catch(errors => {
         console.log("Greska Homepage Getteri")
       });
-  }
-
-  handleTimeChange(date) {
-    this.setState({
-      startDate: date
-    })
-
-  }
-  handleEndTimeChange(date) {
-    this.setState({
-      endDate: date
-    })
   }
 
   handleUserInputPriceTo = (e) => {

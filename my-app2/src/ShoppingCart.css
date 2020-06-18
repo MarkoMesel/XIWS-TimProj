@@ -1,11 +1,12 @@
 .photo5 {
-    height: 200px;
-    width: 355px;
+    height: 300px;
+    width: 400px;
+    padding: 10px;
 }
 
 .column5 {
     float: left;
-    width: 50%;
+    width: 20%;
     padding: 5px;
     height: 300px;
 }
@@ -14,8 +15,12 @@
     float: right;
     width: 25%;
     padding: 5px;
+    margin-right: 1000px;
     height: 300px;
 }
+
+
+
 
 .column225 {
     float: right;
@@ -26,12 +31,12 @@
 
 .colummn5 {
     float: left;
-    width: 400px;
+    width: 800px;
     padding: 5px;
-    height: 200px;
+    height: 250px;
     border-style: groove;
     margin-left: 400px;
-    margin-right: 800px;
+    margin-right: 400px;
 }
 
 .body5 {
@@ -63,4 +68,13 @@
 	bottom: 0;
 	top: 0;
 	background: rgba(212, 207, 207, 0.6);
+}
+
+.ordersubmit{
+    margin-left: 100px;
+    margin-right: 1200px;
+    padding: 10px;
+    float: left;
+    margin-bottom: 20px;
+    margin-top: 10px;
 }

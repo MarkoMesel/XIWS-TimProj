@@ -4,43 +4,70 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Form, Nav } from "react-bootstrap";
 
 function NavigationTab() {
-    const isLoggedIn = localStorage.getItem("token");
+    const roleId = localStorage.getItem("roleId")
+    if (roleId === '1') {
+        return (
+            <Navbar fixed="top" bg="dark" variant="dark">
+                <Navbar.Brand>Rent-a-Car</Navbar.Brand>
+                <Nav className="mr-auto">
+                    <Nav.Link href="/homepage">Search</Nav.Link>
+                    <Nav.Link href="/postcar">Advertise</Nav.Link>
+                    <Nav.Link href="/ratecar">Leave Feeback</Nav.Link>
+                </Nav>
+                <Form inline>
+                    <Nav.Link href="/cart"> My cart </Nav.Link>
+                    <Nav.Link href="/homepage" onClick={() => { localStorage.clear() || sessionStorage.clear() }}>Logout</Nav.Link>
+                </Form>
+            </Navbar>
 
-    if (isLoggedIn===null) {
+        )
+    } else if (roleId === '2') {
+        return (
+            <Navbar fixed="top" bg="dark" variant="dark">
+                <Navbar.Brand>Rent-a-Car</Navbar.Brand>
+                <Nav className="mr-auto">
+                    <Nav.Link href="/postcar">Advertise</Nav.Link>
+                </Nav>
+                <Form inline>
+                    <Nav.Link > Check comments </Nav.Link>
+                    <Nav.Link href="/homepage" onClick={() => { localStorage.clear() || sessionStorage.clear() }}>Logout</Nav.Link>
+                </Form>
+            </Navbar>
+
+        )
+    } else if (roleId === '3') {
+        return (
+            <Navbar fixed="top" bg="dark" variant="dark">
+                <Navbar.Brand>Rent-a-Car</Navbar.Brand>
+                <Nav className="mr-auto">
+                    <Nav.Link href="/admindb">Database</Nav.Link>
+                    <Nav.Link href="/adminrate">Comments</Nav.Link>
+                    <Nav.Link href="/adminuser">Users </Nav.Link>
+                    <Nav.Link > manage registers </Nav.Link>
+                </Nav>
+                <Form inline>
+                    <Nav.Link href="/homepage" onClick={() => { localStorage.clear() || sessionStorage.clear() }}>Logout</Nav.Link>
+                </Form>
+            </Navbar>
+
+        )
+    } else {
         return (
 
             <Navbar fixed="top" bg="dark" variant="dark">
-                <Navbar.Brand href="/homepage">Rent-a-Car</Navbar.Brand>
+                <Navbar.Brand>Rent-a-Car</Navbar.Brand>
                 <Nav className="mr-auto">
                     <Nav.Link href="/homepage">Search</Nav.Link>
-                    <Nav.Link href="/postcar">Advertise(loggedin)</Nav.Link>
-
                 </Nav>
                 <Form inline>
                     <Nav.Link href="/login">Login</Nav.Link>
                     <Nav.Link href="/register">Register</Nav.Link>
                 </Form>
             </Navbar>
-          
-        );
-    }else{  
-        return (
-        <Navbar fixed="top" bg="dark" variant="dark">
-                <Navbar.Brand href="/homepage">Rent-a-Car</Navbar.Brand>
-                <Nav className="mr-auto">
-                    <Nav.Link href="/homepage">Search</Nav.Link>
-                    <Nav.Link href="/postcar">Advertise(loggedin)</Nav.Link>
 
-                </Nav>
-                <Form inline>
-                    <Nav.Link href="/cart"> My cart </Nav.Link>
-                    <Nav.Link href="/homepage" onClick={ () => {localStorage.clear()}}>Logout</Nav.Link>
-                </Form>
-            </Navbar>
         );
     }
 }
-
 
 
 export default NavigationTab;

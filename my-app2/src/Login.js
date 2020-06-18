@@ -133,12 +133,15 @@ class Login extends Component {
                 if (response.status === 200) {
                     console.log('Status 200 ');
                     localStorage.setItem('token', response.data.token);
-                    console.log(localStorage);
+                    localStorage.setItem('roleName',response.data.roleName);
+                    localStorage.setItem('roleId',response.data.roleId);
+                    localStorage.setItem('id',response.data.id);
+                    
                 }
             })
+            console.log(localStorage.getItem("token"));
         if (localStorage.token !== null) {
             this.props.history.push("/homepage");
-            this.forceUpdate(NavigationTab);
         }
     }
 }

@@ -32,6 +32,11 @@ class Register extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentDidMount(){
+        if (localStorage.getItem('roleId') !== null) {
+            this.props.history.push("/login");
+        }
+    }
     handleUserInput = (e) => {
         const name = e.target.name;
         const value = e.target.value;

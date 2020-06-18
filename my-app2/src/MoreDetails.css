@@ -9,10 +9,10 @@
   float: left;
   width: 1000px;
   padding: 5px;
-  height: 70px;
+  height: auto;
   border-style: groove;
   margin-left: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 20px;
 }
 
 .review-title{
@@ -29,4 +29,8 @@
 	bottom: 0;
 	top: 0;
 	background: rgba(212, 207, 207, 0.6);
+}
+
+.nestopad{
+  padding:5px;
 }
