@@ -19,6 +19,10 @@ import AdminDbManage from './AdminDbManage';
 import ClientRateCar from './ClientRateCar';
 import AdminRateManage from './AdminRateManage';
 import AdminUserManage from './AdminUserManage';
+import AddImages from './AddImages'
+import MessageBoard from './MessageBoard'
+import Reservations from './Reservations';
+
 
 class App extends Component {
   render() {
@@ -33,11 +37,15 @@ class App extends Component {
               <Route exact path='/moredetails' component={MoreDetails}></Route>
               <Route exact path= '/cart' component={ShoppingCart}></Route>
               <Route exact path='registrationinfo' component={RegistrationInfo}></Route>
-              <Route exact path="/postcar" component={CarPost}></Route>
+              <Route exact path="/carpost" component={CarPost}></Route>
               <Route exact path='/admindb' component={AdminDbManage}></Route>
               <Route exact path="/ratecar" component={ClientRateCar}></Route>
               <Route exact path="/adminrate" component={AdminRateManage}></Route>
               <Route exact path="/adminuser" component={AdminUserManage}></Route>
+              <Route exact path="/AddImages" component={AddImages}></Route>
+              <Route exact path="/messages" component={MessageBoard}></Route>
+              <Route exact path="/reservations" component={Reservations}></Route>
+
             </Switch>
           </div>
         </Router>

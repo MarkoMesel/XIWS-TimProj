@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import NavigationTab from './NavigationTab';
 import './SearchResults.css';
+import './MoreDetails.css';
 
 
 class RegistrationInfo extends Component {

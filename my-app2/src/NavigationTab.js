@@ -11,10 +11,11 @@ function NavigationTab() {
                 <Navbar.Brand>Rent-a-Car</Navbar.Brand>
                 <Nav className="mr-auto">
                     <Nav.Link href="/homepage">Search</Nav.Link>
-                    <Nav.Link href="/postcar">Advertise</Nav.Link>
+                    <Nav.Link href="/carpost">Advertise</Nav.Link>
                     <Nav.Link href="/ratecar">Leave Feeback</Nav.Link>
                 </Nav>
                 <Form inline>
+                    <Nav.Link href="/reservations"> My reservations </Nav.Link>
                     <Nav.Link href="/cart"> My cart </Nav.Link>
                     <Nav.Link href="/homepage" onClick={() => { localStorage.clear() || sessionStorage.clear() }}>Logout</Nav.Link>
                 </Form>

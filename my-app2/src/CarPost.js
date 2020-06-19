@@ -58,10 +58,7 @@ class CarPost extends Component {
     this.handleCarClassDropdownChange = this.handleCarClassDropdownChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
-    this.handleUserInputPriceTo = this.handleUserInputPriceTo.bind(this);
-
     this.handlePickupLocationDropdownChange = this.handlePickupLocationDropdownChange.bind(this);
-
   }
  
 
@@ -114,14 +111,7 @@ class CarPost extends Component {
       });
   }
 
-  handleUserInputPriceTo = (e) => {
-
-    const name = e.target.name;
-    const value = e.target.value;
-    this.setState({ [name]: value }
-    );
-  }
-
+ 
 
   handleUserInput = (e) => {
     const name = e.target.name;
@@ -167,14 +157,31 @@ class CarPost extends Component {
   handlePickupLocationDropdownChange = (event, data) => {
     this.setState({
       pickupLocationKey: data.value
-    })
+    });
   }
 
+  handleSubmit() {
+
+    const formData = {
+      locationId: this.state.pickupLocationKey,
+      modelId: this.state.modelKey,
+      fuelTypeId: this.state.fuelKey,
+      transmissionTypeId: this.state.transmissionKey,
+      carClassId: this.state.carClassKey,
+      mileage: this.state.mileage,
+      childSeats: this.state.childSeats,
+    }
+    console.log(formData);
+    sessionStorage.setItem('postCarData',formData);
+    this.props.history.push("/addImages");
+  }
+
+
+
   render() {
-    const { manufacturerKey, priceTo } = this.state;
+    const { manufacturerKey} = this.state;
 
     let manufacturers = this.state.manufacturers.map(manufacturer => ({ key: manufacturer.id, value: manufacturer.id, text: manufacturer.name }));
-
     let fuel = this.state.fuel.map(fuel => ({ key: fuel.id, value: fuel.id, text: fuel.name }));
     let transmission = this.state.transmission.map(transmission => ({ key: transmission.id, value: transmission.id, text: transmission.name }));
     let carClass = this.state.carClass.map(carclass => ({ key: carclass.id, value: carclass.id, text: carclass.name }));
@@ -196,7 +203,7 @@ class CarPost extends Component {
                 <div className="row">
                   <div className="booking-form">
                     <div className="form-header">
-                      <h1>Rent-a-car</h1>
+                      <h1>Advertise</h1>
                     </div>
                     <form>
                       <div className="form-group">
@@ -271,34 +278,10 @@ class CarPost extends Component {
                       </div>
 
                       <div className="row">
-
-                        <div className="col-sm-3">
-                          <div className="form-group">
-                            <span className="form-label">Price per day</span>
-                            <input className="form-control" type="number" name="priceTo" max={priceTo} onChange={this.handleUserInputPriceTo} value={this.state.priceTo}></input>
-                          </div>
-                        </div>
-
-                        <div className="col-sm-3">
-                          <div className="form-group">
-                            <span className="form-label">Collision Warranty</span>
-
-                            <FormCheck type="checkbox" onChange={this.handleToggle} />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="row">
                         <div className="col-sm-3">
                           <div className="form-group">
                             <span className="form-label">Mileage</span>
                             <input className="form-control" type="number" name="mileage" onChange={this.handleUserInput} value={this.state.mileage}></input>
-                          </div>
-                        </div>
-
-                        <div className="col-sm-3">
-                          <div className="form-group">
-                            <span className="form-label">Maximum mileage</span>
-                            <input className="form-control" type="number" name="expectedMileage" onChange={this.handleUserInput} value={this.state.expectedMileage}></input>
                           </div>
                         </div>
                         <div className="col-sm-3">
@@ -311,7 +294,7 @@ class CarPost extends Component {
                       <div className="mb-2">
            
                         <Button disabled={!this.state.manufacturerKey || !this.state.modelKey || !this.state.pickupLocationKey || !this.state.fuelKey
-                        || !this.state.transmissionKey || !this.state.carClassKey || !this.state.priceTo ||!this.state.mileage || !this.state.expectedMileage || !this.state.childSeats}
+                        || !this.state.transmissionKey || !this.state.carClassKey ||!this.state.mileage || !this.state.childSeats}
                           variant="primary" onClick={this.handleSubmit} size="lg">
                           Next
                         </Button>
@@ -329,51 +312,5 @@ class CarPost extends Component {
     );
   }
 
-  async handleSubmit() {
-
-    const formData = {
-      manufacturerKey: this.state.manufacturerKey,
-      modelKey: this.state.modelKey,
-      fuel: this.state.fuelKey,
-      transmission: this.state.transmissionKey,
-      carClass: this.state.carClassKey,
-      priceFrom: this.state.priceFrom,
-      priceTo: this.state.priceTo,
-      collisionWarranty: this.state.collisionWarranty,
-      mileage: this.state.mileage,
-      expectedMileage: this.state.expectedMileage,
-      childSeats: this.state.childSeats,
-      startDate: format(this.state.startDate, 'hh:mm dd/MM/yyyy'),
-      endDate: format(this.state.endDate, 'hh:mm dd/MM/yyyy'),
-      pickupLocation: this.state.pickupLocationKey,
-    }
-
-    console.log(formData.pickupLocation);
-    console.log(formData.startDate);
-    console.log(formData.endDate);
-    console.log(formData.manufacturerKey);
-    console.log(formData.modelKey);
-    console.log(formData.fuel);
-    console.log(formData.transmission);
-    console.log(formData.carClass);
-    console.log(formData.priceFrom);
-    console.log(formData.priceTo);
-    console.log(formData.collisionWarranty);
-    console.log(formData.mileage);
-    console.log(formData.expectedMileage);
-    console.log(formData.childSeats);
-
-    let EndDate = this.state.endDate;
-    let StartDate = this.state.startDate;
-    var nDays = (    Date.UTC(EndDate.getFullYear(), EndDate.getMonth(), EndDate.getDate()) -
-    Date.UTC(StartDate.getFullYear(), StartDate.getMonth(), StartDate.getDate())) / 86400000;
-    sessionStorage.setItem('numberOfDays',nDays);
-    sessionStorage.setItem('StartDate', formData.startDate);
-    sessionStorage.setItem('EndDate', formData.endDate);
-    sessionStorage.setItem('UserMileage', formData.expectedMileage);
-
-    this.props.history.push("/searchresults/");
-
-  };
 }
 export default CarPost;
