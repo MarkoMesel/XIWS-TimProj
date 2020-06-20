@@ -44,7 +44,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\":\"agent@mail.com\",\n\t\"password\":\"student123\"\n}",
+							"raw": "{\n\t\"email\":\"student@mail.com\",\n\t\"password\":\"student123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1548,6 +1548,32 @@
 								"schedule",
 								"reservations",
 								"publisher"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reserve",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJCQVNJQyIsInJvbGVJZCI6MSwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjEsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJVU0VSIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjIsInJlc291cmNlVHlwZUlkIjoxLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgSW1hZ2UiLCJyZXNvdXJjZVR5cGVOYW1lIjoiVVNFUiIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjo0LCJyZXNvdXJjZVR5cGVJZCI6MSwicGVybWlzc2lvbk5hbWUiOiJBZGQgUHJpY2UiLCJyZXNvdXJjZVR5cGVOYW1lIjoiVVNFUiIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjo1LCJyZXNvdXJjZVR5cGVJZCI6MSwicGVybWlzc2lvbk5hbWUiOiJNYW5hZ2UgcmVzZXJ2YXRpb25zIiwicmVzb3VyY2VUeXBlTmFtZSI6IlVTRVIiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NiwicmVzb3VyY2VUeXBlSWQiOjEsInBlcm1pc3Npb25OYW1lIjoiQ2hhdCIsInJlc291cmNlVHlwZU5hbWUiOiJVU0VSIiwicmVzb3VyY2VJZCI6MX1dLCJ1c2VySWQiOjEsInB1cnBvc2UiOiJBVVRIRU5USUNBVElPTiJ9.SFLXIsFIbgd3YoM1Y3LBh5ag1uWAFCcT3zeZBrsbI9lZkSR9U4BcZRtQGFmnyeXeLGiJrg423eVLaqnfA5t_TigPNNcuRMh5tfOwtib_1x8R2IVFLgduEn9PZIAIR4NGojFa_RESooic8R1CKEweJEqVtBdx-Anv0V2yuBDksRBMx7gIRdePzHtnYNrv9yv5fqyiZdD5LM9ctMO-7SkkTRR8ZsM7HZEg2hsPi2qtWCWuH7XK1qMT8LesZUk5qimcmC2kXkETsfBGzddmaPFRR9wYpHcUAuDrNklFCnVlnJ5478Oho-9OFdSQ9fAyU1SjUF6lOAL0XYDoKIJbpWpeTQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:8085/schedule/reserve",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"reserve"
 							]
 						}
 					},
