@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -27,8 +26,9 @@ public class UnavailabilityController {
 	private Translator translator;
 
 	@Autowired
-	public UnavailabilityController(ScheduleServiceClient scheduleServiceClient) {
+	public UnavailabilityController(ScheduleServiceClient scheduleServiceClient, Translator translator) {
 		this.scheduleServiceClient = scheduleServiceClient;
+		this.translator = translator;
 	}
 	
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -47,7 +47,7 @@ public class UnavailabilityController {
 		if (!internalResponse.isSuccess()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	@CrossOrigin(origins = "*", allowedHeaders = "*")

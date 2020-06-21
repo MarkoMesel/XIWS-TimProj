@@ -29,6 +29,7 @@ import com.student.soap.carservice.contract.NamedObject;
 import com.student.soap.carservice.contract.SoapAddCarClassRequest;
 import com.student.soap.carservice.contract.SoapAddCarModelRequest;
 import com.student.soap.carservice.contract.SoapAddCarRequest;
+import com.student.soap.carservice.contract.SoapAddCarResponse;
 import com.student.soap.carservice.contract.SoapAddFuelTypeRequest;
 import com.student.soap.carservice.contract.SoapAddLocationRequest;
 import com.student.soap.carservice.contract.SoapAddManufacturerRequest;
@@ -94,8 +95,8 @@ public class CarProvider {
 		return true;
 	}
 
-	public SoapResponse addCar(SoapAddCarRequest request) {
-		SoapResponse response = new SoapResponse();
+	public SoapAddCarResponse addCar(SoapAddCarRequest request) {
+		SoapAddCarResponse response = new SoapAddCarResponse();
 		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
 
 		Permission requiredPermission = token.getPermissions().stream()
@@ -171,7 +172,8 @@ public class CarProvider {
 		car.setActive(true);
 
 		unitOfWork.getCarRepo().save(car);
-
+		
+		response.setId(car.getId());
 		response.setSuccess(true);
 		return response;
 	}

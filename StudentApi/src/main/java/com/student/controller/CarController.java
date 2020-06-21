@@ -32,6 +32,7 @@ import com.student.internal.translator.Translator;
 import com.student.soap.client.CarServiceClient;
 import com.student.soap.contract.carservice.SoapAddCarClassRequest;
 import com.student.soap.contract.carservice.SoapAddCarModelRequest;
+import com.student.soap.contract.carservice.SoapAddCarResponse;
 import com.student.soap.contract.carservice.SoapAddFuelTypeRequest;
 import com.student.soap.contract.carservice.SoapAddLocationRequest;
 import com.student.soap.contract.carservice.SoapAddManufacturerRequest;
@@ -481,9 +482,9 @@ public class CarController {
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping(path = "car/add")
-	public ResponseEntity<?> addCar(@RequestHeader("token") String token, @RequestBody HttpAddCarRequest request) {
+	public ResponseEntity<Integer> addCar(@RequestHeader("token") String token, @RequestBody HttpAddCarRequest request) {
 
-		SoapResponse internalResponse = carServiceClient.send(translator.translate(request, token));
+		SoapAddCarResponse internalResponse = carServiceClient.send(translator.translate(request, token));
 
 		if (!internalResponse.isAuthorized()) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -492,7 +493,7 @@ public class CarController {
 		if (!internalResponse.isSuccess()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		ResponseEntity<?> responseEntity = new ResponseEntity<>(HttpStatus.OK);
+		ResponseEntity<Integer> responseEntity = new ResponseEntity<Integer>(internalResponse.getId(), HttpStatus.OK);
 		return responseEntity;
 	}
 }

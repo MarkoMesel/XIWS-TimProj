@@ -129,7 +129,7 @@ public class Translator {
 	public List<HttpNamedObjectResponse> translate(SoapNamedObjectsResponse input) {
 		List<HttpNamedObjectResponse> output = new ArrayList<>();
 
-		if(input.getObject() == null) {
+		if (input.getObject() == null) {
 			return output;
 		}
 		for (NamedObject objectIn : input.getObject()) {
@@ -149,19 +149,23 @@ public class Translator {
 		return output;
 	}
 
-	public List<HttpCarModelResponse> translate(SoapCarModelsResponse internalResponse) {
-		List<HttpCarModelResponse> response = new ArrayList<>();
-		
-		for (SoapCarModelsResponse.CarModels.CarModel carIn : internalResponse.getCarModels().getCarModel()) {
+	public List<HttpCarModelResponse> translate(SoapCarModelsResponse input) {
+		List<HttpCarModelResponse> output = new ArrayList<>();
+
+		if (input.getCarModels() == null || input.getCarModels().getCarModel() == null) {
+			return output;
+		}
+
+		for (SoapCarModelsResponse.CarModels.CarModel carIn : input.getCarModels().getCarModel()) {
 			HttpCarModelResponse carOut = new HttpCarModelResponse();
 			carOut.setManufacturerId(carIn.getManufacturerId());
 			carOut.setManufacturerName(carIn.getManufacturerName());
 			carOut.setModelId(carIn.getModelId());
 			carOut.setModelName(carIn.getModelName());
-			response.add(carOut);
+			output.add(carOut);
 		}
 
-		return response;
+		return output;
 	}
 
 	public HttpCarResponse translate(SoapCarResponse input) {
@@ -354,6 +358,10 @@ public class Translator {
 	public List<HttpBundleResponse> translate(SoapBundlesResponse input) {
 		List<HttpBundleResponse> output = new ArrayList<>();
 
+		if (input.getBundle() == null) {
+			return output;
+		}
+
 		for (Bundle bundleIn : input.getBundle()) {
 			HttpBundleResponse bundleOut = new HttpBundleResponse();
 			bundleOut.setBundleId(bundleIn.getBundleId());
@@ -365,6 +373,10 @@ public class Translator {
 			bundleOut.setStateName(bundleIn.getStateName());
 			bundleOut.setUserId(bundleIn.getUserId());
 			bundleOut.setUserName(bundleIn.getUserName());
+
+			if (bundleIn.getReservation() == null) {
+				continue;
+			}
 
 			for (com.student.soap.contract.scheduleservice.Reservation carIn : bundleIn.getReservation()) {
 				HttpReservationResponse carOut = new HttpReservationResponse();
@@ -408,6 +420,10 @@ public class Translator {
 	public List<HttpCorrespondenceResponse> translate(List<Correspondence> input) {
 		List<HttpCorrespondenceResponse> output = new ArrayList<>();
 
+		if (input == null) {
+			return output;
+		}
+
 		for (Correspondence replyIn : input) {
 			HttpCorrespondenceResponse replyOut = new HttpCorrespondenceResponse();
 
@@ -431,6 +447,10 @@ public class Translator {
 
 	public List<HttpReservationResponse> translate(SoapReservationsResponse input) {
 		List<HttpReservationResponse> output = new ArrayList<>();
+
+		if (input.getReservation() == null) {
+			return output;
+		}
 
 		for (com.student.soap.contract.scheduleservice.Reservation carIn : input.getReservation()) {
 			HttpReservationResponse carOut = new HttpReservationResponse();
@@ -475,62 +495,66 @@ public class Translator {
 
 	public List<HttpUnavailabilityResponse> translate(SoapUnavailabilityResponse input) {
 		List<HttpUnavailabilityResponse> output = new ArrayList<>();
-		
-		if(input.getUnavailability() == null) {
+
+		if (input.getUnavailability() == null) {
 			return output;
 		}
 
-		for(SoapUnavailability objIn:input.getUnavailability()) {
+		for (SoapUnavailability objIn : input.getUnavailability()) {
 			HttpUnavailabilityResponse objOut = new HttpUnavailabilityResponse();
 			objOut.setId(objIn.getId());
 			objOut.setStartDate(objIn.getStartDate());
 			objOut.setEndDate(objIn.getEndDate());
-			
+
 			output.add(objOut);
 		}
-		
+
 		return output;
 	}
-	
+
 	private HttpPriceResponse translate(SoapPrice input) {
 		HttpPriceResponse output = new HttpPriceResponse();
-		
+
 		output.setEndDate(input.getEndDate());
 		output.setStartDate(input.getStartDate());
 		output.setId(input.getId());
 		output.setPrice(input.getPrice());
-		
+
 		return output;
 	}
-	
+
 	private HttpPriceListResponse translate(SoapPriceList input) {
 		HttpPriceListResponse output = new HttpPriceListResponse();
-		
+
 		output.setDiscountPercentage(input.getDiscountPercentage());
 		output.setId(input.getId());
 		output.setMileagePenalty(input.getMileagePenalty());
 		output.setMileageThreshold(input.getMileageThreshold());
 		output.setName(input.getName());
 		output.setWarrantyPrice(input.getWarrantyPrice());
-		
-		for(SoapPrice priceIn : input.getPrice()) {
+
+		if (input.getPrice() == null) {
+			return output;
+		}
+
+		for (SoapPrice priceIn : input.getPrice()) {
 			output.getPrices().add(translate(priceIn));
 		}
-		
+
 		return output;
 	}
 
 	public List<HttpPriceListResponse> translate(SoapPriceListsResponse input) {
 		List<HttpPriceListResponse> output = new ArrayList<>();
-		
-		if(input.getPriceList() == null) {
+
+		if (input.getPriceList() == null) {
 			return output;
 		}
-		
-		for(SoapPriceList priceListIn : input.getPriceList()) {
+
+		for (SoapPriceList priceListIn : input.getPriceList()) {
 			output.add(translate(priceListIn));
 		}
-		
+
 		return output;
 	}
 
