@@ -1,5 +1,7 @@
 package com.student.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import com.student.http.contract.HttpGetResponse;
 import com.student.http.contract.HttpLoginRequest;
 import com.student.http.contract.HttpLoginResponse;
 import com.student.http.contract.HttpRegisterRequest;
+import com.student.http.contract.HttpUserResponse;
 import com.student.internal.translator.Translator;
 import com.student.soap.client.UserServiceClient;
 import com.student.soap.contract.userservice.SoapActivateUserRequest;
@@ -27,6 +30,8 @@ import com.student.soap.contract.userservice.SoapDeleteUserRequest;
 import com.student.soap.contract.userservice.SoapGetResponse;
 import com.student.soap.contract.userservice.SoapLoginResponse;
 import com.student.soap.contract.userservice.SoapResponse;
+import com.student.soap.contract.userservice.SoapUsersRequest;
+import com.student.soap.contract.userservice.SoapUsersResponse;
 
 @Controller
 public class UserController {
@@ -65,7 +70,7 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -78,7 +83,7 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -109,7 +114,7 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -133,7 +138,7 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -157,7 +162,7 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -181,18 +186,17 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@DeleteMapping(path = "/user/all")
+	@GetMapping(path = "/user/all")
 	@ResponseBody
-	public ResponseEntity<?> deleteUser(@RequestHeader("token") String token) {
-		SoapDeleteUserRequest request = new SoapDeleteUserRequest();
-	
+	public ResponseEntity<List<HttpUserResponse>> getAllUsers(@RequestHeader("token") String token) {
+		SoapUsersRequest request = new SoapUsersRequest();
 		request.setToken(token);
 		
-		SoapResponse internalResponse= userServiceClient.send(request);
+		SoapUsersResponse internalResponse= userServiceClient.send(request);
 		
 		if (internalResponse.isAuthorized()!=null && !internalResponse.isAuthorized()) 
 		{ 				
@@ -204,6 +208,6 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<List<HttpUserResponse>>(translator.translate(internalResponse), HttpStatus.OK);
 	}
 }

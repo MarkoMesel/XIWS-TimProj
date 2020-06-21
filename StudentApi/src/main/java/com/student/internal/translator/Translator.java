@@ -25,6 +25,7 @@ import com.student.http.contract.HttpRepliesAndCommentsResponse;
 import com.student.http.contract.HttpReservationResponse;
 import com.student.http.contract.HttpSearchCarsRequest;
 import com.student.http.contract.HttpUnavailabilityResponse;
+import com.student.http.contract.HttpUserResponse;
 import com.student.soap.contract.carservice.NamedObject;
 import com.student.soap.contract.carservice.SoapAddCarRequest;
 import com.student.soap.contract.carservice.SoapCarModelsResponse;
@@ -57,6 +58,8 @@ import com.student.soap.contract.userservice.SoapGetResponse;
 import com.student.soap.contract.userservice.SoapLoginRequest;
 import com.student.soap.contract.userservice.SoapLoginResponse;
 import com.student.soap.contract.userservice.SoapRegisterRequest;
+import com.student.soap.contract.userservice.SoapUser;
+import com.student.soap.contract.userservice.SoapUsersResponse;
 import com.student.soap.contract.userservice.SoapVerifyRequest;
 
 @Component("Translator")
@@ -560,5 +563,31 @@ public class Translator {
 
 	public HttpPriceListResponse translate(SoapPriceListResponse input) {
 		return translate(input.getPriceList());
+	}
+
+	public List<HttpUserResponse> translate(SoapUsersResponse input) {
+		List<HttpUserResponse> output = new ArrayList<>();
+		
+		if(input.getUser() == null) {
+			return output;
+		}
+		
+		for(SoapUser in : input.getUser()) {
+			HttpUserResponse out = new HttpUserResponse();
+			out.setEmail(in.getEmail());
+			out.setEmailVerified(in.isEmailVerified());
+			out.setFirstName(in.getFirstName());
+			out.setId(in.getId());
+			out.setLastName(in.getLastName());
+			out.setPhone(in.getPhone());
+			out.setRoleId(in.getRoleId());
+			out.setRoleName(in.getRoleName());
+			out.setStatusId(in.getStatusId());
+			out.setStatusName(in.getStatusName());
+			
+			output.add(out);
+		}
+		
+		return output;
 	}
 }
