@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import NavigationTab from './NavigationTab.js';
-import { Dropdown, Input } from 'semantic-ui-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import 'react-bootstrap/Accordion';
 import { Button, ButtonGroup, Card } from 'react-bootstrap';
 import 'semantic-ui-css/semantic.min.css';
-import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import addDays from 'date-fns/addDays';
 import './homepage.css';
-import { format } from 'date-fns';
-import { TextField } from 'material-ui';
 import './MoreDetails.css';
 
 const axiosConfig = {

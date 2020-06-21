@@ -21,9 +21,12 @@ import AdminRateManage from './AdminRateManage';
 import AdminUserManage from './AdminUserManage';
 import AddImages from './AddImages'
 import MessageBoard from './MessageBoard'
-import Reservations from './Reservations';
+import Reservations from './ClientReservations';
 import AdminLandingPage from './AdminLandingPage';
 import RoleSelector from './RoleSelector';
+import AgentReservations from './AgentReservations';
+import AgentReports from './AgentReports';
+
 
 class App extends Component {
   render() {
@@ -45,9 +48,11 @@ class App extends Component {
               <Route exact path="/adminuser" component={AdminUserManage}></Route>
               <Route exact path="/AddImages" component={AddImages}></Route>
               <Route exact path="/messages" component={MessageBoard}></Route>
-              <Route exact path="/reservations" component={Reservations}></Route>
+              <Route exact path="/clientreservations" component={Reservations}></Route>
               <Route exact path="/adminhome" component={AdminLandingPage}></Route>
               <Route exact path="/roleselector" component={RoleSelector}></Route>
+              <Route exact path="/agentreservations" component={AgentReservations}></Route>
+              <Route exact path="/agentreports" component={AgentReports}></Route>
             </Switch>
           </div>
         </Router>

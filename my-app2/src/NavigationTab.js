@@ -15,7 +15,7 @@ function NavigationTab() {
                     <Nav.Link href="/ratecar">Leave Feeback</Nav.Link>
                 </Nav>
                 <Form inline>
-                    <Nav.Link href="/reservations"> My reservations </Nav.Link>
+                    <Nav.Link href="/clientreservations"> My reservations </Nav.Link>
                     <Nav.Link href="/cart"> My cart </Nav.Link>
                     <Nav.Link href="/homepage" onClick={() => { localStorage.clear() || sessionStorage.clear() }}>Logout</Nav.Link>
                 </Form>
@@ -28,6 +28,9 @@ function NavigationTab() {
                 <Navbar.Brand>Rent-a-Car</Navbar.Brand>
                 <Nav className="mr-auto">
                     <Nav.Link href="/postcar">Advertise</Nav.Link>
+                    <Nav.Link href="/agentreservations">Manage Reservations</Nav.Link>
+                    <Nav.Link href="/agentreports">Manage Reports</Nav.Link>
+
                 </Nav>
                 <Form inline>
                     <Nav.Link > Check comments </Nav.Link>

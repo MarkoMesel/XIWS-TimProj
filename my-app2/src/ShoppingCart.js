@@ -185,7 +185,15 @@ class ShoppingCart extends Component {
     }
 
     handleSubmitCart(){
+        let submitData = null;
+        axios.post('https://localhost:8085/schedule/reserve', submitData, axiosConfig)
+        .then(response => {
+            console.log("Reserve radi");
+            this.props.history.push("/clientreservations");
 
+        }).catch(response => {
+            console.log("Reserve ne radi");
+        })
     }
 
     render() {
@@ -208,7 +216,6 @@ class ShoppingCart extends Component {
                                     <Button className="buttonSend5" value={car.publisherId} disabled={!(bundle.cars.length === 1)} onClick={this.handleBundle}>Bundle</Button>
                                     <Button className="buttonSend5" value={car.publisherId} disabled={(bundle.cars.length === 1)} onClick={this.handleUnbundle}>Unbundle</Button>
                                     <Button className="buttonRemoveFromCart5" id={car.reservationId} value={car.reservationId} onClick={this.handleRemoveFromCart}>Remove</Button>
-                                    <Button className="ttt" id={car.reservationId} value={car.reservationId} onClick={this.handleDupes}>Do list</Button>
                                 </ButtonGroup>
                             </div>
 

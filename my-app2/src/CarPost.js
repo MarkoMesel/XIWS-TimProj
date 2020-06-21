@@ -5,13 +5,10 @@ import { Dropdown } from 'semantic-ui-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import 'react-bootstrap/Accordion';
-import { Button, FormCheck } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import 'semantic-ui-css/semantic.min.css';
-import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import addDays from 'date-fns/addDays';
 import './homepage.css';
-import { format } from 'date-fns';
 
 
 class CarPost extends Component {

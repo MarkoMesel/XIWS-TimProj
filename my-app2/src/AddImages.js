@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Card, Button, ButtonGroup } from "react-bootstrap";
 import 'semantic-ui-css/semantic.min.css';
 import './homepage.css';
-import { format } from 'date-fns';
 import ImageUploading from "react-images-uploading";
 import './addImages.css'
 

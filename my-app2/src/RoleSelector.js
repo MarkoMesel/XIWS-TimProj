@@ -1,25 +1,17 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import NavigationTab from './NavigationTab.js';
-import { Dropdown } from 'semantic-ui-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import 'react-bootstrap/Accordion';
-import { Carousel, CarouselItem, Container, Card, Button, ButtonGroup } from "react-bootstrap";
 import 'semantic-ui-css/semantic.min.css';
-import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import addDays from 'date-fns/addDays';
 import './homepage.css';
-import { format } from 'date-fns';
-import ImageUploading from "react-images-uploading";
 import './addImages.css'
 import './MoreDetails.css';
 import './ShoppingCart.css';
 
 
 
-class Reservations extends Component {
+class RoleSelector extends Component {
 
     constructor(props) {
         super(props);
@@ -56,4 +48,4 @@ class Reservations extends Component {
         );
     }
 }
-export default Reservations;
+export default RoleSelector;
