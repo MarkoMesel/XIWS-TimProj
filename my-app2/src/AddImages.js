@@ -1,15 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import NavigationTab from './NavigationTab.js';
-import { Dropdown } from 'semantic-ui-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './index.css';
-import 'react-bootstrap/Accordion';
-import { Carousel, CarouselItem, Container, Card, Button, ButtonGroup } from "react-bootstrap";
+import {Card, Button, ButtonGroup } from "react-bootstrap";
 import 'semantic-ui-css/semantic.min.css';
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
-import addDays from 'date-fns/addDays';
 import './homepage.css';
 import { format } from 'date-fns';
 import ImageUploading from "react-images-uploading";
@@ -25,6 +18,15 @@ class AddImages extends Component {
         this.state = {
 
         };
+    }
+
+    componentDidMount(){
+        if (localStorage.getItem('roleId') === '3') {
+            this.props.history.push("/login");
+        }
+        else if(localStorage.getItem('token') === null){
+            this.props.history.push("/login");
+        }
     }
 
     onChange = (imageList) => {

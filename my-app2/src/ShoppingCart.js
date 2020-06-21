@@ -76,6 +76,30 @@ class ShoppingCart extends Component {
             });
     }
     handleBundle = (event) => {
+        (function (a) {
+            let map = new Map();
+
+            a.forEach(e => {
+                if (map.has(e)) {
+                    let count = map.get(e);
+                    console.log(count)
+                    map.set(e, count + 1);
+                } else {
+                    map.set(e, 1);
+                }
+            });
+
+            let hasDup = false;
+            let dups = [];
+            map.forEach((value, key) => {
+                if (value > 1) {
+                    hasDup = true;
+                    dups.push(key);
+                }
+            });
+            console.log(dups);
+            sessionStorage.setItem("dups", dups);
+        })(this.state.pubIdList2);
 
         const bundleData = {
             publisherId: 1,
@@ -93,6 +117,32 @@ class ShoppingCart extends Component {
     }
 
     handleUnbundle = (event) => {
+        
+        (function (a) {
+            let map = new Map();
+
+            a.forEach(e => {
+                if (map.has(e)) {
+                    let count = map.get(e);
+                    console.log(count)
+                    map.set(e, count + 1);
+                } else {
+                    map.set(e, 1);
+                }
+            });
+
+            let hasDup = false;
+            let dups = [];
+            map.forEach((value, key) => {
+                if (value > 1) {
+                    hasDup = true;
+                    dups.push(key);
+                }
+            });
+            console.log(dups);
+            sessionStorage.setItem("dups", dups);
+        })(this.state.pubIdList2);
+
         const unbundleData = {
             publisherId: event.target.value,
             publisherTypeId: 2

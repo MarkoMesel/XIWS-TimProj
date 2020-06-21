@@ -94,9 +94,7 @@ class ClientCarSearch extends Component {
   }
 
   componentDidMount() {
-    if (localStorage.getItem('roleId') === '2'||localStorage.getItem('roleId') === '3'){
-      this.props.history.push("/login");
-  }
+
 
     let manufacturerRequest = "https://localhost:8085/car/manufacturers";
     let modelRequest = "https://localhost:8085/car/models";

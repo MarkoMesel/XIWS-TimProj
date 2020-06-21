@@ -17,7 +17,6 @@ import './MoreDetails.css';
 
 const axiosConfig = {
     headers: {
-        'Content-Type': 'application/json;charset=utf-8',
         'token': localStorage.getItem('token')
     }
 };
@@ -55,9 +54,13 @@ class AdminRateManage extends Component {
     }
 
     handleApprove = (event) =>{
-        let approveLink = 'https://localhost:8085/schedule/comments/' + event.target.value + '/approve'
+        let approveLink = 'https://localhost:8085/schedule/comments/' + event.target.value + '/approve';
+
+        console.log(approveLink);
+        console.log(axiosConfig);
+        let body = null;
         axios.post(
-            approveLink,axiosConfig
+            approveLink, body, axiosConfig
         ).then(response =>{
             if(response.status ===200){
                 console.log("approved");
@@ -69,9 +72,11 @@ class AdminRateManage extends Component {
     }
 
     handleDecline = (event) =>{
+        let body = null;
+
         let rejectLink = 'https://localhost:8085/schedule/comments/' + event.target.value + '/reject'
         axios.post(
-            rejectLink,axiosConfig
+            rejectLink,body,axiosConfig
         ).then(response =>{
             if(response.status ===200){
                 console.log("rejected");

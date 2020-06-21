@@ -9,6 +9,13 @@ import NavigationTab from './NavigationTab';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import axios from 'axios';
 
+const axiosConfig = {
+    headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+    }
+};
+
+
 class SearchResults extends Component {
 
     constructor(props) {
@@ -22,7 +29,12 @@ class SearchResults extends Component {
             roleId: localStorage.getItem("roleId"),
             startDateStored: sessionStorage.getItem("startDate"),
             endDateStored: sessionStorage.getItem("endDate"),
-            collisionWarrantStored: sessionStorage.getItem("collisionWarranty")
+            collisionWarrantStored: sessionStorage.getItem("collisionWarranty"),
+
+            carsBundle: [],
+            cartCarId: [],
+            cartCarId2: '',
+
         }
         this.handleClick = this.handleClick.bind(this);
         this.moreDetailsPressed = this.moreDetailsPressed.bind(this);
@@ -33,13 +45,12 @@ class SearchResults extends Component {
     }
 
     componentDidMount() {
-        let searchData = sessionStorage.getItem("searchData");       
 
-        const axiosConfig = {
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            }
-        };
+        if (localStorage.getItem('roleId') !== '1') {
+            this.props.history.push("/login");
+        }
+
+        let searchData = sessionStorage.getItem("searchData");       
         axios.post(
             'https://localhost:8085/car/search',
             searchData, axiosConfig)
@@ -64,7 +75,6 @@ class SearchResults extends Component {
             collisionWaranty: this.state.collisionWarrantStored,
             carId: event.target.value,
         } 
-        console.log(cartData)
         const axiosConfig = {
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',

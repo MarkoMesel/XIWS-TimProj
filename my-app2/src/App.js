@@ -22,7 +22,8 @@ import AdminUserManage from './AdminUserManage';
 import AddImages from './AddImages'
 import MessageBoard from './MessageBoard'
 import Reservations from './Reservations';
-
+import AdminLandingPage from './AdminLandingPage';
+import RoleSelector from './RoleSelector';
 
 class App extends Component {
   render() {
@@ -45,7 +46,8 @@ class App extends Component {
               <Route exact path="/AddImages" component={AddImages}></Route>
               <Route exact path="/messages" component={MessageBoard}></Route>
               <Route exact path="/reservations" component={Reservations}></Route>
-
+              <Route exact path="/adminhome" component={AdminLandingPage}></Route>
+              <Route exact path="/roleselector" component={RoleSelector}></Route>
             </Switch>
           </div>
         </Router>

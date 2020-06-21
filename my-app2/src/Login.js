@@ -114,7 +114,7 @@ class Login extends Component {
             </div>
         );
     }
-    async handleSubmit() {
+    handleSubmit() {
         const formData = {
             email: this.state.email,
             password: this.state.password
@@ -131,18 +131,17 @@ class Login extends Component {
             postData, axiosConfig)
             .then(response => {
                 if (response.status === 200) {
-                    console.log('Status 200 ');
+                    console.log('Status 200 na loginu ');
                     localStorage.setItem('token', response.data.token);
-                    localStorage.setItem('roleName',response.data.roleName);
-                    localStorage.setItem('roleId',response.data.roleId);
-                    localStorage.setItem('id',response.data.id);
-                    
+                    localStorage.setItem('roleName', response.data.roleName);
+                    localStorage.setItem('roleId', response.data.roleId);
+                    localStorage.setItem('id', response.data.id);
                 }
-            })
-            console.log(localStorage.getItem("token"));
-        if (localStorage.token !== null) {
-            this.props.history.push("/homepage");
-        }
+            });
+        this.props.history.push('/homepage');
+
+
+
     }
 }
 export default Login;
