@@ -95,6 +95,41 @@
         </xs:complexType>
     </xs:element>
     
+    <xs:complexType name="SoapUser">
+    	<xs:sequence>
+        	<xs:element name="id" type="xs:int"/>
+        	<xs:element name="email" type="xs:string"/>
+            <xs:element name="firstName" type="xs:string"/>
+            <xs:element name="lastName" type="xs:string"/>
+            <xs:element name="phone" type="xs:string"/>
+        	<xs:element name="statusId" type="xs:int"/>
+            <xs:element name="statusName" type="xs:string"/>
+        	<xs:element name="RoleId" type="xs:int"/>
+            <xs:element name="RoleName" type="xs:string"/>
+            <xs:element name="emailVerified" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="soapUsersRequest">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+ 
+    <xs:element name="soapUsersResponse">
+        <xs:complexType>
+        	<xs:complexContent>
+        		<xs:extension base="tns:StatusType">
+            		<xs:sequence>
+        				<xs:element name="user" minOccurs="0" maxOccurs="unbounded" type="tns:SoapUser"/>
+            		</xs:sequence>
+            	</xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    
     <xs:element name="soapInternalGetUserRequest">
         <xs:complexType>
             <xs:sequence>

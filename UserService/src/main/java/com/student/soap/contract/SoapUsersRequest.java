@@ -38,8 +38,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "token"
 })
-@XmlRootElement(name = "soapGetRequest")
-public class SoapGetRequest {
+@XmlRootElement(name = "soapUsersRequest")
+public class SoapUsersRequest {
 
     @XmlElement(required = true)
     protected String token;

@@ -1,6 +1,7 @@
 package com.student.internal.provider;
 
 import java.security.SecureRandom;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ import com.student.soap.contract.SoapDeleteUserRequest;
 import com.student.soap.contract.SoapGetResponse;
 import com.student.soap.contract.SoapInternalGetUserRequest;
 import com.student.soap.contract.SoapResponse;
+import com.student.soap.contract.SoapUser;
+import com.student.soap.contract.SoapUsersRequest;
+import com.student.soap.contract.SoapUsersResponse;
 
 @Component("UserProvider")
 public class UserProvider {
@@ -72,6 +76,38 @@ public class UserProvider {
 			response.setSuccess(false);
 			return response;
 		}
+	}
+	
+	public SoapUsersResponse getListOfUsers(SoapUsersRequest request) {
+		SoapUsersResponse response = new SoapUsersResponse();
+		
+		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
+		if(!token.isValid() || !token.getRoleName().equals("ADMIN")) {
+			response.setAuthorized(false);
+			return response;
+		}
+		response.setAuthorized(true);
+		
+		List<UserDbModel> users = unitOfWork.getUserRepo().findAll();
+		
+		for(UserDbModel in : users) {
+			SoapUser out = new SoapUser();
+			out.setId(in.getId());
+			out.setEmail(in.getEmail());
+			out.setFirstName(in.getFirstName());
+			out.setLastName(in.getLastName());
+			out.setEmailVerified(in.isEmailVerified());
+			out.setPhone(in.getPhone());
+			out.setStatusId(in.getStatus().getId());
+			out.setStatusName(in.getStatus().getName());
+			out.setRoleId(in.getRole().getId());
+			out.setRoleName(in.getRole().getName());
+			
+			response.getUser().add(out);
+		}
+		
+		response.setSuccess(true);
+		return response;
 	}
 
 	public InternalGetResponse get(String token) {

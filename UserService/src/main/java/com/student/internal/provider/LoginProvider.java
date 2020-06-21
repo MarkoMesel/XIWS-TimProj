@@ -42,6 +42,11 @@ public class LoginProvider {
 			return response;
 		}
 		
+		if(user.getStatus().getId() != 2) {
+			response.setSuccess(false);
+			return response;
+		}
+		
 		response.setToken(jwtUtil.getAuthenticationToken(user));
 		response.setId(user.getId());
 		response.setRoleId(user.getRole().getId());
