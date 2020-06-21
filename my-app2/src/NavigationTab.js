@@ -27,7 +27,7 @@ function NavigationTab() {
             <Navbar fixed="top" bg="dark" variant="dark">
                 <Navbar.Brand>Rent-a-Car</Navbar.Brand>
                 <Nav className="mr-auto">
-                    <Nav.Link href="/postcar">Advertise</Nav.Link>
+                    <Nav.Link href="/carpost">Advertise</Nav.Link>
                     <Nav.Link href="/agentreservations">Manage Reservations</Nav.Link>
                     <Nav.Link href="/agentreports">Manage Reports</Nav.Link>
 

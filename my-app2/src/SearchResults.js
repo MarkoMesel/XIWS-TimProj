@@ -46,9 +46,7 @@ class SearchResults extends Component {
 
     componentDidMount() {
 
-        if (localStorage.getItem('roleId') !== '1') {
-            this.props.history.push("/login");
-        }
+
 
         let searchData = sessionStorage.getItem("searchData");       
         axios.post(

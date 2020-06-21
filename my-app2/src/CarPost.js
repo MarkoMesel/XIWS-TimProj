@@ -36,9 +36,9 @@ class CarPost extends Component {
       expectedMileage: null,
       childSeats: null,
 
-      modelName:null,
+      modelName: null,
       manufacturerName: null,
-      fuelTypeName: null, 
+      fuelTypeName: null,
       transmissionTypeName: null,
       carClassName: null,
 
@@ -57,7 +57,7 @@ class CarPost extends Component {
     this.handleToggle = this.handleToggle.bind(this);
     this.handlePickupLocationDropdownChange = this.handlePickupLocationDropdownChange.bind(this);
   }
- 
+
 
   componentDidMount() {
     let role = localStorage.getItem('roleId');
@@ -108,7 +108,7 @@ class CarPost extends Component {
       });
   }
 
- 
+
 
   handleUserInput = (e) => {
     const name = e.target.name;
@@ -128,7 +128,7 @@ class CarPost extends Component {
       modelKey: data.value,
       modelName: data.text
     });
-    console.log(this.state.modelKey,this.state.modelName)
+    console.log(this.state.modelKey, this.state.modelName)
   }
   handleFuelDropdownChange = (event, data) => {
     this.setState({
@@ -158,25 +158,20 @@ class CarPost extends Component {
   }
 
   handleSubmit() {
-
-    const formData = {
-      locationId: this.state.pickupLocationKey,
-      modelId: this.state.modelKey,
-      fuelTypeId: this.state.fuelKey,
-      transmissionTypeId: this.state.transmissionKey,
-      carClassId: this.state.carClassKey,
-      mileage: this.state.mileage,
-      childSeats: this.state.childSeats,
-    }
-    console.log(formData);
-    sessionStorage.setItem('postCarData',formData);
+    sessionStorage.setItem('LocationKey', this.state.pickupLocationKey);
+    sessionStorage.setItem('ModelKey', this.state.modelKey);
+    sessionStorage.setItem('fuelKey', this.state.fuelKey);
+    sessionStorage.setItem('transmissionKey', this.state.transmissionKey);
+    sessionStorage.setItem('carClassKey', this.state.carClassKey);
+    sessionStorage.setItem('mileageKey', this.state.mileage);
+    sessionStorage.setItem('childSeatsKey', this.state.childSeats);
     this.props.history.push("/addImages");
   }
 
 
 
   render() {
-    const { manufacturerKey} = this.state;
+    const { manufacturerKey } = this.state;
 
     let manufacturers = this.state.manufacturers.map(manufacturer => ({ key: manufacturer.id, value: manufacturer.id, text: manufacturer.name }));
     let fuel = this.state.fuel.map(fuel => ({ key: fuel.id, value: fuel.id, text: fuel.name }));
@@ -289,15 +284,15 @@ class CarPost extends Component {
                         </div>
                       </div>
                       <div className="mb-2">
-           
+
                         <Button disabled={!this.state.manufacturerKey || !this.state.modelKey || !this.state.pickupLocationKey || !this.state.fuelKey
-                        || !this.state.transmissionKey || !this.state.carClassKey ||!this.state.mileage || !this.state.childSeats}
+                          || !this.state.transmissionKey || !this.state.carClassKey || !this.state.mileage || !this.state.childSeats}
                           variant="primary" onClick={this.handleSubmit} size="lg">
                           Next
                         </Button>
 
                       </div>
-                     
+
                     </form>
                   </div>
                 </div>
