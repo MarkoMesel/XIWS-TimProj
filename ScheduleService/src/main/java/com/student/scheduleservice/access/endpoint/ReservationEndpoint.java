@@ -54,13 +54,13 @@ public class ReservationEndpoint {
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapUserReservationsRequest")
 	@ResponsePayload
-	public SoapBundlesResponse pay(@RequestPayload SoapUserReservationsRequest request) {
+	public SoapBundlesResponse getUserBundles(@RequestPayload SoapUserReservationsRequest request) {
 		return reservationProvider.getUserBundles(request);
 	}
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapPublisherReservationsRequest")
 	@ResponsePayload
-	public SoapBundlesResponse pay(@RequestPayload SoapPublisherReservationsRequest request) {
+	public SoapBundlesResponse getPublisherBundles(@RequestPayload SoapPublisherReservationsRequest request) {
 		return reservationProvider.getPublisherBundles(request);
 	}
 }

@@ -187,7 +187,7 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:complexType name="Car">
+	<xs:complexType name="Reservation">
     	<xs:sequence>
         	<xs:element name="carId" type="xs:int" nillable="true"/>
         	<xs:element name="reservationId" type="xs:int" nillable="true"/>
@@ -230,7 +230,7 @@
         	<xs:element name="userName" type="xs:string"/>
         	<xs:element name="stateName" type="xs:string"/>
         	<xs:element name="stateId" type="xs:int"/>
-        	<xs:element name="car" type="tns:Car" minOccurs="1" maxOccurs="unbounded"/>
+        	<xs:element name="reservation" type="tns:Reservation" minOccurs="1" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
 	
@@ -265,12 +265,12 @@
 		</xs:complexType>
 	</xs:element>
 	
-	<xs:element name="soapPendingRatingResponse">
+	<xs:element name="soapReservationsResponse">
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="tns:StatusType">
 					<xs:sequence>
-        				<xs:element name="car" type="tns:Car" minOccurs="0" maxOccurs="unbounded"/>
+        				<xs:element name="reservation" type="tns:Reservation" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -471,6 +471,25 @@
 				<xs:element name="token" type="xs:string" />
 				<xs:element name="bundleId" type="xs:int" />
 				<xs:element name="message" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapPendingReservationReportRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapAddReservationReportRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string" />
+				<xs:element name="reservationId" type="xs:int" />
+				<xs:element name="mileage" type="xs:int" />
+				<xs:element name="comment" type="xs:string" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
