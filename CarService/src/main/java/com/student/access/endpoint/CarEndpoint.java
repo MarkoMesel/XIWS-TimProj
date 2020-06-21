@@ -8,6 +8,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import com.student.internal.provider.CarProvider;
 import com.student.soap.carservice.contract.SoapAddCarRequest;
+import com.student.soap.carservice.contract.SoapAddCarResponse;
 import com.student.soap.carservice.contract.SoapCarRequest;
 import com.student.soap.carservice.contract.SoapCarResponse;
 import com.student.soap.carservice.contract.SoapDeactivatePublisherRequest;
@@ -40,7 +41,7 @@ public class CarEndpoint {
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapAddCarRequest")
 	@ResponsePayload
-	public SoapResponse addCar(@RequestPayload SoapAddCarRequest request) {
+	public SoapAddCarResponse addCar(@RequestPayload SoapAddCarRequest request) {
 		return carProvider.addCar(request);
 	}
 	
