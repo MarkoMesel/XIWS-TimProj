@@ -183,4 +183,27 @@ public class UserController {
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@DeleteMapping(path = "/user/all")
+	@ResponseBody
+	public ResponseEntity<?> deleteUser(@RequestHeader("token") String token) {
+		SoapDeleteUserRequest request = new SoapDeleteUserRequest();
+	
+		request.setToken(token);
+		
+		SoapResponse internalResponse= userServiceClient.send(request);
+		
+		if (internalResponse.isAuthorized()!=null && !internalResponse.isAuthorized()) 
+		{ 				
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+		
+		if (!internalResponse.isSuccess()) 
+		{ 				
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }

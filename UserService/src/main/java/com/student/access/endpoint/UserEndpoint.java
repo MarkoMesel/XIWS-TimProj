@@ -16,6 +16,8 @@ import com.student.soap.contract.SoapGetRequest;
 import com.student.soap.contract.SoapGetResponse;
 import com.student.soap.contract.SoapInternalGetUserRequest;
 import com.student.soap.contract.SoapResponse;
+import com.student.soap.contract.SoapUsersRequest;
+import com.student.soap.contract.SoapUsersResponse;
 
 @Endpoint
 public class UserEndpoint {
@@ -40,6 +42,12 @@ public class UserEndpoint {
 	@ResponsePayload
 	public SoapGetResponse get(@RequestPayload SoapGetRequest request) {
 		return translator.soapTranslate(userProvider.get(request.getToken()));
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapUsersRequest")
+	@ResponsePayload
+	public SoapUsersResponse getUsers(@RequestPayload SoapUsersRequest request) {
+		return userProvider.getListOfUsers(request);
 	}
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapInternalGetUserRequest")
