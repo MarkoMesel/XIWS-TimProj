@@ -6,23 +6,25 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.student.http.contract.HttpAddCarRequest;
-import com.student.http.contract.HttpCarAvailabilityRequest;
+import com.student.http.contract.HttpBundleResponse;
 import com.student.http.contract.HttpCarModelResponse;
 import com.student.http.contract.HttpCarRequest;
 import com.student.http.contract.HttpCarResponse;
 import com.student.http.contract.HttpCartAddCarRequest;
 import com.student.http.contract.HttpCartBundleRequest;
-import com.student.http.contract.HttpBundleResponse;
 import com.student.http.contract.HttpCorrespondenceResponse;
 import com.student.http.contract.HttpEditRequest;
 import com.student.http.contract.HttpGetResponse;
 import com.student.http.contract.HttpLoginRequest;
 import com.student.http.contract.HttpLoginResponse;
 import com.student.http.contract.HttpNamedObjectResponse;
+import com.student.http.contract.HttpPriceListResponse;
+import com.student.http.contract.HttpPriceResponse;
 import com.student.http.contract.HttpRegisterRequest;
 import com.student.http.contract.HttpRepliesAndCommentsResponse;
 import com.student.http.contract.HttpReservationResponse;
 import com.student.http.contract.HttpSearchCarsRequest;
+import com.student.http.contract.HttpUnavailabilityResponse;
 import com.student.soap.contract.carservice.NamedObject;
 import com.student.soap.contract.carservice.SoapAddCarRequest;
 import com.student.soap.contract.carservice.SoapCarModelsResponse;
@@ -35,16 +37,20 @@ import com.student.soap.contract.scheduleservice.Bundle;
 import com.student.soap.contract.scheduleservice.Correspondence;
 import com.student.soap.contract.scheduleservice.Rating;
 import com.student.soap.contract.scheduleservice.SoapBundlesResponse;
-import com.student.soap.contract.scheduleservice.SoapCarAvailabilityRequest;
 import com.student.soap.contract.scheduleservice.SoapCarRatingRequest;
-import com.student.soap.contract.scheduleservice.SoapCarRatingsAndCommentsRequest;
 import com.student.soap.contract.scheduleservice.SoapCarRatingsAndCommentsResponse;
 import com.student.soap.contract.scheduleservice.SoapCartAddCarRequest;
 import com.student.soap.contract.scheduleservice.SoapCartBundleRequest;
 import com.student.soap.contract.scheduleservice.SoapCartUnbundleRequest;
 import com.student.soap.contract.scheduleservice.SoapMessagesResponse;
 import com.student.soap.contract.scheduleservice.SoapPendingCommentsResponse;
+import com.student.soap.contract.scheduleservice.SoapPrice;
+import com.student.soap.contract.scheduleservice.SoapPriceList;
+import com.student.soap.contract.scheduleservice.SoapPriceListResponse;
+import com.student.soap.contract.scheduleservice.SoapPriceListsResponse;
 import com.student.soap.contract.scheduleservice.SoapReservationsResponse;
+import com.student.soap.contract.scheduleservice.SoapUnavailability;
+import com.student.soap.contract.scheduleservice.SoapUnavailabilityResponse;
 import com.student.soap.contract.userservice.SoapEditRequest;
 import com.student.soap.contract.userservice.SoapGetRequest;
 import com.student.soap.contract.userservice.SoapGetResponse;
@@ -123,6 +129,9 @@ public class Translator {
 	public List<HttpNamedObjectResponse> translate(SoapNamedObjectsResponse input) {
 		List<HttpNamedObjectResponse> output = new ArrayList<>();
 
+		if(input.getObject() == null) {
+			return output;
+		}
 		for (NamedObject objectIn : input.getObject()) {
 			HttpNamedObjectResponse objectOut = new HttpNamedObjectResponse();
 			objectOut.setId(objectIn.getId());
@@ -142,7 +151,7 @@ public class Translator {
 
 	public List<HttpCarModelResponse> translate(SoapCarModelsResponse internalResponse) {
 		List<HttpCarModelResponse> response = new ArrayList<>();
-
+		
 		for (SoapCarModelsResponse.CarModels.CarModel carIn : internalResponse.getCarModels().getCarModel()) {
 			HttpCarModelResponse carOut = new HttpCarModelResponse();
 			carOut.setManufacturerId(carIn.getManufacturerId());
@@ -261,12 +270,6 @@ public class Translator {
 		return output;
 	}
 
-	public SoapCarRatingsAndCommentsRequest translateRatingsAndComments(int id) {
-		SoapCarRatingsAndCommentsRequest output = new SoapCarRatingsAndCommentsRequest();
-		output.setId(id);
-		return output;
-	}
-
 	public List<HttpCarResponse> translate(SoapSearchCarsResponse input) {
 		List<HttpCarResponse> output = new ArrayList<>();
 
@@ -316,16 +319,6 @@ public class Translator {
 		}
 
 		return response;
-	}
-
-	public SoapCarAvailabilityRequest translate(HttpCarAvailabilityRequest input) {
-		SoapCarAvailabilityRequest output = new SoapCarAvailabilityRequest();
-
-		output.setId(input.getId());
-		output.setStartDate(input.getStartDate());
-		output.setEndDate(input.getEndDate());
-
-		return output;
 	}
 
 	public SoapCartAddCarRequest translate(String token, HttpCartAddCarRequest input) {
@@ -480,4 +473,68 @@ public class Translator {
 		return translate(input.getMessage());
 	}
 
+	public List<HttpUnavailabilityResponse> translate(SoapUnavailabilityResponse input) {
+		List<HttpUnavailabilityResponse> output = new ArrayList<>();
+		
+		if(input.getUnavailability() == null) {
+			return output;
+		}
+
+		for(SoapUnavailability objIn:input.getUnavailability()) {
+			HttpUnavailabilityResponse objOut = new HttpUnavailabilityResponse();
+			objOut.setId(objIn.getId());
+			objOut.setStartDate(objIn.getStartDate());
+			objOut.setEndDate(objIn.getEndDate());
+			
+			output.add(objOut);
+		}
+		
+		return output;
+	}
+	
+	private HttpPriceResponse translate(SoapPrice input) {
+		HttpPriceResponse output = new HttpPriceResponse();
+		
+		output.setEndDate(input.getEndDate());
+		output.setStartDate(input.getStartDate());
+		output.setId(input.getId());
+		output.setPrice(input.getPrice());
+		
+		return output;
+	}
+	
+	private HttpPriceListResponse translate(SoapPriceList input) {
+		HttpPriceListResponse output = new HttpPriceListResponse();
+		
+		output.setDiscountPercentage(input.getDiscountPercentage());
+		output.setId(input.getId());
+		output.setMileagePenalty(input.getMileagePenalty());
+		output.setMileageThreshold(input.getMileageThreshold());
+		output.setName(input.getName());
+		output.setWarrantyPrice(input.getWarrantyPrice());
+		
+		for(SoapPrice priceIn : input.getPrice()) {
+			output.getPrices().add(translate(priceIn));
+		}
+		
+		return output;
+	}
+
+	public List<HttpPriceListResponse> translate(SoapPriceListsResponse input) {
+		List<HttpPriceListResponse> output = new ArrayList<>();
+		
+		if(input.getPriceList() == null) {
+			return output;
+		}
+		
+		for(SoapPriceList priceListIn : input.getPriceList()) {
+			output.add(translate(priceListIn));
+		}
+		
+		return output;
+	}
+
+	public HttpPriceListResponse translate(SoapPriceListResponse input) {
+		return translate(input.getPriceList());
+	}
 }

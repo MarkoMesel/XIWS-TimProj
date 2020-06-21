@@ -123,7 +123,7 @@ public class ReservationProvider {
 					Date end2 = rejectedReservation.getEndDate();
 					
 					//are the dates overlapping?
-					if(!start1.after(end2) && !start2.after(end1)) {
+					if(providerUtil.datesOverlap(start1, end1, start2, end2)) {
 						rejectedBundle.setState(providerUtil.getRejectedState());
 						unitOfWork.getBundleRepo().save(rejectedBundle);
 					}

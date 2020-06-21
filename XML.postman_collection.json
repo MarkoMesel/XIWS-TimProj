@@ -44,7 +44,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\":\"student@mail.com\",\n\t\"password\":\"student123\"\n}",
+							"raw": "{\n\t\"email\":\"agent@mail.com\",\n\t\"password\":\"student123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1597,7 +1597,7 @@
 							}
 						],
 						"url": {
-							"raw": "https://localhost:8085/schedule/bundle/53/chat",
+							"raw": "https://localhost:8085/schedule/bundle/1/chat",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -1606,7 +1606,7 @@
 							"path": [
 								"schedule",
 								"bundle",
-								"53",
+								"1",
 								"chat"
 							]
 						}
@@ -1626,7 +1626,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"message\":\"Hello 456\",\r\n    \"bundleId\": \"53\"\r\n}",
+							"raw": "{\r\n    \"message\":\"Hello 456\",\r\n    \"bundleId\": \"1\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1647,6 +1647,370 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "ReservationReport",
+			"item": [
+				{
+					"name": "Get Pending Reservation Report",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBR0VOVCIsInJvbGVJZCI6MiwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjUsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6Ik1hbmFnZSByZXNlcnZhdGlvbnMiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NiwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQ2hhdCIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjo3LCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgY2FyIHJlcG9ydCIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9XSwidXNlcklkIjoyLCJwdXJwb3NlIjoiQVVUSEVOVElDQVRJT04ifQ.aP09dbKhZ9RdwETro0pit8nWRRDazSxzd-i2GH6ZfTrSkjAQjSIwI83UknpGbpHMce3t7jreEHwQrgsYAsWBBgxz7c0u8Tl8cTAno7jD2QkmS636TDxxbwHMWZiG02EapO-ttUEQv4UBQ7FH8PNYNbObVLcQnomLgLWKlZqaSS7gGWcrjFbWPEvax787HYqp7aPIlLnCwRATtIRS41FWMblvmy1KnJB3w0H98J2pyy2lpHj5Ulz3ZZ2cCmtIf8QhhZX8Zzr0niTM2skvwTaxGqpGh-AqVcL0nenJcy145Andk7e_8Wp8jewFDfNm53dms4gSPib-3vR9O7viCmUq0g",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:8085/schedule/reservations/report/pending",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"reservations",
+								"report",
+								"pending"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Reservation Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBR0VOVCIsInJvbGVJZCI6MiwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjUsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6Ik1hbmFnZSByZXNlcnZhdGlvbnMiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NiwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQ2hhdCIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjo3LCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgY2FyIHJlcG9ydCIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9XSwidXNlcklkIjoyLCJwdXJwb3NlIjoiQVVUSEVOVElDQVRJT04ifQ.aP09dbKhZ9RdwETro0pit8nWRRDazSxzd-i2GH6ZfTrSkjAQjSIwI83UknpGbpHMce3t7jreEHwQrgsYAsWBBgxz7c0u8Tl8cTAno7jD2QkmS636TDxxbwHMWZiG02EapO-ttUEQv4UBQ7FH8PNYNbObVLcQnomLgLWKlZqaSS7gGWcrjFbWPEvax787HYqp7aPIlLnCwRATtIRS41FWMblvmy1KnJB3w0H98J2pyy2lpHj5Ulz3ZZ2cCmtIf8QhhZX8Zzr0niTM2skvwTaxGqpGh-AqVcL0nenJcy145Andk7e_8Wp8jewFDfNm53dms4gSPib-3vR9O7viCmUq0g",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"reservationId\":1,\r\n    \"mileage\": 100000,\r\n    \"commnet\": \"Comment 123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8085/schedule/reservations/report",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"reservations",
+								"report"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "PriceList",
+			"item": [
+				{
+					"name": "Get Publisher PriceLists",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBR0VOVCIsInJvbGVJZCI6MiwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjUsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6Ik1hbmFnZSByZXNlcnZhdGlvbnMiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NiwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQ2hhdCIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjo3LCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgY2FyIHJlcG9ydCIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9XSwidXNlcklkIjoyLCJwdXJwb3NlIjoiQVVUSEVOVElDQVRJT04ifQ.aP09dbKhZ9RdwETro0pit8nWRRDazSxzd-i2GH6ZfTrSkjAQjSIwI83UknpGbpHMce3t7jreEHwQrgsYAsWBBgxz7c0u8Tl8cTAno7jD2QkmS636TDxxbwHMWZiG02EapO-ttUEQv4UBQ7FH8PNYNbObVLcQnomLgLWKlZqaSS7gGWcrjFbWPEvax787HYqp7aPIlLnCwRATtIRS41FWMblvmy1KnJB3w0H98J2pyy2lpHj5Ulz3ZZ2cCmtIf8QhhZX8Zzr0niTM2skvwTaxGqpGh-AqVcL0nenJcy145Andk7e_8Wp8jewFDfNm53dms4gSPib-3vR9O7viCmUq0g"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:8085/schedule/priceLists",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"priceLists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add PriceList",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBR0VOVCIsInJvbGVJZCI6MiwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjUsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6Ik1hbmFnZSByZXNlcnZhdGlvbnMiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NiwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQ2hhdCIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjo3LCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgY2FyIHJlcG9ydCIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9XSwidXNlcklkIjoyLCJwdXJwb3NlIjoiQVVUSEVOVElDQVRJT04ifQ.aP09dbKhZ9RdwETro0pit8nWRRDazSxzd-i2GH6ZfTrSkjAQjSIwI83UknpGbpHMce3t7jreEHwQrgsYAsWBBgxz7c0u8Tl8cTAno7jD2QkmS636TDxxbwHMWZiG02EapO-ttUEQv4UBQ7FH8PNYNbObVLcQnomLgLWKlZqaSS7gGWcrjFbWPEvax787HYqp7aPIlLnCwRATtIRS41FWMblvmy1KnJB3w0H98J2pyy2lpHj5Ulz3ZZ2cCmtIf8QhhZX8Zzr0niTM2skvwTaxGqpGh-AqVcL0nenJcy145Andk7e_8Wp8jewFDfNm53dms4gSPib-3vR9O7viCmUq0g"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"discountPercentage\" : 15,\r\n    \"mileageThreshold\" : null,\r\n    \"mileagePenalty\" : null,\r\n    \"name\": \"My New Pricelist\",\r\n    \"warrantyPrice\" : null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8085/schedule/priceList",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"priceList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete PriceList",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBR0VOVCIsInJvbGVJZCI6MiwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjUsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6Ik1hbmFnZSByZXNlcnZhdGlvbnMiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NiwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQ2hhdCIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjo3LCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgY2FyIHJlcG9ydCIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9XSwidXNlcklkIjoyLCJwdXJwb3NlIjoiQVVUSEVOVElDQVRJT04ifQ.aP09dbKhZ9RdwETro0pit8nWRRDazSxzd-i2GH6ZfTrSkjAQjSIwI83UknpGbpHMce3t7jreEHwQrgsYAsWBBgxz7c0u8Tl8cTAno7jD2QkmS636TDxxbwHMWZiG02EapO-ttUEQv4UBQ7FH8PNYNbObVLcQnomLgLWKlZqaSS7gGWcrjFbWPEvax787HYqp7aPIlLnCwRATtIRS41FWMblvmy1KnJB3w0H98J2pyy2lpHj5Ulz3ZZ2cCmtIf8QhhZX8Zzr0niTM2skvwTaxGqpGh-AqVcL0nenJcy145Andk7e_8Wp8jewFDfNm53dms4gSPib-3vR9O7viCmUq0g"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:8085/schedule/priceList/6",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"priceList",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Car PriceList",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8085/schedule/car/1/priceList",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"car",
+								"1",
+								"priceList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set Car PriceList",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBR0VOVCIsInJvbGVJZCI6MiwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjUsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6Ik1hbmFnZSByZXNlcnZhdGlvbnMiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NiwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQ2hhdCIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjo3LCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgY2FyIHJlcG9ydCIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9XSwidXNlcklkIjoyLCJwdXJwb3NlIjoiQVVUSEVOVElDQVRJT04ifQ.aP09dbKhZ9RdwETro0pit8nWRRDazSxzd-i2GH6ZfTrSkjAQjSIwI83UknpGbpHMce3t7jreEHwQrgsYAsWBBgxz7c0u8Tl8cTAno7jD2QkmS636TDxxbwHMWZiG02EapO-ttUEQv4UBQ7FH8PNYNbObVLcQnomLgLWKlZqaSS7gGWcrjFbWPEvax787HYqp7aPIlLnCwRATtIRS41FWMblvmy1KnJB3w0H98J2pyy2lpHj5Ulz3ZZ2cCmtIf8QhhZX8Zzr0niTM2skvwTaxGqpGh-AqVcL0nenJcy145Andk7e_8Wp8jewFDfNm53dms4gSPib-3vR9O7viCmUq0g"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"carId\" : 1,\r\n    \"priceListId\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8085/schedule/priceList",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"priceList"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Price",
+			"item": [
+				{
+					"name": "Add price",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBR0VOVCIsInJvbGVJZCI6MiwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjUsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6Ik1hbmFnZSByZXNlcnZhdGlvbnMiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NiwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQ2hhdCIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjo3LCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgY2FyIHJlcG9ydCIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9XSwidXNlcklkIjoyLCJwdXJwb3NlIjoiQVVUSEVOVElDQVRJT04ifQ.aP09dbKhZ9RdwETro0pit8nWRRDazSxzd-i2GH6ZfTrSkjAQjSIwI83UknpGbpHMce3t7jreEHwQrgsYAsWBBgxz7c0u8Tl8cTAno7jD2QkmS636TDxxbwHMWZiG02EapO-ttUEQv4UBQ7FH8PNYNbObVLcQnomLgLWKlZqaSS7gGWcrjFbWPEvax787HYqp7aPIlLnCwRATtIRS41FWMblvmy1KnJB3w0H98J2pyy2lpHj5Ulz3ZZ2cCmtIf8QhhZX8Zzr0niTM2skvwTaxGqpGh-AqVcL0nenJcy145Andk7e_8Wp8jewFDfNm53dms4gSPib-3vR9O7viCmUq0g",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"priceListId\":1,\r\n    \"price\": 59,\r\n    \"startDate\":\"2020-09-04T07:00:00.000Z\",\r\n    \"endDate\": \"2020-09-04T22:00:00.000Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8085/schedule/price",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"price"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Price",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBR0VOVCIsInJvbGVJZCI6MiwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjUsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6Ik1hbmFnZSByZXNlcnZhdGlvbnMiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NiwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQ2hhdCIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjo3LCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgY2FyIHJlcG9ydCIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9XSwidXNlcklkIjoyLCJwdXJwb3NlIjoiQVVUSEVOVElDQVRJT04ifQ.aP09dbKhZ9RdwETro0pit8nWRRDazSxzd-i2GH6ZfTrSkjAQjSIwI83UknpGbpHMce3t7jreEHwQrgsYAsWBBgxz7c0u8Tl8cTAno7jD2QkmS636TDxxbwHMWZiG02EapO-ttUEQv4UBQ7FH8PNYNbObVLcQnomLgLWKlZqaSS7gGWcrjFbWPEvax787HYqp7aPIlLnCwRATtIRS41FWMblvmy1KnJB3w0H98J2pyy2lpHj5Ulz3ZZ2cCmtIf8QhhZX8Zzr0niTM2skvwTaxGqpGh-AqVcL0nenJcy145Andk7e_8Wp8jewFDfNm53dms4gSPib-3vR9O7viCmUq0g"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:8085/schedule/price/16",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"price",
+								"16"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Unavailability",
+			"item": [
+				{
+					"name": "Add unavailability",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ1c2VyQHN0dWRlbnQuY29tIiwicm9sZU5hbWUiOiJBR0VOVCIsInJvbGVJZCI6MiwicGVybWlzc2lvbnMiOlt7InBlcm1pc3Npb25JZCI6MSwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIENhciIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjoyLCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgQ2FyIEltYWdlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjMsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6IkFkZCBDYXIgVW5hdmFpbGFiaWxpdHkiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NCwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQWRkIFByaWNlIiwicmVzb3VyY2VUeXBlTmFtZSI6IkFHRU5UIiwicmVzb3VyY2VJZCI6MX0seyJwZXJtaXNzaW9uSWQiOjUsInJlc291cmNlVHlwZUlkIjoyLCJwZXJtaXNzaW9uTmFtZSI6Ik1hbmFnZSByZXNlcnZhdGlvbnMiLCJyZXNvdXJjZVR5cGVOYW1lIjoiQUdFTlQiLCJyZXNvdXJjZUlkIjoxfSx7InBlcm1pc3Npb25JZCI6NiwicmVzb3VyY2VUeXBlSWQiOjIsInBlcm1pc3Npb25OYW1lIjoiQ2hhdCIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9LHsicGVybWlzc2lvbklkIjo3LCJyZXNvdXJjZVR5cGVJZCI6MiwicGVybWlzc2lvbk5hbWUiOiJBZGQgY2FyIHJlcG9ydCIsInJlc291cmNlVHlwZU5hbWUiOiJBR0VOVCIsInJlc291cmNlSWQiOjF9XSwidXNlcklkIjoyLCJwdXJwb3NlIjoiQVVUSEVOVElDQVRJT04ifQ.aP09dbKhZ9RdwETro0pit8nWRRDazSxzd-i2GH6ZfTrSkjAQjSIwI83UknpGbpHMce3t7jreEHwQrgsYAsWBBgxz7c0u8Tl8cTAno7jD2QkmS636TDxxbwHMWZiG02EapO-ttUEQv4UBQ7FH8PNYNbObVLcQnomLgLWKlZqaSS7gGWcrjFbWPEvax787HYqp7aPIlLnCwRATtIRS41FWMblvmy1KnJB3w0H98J2pyy2lpHj5Ulz3ZZ2cCmtIf8QhhZX8Zzr0niTM2skvwTaxGqpGh-AqVcL0nenJcy145Andk7e_8Wp8jewFDfNm53dms4gSPib-3vR9O7viCmUq0g",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Car Unavailabilities",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"carId\":1,\r\n    \"startDate\":\"2020-09-04T07:00:00.000Z\",\r\n    \"endDate\": \"2020-09-04T22:00:00.000Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8085/schedule/car/unavailabilities",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"schedule",
+								"car",
+								"unavailabilities"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a3506f00-86a1-440d-b74b-f1df039730e8",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "b8541cda-ae7c-4146-a0a9-ccdbd2096dca",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			],
 			"protocolProfileBehavior": {}

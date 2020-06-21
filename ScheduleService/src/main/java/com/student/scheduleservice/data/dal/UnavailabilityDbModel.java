@@ -19,8 +19,6 @@ public class UnavailabilityDbModel {
 	private Date startDate;
 	private Date endDate;
 
-	private int totalPrice;
-
 	public int getId() {
 		return id;
 	}
@@ -51,13 +49,5 @@ public class UnavailabilityDbModel {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
-	}
-
-	public int getTotalPrice() {
-		return totalPrice;
-	}
-
-	public void setTotalPrice(int totalPrice) {
-		this.totalPrice = totalPrice;
 	}
 }

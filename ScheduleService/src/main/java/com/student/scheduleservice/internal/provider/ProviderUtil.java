@@ -1,6 +1,5 @@
 package com.student.scheduleservice.internal.provider;
 
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -44,6 +43,10 @@ public class ProviderUtil {
 		this.agentServiceClient = agentServiceClient;
 		this.unitOfWork = unitOfWork;
 		this.carServiceClient = carServiceClient;
+	}
+	
+	public boolean datesOverlap(Date start1, Date end1, Date start2, Date end2) {
+		return !start1.after(end2) && !start2.after(end1);
 	}
 
 	public ReservationStateDbModel getCartState() {
@@ -160,7 +163,7 @@ public class ProviderUtil {
 				reservationOut.setExtraCharges(reservationIn.getExtraCharges());
 
 				CarPriceListDbModel carPricelist = unitOfWork.getCarPriceListRepo().findByCarId(reservationIn.getCarId()).stream()
-						.sorted((l1, l2) -> ((BigInteger) l2.getUnixTimestamp()).compareTo(l1.getUnixTimestamp())).findFirst()
+						.sorted((l1, l2) -> (l2.getUnixTimestamp()).compareTo(l1.getUnixTimestamp())).findFirst()
 						.orElse(null);
 
 				if (carPricelist != null) {
@@ -211,7 +214,7 @@ public class ProviderUtil {
 
 		CarPriceListDbModel carPricelist = unitOfWork.getCarPriceListRepo()
 				.findByCarId(reservationIn.getCarId()).stream()
-				.sorted((l1, l2) -> ((BigInteger) l2.getUnixTimestamp()).compareTo(l1.getUnixTimestamp()))
+				.sorted((l1, l2) -> (l2.getUnixTimestamp()).compareTo(l1.getUnixTimestamp()))
 				.findFirst().orElse(null);
 
 		if (carPricelist != null) {

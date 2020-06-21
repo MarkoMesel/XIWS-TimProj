@@ -44,10 +44,9 @@ public class CommentController {
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@GetMapping(path = "schedule/car/{id}/comments")
 	public ResponseEntity<List<HttpRepliesAndCommentsResponse>> getComments(@PathVariable("id") int id) {
-		SoapCarRatingsAndCommentsRequest request = new SoapCarRatingsAndCommentsRequest();
-		request.setId(id);
-		SoapCarRatingsAndCommentsResponse internalResponse = scheduleServiceClient
-				.send(translator.translateRatingsAndComments(id));
+		SoapCarRatingsAndCommentsRequest internalRequest = new SoapCarRatingsAndCommentsRequest();
+		internalRequest.setId(id);
+		SoapCarRatingsAndCommentsResponse internalResponse = scheduleServiceClient.send(internalRequest);
 		if (!internalResponse.isSuccess()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

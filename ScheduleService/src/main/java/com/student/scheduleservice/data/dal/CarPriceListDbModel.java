@@ -1,7 +1,5 @@
 package com.student.scheduleservice.data.dal;
 
-import java.math.BigInteger;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,15 +10,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="CarPriceList")
+@Table(name = "CarPriceList")
 public class CarPriceListDbModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	private int carId;
-	
-	private BigInteger unixTimestamp;
+
+	private Long unixTimestamp;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "PRICE_LIST_ID")
@@ -42,11 +40,11 @@ public class CarPriceListDbModel {
 		this.carId = carId;
 	}
 
-	public BigInteger getUnixTimestamp() {
+	public Long getUnixTimestamp() {
 		return unixTimestamp;
 	}
 
-	public void setUnixTimestamp(BigInteger unixTimestamp) {
+	public void setUnixTimestamp(Long unixTimestamp) {
 		this.unixTimestamp = unixTimestamp;
 	}
 
