@@ -58,7 +58,7 @@ public class UnavailabilityProvider {
 		}
 		
 		if(request.getEndDate()!= null) {
-			unavailabilities = unavailabilities.stream().filter(x-> x.getStartDate().after(request.getEndDate().toGregorianCalendar().getTime()))
+			unavailabilities = unavailabilities.stream().filter(x-> x.getStartDate().before(request.getEndDate().toGregorianCalendar().getTime()))
 					.collect(Collectors.toList());;
 		}
 		
