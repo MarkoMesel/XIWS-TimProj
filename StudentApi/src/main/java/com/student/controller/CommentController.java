@@ -26,7 +26,7 @@ import com.student.soap.contract.scheduleservice.SoapCarRatingsAndCommentsRespon
 import com.student.soap.contract.scheduleservice.SoapPendingCommentsRequest;
 import com.student.soap.contract.scheduleservice.SoapPendingCommentsResponse;
 import com.student.soap.contract.scheduleservice.SoapPendingRatingRequest;
-import com.student.soap.contract.scheduleservice.SoapPendingRatingResponse;
+import com.student.soap.contract.scheduleservice.SoapReservationsResponse;
 import com.student.soap.contract.scheduleservice.SoapRejectCommentRequest;
 import com.student.soap.contract.scheduleservice.SoapResponse;
 
@@ -128,7 +128,7 @@ public class CommentController {
 		SoapPendingRatingRequest internalRequest = new SoapPendingRatingRequest();
 		internalRequest.setToken(token);
 		
-		SoapPendingRatingResponse internalResponse = scheduleServiceClient.send(internalRequest);
+		SoapReservationsResponse internalResponse = scheduleServiceClient.send(internalRequest);
 
 		if (!internalResponse.isSuccess()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

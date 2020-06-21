@@ -14,8 +14,8 @@ import com.student.soap.contract.scheduleservice.SoapCarRatingsAndCommentsRespon
 import com.student.soap.contract.scheduleservice.SoapPendingCommentsRequest;
 import com.student.soap.contract.scheduleservice.SoapPendingCommentsResponse;
 import com.student.soap.contract.scheduleservice.SoapPendingRatingRequest;
-import com.student.soap.contract.scheduleservice.SoapPendingRatingResponse;
 import com.student.soap.contract.scheduleservice.SoapRejectCommentRequest;
+import com.student.soap.contract.scheduleservice.SoapReservationsResponse;
 import com.student.soap.contract.scheduleservice.SoapResponse;
 
 @Endpoint
@@ -56,7 +56,7 @@ public class CommentEndpoint {
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapPendingRatingRequest")
 	@ResponsePayload
-	public SoapPendingRatingResponse rejectComment(@RequestPayload SoapPendingRatingRequest request) {
+	public SoapReservationsResponse rejectComment(@RequestPayload SoapPendingRatingRequest request) {
 		return commentProvider.getPendingRating(request);
 	}
 	

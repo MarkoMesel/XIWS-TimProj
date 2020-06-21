@@ -72,7 +72,7 @@ public class ReservationController {
 	}
 	
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@GetMapping(path = "schedule/reserve")
+	@PostMapping(path = "schedule/reserve")
 	public ResponseEntity<List<HttpBundleResponse>> reserve(@RequestHeader("token") String token) {
 		SoapReserveRequest internalRequest = new SoapReserveRequest();
 		internalRequest.setToken(token);

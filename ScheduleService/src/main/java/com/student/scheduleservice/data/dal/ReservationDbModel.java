@@ -27,6 +27,8 @@ public class ReservationDbModel {
 	private int totalPrice;
 	private Integer extraCharges;
 	private boolean WarrantyIncluded;
+	private Integer reportedMileage;
+	private String reportedComment;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "BUNDLE_ID")
@@ -113,5 +115,21 @@ public class ReservationDbModel {
 
 	public void setComments(List<CommentDbModel> comments) {
 		this.comments = comments;
+	}
+
+	public Integer getReportedMileage() {
+		return reportedMileage;
+	}
+
+	public void setReportedMileage(Integer reportedMileage) {
+		this.reportedMileage = reportedMileage;
+	}
+
+	public String getReportedComment() {
+		return reportedComment;
+	}
+
+	public void setReportedComment(String reportedComment) {
+		this.reportedComment = reportedComment;
 	}
 }

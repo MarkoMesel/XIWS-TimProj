@@ -44,7 +44,7 @@ import com.student.soap.contract.scheduleservice.SoapCartBundleRequest;
 import com.student.soap.contract.scheduleservice.SoapCartUnbundleRequest;
 import com.student.soap.contract.scheduleservice.SoapMessagesResponse;
 import com.student.soap.contract.scheduleservice.SoapPendingCommentsResponse;
-import com.student.soap.contract.scheduleservice.SoapPendingRatingResponse;
+import com.student.soap.contract.scheduleservice.SoapReservationsResponse;
 import com.student.soap.contract.userservice.SoapEditRequest;
 import com.student.soap.contract.userservice.SoapGetRequest;
 import com.student.soap.contract.userservice.SoapGetResponse;
@@ -373,7 +373,7 @@ public class Translator {
 			bundleOut.setUserId(bundleIn.getUserId());
 			bundleOut.setUserName(bundleIn.getUserName());
 
-			for (com.student.soap.contract.scheduleservice.Car carIn : bundleIn.getCar()) {
+			for (com.student.soap.contract.scheduleservice.Reservation carIn : bundleIn.getReservation()) {
 				HttpReservationResponse carOut = new HttpReservationResponse();
 
 				carOut.setReservationId(carIn.getReservationId());
@@ -436,10 +436,10 @@ public class Translator {
 		return translate(input.getPendingComment());
 	}
 
-	public List<HttpReservationResponse> translate(SoapPendingRatingResponse input) {
+	public List<HttpReservationResponse> translate(SoapReservationsResponse input) {
 		List<HttpReservationResponse> output = new ArrayList<>();
 
-		for (com.student.soap.contract.scheduleservice.Car carIn : input.getCar()) {
+		for (com.student.soap.contract.scheduleservice.Reservation carIn : input.getReservation()) {
 			HttpReservationResponse carOut = new HttpReservationResponse();
 
 			carOut.setReservationId(carIn.getReservationId());

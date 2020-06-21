@@ -24,7 +24,7 @@ import com.student.soap.contract.agentservice.SoapAgentByIdResponse;
 import com.student.soap.contract.carservice.SoapCarRequest;
 import com.student.soap.contract.carservice.SoapCarResponse;
 import com.student.soap.contract.scheduleservice.Bundle;
-import com.student.soap.contract.scheduleservice.Car;
+import com.student.soap.contract.scheduleservice.Reservation;
 import com.student.soap.contract.scheduleservice.SoapBundlesResponse;
 import com.student.soap.contract.userservice.SoapGetResponse;
 
@@ -141,7 +141,7 @@ public class ProviderUtil {
 					fetchPublisherName(bundleIn.getPublisherType().getName(), bundleIn.getPublisherId()));
 
 			for (ReservationDbModel reservationIn : bundleIn.getReservations()) {
-				Car reservationOut = new Car();
+				Reservation reservationOut = new Reservation();
 
 				// fetch car
 				SoapCarRequest soapCarRequest = new SoapCarRequest();
@@ -188,7 +188,7 @@ public class ProviderUtil {
 				reservationOut.setRating(soapCarResponse.getCar().getRating());
 				reservationOut.getImage().addAll(soapCarResponse.getCar().getImage());
 
-				bundleOut.getCar().add(reservationOut);
+				bundleOut.getReservation().add(reservationOut);
 			}
 
 			output.getBundle().add(bundleOut);
@@ -197,5 +197,57 @@ public class ProviderUtil {
 		output.setAuthorized(true);
 		output.setSuccess(true);
 		return output;
+	}
+	
+	public Reservation getSoapReservations(ReservationDbModel reservationIn){
+		Reservation reservationOut = new Reservation();
+
+		reservationOut.setReservationId(reservationIn.getId());
+		reservationOut.setCarId(reservationIn.getCarId());
+		reservationOut.setWarrantyIncluded(reservationIn.isWarrantyIncluded());
+		reservationOut.setTotalPrice(reservationIn.getTotalPrice());
+		reservationOut
+				.setExtraCharges(reservationIn.getExtraCharges() == null ? 0 : reservationIn.getExtraCharges());
+
+		CarPriceListDbModel carPricelist = unitOfWork.getCarPriceListRepo()
+				.findByCarId(reservationIn.getCarId()).stream()
+				.sorted((l1, l2) -> ((BigInteger) l2.getUnixTimestamp()).compareTo(l1.getUnixTimestamp()))
+				.findFirst().orElse(null);
+
+		if (carPricelist != null) {
+			reservationOut.setMileagePenalty(carPricelist.getPriceList().getMileagePenalty());
+			reservationOut.setMileageThreshold(carPricelist.getPriceList().getMileageThreshold());
+		}
+
+		// fetch car
+		SoapCarRequest soapCarRequest = new SoapCarRequest();
+		soapCarRequest.setId(reservationIn.getCarId());
+		SoapCarResponse soapCarResponse = carServiceClient.send(soapCarRequest);
+
+		if (soapCarResponse.isSuccess()) {
+			reservationOut.setCarClassId(soapCarResponse.getCar().getCarClassId());
+			reservationOut.setCarClassName(soapCarResponse.getCar().getCarClassName());
+			reservationOut.setLocationId(soapCarResponse.getCar().getLocationId());
+			reservationOut.setLocationName(soapCarResponse.getCar().getLocationName());
+			reservationOut.setModelId(soapCarResponse.getCar().getModelId());
+			reservationOut.setModelName(soapCarResponse.getCar().getModelName());
+			reservationOut.setManufacturerId(soapCarResponse.getCar().getManufacturerId());
+			reservationOut.setManufacturerName(soapCarResponse.getCar().getManufacturerName());
+			reservationOut.setFuelTypeName(soapCarResponse.getCar().getFuelTypeName());
+			reservationOut.setFuelTypeId(soapCarResponse.getCar().getFuelTypeId());
+			reservationOut.setTransmissionTypeName(soapCarResponse.getCar().getTransmissionTypeName());
+			reservationOut.setTransmissionTypeId(soapCarResponse.getCar().getTransmissionTypeId());
+			reservationOut.setMileage(soapCarResponse.getCar().getMileage());
+			reservationOut.setChildSeats(soapCarResponse.getCar().getChildSeats());
+			reservationOut.setPublisherId(soapCarResponse.getCar().getPublisherId());
+			reservationOut.setPublisherTypeId(soapCarResponse.getCar().getPublisherTypeId());
+			reservationOut.setPublisherTypeName(soapCarResponse.getCar().getPublisherTypeName());
+			reservationOut.setRating(soapCarResponse.getCar().getRating());
+			reservationOut.getImage().addAll(soapCarResponse.getCar().getImage());
+			String publisherName = fetchPublisherName(soapCarResponse.getCar().getPublisherTypeName(), soapCarResponse.getCar().getPublisherId());
+			reservationOut.setPublisherName(publisherName);
+		}
+
+		return reservationOut;
 	}
 }

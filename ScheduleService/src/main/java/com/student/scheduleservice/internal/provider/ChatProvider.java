@@ -55,8 +55,8 @@ public class ChatProvider {
 
 		Optional<BundleDbModel> bundle = unitOfWork.getBundleRepo().findById(request.getBundleId());
 
-		// Does the bundle exist? Is it in paid state?
-		if (!bundle.isPresent() || bundle.get().getState().getId() != providerUtil.getPaidState().getId()) {
+		// Does the bundle exist? Is it in paid or completed state?
+		if (!bundle.isPresent() || (bundle.get().getState().getId() != providerUtil.getPaidState().getId() && bundle.get().getState().getId() != providerUtil.getCompletedState().getId())) {
 			response.setSuccess(false);
 			return response;
 		}
@@ -95,8 +95,8 @@ public class ChatProvider {
 
 		Optional<BundleDbModel> bundle = unitOfWork.getBundleRepo().findById(request.getBundleId());
 
-		// Does the bundle exist? Is it in paid state?
-		if (!bundle.isPresent() || bundle.get().getState().getId() != providerUtil.getPaidState().getId()) {
+		// Does the bundle exist? Is it in paid or completed state?
+		if (!bundle.isPresent() || (bundle.get().getState().getId() != providerUtil.getPaidState().getId() && bundle.get().getState().getId() != providerUtil.getCompletedState().getId())) {
 			response.setSuccess(false);
 			return response;
 		}

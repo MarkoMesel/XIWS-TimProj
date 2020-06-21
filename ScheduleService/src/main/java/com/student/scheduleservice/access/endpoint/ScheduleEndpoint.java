@@ -46,7 +46,7 @@ public class ScheduleEndpoint {
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapCarPriceRequest")
 	@ResponsePayload
-	public SoapCarPriceResponse getCarRating(@RequestPayload SoapCarPriceRequest request) {
+	public SoapCarPriceResponse getCarPrice(@RequestPayload SoapCarPriceRequest request) {
 		return translator.soapTranslate(scheduleProvider.getCarPrice(translator.translate(request)));
 	}
 	

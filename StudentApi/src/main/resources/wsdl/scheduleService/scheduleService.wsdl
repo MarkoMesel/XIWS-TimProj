@@ -185,7 +185,7 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:complexType name="Car">
+	<xs:complexType name="Reservation">
     	<xs:sequence>
         	<xs:element name="carId" nillable="true" type="xs:int"/>
         	<xs:element name="reservationId" nillable="true" type="xs:int"/>
@@ -228,7 +228,7 @@
         	<xs:element name="userName" type="xs:string"/>
         	<xs:element name="stateName" type="xs:string"/>
         	<xs:element name="stateId" type="xs:int"/>
-        	<xs:element maxOccurs="unbounded" minOccurs="1" name="car" type="tns:Car"/>
+        	<xs:element maxOccurs="unbounded" minOccurs="1" name="reservation" type="tns:Reservation"/>
 		</xs:sequence>
 	</xs:complexType>
 	
@@ -263,12 +263,12 @@
 		</xs:complexType>
 	</xs:element>
 	
-	<xs:element name="soapPendingRatingResponse">
+	<xs:element name="soapReservationsResponse">
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="tns:StatusType">
 					<xs:sequence>
-        				<xs:element maxOccurs="unbounded" minOccurs="0" name="car" type="tns:Car"/>
+        				<xs:element maxOccurs="unbounded" minOccurs="0" name="reservation" type="tns:Reservation"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -468,6 +468,25 @@
 		</xs:complexType>
 	</xs:element>
 	
+	<xs:element name="soapPendingReservationReportRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapAddReservationReportRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="reservationId" type="xs:int"/>
+				<xs:element name="mileage" type="xs:int"/>
+				<xs:element name="comment" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
 	<xs:element name="soapMessagesResponse">
 		<xs:complexType>
 			<xs:complexContent>
@@ -517,10 +536,6 @@
     <wsdl:part element="tns:soapAddRatingRequest" name="soapAddRatingRequest">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="soapPendingRatingResponse">
-    <wsdl:part element="tns:soapPendingRatingResponse" name="soapPendingRatingResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="soapCarPhysicalRequest">
     <wsdl:part element="tns:soapCarPhysicalRequest" name="soapCarPhysicalRequest">
     </wsdl:part>
@@ -533,6 +548,10 @@
     <wsdl:part element="tns:soapCartBundleRequest" name="soapCartBundleRequest">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="soapReservationsResponse">
+    <wsdl:part element="tns:soapReservationsResponse" name="soapReservationsResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="soapCarRatingResponse">
     <wsdl:part element="tns:soapCarRatingResponse" name="soapCarRatingResponse">
     </wsdl:part>
@@ -543,6 +562,10 @@
   </wsdl:message>
   <wsdl:message name="soapCartUnbundleRequest">
     <wsdl:part element="tns:soapCartUnbundleRequest" name="soapCartUnbundleRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapPendingReservationReportRequest">
+    <wsdl:part element="tns:soapPendingReservationReportRequest" name="soapPendingReservationReportRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapPendingCommentsResponse">
@@ -607,6 +630,10 @@
   </wsdl:message>
   <wsdl:message name="soapMessagesRequest">
     <wsdl:part element="tns:soapMessagesRequest" name="soapMessagesRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapAddReservationReportRequest">
+    <wsdl:part element="tns:soapAddReservationReportRequest" name="soapAddReservationReportRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapBundlesResponse">
@@ -682,12 +709,6 @@
       <wsdl:input message="tns:soapAddRatingRequest" name="soapAddRatingRequest">
     </wsdl:input>
     </wsdl:operation>
-    <wsdl:operation name="soapPendingRating">
-      <wsdl:input message="tns:soapPendingRatingRequest" name="soapPendingRatingRequest">
-    </wsdl:input>
-      <wsdl:output message="tns:soapPendingRatingResponse" name="soapPendingRatingResponse">
-    </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="soapCancelReservation">
       <wsdl:input message="tns:soapCancelReservationRequest" name="soapCancelReservationRequest">
     </wsdl:input>
@@ -695,6 +716,10 @@
     <wsdl:operation name="soapCartBundle">
       <wsdl:input message="tns:soapCartBundleRequest" name="soapCartBundleRequest">
     </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapReservations">
+      <wsdl:output message="tns:soapReservationsResponse" name="soapReservationsResponse">
+    </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="soapCarRating">
       <wsdl:input message="tns:soapCarRatingRequest" name="soapCarRatingRequest">
@@ -708,6 +733,10 @@
     </wsdl:operation>
     <wsdl:operation name="soapCartUnbundle">
       <wsdl:input message="tns:soapCartUnbundleRequest" name="soapCartUnbundleRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapPendingReservationReport">
+      <wsdl:input message="tns:soapPendingReservationReportRequest" name="soapPendingReservationReportRequest">
     </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="soapPendingComments">
@@ -738,6 +767,10 @@
       <wsdl:input message="tns:soapUserReservationsRequest" name="soapUserReservationsRequest">
     </wsdl:input>
     </wsdl:operation>
+    <wsdl:operation name="soapPendingRating">
+      <wsdl:input message="tns:soapPendingRatingRequest" name="soapPendingRatingRequest">
+    </wsdl:input>
+    </wsdl:operation>
     <wsdl:operation name="soapReserve">
       <wsdl:input message="tns:soapReserveRequest" name="soapReserveRequest">
     </wsdl:input>
@@ -752,6 +785,10 @@
     </wsdl:operation>
     <wsdl:operation name="soapDeletePrice">
       <wsdl:input message="tns:soapDeletePriceRequest" name="soapDeletePriceRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddReservationReport">
+      <wsdl:input message="tns:soapAddReservationReportRequest" name="soapAddReservationReportRequest">
     </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="soapBundles">
@@ -847,15 +884,6 @@
         <soap:body use="literal"/>
       </wsdl:input>
     </wsdl:operation>
-    <wsdl:operation name="soapPendingRating">
-      <soap:operation soapAction=""/>
-      <wsdl:input name="soapPendingRatingRequest">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="soapPendingRatingResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="soapCancelReservation">
       <soap:operation soapAction=""/>
       <wsdl:input name="soapCancelReservationRequest">
@@ -867,6 +895,12 @@
       <wsdl:input name="soapCartBundleRequest">
         <soap:body use="literal"/>
       </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapReservations">
+      <soap:operation soapAction=""/>
+      <wsdl:output name="soapReservationsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="soapCarRating">
       <soap:operation soapAction=""/>
@@ -886,6 +920,12 @@
     <wsdl:operation name="soapCartUnbundle">
       <soap:operation soapAction=""/>
       <wsdl:input name="soapCartUnbundleRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapPendingReservationReport">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapPendingReservationReportRequest">
         <soap:body use="literal"/>
       </wsdl:input>
     </wsdl:operation>
@@ -931,6 +971,12 @@
         <soap:body use="literal"/>
       </wsdl:input>
     </wsdl:operation>
+    <wsdl:operation name="soapPendingRating">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapPendingRatingRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
     <wsdl:operation name="soapReserve">
       <soap:operation soapAction=""/>
       <wsdl:input name="soapReserveRequest">
@@ -952,6 +998,12 @@
     <wsdl:operation name="soapDeletePrice">
       <soap:operation soapAction=""/>
       <wsdl:input name="soapDeletePriceRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddReservationReport">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapAddReservationReportRequest">
         <soap:body use="literal"/>
       </wsdl:input>
     </wsdl:operation>
