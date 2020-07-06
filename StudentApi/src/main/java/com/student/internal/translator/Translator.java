@@ -31,9 +31,9 @@ import com.student.soap.contract.carservice.SoapAddCarRequest;
 import com.student.soap.contract.carservice.SoapCarModelsResponse;
 import com.student.soap.contract.carservice.SoapCarRequest;
 import com.student.soap.contract.carservice.SoapCarResponse;
+import com.student.soap.contract.carservice.SoapCarsResponse;
 import com.student.soap.contract.carservice.SoapNamedObjectsResponse;
 import com.student.soap.contract.carservice.SoapSearchCarsRequest;
-import com.student.soap.contract.carservice.SoapSearchCarsResponse;
 import com.student.soap.contract.scheduleservice.Bundle;
 import com.student.soap.contract.scheduleservice.Correspondence;
 import com.student.soap.contract.scheduleservice.Rating;
@@ -273,11 +273,12 @@ public class Translator {
 		output.setEstimatedPenalty(input.getEstimatedPenaltyPrice());
 		output.setLocationId(input.getLocationId());
 		output.setLocationName(input.getLocationName());
+		output.setCommentCount(input.getCommentCount());
 
 		return output;
 	}
 
-	public List<HttpCarResponse> translate(SoapSearchCarsResponse input) {
+	public List<HttpCarResponse> translate(SoapCarsResponse input) {
 		List<HttpCarResponse> output = new ArrayList<>();
 
 		for (com.student.soap.contract.carservice.Car car : input.getCar()) {

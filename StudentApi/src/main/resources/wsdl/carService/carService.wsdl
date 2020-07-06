@@ -38,6 +38,7 @@
         	<xs:element name="publisherName" type="xs:string"/>
         	<xs:element name="publisherTypeId" nillable="true" type="xs:int"/>
         	<xs:element name="publisherTypeName" type="xs:string"/>
+        	<xs:element name="commentCount" nillable="true" type="xs:int"/>
         	<xs:element maxOccurs="unbounded" minOccurs="0" name="image" type="xs:int"/>
 		</xs:sequence>
 	</xs:complexType>
@@ -374,7 +375,7 @@
         </xs:complexType>
     </xs:element>
     
-    <xs:element name="soapSearchCarsResponse">
+    <xs:element name="soapCarsResponse">
 		<xs:complexType>
 			<xs:complexContent>
         		<xs:extension base="tns:StatusType">
@@ -383,6 +384,30 @@
             		</xs:sequence>
             	</xs:extension>
         	</xs:complexContent>	
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapGetTopCarsByMileageRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapGetTopCarsByCommentCountRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapGetTopCarsByRatingRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
         </xs:complexType>
     </xs:element>
 </xs:schema>
@@ -413,6 +438,10 @@
   </wsdl:message>
   <wsdl:message name="soapDeleteCarModelRequest">
     <wsdl:part element="tns:soapDeleteCarModelRequest" name="soapDeleteCarModelRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapGetTopCarsByRatingRequest">
+    <wsdl:part element="tns:soapGetTopCarsByRatingRequest" name="soapGetTopCarsByRatingRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapTransmissionTypesRequest">
@@ -459,12 +488,12 @@
     <wsdl:part element="tns:soapCarRequest" name="soapCarRequest">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="soapSearchCarsResponse">
-    <wsdl:part element="tns:soapSearchCarsResponse" name="soapSearchCarsResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="soapAddLocationRequest">
     <wsdl:part element="tns:soapAddLocationRequest" name="soapAddLocationRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCarsResponse">
+    <wsdl:part element="tns:soapCarsResponse" name="soapCarsResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapDeleteManufacturerRequest">
@@ -495,6 +524,10 @@
     <wsdl:part element="tns:soapLocationsRequest" name="soapLocationsRequest">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="soapGetTopCarsByMileageRequest">
+    <wsdl:part element="tns:soapGetTopCarsByMileageRequest" name="soapGetTopCarsByMileageRequest">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="soapGetImageRequest">
     <wsdl:part element="tns:soapGetImageRequest" name="soapGetImageRequest">
     </wsdl:part>
@@ -509,6 +542,10 @@
   </wsdl:message>
   <wsdl:message name="soapResponse">
     <wsdl:part element="tns:soapResponse" name="soapResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapGetTopCarsByCommentCountRequest">
+    <wsdl:part element="tns:soapGetTopCarsByCommentCountRequest" name="soapGetTopCarsByCommentCountRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapNamedObjectsResponse">
@@ -552,6 +589,10 @@
     </wsdl:operation>
     <wsdl:operation name="soapDeleteCarModel">
       <wsdl:input message="tns:soapDeleteCarModelRequest" name="soapDeleteCarModelRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapGetTopCarsByRating">
+      <wsdl:input message="tns:soapGetTopCarsByRatingRequest" name="soapGetTopCarsByRatingRequest">
     </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="soapTransmissionTypes">
@@ -602,15 +643,13 @@
       <wsdl:output message="tns:soapCarResponse" name="soapCarResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="soapSearchCars">
-      <wsdl:input message="tns:soapSearchCarsRequest" name="soapSearchCarsRequest">
-    </wsdl:input>
-      <wsdl:output message="tns:soapSearchCarsResponse" name="soapSearchCarsResponse">
-    </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="soapAddLocation">
       <wsdl:input message="tns:soapAddLocationRequest" name="soapAddLocationRequest">
     </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCars">
+      <wsdl:output message="tns:soapCarsResponse" name="soapCarsResponse">
+    </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="soapDeleteManufacturer">
       <wsdl:input message="tns:soapDeleteManufacturerRequest" name="soapDeleteManufacturerRequest">
@@ -634,6 +673,10 @@
       <wsdl:input message="tns:soapLocationsRequest" name="soapLocationsRequest">
     </wsdl:input>
     </wsdl:operation>
+    <wsdl:operation name="soapGetTopCarsByMileage">
+      <wsdl:input message="tns:soapGetTopCarsByMileageRequest" name="soapGetTopCarsByMileageRequest">
+    </wsdl:input>
+    </wsdl:operation>
     <wsdl:operation name="soapDeactivatePublisher">
       <wsdl:input message="tns:soapDeactivatePublisherRequest" name="soapDeactivatePublisherRequest">
     </wsdl:input>
@@ -642,9 +685,17 @@
       <wsdl:output message="tns:soapResponse" name="soapResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="soapGetTopCarsByCommentCount">
+      <wsdl:input message="tns:soapGetTopCarsByCommentCountRequest" name="soapGetTopCarsByCommentCountRequest">
+    </wsdl:input>
+    </wsdl:operation>
     <wsdl:operation name="soapNamedObjects">
       <wsdl:output message="tns:soapNamedObjectsResponse" name="soapNamedObjectsResponse">
     </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapSearchCars">
+      <wsdl:input message="tns:soapSearchCarsRequest" name="soapSearchCarsRequest">
+    </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="soapDeleteTransmissionType">
       <wsdl:input message="tns:soapDeleteTransmissionTypeRequest" name="soapDeleteTransmissionTypeRequest">
@@ -695,6 +746,12 @@
     <wsdl:operation name="soapDeleteCarModel">
       <soap:operation soapAction=""/>
       <wsdl:input name="soapDeleteCarModelRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapGetTopCarsByRating">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapGetTopCarsByRatingRequest">
         <soap:body use="literal"/>
       </wsdl:input>
     </wsdl:operation>
@@ -770,20 +827,17 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="soapSearchCars">
-      <soap:operation soapAction=""/>
-      <wsdl:input name="soapSearchCarsRequest">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="soapSearchCarsResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="soapAddLocation">
       <soap:operation soapAction=""/>
       <wsdl:input name="soapAddLocationRequest">
         <soap:body use="literal"/>
       </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCars">
+      <soap:operation soapAction=""/>
+      <wsdl:output name="soapCarsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="soapDeleteManufacturer">
       <soap:operation soapAction=""/>
@@ -818,6 +872,12 @@
         <soap:body use="literal"/>
       </wsdl:input>
     </wsdl:operation>
+    <wsdl:operation name="soapGetTopCarsByMileage">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapGetTopCarsByMileageRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
     <wsdl:operation name="soapDeactivatePublisher">
       <soap:operation soapAction=""/>
       <wsdl:input name="soapDeactivatePublisherRequest">
@@ -830,11 +890,23 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="soapGetTopCarsByCommentCount">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapGetTopCarsByCommentCountRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
     <wsdl:operation name="soapNamedObjects">
       <soap:operation soapAction=""/>
       <wsdl:output name="soapNamedObjectsResponse">
         <soap:body use="literal"/>
       </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapSearchCars">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapSearchCarsRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="soapDeleteTransmissionType">
       <soap:operation soapAction=""/>

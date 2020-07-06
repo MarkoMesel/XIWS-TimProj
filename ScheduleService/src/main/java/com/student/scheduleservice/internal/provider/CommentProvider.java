@@ -18,7 +18,9 @@ import com.student.soap.contract.scheduleservice.Correspondence;
 import com.student.soap.contract.scheduleservice.Rating;
 import com.student.soap.contract.scheduleservice.SoapAddRatingRequest;
 import com.student.soap.contract.scheduleservice.SoapApproveCommentRequest;
+import com.student.soap.contract.scheduleservice.SoapCarCommentCountRequest;
 import com.student.soap.contract.scheduleservice.SoapCarRatingsAndCommentsResponse;
+import com.student.soap.contract.scheduleservice.SoapIntegerResponse;
 import com.student.soap.contract.scheduleservice.SoapPendingCommentsRequest;
 import com.student.soap.contract.scheduleservice.SoapPendingCommentsResponse;
 import com.student.soap.contract.scheduleservice.SoapPendingRatingRequest;
@@ -249,6 +251,28 @@ public class CommentProvider {
 			unitOfWork.getCommentRepo().save(comment);
 		}
 
+		response.setSuccess(true);
+		return response;
+	}
+	
+	public SoapIntegerResponse getCarCommentCount(SoapCarCommentCountRequest request) {
+		SoapIntegerResponse response = new SoapIntegerResponse();
+		
+		int commentCount = 0;
+		
+		List<ReservationDbModel> reservations = unitOfWork.getReservationRepo().findByCarId(request.getCarId()).stream()
+				.filter(reservation -> reservation.getBundle().getState().getId() == providerUtil.getCompletedState().getId()).collect(Collectors.toList());
+
+		for (ReservationDbModel reservationIn : reservations) {
+			commentCount += unitOfWork.getCommentRepo()
+					.findByReservationId(reservationIn.getId())
+					.stream()
+					.filter(x->x.getApproved())
+					.collect(Collectors.toList())
+					.size();
+		}
+		
+		response.setValue(commentCount);
 		response.setSuccess(true);
 		return response;
 	}

@@ -11,10 +11,10 @@ import com.student.soap.carservice.contract.SoapAddCarRequest;
 import com.student.soap.carservice.contract.SoapAddCarResponse;
 import com.student.soap.carservice.contract.SoapCarRequest;
 import com.student.soap.carservice.contract.SoapCarResponse;
+import com.student.soap.carservice.contract.SoapCarsResponse;
 import com.student.soap.carservice.contract.SoapDeactivatePublisherRequest;
 import com.student.soap.carservice.contract.SoapResponse;
 import com.student.soap.carservice.contract.SoapSearchCarsRequest;
-import com.student.soap.carservice.contract.SoapSearchCarsResponse;
 
 @Endpoint
 public class CarEndpoint {
@@ -47,7 +47,7 @@ public class CarEndpoint {
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapSearchCarsRequest")
 	@ResponsePayload
-	public SoapSearchCarsResponse search(@RequestPayload SoapSearchCarsRequest request) {
+	public SoapCarsResponse search(@RequestPayload SoapSearchCarsRequest request) {
 		return carProvider.seachCars(request);
 	}
 }

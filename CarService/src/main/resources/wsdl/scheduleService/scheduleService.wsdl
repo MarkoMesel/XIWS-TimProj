@@ -1,191 +1,764 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://www.student.com/scheduleservice/soap/contract" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.student.com/schedulerservice/soap/contract" targetNamespace="http://www.student.com/schedulerservice/soap/contract">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://www.student.com/scheduleservice/soap/contract" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.student.com/scheduleservice/soap/contract" targetNamespace="http://www.student.com/scheduleservice/soap/contract">
   <wsdl:types>
-    <xs:schema xmlns:tns="http://www.student.com/scheduleservice/soap/contract" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.student.com/scheduleservice/soap/contract">
-        
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.student.com/scheduleservice/soap/contract">
+
 	<xs:complexType name="StatusType">
-    	<xs:sequence>
-        	<xs:element name="success" type="xs:boolean"/>
+		<xs:sequence>
+			<xs:element name="success" type="xs:boolean"/>
+			<xs:element name="authorized" nillable="true" type="xs:boolean"/>
 		</xs:sequence>
 	</xs:complexType>
-           
- 	<!--xs:element name="soapResponse">
- 		<xs:complexType>
- 			<xs:complexContent>
-        		<xs:extension base="tns:StatusType"/>
+
+	<xs:element name="soapResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType"/>
 			</xs:complexContent>
 		</xs:complexType>
-    </xs:element-->
-    
-    <xs:element name="soapCarRatingRequest">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="id" type="xs:int"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    
-    <xs:element name="soapCarRatingsAndCommentsRequest">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="id" type="xs:int"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    
-    <xs:element name="soapCarRatingsAndCommentsResponse">
+	</xs:element>
+	
+	<xs:complexType name="SoapPrice">
+    	<xs:sequence>
+        	<xs:element name="id" type="xs:int"/>
+        	<xs:element name="startDate" type="xs:dateTime"/>
+        	<xs:element name="endDate" type="xs:dateTime"/>
+        	<xs:element name="price" nillable="true" type="xs:int"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="SoapPriceList">
+    	<xs:sequence>
+        	<xs:element name="id" type="xs:int"/>
+        	<xs:element name="name" type="xs:string"/>
+        	<xs:element name="discountPercentage" nillable="true" type="xs:int"/>
+        	<xs:element name="mileageThreshold" nillable="true" type="xs:int"/>
+        	<xs:element name="mileagePenalty" nillable="true" type="xs:int"/>
+        	<xs:element name="warrantyPrice" nillable="true" type="xs:int"/>
+        	<xs:element maxOccurs="unbounded" minOccurs="0" name="price" type="tns:SoapPrice"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="soapSetCarPriceListRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="carId" type="xs:int"/>
+				<xs:element name="priceListId" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapPublisherPriceListsRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapPriceListResponse">
 		<xs:complexType>
 			<xs:complexContent>
-        		<xs:extension base="tns:StatusType">
-            		<xs:sequence>
-                		<xs:element name="comments">
-							<xs:complexType>
-            					<xs:sequence>
-                					<xs:element maxOccurs="unbounded" minOccurs="1" name="comment">
-                						<xs:complexType>
-                							<xs:sequence>
-                								<xs:element name="rating" type="xs:int"/>
-                								<xs:element name="userId" type="xs:int"/>
-                								<xs:element name="comment" type="xs:string"/>
-                								<xs:element name="userName" type="xs:string"/>
-                								<xs:element name="date" type="xs:dateTime"/>
-                								<xs:element name="replies">
-													<xs:complexType>
-            											<xs:sequence>
-                											<xs:element maxOccurs="unbounded" minOccurs="0" name="reply">
-                												<xs:complexType>
-                													<xs:sequence>
-                														<xs:element name="publisherId" type="xs:int"/>
-                														<xs:element name="publisherTypeId" type="xs:int"/>
-                														<xs:element name="comment" type="xs:string"/>
-                														<xs:element name="publisherName" type="xs:string"/>
-                														<xs:element name="publisherTypeName" type="xs:string"/>
-                														<xs:element name="date" type="xs:dateTime"/>
-                													</xs:sequence>
-                												</xs:complexType>
-                											</xs:element>
-           												</xs:sequence>
-        											</xs:complexType>	
-                								</xs:element>
-                							</xs:sequence>
-                						</xs:complexType>
-                					</xs:element>
-           						</xs:sequence>
-        					</xs:complexType>	
-                		</xs:element>
-            		</xs:sequence>
-            	</xs:extension>
-        	</xs:complexContent>	
-        </xs:complexType>
-    </xs:element>
-    
-    <xs:element name="soapLocationsRequest">
-        <xs:complexType>
-        </xs:complexType>
-    </xs:element>
-    
-    <xs:element name="soapCarRatingResponse">
-        <xs:complexType>
-        	<xs:complexContent>
-        		<xs:extension base="tns:StatusType">
-            		<xs:sequence>
-                		<xs:element name="rating" type="xs:int"/>
-            		</xs:sequence>
-            	</xs:extension>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>
-    
+				<xs:extension base="tns:StatusType">
+					<xs:sequence>
+        				<xs:element name="priceList" type="tns:SoapPriceList"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapPriceListsResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType">
+					<xs:sequence>
+        				<xs:element maxOccurs="unbounded" minOccurs="0" name="priceList" type="tns:SoapPriceList"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapCarPriceListRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="carId" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapAddPriceListRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="name" type="xs:string"/>
+				<xs:element name="discountPercentage" nillable="true" type="xs:int"/>
+				<xs:element name="mileageThreshold" nillable="true" type="xs:int"/>
+				<xs:element name="mileagePenalty" nillable="true" type="xs:int"/>
+				<xs:element name="warrantyPrice" nillable="true" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapAddPriceRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="startDate" type="xs:dateTime"/>
+				<xs:element name="endDate" type="xs:dateTime"/>
+				<xs:element name="price" type="xs:int"/>
+				<xs:element name="priceListId" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapDeletePriceListRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="id" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapDeletePriceRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="id" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapCartBundleRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="publisherId" type="xs:int"/>
+				<xs:element name="publisherTypeId" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapCartUnbundleRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="publisherId" type="xs:int"/>
+				<xs:element name="publisherTypeId" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapPendingCommentsRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:complexType name="Correspondence">
+		<xs:sequence>
+			<xs:element name="id" type="xs:int"/>
+			<xs:element name="comment" type="xs:string"/>
+			<xs:element name="publisherId" type="xs:int"/>
+        	<xs:element name="publisherName" type="xs:string"/>
+        	<xs:element name="publisherTypeId" type="xs:int"/>
+        	<xs:element name="publisherTypeName" type="xs:string"/>
+        	<xs:element name="date" type="xs:dateTime"/>
+		</xs:sequence>
+	</xs:complexType>
+		
+	<xs:element name="soapPendingCommentsResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType">
+					<xs:sequence>
+        				<xs:element maxOccurs="unbounded" minOccurs="0" name="pendingComment" type="tns:Correspondence"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapApproveCommentRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="commentId" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapRejectCommentRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="commentId" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapCartAddCarRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="carId" type="xs:int"/>
+				<xs:element name="startDate" type="xs:dateTime"/>
+				<xs:element name="endDate" type="xs:dateTime"/>
+				<xs:element name="collisionWarranty" type="xs:boolean"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapCartRemoveCarRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="reservationId" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapCartRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="Reservation">
+    	<xs:sequence>
+        	<xs:element name="carId" nillable="true" type="xs:int"/>
+        	<xs:element name="reservationId" nillable="true" type="xs:int"/>
+        	<xs:element name="locationId" nillable="true" type="xs:int"/>
+        	<xs:element name="locationName" type="xs:string"/>
+        	<xs:element name="modelId" nillable="true" type="xs:int"/>
+        	<xs:element name="modelName" type="xs:string"/>
+        	<xs:element name="manufacturerId" nillable="true" type="xs:int"/>
+        	<xs:element name="manufacturerName" type="xs:string"/>
+        	<xs:element name="fuelTypeId" nillable="true" type="xs:int"/>
+        	<xs:element name="fuelTypeName" type="xs:string"/>
+        	<xs:element name="transmissionTypeId" nillable="true" type="xs:int"/>
+        	<xs:element name="transmissionTypeName" type="xs:string"/>
+        	<xs:element name="carClassId" nillable="true" type="xs:int"/>
+        	<xs:element name="carClassName" type="xs:string"/>
+        	<xs:element name="mileage" nillable="true" type="xs:int"/>
+        	<xs:element name="mileageThreshold" nillable="true" type="xs:int"/>
+        	<xs:element name="mileagePenalty" nillable="true" type="xs:int"/>
+        	<xs:element name="warrantyIncluded" nillable="true" type="xs:boolean"/>
+        	<xs:element name="totalPrice" nillable="true" type="xs:int"/>
+        	<xs:element name="extraCharges" nillable="true" type="xs:int"/>
+        	<xs:element name="childSeats" nillable="true" type="xs:int"/>
+        	<xs:element name="rating" nillable="true" type="xs:int"/>
+        	<xs:element name="publisherId" nillable="true" type="xs:int"/>
+        	<xs:element name="publisherName" type="xs:string"/>
+        	<xs:element name="publisherTypeId" nillable="true" type="xs:int"/>
+        	<xs:element name="publisherTypeName" type="xs:string"/>
+        	<xs:element maxOccurs="unbounded" minOccurs="0" name="image" type="xs:int"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="Bundle">
+    	<xs:sequence>
+        	<xs:element name="bundleId" type="xs:int"/>
+        	<xs:element name="publisherId" type="xs:int"/>
+        	<xs:element name="publisherName" type="xs:string"/>
+        	<xs:element name="publisherTypeId" type="xs:int"/>
+        	<xs:element name="publisherTypeName" type="xs:string"/>
+        	<xs:element name="userId" type="xs:int"/>
+        	<xs:element name="userName" type="xs:string"/>
+        	<xs:element name="stateName" type="xs:string"/>
+        	<xs:element name="stateId" type="xs:int"/>
+        	<xs:element maxOccurs="unbounded" minOccurs="1" name="reservation" type="tns:Reservation"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="soapBundlesResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType">
+					<xs:sequence>
+        				<xs:element maxOccurs="unbounded" minOccurs="0" name="bundle" type="tns:Bundle"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapAddRatingRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+        		<xs:element name="reservationId" type="xs:int"/>
+        		<xs:element name="rating" type="xs:int"/>
+        		<xs:element name="comment" nillable="true" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapPendingRatingRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapReservationsResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType">
+					<xs:sequence>
+        				<xs:element maxOccurs="unbounded" minOccurs="0" name="reservation" type="tns:Reservation"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapCarRatingRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="id" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapCarRatingsAndCommentsRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="id" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="Rating">
+		<xs:sequence>
+			<xs:element name="rating" type="xs:int"/>
+			<xs:element name="userId" type="xs:int"/>
+			<xs:element name="comment" type="xs:string"/>
+			<xs:element name="userName" type="xs:string"/>
+			<xs:element name="date" type="xs:dateTime"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="reply" type="tns:Correspondence"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="soapCarRatingsAndCommentsResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType">
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="1" name="comment" type="tns:Rating"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapCarRatingResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType">
+					<xs:sequence>
+						<xs:element name="rating" type="xs:int"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
 	<xs:element name="soapCarPriceRequest">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="id" type="xs:int"/>
-                <xs:element name="startDate" type="xs:date"/>
-                <xs:element name="endDate" type="xs:date"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
- 
-    <xs:element name="soapCarPriceResponse">
-        <xs:complexType>
-        	<xs:complexContent>
-        		<xs:extension base="tns:StatusType">
-            		<xs:sequence>
-                		<xs:element name="totalPrice" nillable="true" type="xs:int"/>
-                		<xs:element name="discount" nillable="true" type="xs:int"/>
-                		<xs:element name="price" nillable="true" type="xs:int"/>
-                		<xs:element name="mileagePenalty" nillable="true" type="xs:int"/>
-                		<xs:element name="mileageThreshold" nillable="true" type="xs:int"/>
-                		<xs:element name="collisionWarranty" nillable="true" type="xs:int"/>
-            		</xs:sequence>
-            	</xs:extension>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>
-    
-	<xs:element name="soapNamedObjectsResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="id" type="xs:int"/>
+				<xs:element name="startDate" type="xs:dateTime"/>
+				<xs:element name="endDate" type="xs:dateTime"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapCarPriceResponse">
 		<xs:complexType>
 			<xs:complexContent>
-        		<xs:extension base="tns:StatusType">
-            		<xs:sequence>
-                		<xs:element name="namedObjects">
-							<xs:complexType>
-            					<xs:sequence>
-                					<xs:element maxOccurs="unbounded" minOccurs="1" name="namedObject">
-                						<xs:complexType>
-                							<xs:sequence>
-                								<xs:element name="id" type="xs:int"/>
-                								<xs:element name="name" type="xs:string"/>
-                							</xs:sequence>
-                						</xs:complexType>
-                					</xs:element>
-           						</xs:sequence>
-        					</xs:complexType>	
-                		</xs:element>
-            		</xs:sequence>
-            	</xs:extension>
-        	</xs:complexContent>	
-        </xs:complexType>
-    </xs:element>
+				<xs:extension base="tns:StatusType">
+					<xs:sequence>
+						<xs:element name="totalPrice" nillable="true" type="xs:int"/>
+						<xs:element name="discount" nillable="true" type="xs:int"/>
+						<xs:element name="price" nillable="true" type="xs:int"/>
+						<xs:element name="mileagePenalty" nillable="true" type="xs:int"/>
+						<xs:element name="mileageThreshold" nillable="true" type="xs:int"/>
+						<xs:element name="collisionWarranty" nillable="true" type="xs:int"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="soapAddUnavailabilityRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="carId" type="xs:int"/>
+				<xs:element name="startDate" type="xs:dateTime"/>
+				<xs:element name="endDate" type="xs:dateTime"/>
+				<xs:element name="token" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapCarUnavailabilitiesRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="carId" type="xs:int"/>
+				<xs:element name="startDate" type="xs:dateTime"/>
+				<xs:element name="endDate" type="xs:dateTime"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:complexType name="SoapUnavailability">
+    	<xs:sequence>
+        	<xs:element name="id" type="xs:int"/>
+        	<xs:element name="startDate" type="xs:dateTime"/>
+        	<xs:element name="endDate" type="xs:dateTime"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="soapUnavailabilityResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType">
+					<xs:sequence>
+        				<xs:element maxOccurs="unbounded" minOccurs="0" name="unavailability" type="tns:SoapUnavailability"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapReserveRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapRejectReservationRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="bundleId" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapCancelReservationRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="bundleId" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapApproveReservationRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="bundleId" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapUserReservationsRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapPublisherReservationsRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapMessagesRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="bundleId" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapAddMessageRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="bundleId" type="xs:int"/>
+				<xs:element name="message" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapPendingReservationReportRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapAddReservationReportRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="reservationId" type="xs:int"/>
+				<xs:element name="mileage" type="xs:int"/>
+				<xs:element name="comment" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapMessagesResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType">
+					<xs:sequence>
+        				<xs:element maxOccurs="unbounded" minOccurs="0" name="message" type="tns:Correspondence"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapCarCommentCountRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="carId" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="soapIntegerResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:StatusType">
+					<xs:sequence>
+        				<xs:element name="value" type="xs:int"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>
   </wsdl:types>
-  <wsdl:message name="soapCarPriceRequest">
-    <wsdl:part element="sch:soapCarPriceRequest" name="soapCarPriceRequest">
+  <wsdl:message name="soapApproveReservationRequest">
+    <wsdl:part element="tns:soapApproveReservationRequest" name="soapApproveReservationRequest">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="soapCarRatingsAndCommentsRequest">
-    <wsdl:part element="sch:soapCarRatingsAndCommentsRequest" name="soapCarRatingsAndCommentsRequest">
+  <wsdl:message name="soapMessagesResponse">
+    <wsdl:part element="tns:soapMessagesResponse" name="soapMessagesResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="soapNamedObjectsResponse">
-    <wsdl:part element="sch:soapNamedObjectsResponse" name="soapNamedObjectsResponse">
+  <wsdl:message name="soapAddPriceRequest">
+    <wsdl:part element="tns:soapAddPriceRequest" name="soapAddPriceRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapPublisherPriceListsRequest">
+    <wsdl:part element="tns:soapPublisherPriceListsRequest" name="soapPublisherPriceListsRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapCarRatingsAndCommentsResponse">
-    <wsdl:part element="sch:soapCarRatingsAndCommentsResponse" name="soapCarRatingsAndCommentsResponse">
+    <wsdl:part element="tns:soapCarRatingsAndCommentsResponse" name="soapCarRatingsAndCommentsResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="soapCarPriceResponse">
-    <wsdl:part element="sch:soapCarPriceResponse" name="soapCarPriceResponse">
+  <wsdl:message name="soapResponse">
+    <wsdl:part element="tns:soapResponse" name="soapResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCarCommentCountRequest">
+    <wsdl:part element="tns:soapCarCommentCountRequest" name="soapCarCommentCountRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapAddRatingRequest">
+    <wsdl:part element="tns:soapAddRatingRequest" name="soapAddRatingRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCancelReservationRequest">
+    <wsdl:part element="tns:soapCancelReservationRequest" name="soapCancelReservationRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCartBundleRequest">
+    <wsdl:part element="tns:soapCartBundleRequest" name="soapCartBundleRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapReservationsResponse">
+    <wsdl:part element="tns:soapReservationsResponse" name="soapReservationsResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapCarRatingResponse">
-    <wsdl:part element="sch:soapCarRatingResponse" name="soapCarRatingResponse">
+    <wsdl:part element="tns:soapCarRatingResponse" name="soapCarRatingResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="soapLocationsRequest">
-    <wsdl:part element="sch:soapLocationsRequest" name="soapLocationsRequest">
+  <wsdl:message name="soapAddMessageRequest">
+    <wsdl:part element="tns:soapAddMessageRequest" name="soapAddMessageRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCartUnbundleRequest">
+    <wsdl:part element="tns:soapCartUnbundleRequest" name="soapCartUnbundleRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapPendingReservationReportRequest">
+    <wsdl:part element="tns:soapPendingReservationReportRequest" name="soapPendingReservationReportRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapPendingCommentsResponse">
+    <wsdl:part element="tns:soapPendingCommentsResponse" name="soapPendingCommentsResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="soapCarRatingRequest">
-    <wsdl:part element="sch:soapCarRatingRequest" name="soapCarRatingRequest">
+    <wsdl:part element="tns:soapCarRatingRequest" name="soapCarRatingRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapRejectCommentRequest">
+    <wsdl:part element="tns:soapRejectCommentRequest" name="soapRejectCommentRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCartAddCarRequest">
+    <wsdl:part element="tns:soapCartAddCarRequest" name="soapCartAddCarRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCarPriceRequest">
+    <wsdl:part element="tns:soapCarPriceRequest" name="soapCarPriceRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCarPriceResponse">
+    <wsdl:part element="tns:soapCarPriceResponse" name="soapCarPriceResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapUserReservationsRequest">
+    <wsdl:part element="tns:soapUserReservationsRequest" name="soapUserReservationsRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapPendingRatingRequest">
+    <wsdl:part element="tns:soapPendingRatingRequest" name="soapPendingRatingRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCarUnavailabilitiesRequest">
+    <wsdl:part element="tns:soapCarUnavailabilitiesRequest" name="soapCarUnavailabilitiesRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapUnavailabilityResponse">
+    <wsdl:part element="tns:soapUnavailabilityResponse" name="soapUnavailabilityResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapReserveRequest">
+    <wsdl:part element="tns:soapReserveRequest" name="soapReserveRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapAddPriceListRequest">
+    <wsdl:part element="tns:soapAddPriceListRequest" name="soapAddPriceListRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapAddUnavailabilityRequest">
+    <wsdl:part element="tns:soapAddUnavailabilityRequest" name="soapAddUnavailabilityRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapApproveCommentRequest">
+    <wsdl:part element="tns:soapApproveCommentRequest" name="soapApproveCommentRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCarRatingsAndCommentsRequest">
+    <wsdl:part element="tns:soapCarRatingsAndCommentsRequest" name="soapCarRatingsAndCommentsRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapPriceListResponse">
+    <wsdl:part element="tns:soapPriceListResponse" name="soapPriceListResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapIntegerResponse">
+    <wsdl:part element="tns:soapIntegerResponse" name="soapIntegerResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapDeletePriceRequest">
+    <wsdl:part element="tns:soapDeletePriceRequest" name="soapDeletePriceRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapMessagesRequest">
+    <wsdl:part element="tns:soapMessagesRequest" name="soapMessagesRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapAddReservationReportRequest">
+    <wsdl:part element="tns:soapAddReservationReportRequest" name="soapAddReservationReportRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapPriceListsResponse">
+    <wsdl:part element="tns:soapPriceListsResponse" name="soapPriceListsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapBundlesResponse">
+    <wsdl:part element="tns:soapBundlesResponse" name="soapBundlesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapSetCarPriceListRequest">
+    <wsdl:part element="tns:soapSetCarPriceListRequest" name="soapSetCarPriceListRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapPendingCommentsRequest">
+    <wsdl:part element="tns:soapPendingCommentsRequest" name="soapPendingCommentsRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCartRemoveCarRequest">
+    <wsdl:part element="tns:soapCartRemoveCarRequest" name="soapCartRemoveCarRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCartRequest">
+    <wsdl:part element="tns:soapCartRequest" name="soapCartRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapRejectReservationRequest">
+    <wsdl:part element="tns:soapRejectReservationRequest" name="soapRejectReservationRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapPublisherReservationsRequest">
+    <wsdl:part element="tns:soapPublisherReservationsRequest" name="soapPublisherReservationsRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapDeletePriceListRequest">
+    <wsdl:part element="tns:soapDeletePriceListRequest" name="soapDeletePriceListRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCarPriceListRequest">
+    <wsdl:part element="tns:soapCarPriceListRequest" name="soapCarPriceListRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="ScheduleServicePort">
-    <wsdl:operation name="soapCarPrice">
-      <wsdl:input message="tns:soapCarPriceRequest" name="soapCarPriceRequest">
+    <wsdl:operation name="soapApproveReservation">
+      <wsdl:input message="tns:soapApproveReservationRequest" name="soapApproveReservationRequest">
     </wsdl:input>
-      <wsdl:output message="tns:soapCarPriceResponse" name="soapCarPriceResponse">
+    </wsdl:operation>
+    <wsdl:operation name="soapMessages">
+      <wsdl:input message="tns:soapMessagesRequest" name="soapMessagesRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:soapMessagesResponse" name="soapMessagesResponse">
     </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddPrice">
+      <wsdl:input message="tns:soapAddPriceRequest" name="soapAddPriceRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapPublisherPriceLists">
+      <wsdl:input message="tns:soapPublisherPriceListsRequest" name="soapPublisherPriceListsRequest">
+    </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="soapCarRatingsAndComments">
       <wsdl:input message="tns:soapCarRatingsAndCommentsRequest" name="soapCarRatingsAndCommentsRequest">
@@ -193,8 +766,28 @@
       <wsdl:output message="tns:soapCarRatingsAndCommentsResponse" name="soapCarRatingsAndCommentsResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="soapNamedObjects">
-      <wsdl:output message="tns:soapNamedObjectsResponse" name="soapNamedObjectsResponse">
+    <wsdl:operation name="soap">
+      <wsdl:output message="tns:soapResponse" name="soapResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapCarCommentCount">
+      <wsdl:input message="tns:soapCarCommentCountRequest" name="soapCarCommentCountRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddRating">
+      <wsdl:input message="tns:soapAddRatingRequest" name="soapAddRatingRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCancelReservation">
+      <wsdl:input message="tns:soapCancelReservationRequest" name="soapCancelReservationRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCartBundle">
+      <wsdl:input message="tns:soapCartBundleRequest" name="soapCartBundleRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapReservations">
+      <wsdl:output message="tns:soapReservationsResponse" name="soapReservationsResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="soapCarRating">
@@ -203,21 +796,151 @@
       <wsdl:output message="tns:soapCarRatingResponse" name="soapCarRatingResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="soapLocations">
-      <wsdl:input message="tns:soapLocationsRequest" name="soapLocationsRequest">
+    <wsdl:operation name="soapAddMessage">
+      <wsdl:input message="tns:soapAddMessageRequest" name="soapAddMessageRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCartUnbundle">
+      <wsdl:input message="tns:soapCartUnbundleRequest" name="soapCartUnbundleRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapPendingReservationReport">
+      <wsdl:input message="tns:soapPendingReservationReportRequest" name="soapPendingReservationReportRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapPendingComments">
+      <wsdl:input message="tns:soapPendingCommentsRequest" name="soapPendingCommentsRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:soapPendingCommentsResponse" name="soapPendingCommentsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapRejectComment">
+      <wsdl:input message="tns:soapRejectCommentRequest" name="soapRejectCommentRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCartAddCar">
+      <wsdl:input message="tns:soapCartAddCarRequest" name="soapCartAddCarRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCarPrice">
+      <wsdl:input message="tns:soapCarPriceRequest" name="soapCarPriceRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:soapCarPriceResponse" name="soapCarPriceResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapUserReservations">
+      <wsdl:input message="tns:soapUserReservationsRequest" name="soapUserReservationsRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapPendingRating">
+      <wsdl:input message="tns:soapPendingRatingRequest" name="soapPendingRatingRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCarUnavailabilities">
+      <wsdl:input message="tns:soapCarUnavailabilitiesRequest" name="soapCarUnavailabilitiesRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapUnavailability">
+      <wsdl:output message="tns:soapUnavailabilityResponse" name="soapUnavailabilityResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapReserve">
+      <wsdl:input message="tns:soapReserveRequest" name="soapReserveRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddPriceList">
+      <wsdl:input message="tns:soapAddPriceListRequest" name="soapAddPriceListRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddUnavailability">
+      <wsdl:input message="tns:soapAddUnavailabilityRequest" name="soapAddUnavailabilityRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapApproveComment">
+      <wsdl:input message="tns:soapApproveCommentRequest" name="soapApproveCommentRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapPriceList">
+      <wsdl:output message="tns:soapPriceListResponse" name="soapPriceListResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapInteger">
+      <wsdl:output message="tns:soapIntegerResponse" name="soapIntegerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeletePrice">
+      <wsdl:input message="tns:soapDeletePriceRequest" name="soapDeletePriceRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddReservationReport">
+      <wsdl:input message="tns:soapAddReservationReportRequest" name="soapAddReservationReportRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapPriceLists">
+      <wsdl:output message="tns:soapPriceListsResponse" name="soapPriceListsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapBundles">
+      <wsdl:output message="tns:soapBundlesResponse" name="soapBundlesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapSetCarPriceList">
+      <wsdl:input message="tns:soapSetCarPriceListRequest" name="soapSetCarPriceListRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCartRemoveCar">
+      <wsdl:input message="tns:soapCartRemoveCarRequest" name="soapCartRemoveCarRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCart">
+      <wsdl:input message="tns:soapCartRequest" name="soapCartRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapRejectReservation">
+      <wsdl:input message="tns:soapRejectReservationRequest" name="soapRejectReservationRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapPublisherReservations">
+      <wsdl:input message="tns:soapPublisherReservationsRequest" name="soapPublisherReservationsRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeletePriceList">
+      <wsdl:input message="tns:soapDeletePriceListRequest" name="soapDeletePriceListRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCarPriceList">
+      <wsdl:input message="tns:soapCarPriceListRequest" name="soapCarPriceListRequest">
     </wsdl:input>
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="ScheduleServicePortSoap11" type="tns:ScheduleServicePort">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-    <wsdl:operation name="soapCarPrice">
+    <wsdl:operation name="soapApproveReservation">
       <soap:operation soapAction=""/>
-      <wsdl:input name="soapCarPriceRequest">
+      <wsdl:input name="soapApproveReservationRequest">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="soapCarPriceResponse">
+    </wsdl:operation>
+    <wsdl:operation name="soapMessages">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapMessagesRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="soapMessagesResponse">
         <soap:body use="literal"/>
       </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddPrice">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapAddPriceRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapPublisherPriceLists">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapPublisherPriceListsRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="soapCarRatingsAndComments">
       <soap:operation soapAction=""/>
@@ -228,9 +951,39 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="soapNamedObjects">
+    <wsdl:operation name="soap">
       <soap:operation soapAction=""/>
-      <wsdl:output name="soapNamedObjectsResponse">
+      <wsdl:output name="soapResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapCarCommentCount">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCarCommentCountRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddRating">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapAddRatingRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCancelReservation">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCancelReservationRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCartBundle">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCartBundleRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapReservations">
+      <soap:operation soapAction=""/>
+      <wsdl:output name="soapReservationsResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -243,9 +996,177 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="soapLocations">
+    <wsdl:operation name="soapAddMessage">
       <soap:operation soapAction=""/>
-      <wsdl:input name="soapLocationsRequest">
+      <wsdl:input name="soapAddMessageRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCartUnbundle">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCartUnbundleRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapPendingReservationReport">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapPendingReservationReportRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapPendingComments">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapPendingCommentsRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="soapPendingCommentsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapRejectComment">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapRejectCommentRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCartAddCar">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCartAddCarRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCarPrice">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCarPriceRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="soapCarPriceResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapUserReservations">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapUserReservationsRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapPendingRating">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapPendingRatingRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCarUnavailabilities">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCarUnavailabilitiesRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapUnavailability">
+      <soap:operation soapAction=""/>
+      <wsdl:output name="soapUnavailabilityResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapReserve">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapReserveRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddPriceList">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapAddPriceListRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddUnavailability">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapAddUnavailabilityRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapApproveComment">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapApproveCommentRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapPriceList">
+      <soap:operation soapAction=""/>
+      <wsdl:output name="soapPriceListResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapInteger">
+      <soap:operation soapAction=""/>
+      <wsdl:output name="soapIntegerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeletePrice">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapDeletePriceRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddReservationReport">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapAddReservationReportRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapPriceLists">
+      <soap:operation soapAction=""/>
+      <wsdl:output name="soapPriceListsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapBundles">
+      <soap:operation soapAction=""/>
+      <wsdl:output name="soapBundlesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapSetCarPriceList">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapSetCarPriceListRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCartRemoveCar">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCartRemoveCarRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCart">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCartRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapRejectReservation">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapRejectReservationRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapPublisherReservations">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapPublisherReservationsRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeletePriceList">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapDeletePriceListRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCarPriceList">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCarPriceListRequest">
         <soap:body use="literal"/>
       </wsdl:input>
     </wsdl:operation>

@@ -43,6 +43,7 @@ import com.student.soap.contract.carservice.SoapCarManufacturersRequest;
 import com.student.soap.contract.carservice.SoapCarModelsByManufacturerRequest;
 import com.student.soap.contract.carservice.SoapCarModelsResponse;
 import com.student.soap.contract.carservice.SoapCarResponse;
+import com.student.soap.contract.carservice.SoapCarsResponse;
 import com.student.soap.contract.carservice.SoapDeleteCarClassRequest;
 import com.student.soap.contract.carservice.SoapDeleteCarModelRequest;
 import com.student.soap.contract.carservice.SoapDeleteFuelTypeRequest;
@@ -58,7 +59,6 @@ import com.student.soap.contract.carservice.SoapNamedObjectsResponse;
 import com.student.soap.contract.carservice.SoapPostImageRequest;
 import com.student.soap.contract.carservice.SoapPostImageResponse;
 import com.student.soap.contract.carservice.SoapResponse;
-import com.student.soap.contract.carservice.SoapSearchCarsResponse;
 import com.student.soap.contract.carservice.SoapTransmissionTypesRequest;
 
 @Controller
@@ -470,7 +470,7 @@ public class CarController {
 	@PostMapping(path = "car/search")
 	public ResponseEntity<List<HttpCarResponse>> search(@RequestBody HttpSearchCarsRequest request) {
 		
-		SoapSearchCarsResponse internalResponse = carServiceClient.send(translator.translate(request));
+		SoapCarsResponse internalResponse = carServiceClient.send(translator.translate(request));
 
 		if (!internalResponse.isSuccess()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

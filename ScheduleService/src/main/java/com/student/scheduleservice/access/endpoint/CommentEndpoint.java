@@ -9,8 +9,10 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import com.student.scheduleservice.internal.provider.CommentProvider;
 import com.student.soap.contract.scheduleservice.SoapAddRatingRequest;
 import com.student.soap.contract.scheduleservice.SoapApproveCommentRequest;
+import com.student.soap.contract.scheduleservice.SoapCarCommentCountRequest;
 import com.student.soap.contract.scheduleservice.SoapCarRatingsAndCommentsRequest;
 import com.student.soap.contract.scheduleservice.SoapCarRatingsAndCommentsResponse;
+import com.student.soap.contract.scheduleservice.SoapIntegerResponse;
 import com.student.soap.contract.scheduleservice.SoapPendingCommentsRequest;
 import com.student.soap.contract.scheduleservice.SoapPendingCommentsResponse;
 import com.student.soap.contract.scheduleservice.SoapPendingRatingRequest;
@@ -64,5 +66,11 @@ public class CommentEndpoint {
 	@ResponsePayload
 	public SoapResponse addRating(@RequestPayload SoapAddRatingRequest request) {
 		return commentProvider.addRating(request);
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapCarCommentCountRequest")
+	@ResponsePayload
+	public SoapIntegerResponse getCarCommentCount(@RequestPayload SoapCarCommentCountRequest request) {
+		return commentProvider.getCarCommentCount(request);
 	}
 }

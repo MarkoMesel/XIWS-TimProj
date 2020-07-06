@@ -26,15 +26,16 @@ import com.student.soap.carservice.contract.SoapAddCarRequest;
 import com.student.soap.carservice.contract.SoapAddCarResponse;
 import com.student.soap.carservice.contract.SoapCarRequest;
 import com.student.soap.carservice.contract.SoapCarResponse;
+import com.student.soap.carservice.contract.SoapCarsResponse;
 import com.student.soap.carservice.contract.SoapDeactivatePublisherRequest;
 import com.student.soap.carservice.contract.SoapResponse;
 import com.student.soap.carservice.contract.SoapSearchCarsRequest;
-import com.student.soap.carservice.contract.SoapSearchCarsResponse;
 import com.student.soap.resource.client.AgentServiceClient;
 import com.student.soap.resource.client.ScheduleServiceClient;
 import com.student.soap.resource.client.UserServiceClient;
 import com.student.soap.scheduleservice.contract.SoapCarPriceResponse;
 import com.student.soap.scheduleservice.contract.SoapCarRatingResponse;
+import com.student.soap.scheduleservice.contract.SoapIntegerResponse;
 import com.student.soap.userservice.contract.SoapGetResponse;
 
 @Component("CarProvider")
@@ -66,11 +67,7 @@ public class CarProvider {
 		boolean hasUserPermission = token.getRoleName().equals("BASIC") && permission.getResourceId() == token.getUserId() && permission.getResourceTypeId() == 1;
 		boolean hasPublisherPermission = token.getRoleName().equals("AGENT") && permission.getResourceId()!=null && permission.getResourceTypeId() == 2;
 		
-		if( !hasUserPermission && !hasPublisherPermission ) {
-			return false;
-		}
-		
-		return true;
+		return hasUserPermission || hasPublisherPermission;
 	}
 
 	public SoapAddCarResponse addCar(SoapAddCarRequest request) {
@@ -156,8 +153,8 @@ public class CarProvider {
 		return response;
 	}
 
-	public SoapSearchCarsResponse seachCars(SoapSearchCarsRequest request) {
-		SoapSearchCarsResponse response = new SoapSearchCarsResponse();
+	public SoapCarsResponse seachCars(SoapSearchCarsRequest request) {
+		SoapCarsResponse response = new SoapCarsResponse();
 
 		GregorianCalendar gregorianCalendar = new GregorianCalendar();
 		long requestMilis = request.getStartDate().toGregorianCalendar().getTimeInMillis();
@@ -276,6 +273,17 @@ public class CarProvider {
 				System.out.println(e);
 				continue;
 			}
+			
+			// Fetch comment count
+			try {
+				SoapIntegerResponse commentCount = scheduleServiceClient.getCarCommentCount(objectIn.getId());
+				if (commentCount.isSuccess()) {
+					objectOut.setCommentCount(commentCount.getValue());
+				}
+			} catch (Exception e) {
+				System.out.println(e);
+				continue;
+			}
 
 			// Fetch prices
 			if (request.getStartDate() != null && request.getEndDate() != null) {
@@ -350,6 +358,7 @@ public class CarProvider {
 			if(timeDifference < 172800000 ) {
 				return response;
 			}
+			
 			
 			// Fetch prices
 			if (request.getStartDate() != null && request.getEndDate() != null) {
@@ -438,6 +447,16 @@ public class CarProvider {
 			response.getCar().getImage().add(image.getId());
 		}
 
+		// Fetch comment count
+		try {
+			SoapIntegerResponse commentCount = scheduleServiceClient.getCarCommentCount(request.getId());
+			if (commentCount.isSuccess()) {
+				response.getCar().setCommentCount(commentCount.getValue());
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
 		response.setSuccess(true);
 		return response;
 	}
