@@ -40,6 +40,10 @@ public class CarServiceApplication {
 	@Bean
 	InitializingBean sendDatabase() {
 		return () -> {
+			if (imageRepo.findAll().size() > 0) {
+				return;
+			}
+
 			Map<String, Integer> carImages = new HashMap<>();
 			carImages.put("honda_01_01", 1);
 			carImages.put("honda_01_02", 1);
