@@ -141,8 +141,8 @@ public class CarController {
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping(path = "/car/locations")
-	public ResponseEntity<?> addLocation(@RequestBody NamedObjectRequestModel request/*,
-			@RequestHeader("token") String token*/) {
+	public ResponseEntity<?> addLocation(@RequestBody NamedObjectRequestModel request,
+			@RequestHeader("token") String token) {
 		LocationDbModel location = new LocationDbModel();
 		
 		location.setName(request.getName());
@@ -188,7 +188,7 @@ public class CarController {
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@DeleteMapping(path = "/car/locations/{id}")
-	public ResponseEntity<?> deleteLocation(/*@RequestHeader("token") String token,*/@PathVariable int id) {
+	public ResponseEntity<?> deleteLocation(@RequestHeader("token") String token, @PathVariable int id) {
 		LocationDbModel location = locationRepo.findById(id).get();
 		try {
 			locationRepo.delete(location);
@@ -602,7 +602,7 @@ public class CarController {
 
 		return new ResponseEntity<HttpCarResponse>(translator.translate(internalResponse), HttpStatus.OK);
 		*/
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<CarResponseModel>(response, HttpStatus.OK);
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -656,7 +656,7 @@ public class CarController {
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping(path = "car/{id}/image")
-	public ResponseEntity<Integer> postImage(/*@RequestHeader("token") String token,*/ @PathVariable int id,
+	public ResponseEntity<Integer> postImage(@RequestHeader("token") String token, @PathVariable int id,
 			@RequestParam("image") MultipartFile file) {
 		/*
 		SoapPostImageRequest internalRequest = new SoapPostImageRequest();
@@ -727,7 +727,7 @@ public class CarController {
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@DeleteMapping(path = "car/image/{id}")
-	public ResponseEntity<?> deleteImage(/*@RequestHeader("token") String token,*/ @PathVariable int id) {
+	public ResponseEntity<?> deleteImage(@RequestHeader("token") String token, @PathVariable int id) {
 
 		Optional<CarImageDbModel> image = carImageRepo.findById(id);
 		if (!image.isPresent()) {
@@ -776,7 +776,7 @@ public class CarController {
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping(path = "/car/classes")
 	public ResponseEntity<?> addCarClass(@RequestBody NamedObjectRequestModel request
-			/*,@RequestHeader("token") String token*/) {
+			,@RequestHeader("token") String token) {
 		
 		CarClassDbModel carClass = new CarClassDbModel();
 
@@ -822,7 +822,7 @@ public class CarController {
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@DeleteMapping(path = "/car/classes/{id}")
-	public ResponseEntity<?> deleteCarClass(/*@RequestHeader("token") String token,*/ @PathVariable int id) {
+	public ResponseEntity<?> deleteCarClass(@RequestHeader("token") String token, @PathVariable int id) {
 		
 		Optional<CarClassDbModel> carClass = carClassRepo.findById(id);
 		if (!carClass.isPresent()) {
@@ -872,7 +872,7 @@ public class CarController {
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping(path = "/car/manufacturers")
 	public ResponseEntity<?> addManufacturer(@RequestBody NamedObjectRequestModel request
-			/*,@RequestHeader("token") String token*/) {
+			,@RequestHeader("token") String token) {
 		
 		CarManufacturerDbModel manufacturer = new CarManufacturerDbModel();
 
@@ -915,7 +915,7 @@ public class CarController {
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@DeleteMapping(path = "/car/manufacturers/{id}")
-	public ResponseEntity<?> deleteManufacturer(/*@RequestHeader("token") String token,*/ @PathVariable int id) {
+	public ResponseEntity<?> deleteManufacturer(@RequestHeader("token") String token, @PathVariable int id) {
 		
 		Optional<CarManufacturerDbModel> manufacturer = carManufacturerRepo.findById(id);
 		if (!manufacturer.isPresent()) {
@@ -964,7 +964,7 @@ public class CarController {
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping(path = "/car/fuelTypes")
 	public ResponseEntity<?> addFuelType(@RequestBody NamedObjectRequestModel request
-			/*,@RequestHeader("token") String token*/) {
+			,@RequestHeader("token") String token) {
 		
 		FuelTypeDbModel fuelType = new FuelTypeDbModel();
 
@@ -1007,7 +1007,7 @@ public class CarController {
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@DeleteMapping(path = "/car/fuelTypes/{id}")
-	public ResponseEntity<?> deleteFuelType(/*@RequestHeader("token") String token,*/ @PathVariable int id) {
+	public ResponseEntity<?> deleteFuelType(@RequestHeader("token") String token, @PathVariable int id) {
 		
 		Optional<FuelTypeDbModel> fuelType = fuelTypeRepo.findById(id);
 		if (!fuelType.isPresent()) {
@@ -1058,7 +1058,7 @@ public class CarController {
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping(path = "/car/transmissionTypes")
 	public ResponseEntity<?> addTransmissionType(@RequestBody NamedObjectRequestModel request
-			/*,@RequestHeader("token") String token*/) {
+			,@RequestHeader("token") String token) {
 		
 		TransmissionTypeDbModel transmissionType = new TransmissionTypeDbModel();
 
@@ -1102,7 +1102,7 @@ public class CarController {
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@DeleteMapping(path = "/car/transmissionTypes/{id}")
-	public ResponseEntity<?> deleteTransmissionType(/*@RequestHeader("token") String token,*/ @PathVariable int id) {
+	public ResponseEntity<?> deleteTransmissionType(@RequestHeader("token") String token, @PathVariable int id) {
 		
 		Optional<TransmissionTypeDbModel> transmissionType = transmissionTypeRepo.findById(id);
 		if (!transmissionType.isPresent()) {
@@ -1151,7 +1151,7 @@ public class CarController {
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping(path = "/car/models")
-	public ResponseEntity<?> addCarModel(@RequestBody AddCarModelRequestModel request/*, @RequestHeader("token") String token*/) {
+	public ResponseEntity<?> addCarModel(@RequestBody AddCarModelRequestModel request, @RequestHeader("token") String token) {
 		
 		Optional<CarManufacturerDbModel> manufacturer = carManufacturerRepo.findById(request.getManufacturerId());
 		if (!manufacturer.isPresent()) {
@@ -1203,7 +1203,7 @@ public class CarController {
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@DeleteMapping(path = "/car/models/{id}")
-	public ResponseEntity<?> deleteCarModel(/*@RequestHeader("token") String token,*/ @PathVariable int id) {
+	public ResponseEntity<?> deleteCarModel(@RequestHeader("token") String token, @PathVariable int id) {
 		
 		Optional<CarModelDbModel> carModel = carModelRepo.findById(id);
 		if (!carModel.isPresent()) {
