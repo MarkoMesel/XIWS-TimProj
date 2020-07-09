@@ -2,6 +2,7 @@ package com.xiws.agentm.controller;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -41,6 +42,11 @@ import com.xiws.agentm.scheduleservice.data.dal.PriceDbModel;
 import com.xiws.agentm.scheduleservice.data.dal.ReservationDbModel;
 import com.xiws.agentm.scheduleservice.data.repo.CarPriceListRepo;
 import com.xiws.agentm.scheduleservice.data.repo.ReservationRepo;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+
 import com.xiws.agentm.Permission;
 import com.xiws.agentm.agentservice.data.dal.AgentDbModel;
 import com.xiws.agentm.agentservice.data.repo.AgentRepo;
@@ -62,12 +68,17 @@ import com.xiws.agentm.carservice.data.repo.CarRepo;
 import com.xiws.agentm.carservice.data.repo.FuelTypeRepo;
 import com.xiws.agentm.carservice.data.repo.LocationRepo;
 import com.xiws.agentm.carservice.data.repo.TransmissionTypeRepo;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xiws.agentm.AuthenticationTokenParseResult;
-import com.xiws.agentm.JwtUtil;
 
 
 @Controller
 public class CarController {
+	
+	private static String issuer = "user@student.com";
+	private static String AUTHENTICATION_STRING = "AUTHENTICATION";
+	private PublicKey publicKey;
 	
 	@Autowired
 	LocationRepo locationRepo;
@@ -105,7 +116,7 @@ public class CarController {
 	@Autowired
 	CarPublisherTypeRepo carPublisherTypeRepo;
 	
-	private JwtUtil jwtUtil;
+	//private JwtUtil jwtUtil;
 /*	
 	private Translator translator;
 	private CarServiceClient carServiceClient;
@@ -1511,7 +1522,7 @@ public class CarController {
 		}
 		*/
 		
-		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(tokenStr);
+		AuthenticationTokenParseResult token = parseAuthenticationToken(tokenStr);
 
 		Permission requiredPermission = token.getPermissions().stream()
 				.filter(permission -> permission.getPermissionId() == 1 ).findFirst().orElse(null);
@@ -1595,5 +1606,38 @@ public class CarController {
 		ResponseEntity<Integer> responseEntity = new ResponseEntity<Integer>(internalResponse.getId(), HttpStatus.OK);
 		return responseEntity;
 		*/
+	}
+	
+	public AuthenticationTokenParseResult parseAuthenticationToken(String token) {
+		AuthenticationTokenParseResult result = new AuthenticationTokenParseResult();
+		try {
+			Jws<Claims> parseClaimsJws = Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token);
+			Claims claims = parseClaimsJws.getBody();
+			result.setUserId((Integer) claims.get("userId"));
+			result.setIssuer((String) claims.get("iss"));
+			result.setPurpose((String) claims.get("purpose"));
+			Object permissionsObject = claims.get("permissions");
+			ObjectMapper mapper = new ObjectMapper();
+			List<Permission> permissions= mapper.convertValue(permissionsObject, new TypeReference<List<Permission>>() { });
+			result.setPermissions(permissions);
+			result.setRoleName((String) claims.get("roleName"));
+			result.setRoleId((Integer) claims.get("roleId"));
+
+			if (result.getIssuer() == null || !result.getIssuer().equals(issuer) || result.getUserId() == null
+					|| result.getPurpose() == null || !result.getPurpose().equals(AUTHENTICATION_STRING)
+					|| (!(result.getRoleName().equals("BASIC") && result.getRoleId() == 1)
+							&& !(result.getRoleName().equals("AGENT") && result.getRoleId() == 2)
+							&& !(result.getRoleName().equals("ADMIN") && result.getRoleId() == 3))) {
+				result = new AuthenticationTokenParseResult();
+				result.setValid(false);
+				return result;
+			}
+			result.setValid(true);
+			return result;
+		} catch (Exception e) {
+			result = new AuthenticationTokenParseResult();
+			result.setValid(false);
+			return result;
+		}
 	}
 }

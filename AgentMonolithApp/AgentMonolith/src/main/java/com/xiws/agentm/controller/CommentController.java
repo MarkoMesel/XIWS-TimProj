@@ -245,16 +245,15 @@ public class CommentController {
 		SoapPendingCommentsResponse internalResponse = scheduleServiceClient.send(internalRequest);
 		*/
 		//SoapPendingCommentsResponse response = new SoapPendingCommentsResponse();
+
+		AuthenticationTokenParseResult tokenObj = parseAuthenticationToken(token);
 		/*
-		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
-
-		if (!token.isValid() || !token.getRoleName().equals("ADMIN")) {
-			response.setAuthorized(false);
-			return response;
+		if (!tokenObj.isValid() || !tokenObj.getRoleName().equals("ADMIN")) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-
-		response.setAuthorized(true);
 		*/
+
+		//response.setAuthorized(true);
 		
 		List<CorrespondenceResponseModel> internalResponse = new ArrayList<CorrespondenceResponseModel>();
 		
@@ -323,6 +322,15 @@ public class CommentController {
 	@PostMapping(path = "schedule/comments/{id}/approve")
 	public ResponseEntity<?> approve(@RequestHeader("token") String token, @PathVariable("id") int id) {
 		
+		AuthenticationTokenParseResult tokenObj = parseAuthenticationToken(token);
+		/*
+		if (!tokenObj.isValid() || !tokenObj.getRoleName().equals("ADMIN")) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		*/
+
+		//response.setAuthorized(true);
+		
 		Optional<CommentDbModel> comment = commentRepo.findById(id);
 		if (!comment.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -342,17 +350,6 @@ public class CommentController {
 		SoapResponse internalResponse = scheduleServiceClient.send(internalRequest);
 		*/
 		//SoapResponse response = new SoapResponse();
-		
-		/*
-		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
-
-		if (!token.isValid() || !token.getRoleName().equals("ADMIN")) {
-			response.setAuthorized(false);
-			return response;
-		}
-
-		response.setAuthorized(true);
-		*/
 
 		/*
 		if (!internalResponse.isSuccess()) {
@@ -373,18 +370,15 @@ public class CommentController {
 		
 		SoapResponse internalResponse = scheduleServiceClient.send(internalRequest);
 		*/
+		//SoapResponse response = new SoapResponse();
+
+		AuthenticationTokenParseResult tokenObj = parseAuthenticationToken(token);
 		/*
-		SoapResponse response = new SoapResponse();
-
-		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
-
-		if (!token.isValid() || !token.getRoleName().equals("ADMIN")) {
-			response.setAuthorized(false);
-			return response;
+		if (!tokenObj.isValid() || !tokenObj.getRoleName().equals("ADMIN")) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-
-		response.setAuthorized(true);
 		*/
+		//response.setAuthorized(true);
 		
 		Optional<CommentDbModel> comment = commentRepo.findById(id);
 		if (!comment.isPresent()) {
@@ -415,11 +409,10 @@ public class CommentController {
 		
 		SoapResponse internalResponse = scheduleServiceClient.send(internalRequest);
 		*/
+		//SoapResponse response = new SoapResponse();
+
+		AuthenticationTokenParseResult tokenObj = parseAuthenticationToken(token);
 		/*
-		SoapResponse response = new SoapResponse();
-
-		AuthenticationTokenParseResult token = jwtUtil.parseAuthenticationToken(request.getToken());
-
 		if (!token.isValid() || !token.getRoleName().equals("BASIC")) {
 			response.setAuthorized(false);
 			return response;
@@ -428,14 +421,11 @@ public class CommentController {
 
 		Optional<ReservationDbModel> reservation = reservationRepo.findById(request.getReservationId());
 		
-		/*
-		if (token.getUserId() != reservation.get().getBundle().getUserId()) {
-			response.setAuthorized(false);
-			return response;
+		if (tokenObj.getUserId() != reservation.get().getBundle().getUserId()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		response.setAuthorized(true);
-		*/
+		//response.setAuthorized(true);
 		
 		//Is it already rated
 		if (reservation.get().getRating()!=null) {
@@ -486,7 +476,7 @@ public class CommentController {
 
 		AuthenticationTokenParseResult tokenObj = parseAuthenticationToken(token);
 
-		if (!tokenObj.isValid() || tokenObj.getUserId() == null || !tokenObj.getRoleName().equals("BASIC")) {
+		if (!tokenObj.isValid() || tokenObj.getUserId() == null /* || !tokenObj.getRoleName().equals("BASIC") */) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
