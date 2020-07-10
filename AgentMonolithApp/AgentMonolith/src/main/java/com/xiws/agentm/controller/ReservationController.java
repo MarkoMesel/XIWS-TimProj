@@ -70,6 +70,10 @@ import com.xiws.agentm.response.ReservationResponseModel;
 @Controller
 public class ReservationController {
 	
+	private static String issuer = "user@student.com";
+	private static String AUTHENTICATION_STRING = "AUTHENTICATION";
+	private PublicKey publicKey;
+	
 	@Autowired
 	BundleRepo bundleRepo;
 	
@@ -90,10 +94,6 @@ public class ReservationController {
 	
 	@Autowired
 	ReservationRepo reservationRepo;
-	
-	private static String issuer = "user@student.com";
-	private static String AUTHENTICATION_STRING = "AUTHENTICATION";
-	private PublicKey publicKey;
 	
 	/*
 	private Translator translator;
@@ -286,7 +286,7 @@ public class ReservationController {
 					}
 				}
 				// If agent
-				if (publisherTypeName.equals("AGENT")) {
+				if (publisherTypeName2.equals("AGENT")) {
 					try {
 						AgentDbModel agent = agentRepo.findById(car.getPublisherId()).get();
 						reservationOut.setPublisherName(agent.getName());
