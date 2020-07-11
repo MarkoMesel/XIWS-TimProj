@@ -31,6 +31,7 @@ public class HttpCarResponse {
     protected Integer locationId;
     protected String locationName;
     protected List<Integer> images;
+    protected Integer commentCount;
 	public Integer getId() {
 		return id;
 	}
@@ -198,5 +199,11 @@ public class HttpCarResponse {
 	}
 	public void setLocationName(String locationName) {
 		this.locationName = locationName;
+	}
+	public Integer getCommentCount() {
+		return commentCount;
+	}
+	public void setCommentCount(Integer commentCount) {
+		this.commentCount = commentCount;
 	}
 }

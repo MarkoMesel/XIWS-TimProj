@@ -1,3 +1,3 @@
 --AGENT
-INSERT INTO AGENT ( ID, NAME, ADDRESS, LOCATION_ID, TAX_ID) 
-VALUES (1, 'Agent 01', 'Trg Nikole Pašića 13, Beograd 11000, Srbija', 1, '123X-456Y-789Z');
+MERGE INTO AGENT AS target USING (SELECT 1 as ID) AS source ON target.ID=source.ID
+WHEN NOT MATCHED THEN INSERT (ID, NAME, ADDRESS, LOCATION_ID, TAX_ID) VALUES (1, 'Agent 01', 'Trg Nikole Pašića 13, Beograd 11000, Srbija', 1, '123X-456Y-789Z');

@@ -8,10 +8,12 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
+import com.student.soap.scheduleservice.contract.SoapCarCommentCountRequest;
 import com.student.soap.scheduleservice.contract.SoapCarPriceRequest;
 import com.student.soap.scheduleservice.contract.SoapCarPriceResponse;
 import com.student.soap.scheduleservice.contract.SoapCarRatingRequest;
 import com.student.soap.scheduleservice.contract.SoapCarRatingResponse;
+import com.student.soap.scheduleservice.contract.SoapIntegerResponse;
 
 @Component("ScheduleServiceClient")
 public class ScheduleServiceClient {
@@ -36,4 +38,10 @@ public class ScheduleServiceClient {
     	request.setEndDate(endDate);
         return (SoapCarPriceResponse) webServiceTemplate.marshalSendAndReceive("http://localhost:8084/ws",request);
     }
+
+	public SoapIntegerResponse getCarCommentCount(int id) {
+    	SoapCarCommentCountRequest request = new SoapCarCommentCountRequest();
+    	request.setCarId(id);
+        return (SoapIntegerResponse) webServiceTemplate.marshalSendAndReceive("http://localhost:8084/ws",request);
+	}
 }

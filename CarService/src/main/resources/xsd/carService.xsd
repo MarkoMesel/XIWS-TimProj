@@ -38,6 +38,7 @@
         	<xs:element name="publisherName" type="xs:string"/>
         	<xs:element name="publisherTypeId" type="xs:int" nillable="true"/>
         	<xs:element name="publisherTypeName" type="xs:string"/>
+        	<xs:element name="commentCount" type="xs:int" nillable="true"/>
         	<xs:element name="image" minOccurs="0" maxOccurs="unbounded" type="xs:int"/>
 		</xs:sequence>
 	</xs:complexType>
@@ -374,7 +375,7 @@
         </xs:complexType>
     </xs:element>
     
-    <xs:element name="soapSearchCarsResponse">
+    <xs:element name="soapCarsResponse">
 		<xs:complexType>
 			<xs:complexContent>
         		<xs:extension base="tns:StatusType">
@@ -383,6 +384,30 @@
             		</xs:sequence>
             	</xs:extension>
         	</xs:complexContent>	
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapGetTopCarsByMileageRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapGetTopCarsByCommentCountRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapGetTopCarsByRatingRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
         </xs:complexType>
     </xs:element>
 </xs:schema>
