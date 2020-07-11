@@ -121,6 +121,7 @@ public class AgentMonolithApplication {
 				System.out.println("NO SUCH ELEMENT");
 			}
 		});
+		System.out.println("Images loaded!");
 	}
 
 }
