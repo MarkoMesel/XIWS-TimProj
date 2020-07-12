@@ -102,7 +102,7 @@ services:
             - logs:/var/log
 
     AgentMonolith:
-        build: ./AgentMonolithApp/AgentMonolith
+        build: ./AgentMonolithApp/StudentApiAgentMonolith
         image: agentmonolith
         container_name: agentmonolith
         networks:
