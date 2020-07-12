@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://www.student.com/soap/contract" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.student.com/soap/contract" targetNamespace="http://www.student.com/soap/contract">
+  <wsdl:types>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.student.com/soap/contract">
+    
+   	<xs:complexType name="StatusType">
+    	<xs:sequence>
+        	<xs:element name="success" type="xs:boolean"/>
+        	<xs:element name="authorized" nillable="true" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+           
+ 	<xs:element name="soapResponse">
+ 		<xs:complexType>
+ 			<xs:complexContent>
+        		<xs:extension base="tns:StatusType"/>
+			</xs:complexContent>
+		</xs:complexType>
+    </xs:element>
+    
+	<xs:element name="soapRegisterRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="email" type="xs:string"/>
+                <xs:element name="password" type="xs:string"/>
+                <xs:element name="firstName" type="xs:string"/>
+                <xs:element name="lastName" type="xs:string"/>
+                <xs:element name="phone" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="soapVerifyRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+	<xs:element name="soapLoginRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="email" type="xs:string"/>
+                <xs:element name="password" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+ 
+    <xs:element name="soapLoginResponse">
+        <xs:complexType>
+        	<xs:complexContent>
+        		<xs:extension base="tns:StatusType">
+            		<xs:sequence>
+                		<xs:element name="token" type="xs:string"/>
+                		<xs:element name="id" type="xs:int"/>
+                		<xs:element name="roleId" type="xs:int"/>
+                		<xs:element name="roleName" type="xs:string"/>
+            		</xs:sequence>
+            	</xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+ 
+    <xs:element name="soapEditRequest">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="token" type="xs:string"/>
+                <xs:element name="password" type="xs:string"/>
+                <xs:element name="firstName" type="xs:string"/>
+                <xs:element name="lastName" type="xs:string"/>
+                <xs:element name="phone" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapGetRequest">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+ 
+    <xs:element name="soapGetResponse">
+        <xs:complexType>
+        	<xs:complexContent>
+        		<xs:extension base="tns:StatusType">
+            		<xs:sequence>
+                		<xs:element name="email" type="xs:string"/>
+                		<xs:element name="firstName" type="xs:string"/>
+                		<xs:element name="lastName" type="xs:string"/>
+                		<xs:element name="phone" type="xs:string"/>
+            		</xs:sequence>
+            	</xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="SoapUser">
+    	<xs:sequence>
+        	<xs:element name="id" type="xs:int"/>
+        	<xs:element name="email" type="xs:string"/>
+            <xs:element name="firstName" type="xs:string"/>
+            <xs:element name="lastName" type="xs:string"/>
+            <xs:element name="phone" type="xs:string"/>
+        	<xs:element name="statusId" type="xs:int"/>
+            <xs:element name="statusName" type="xs:string"/>
+        	<xs:element name="RoleId" type="xs:int"/>
+            <xs:element name="RoleName" type="xs:string"/>
+            <xs:element name="emailVerified" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="soapUsersRequest">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+ 
+    <xs:element name="soapUsersResponse">
+        <xs:complexType>
+        	<xs:complexContent>
+        		<xs:extension base="tns:StatusType">
+            		<xs:sequence>
+        				<xs:element maxOccurs="unbounded" minOccurs="0" name="user" type="tns:SoapUser"/>
+            		</xs:sequence>
+            	</xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapInternalGetUserRequest">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="id" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapBlockUserRequest">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="id" type="xs:int"/>
+            	<xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapActivateUserRequest">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="id" type="xs:int"/>
+            	<xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapDeleteUserRequest">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="id" type="xs:int"/>
+            	<xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="soapActivateUserRequest">
+    <wsdl:part element="tns:soapActivateUserRequest" name="soapActivateUserRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapGetRequest">
+    <wsdl:part element="tns:soapGetRequest" name="soapGetRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapUsersResponse">
+    <wsdl:part element="tns:soapUsersResponse" name="soapUsersResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapGetResponse">
+    <wsdl:part element="tns:soapGetResponse" name="soapGetResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapDeleteUserRequest">
+    <wsdl:part element="tns:soapDeleteUserRequest" name="soapDeleteUserRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapLoginResponse">
+    <wsdl:part element="tns:soapLoginResponse" name="soapLoginResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapEditRequest">
+    <wsdl:part element="tns:soapEditRequest" name="soapEditRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapInternalGetUserRequest">
+    <wsdl:part element="tns:soapInternalGetUserRequest" name="soapInternalGetUserRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapBlockUserRequest">
+    <wsdl:part element="tns:soapBlockUserRequest" name="soapBlockUserRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapVerifyRequest">
+    <wsdl:part element="tns:soapVerifyRequest" name="soapVerifyRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapUsersRequest">
+    <wsdl:part element="tns:soapUsersRequest" name="soapUsersRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapLoginRequest">
+    <wsdl:part element="tns:soapLoginRequest" name="soapLoginRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapResponse">
+    <wsdl:part element="tns:soapResponse" name="soapResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapRegisterRequest">
+    <wsdl:part element="tns:soapRegisterRequest" name="soapRegisterRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="UserServicePort">
+    <wsdl:operation name="soapActivateUser">
+      <wsdl:input message="tns:soapActivateUserRequest" name="soapActivateUserRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapGet">
+      <wsdl:input message="tns:soapGetRequest" name="soapGetRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:soapGetResponse" name="soapGetResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapUsers">
+      <wsdl:input message="tns:soapUsersRequest" name="soapUsersRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:soapUsersResponse" name="soapUsersResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteUser">
+      <wsdl:input message="tns:soapDeleteUserRequest" name="soapDeleteUserRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapLogin">
+      <wsdl:input message="tns:soapLoginRequest" name="soapLoginRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:soapLoginResponse" name="soapLoginResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapEdit">
+      <wsdl:input message="tns:soapEditRequest" name="soapEditRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapInternalGetUser">
+      <wsdl:input message="tns:soapInternalGetUserRequest" name="soapInternalGetUserRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapBlockUser">
+      <wsdl:input message="tns:soapBlockUserRequest" name="soapBlockUserRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapVerify">
+      <wsdl:input message="tns:soapVerifyRequest" name="soapVerifyRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soap">
+      <wsdl:output message="tns:soapResponse" name="soapResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapRegister">
+      <wsdl:input message="tns:soapRegisterRequest" name="soapRegisterRequest">
+    </wsdl:input>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="UserServicePortSoap11" type="tns:UserServicePort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="soapActivateUser">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapActivateUserRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapGet">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapGetRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="soapGetResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapUsers">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapUsersRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="soapUsersResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteUser">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapDeleteUserRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapLogin">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapLoginRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="soapLoginResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapEdit">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapEditRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapInternalGetUser">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapInternalGetUserRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapBlockUser">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapBlockUserRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapVerify">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapVerifyRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soap">
+      <soap:operation soapAction=""/>
+      <wsdl:output name="soapResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapRegister">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapRegisterRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="UserServicePortService">
+    <wsdl:port binding="tns:UserServicePortSoap11" name="UserServicePortSoap11">
+      <soap:address location="http://localhost:8081/ws"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

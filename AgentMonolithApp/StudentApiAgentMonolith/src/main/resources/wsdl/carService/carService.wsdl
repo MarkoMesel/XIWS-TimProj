@@ -1,0 +1,923 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://www.student.com/soap/contract" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.student.com/soap/contract" targetNamespace="http://www.student.com/soap/contract">
+  <wsdl:types>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.student.com/soap/contract">
+        
+	<xs:complexType name="StatusType">
+    	<xs:sequence>
+        	<xs:element name="success" type="xs:boolean"/>
+        	<xs:element name="authorized" nillable="true" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="Car">
+    	<xs:sequence>
+        	<xs:element name="id" nillable="true" type="xs:int"/>
+        	<xs:element name="locationId" nillable="true" type="xs:int"/>
+        	<xs:element name="locationName" type="xs:string"/>
+        	<xs:element name="modelId" nillable="true" type="xs:int"/>
+        	<xs:element name="modelName" type="xs:string"/>
+        	<xs:element name="manufacturerId" nillable="true" type="xs:int"/>
+        	<xs:element name="manufacturerName" type="xs:string"/>
+        	<xs:element name="fuelTypeId" nillable="true" type="xs:int"/>
+        	<xs:element name="fuelTypeName" type="xs:string"/>
+        	<xs:element name="transmissionTypeId" nillable="true" type="xs:int"/>
+        	<xs:element name="transmissionTypeName" type="xs:string"/>
+        	<xs:element name="carClassId" nillable="true" type="xs:int"/>
+        	<xs:element name="carClassName" type="xs:string"/>
+        	<xs:element name="mileage" nillable="true" type="xs:int"/>
+        	<xs:element name="mileageThreshold" nillable="true" type="xs:int"/>
+        	<xs:element name="mileagePenalty" nillable="true" type="xs:int"/>
+        	<xs:element name="collisionWaranty" nillable="true" type="xs:int"/>
+        	<xs:element name="price" nillable="true" type="xs:int"/>
+        	<xs:element name="estimatedPenaltyPrice" nillable="true" type="xs:int"/>
+        	<xs:element name="discount" nillable="true" type="xs:int"/>
+        	<xs:element name="totalPrice" nillable="true" type="xs:int"/>
+        	<xs:element name="childSeats" nillable="true" type="xs:int"/>
+        	<xs:element name="rating" nillable="true" type="xs:int"/>
+        	<xs:element name="publisherId" nillable="true" type="xs:int"/>
+        	<xs:element name="publisherName" type="xs:string"/>
+        	<xs:element name="publisherTypeId" nillable="true" type="xs:int"/>
+        	<xs:element name="publisherTypeName" type="xs:string"/>
+        	<xs:element name="commentCount" nillable="true" type="xs:int"/>
+        	<xs:element maxOccurs="unbounded" minOccurs="0" name="image" type="xs:int"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+		<xs:complexType name="NamedObject">
+    	<xs:sequence>
+        	<xs:element name="id" type="xs:int"/>
+        	<xs:element name="name" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+           
+ 	<xs:element name="soapResponse">
+ 		<xs:complexType>
+ 			<xs:complexContent>
+        		<xs:extension base="tns:StatusType"/>
+			</xs:complexContent>
+		</xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapCarManufacturersRequest">
+     	<xs:complexType/>
+    </xs:element>
+    
+    <xs:element name="soapAllCarModelsRequest">
+        <xs:complexType/>
+    </xs:element>
+    
+    <xs:element name="soapTransmissionTypesRequest">
+        <xs:complexType/>
+    </xs:element>
+    
+    <xs:element name="soapFuelTypesRequest">
+        <xs:complexType/>
+    </xs:element>
+    
+    <xs:element name="soapCarClassesRequest">
+        <xs:complexType/>
+    </xs:element>
+    
+    <xs:element name="soapCarModelsByManufacturerRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="manufacturerId" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapAddCarClassRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapDeleteCarClassRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:int"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapAddManufacturerRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapDeleteManufacturerRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:int"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapAddCarModelRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="manufacturerId" type="xs:int"/>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapDeleteCarModelRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:int"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapAddFuelTypeRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapDeleteFuelTypeRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:int"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapAddTransmissionTypeRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapDeleteTransmissionTypeRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:int"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapAddLocationRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapDeleteLocationRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:int"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapNamedObjectsResponse">
+		<xs:complexType>
+			<xs:complexContent>
+        		<xs:extension base="tns:StatusType">
+            		<xs:sequence>		
+                		<xs:element maxOccurs="unbounded" minOccurs="0" name="object" type="tns:NamedObject"/>
+            		</xs:sequence>
+            	</xs:extension>
+        	</xs:complexContent>	
+        </xs:complexType>
+    </xs:element>
+    
+	<xs:element name="soapCarModelsResponse">
+		<xs:complexType>
+			<xs:complexContent>
+        		<xs:extension base="tns:StatusType">	
+            		<xs:sequence>
+                		<xs:element name="carModels">
+							<xs:complexType>
+            					<xs:sequence>
+                					<xs:element maxOccurs="unbounded" minOccurs="1" name="carModel">
+                						<xs:complexType>
+                							<xs:sequence>
+                								<xs:element name="modelId" type="xs:int"/>
+                								<xs:element name="modelName" type="xs:string"/>
+                								<xs:element name="manufacturerId" type="xs:int"/>
+                								<xs:element name="manufacturerName" type="xs:string"/>
+                							</xs:sequence>
+                						</xs:complexType>
+                					</xs:element>
+           						</xs:sequence>
+        					</xs:complexType>	
+               		 	</xs:element>
+           		 	</xs:sequence>
+            	</xs:extension>
+        	</xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    
+    
+	<xs:element name="soapCarRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:int"/>
+                <xs:element name="startDate" type="xs:dateTime"/>
+                <xs:element name="endDate" type="xs:dateTime"/>
+                <xs:element name="plannedMileage" nillable="true" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapCarResponse">
+		<xs:complexType>
+			<xs:complexContent>
+        		<xs:extension base="tns:StatusType">	
+            		<xs:sequence>
+                		<xs:element name="car" nillable="true" type="tns:Car"/>
+           		 	</xs:sequence>
+            	</xs:extension>
+        	</xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    
+   	<xs:element name="soapGetImageRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapGetImageResponse">
+		<xs:complexType>
+			<xs:complexContent>
+        		<xs:extension base="tns:StatusType">
+            		<xs:sequence>    		
+                		<xs:element name="id" type="xs:int"/>
+                		<xs:element name="carId" type="xs:int"/>
+                		<xs:element name="image" type="xs:base64Binary"/>
+            		</xs:sequence>
+            	</xs:extension>
+        	</xs:complexContent>	
+        </xs:complexType>
+    </xs:element>
+       	
+    <xs:element name="soapPostImageRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="token" type="xs:string"/>
+                <xs:element name="carId" type="xs:int"/>
+                <xs:element name="image" type="xs:base64Binary"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapPostImageResponse">
+		<xs:complexType>
+			<xs:complexContent>
+        		<xs:extension base="tns:StatusType">
+            		<xs:sequence>    		
+                		<xs:element name="imageId" type="xs:int"/>
+            		</xs:sequence>
+            	</xs:extension>
+        	</xs:complexContent>	
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapDeleteImageRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:int"/>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+   	<xs:element name="soapDeactivatePublisherRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="publisherId" type="xs:int"/>
+                <xs:element name="publisherTypeId" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapAddCarRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="token" type="xs:string"/>
+                <xs:element name="locationId" type="xs:int"/>
+                <xs:element name="modelId" type="xs:int"/>
+                <xs:element name="fuelTypeId" type="xs:int"/>
+                <xs:element name="transmissionTypeId" type="xs:int"/>
+                <xs:element name="carClassId" type="xs:int"/>
+                <xs:element name="mileage" type="xs:int"/>
+                <xs:element name="childSeats" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapAddCarResponse">
+		<xs:complexType>
+			<xs:complexContent>
+        		<xs:extension base="tns:StatusType">
+            		<xs:sequence>		
+                		<xs:element name="id" type="xs:int"/>
+            		</xs:sequence>
+            	</xs:extension>
+        	</xs:complexContent>	
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapSearchCarsRequest">
+		<xs:complexType>
+            <xs:sequence>
+            	<xs:element name="locationId" type="xs:int"/>
+            	<xs:element name="startDate" type="xs:dateTime"/>
+            	<xs:element name="endDate" type="xs:dateTime"/>
+                <xs:element name="publisherTypeId" nillable="true" type="xs:int"/>
+                <xs:element name="modelId" nillable="true" type="xs:int"/>
+                <xs:element name="manufacturerId" nillable="true" type="xs:int"/>
+                <xs:element name="fuelTypeId" nillable="true" type="xs:int"/>
+                <xs:element name="transmissionTypeId" nillable="true" type="xs:int"/>
+                <xs:element name="carClassId" nillable="true" type="xs:int"/>
+                <xs:element name="minMileage" nillable="true" type="xs:int"/>
+                <xs:element name="maxMileage" nillable="true" type="xs:int"/>
+                <xs:element name="minChildSeats" nillable="true" type="xs:int"/>
+                <xs:element name="minPrice" nillable="true" type="xs:int"/>
+                <xs:element name="maxPrice" nillable="true" type="xs:int"/>
+                <xs:element name="plannedMileage" nillable="true" type="xs:int"/>
+                <xs:element name="collisionWarranty" nillable="true" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapLocationsRequest">
+        <xs:complexType>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapCarsResponse">
+		<xs:complexType>
+			<xs:complexContent>
+        		<xs:extension base="tns:StatusType">
+            		<xs:sequence>      				
+                		<xs:element maxOccurs="unbounded" minOccurs="0" name="car" type="tns:Car"/>
+            		</xs:sequence>
+            	</xs:extension>
+        	</xs:complexContent>	
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapGetTopCarsByMileageRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapGetTopCarsByCommentCountRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="soapGetTopCarsByRatingRequest">
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="soapAddCarModelRequest">
+    <wsdl:part element="tns:soapAddCarModelRequest" name="soapAddCarModelRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapAllCarModelsRequest">
+    <wsdl:part element="tns:soapAllCarModelsRequest" name="soapAllCarModelsRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapFuelTypesRequest">
+    <wsdl:part element="tns:soapFuelTypesRequest" name="soapFuelTypesRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapAddFuelTypeRequest">
+    <wsdl:part element="tns:soapAddFuelTypeRequest" name="soapAddFuelTypeRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapPostImageResponse">
+    <wsdl:part element="tns:soapPostImageResponse" name="soapPostImageResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapAddCarClassRequest">
+    <wsdl:part element="tns:soapAddCarClassRequest" name="soapAddCarClassRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapDeleteCarModelRequest">
+    <wsdl:part element="tns:soapDeleteCarModelRequest" name="soapDeleteCarModelRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapGetTopCarsByRatingRequest">
+    <wsdl:part element="tns:soapGetTopCarsByRatingRequest" name="soapGetTopCarsByRatingRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapTransmissionTypesRequest">
+    <wsdl:part element="tns:soapTransmissionTypesRequest" name="soapTransmissionTypesRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapDeleteCarClassRequest">
+    <wsdl:part element="tns:soapDeleteCarClassRequest" name="soapDeleteCarClassRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCarModelsResponse">
+    <wsdl:part element="tns:soapCarModelsResponse" name="soapCarModelsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCarManufacturersRequest">
+    <wsdl:part element="tns:soapCarManufacturersRequest" name="soapCarManufacturersRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapAddManufacturerRequest">
+    <wsdl:part element="tns:soapAddManufacturerRequest" name="soapAddManufacturerRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapAddTransmissionTypeRequest">
+    <wsdl:part element="tns:soapAddTransmissionTypeRequest" name="soapAddTransmissionTypeRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCarClassesRequest">
+    <wsdl:part element="tns:soapCarClassesRequest" name="soapCarClassesRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCarModelsByManufacturerRequest">
+    <wsdl:part element="tns:soapCarModelsByManufacturerRequest" name="soapCarModelsByManufacturerRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapDeleteFuelTypeRequest">
+    <wsdl:part element="tns:soapDeleteFuelTypeRequest" name="soapDeleteFuelTypeRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapGetImageResponse">
+    <wsdl:part element="tns:soapGetImageResponse" name="soapGetImageResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCarRequest">
+    <wsdl:part element="tns:soapCarRequest" name="soapCarRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapAddLocationRequest">
+    <wsdl:part element="tns:soapAddLocationRequest" name="soapAddLocationRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCarsResponse">
+    <wsdl:part element="tns:soapCarsResponse" name="soapCarsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapDeleteManufacturerRequest">
+    <wsdl:part element="tns:soapDeleteManufacturerRequest" name="soapDeleteManufacturerRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapCarResponse">
+    <wsdl:part element="tns:soapCarResponse" name="soapCarResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapPostImageRequest">
+    <wsdl:part element="tns:soapPostImageRequest" name="soapPostImageRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapDeleteImageRequest">
+    <wsdl:part element="tns:soapDeleteImageRequest" name="soapDeleteImageRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapDeleteLocationRequest">
+    <wsdl:part element="tns:soapDeleteLocationRequest" name="soapDeleteLocationRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapAddCarRequest">
+    <wsdl:part element="tns:soapAddCarRequest" name="soapAddCarRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapLocationsRequest">
+    <wsdl:part element="tns:soapLocationsRequest" name="soapLocationsRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapGetTopCarsByMileageRequest">
+    <wsdl:part element="tns:soapGetTopCarsByMileageRequest" name="soapGetTopCarsByMileageRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapGetImageRequest">
+    <wsdl:part element="tns:soapGetImageRequest" name="soapGetImageRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapAddCarResponse">
+    <wsdl:part element="tns:soapAddCarResponse" name="soapAddCarResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapDeactivatePublisherRequest">
+    <wsdl:part element="tns:soapDeactivatePublisherRequest" name="soapDeactivatePublisherRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapResponse">
+    <wsdl:part element="tns:soapResponse" name="soapResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapGetTopCarsByCommentCountRequest">
+    <wsdl:part element="tns:soapGetTopCarsByCommentCountRequest" name="soapGetTopCarsByCommentCountRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapNamedObjectsResponse">
+    <wsdl:part element="tns:soapNamedObjectsResponse" name="soapNamedObjectsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapSearchCarsRequest">
+    <wsdl:part element="tns:soapSearchCarsRequest" name="soapSearchCarsRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="soapDeleteTransmissionTypeRequest">
+    <wsdl:part element="tns:soapDeleteTransmissionTypeRequest" name="soapDeleteTransmissionTypeRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CarServicePort">
+    <wsdl:operation name="soapAddCarModel">
+      <wsdl:input message="tns:soapAddCarModelRequest" name="soapAddCarModelRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAllCarModels">
+      <wsdl:input message="tns:soapAllCarModelsRequest" name="soapAllCarModelsRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapFuelTypes">
+      <wsdl:input message="tns:soapFuelTypesRequest" name="soapFuelTypesRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddFuelType">
+      <wsdl:input message="tns:soapAddFuelTypeRequest" name="soapAddFuelTypeRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapPostImage">
+      <wsdl:input message="tns:soapPostImageRequest" name="soapPostImageRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:soapPostImageResponse" name="soapPostImageResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddCarClass">
+      <wsdl:input message="tns:soapAddCarClassRequest" name="soapAddCarClassRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteCarModel">
+      <wsdl:input message="tns:soapDeleteCarModelRequest" name="soapDeleteCarModelRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapGetTopCarsByRating">
+      <wsdl:input message="tns:soapGetTopCarsByRatingRequest" name="soapGetTopCarsByRatingRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapTransmissionTypes">
+      <wsdl:input message="tns:soapTransmissionTypesRequest" name="soapTransmissionTypesRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteCarClass">
+      <wsdl:input message="tns:soapDeleteCarClassRequest" name="soapDeleteCarClassRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCarModels">
+      <wsdl:output message="tns:soapCarModelsResponse" name="soapCarModelsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapCarManufacturers">
+      <wsdl:input message="tns:soapCarManufacturersRequest" name="soapCarManufacturersRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddManufacturer">
+      <wsdl:input message="tns:soapAddManufacturerRequest" name="soapAddManufacturerRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddTransmissionType">
+      <wsdl:input message="tns:soapAddTransmissionTypeRequest" name="soapAddTransmissionTypeRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCarClasses">
+      <wsdl:input message="tns:soapCarClassesRequest" name="soapCarClassesRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCarModelsByManufacturer">
+      <wsdl:input message="tns:soapCarModelsByManufacturerRequest" name="soapCarModelsByManufacturerRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteFuelType">
+      <wsdl:input message="tns:soapDeleteFuelTypeRequest" name="soapDeleteFuelTypeRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapGetImage">
+      <wsdl:input message="tns:soapGetImageRequest" name="soapGetImageRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:soapGetImageResponse" name="soapGetImageResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapCar">
+      <wsdl:input message="tns:soapCarRequest" name="soapCarRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:soapCarResponse" name="soapCarResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddLocation">
+      <wsdl:input message="tns:soapAddLocationRequest" name="soapAddLocationRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCars">
+      <wsdl:output message="tns:soapCarsResponse" name="soapCarsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteManufacturer">
+      <wsdl:input message="tns:soapDeleteManufacturerRequest" name="soapDeleteManufacturerRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteImage">
+      <wsdl:input message="tns:soapDeleteImageRequest" name="soapDeleteImageRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteLocation">
+      <wsdl:input message="tns:soapDeleteLocationRequest" name="soapDeleteLocationRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddCar">
+      <wsdl:input message="tns:soapAddCarRequest" name="soapAddCarRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:soapAddCarResponse" name="soapAddCarResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapLocations">
+      <wsdl:input message="tns:soapLocationsRequest" name="soapLocationsRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapGetTopCarsByMileage">
+      <wsdl:input message="tns:soapGetTopCarsByMileageRequest" name="soapGetTopCarsByMileageRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeactivatePublisher">
+      <wsdl:input message="tns:soapDeactivatePublisherRequest" name="soapDeactivatePublisherRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soap">
+      <wsdl:output message="tns:soapResponse" name="soapResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapGetTopCarsByCommentCount">
+      <wsdl:input message="tns:soapGetTopCarsByCommentCountRequest" name="soapGetTopCarsByCommentCountRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapNamedObjects">
+      <wsdl:output message="tns:soapNamedObjectsResponse" name="soapNamedObjectsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapSearchCars">
+      <wsdl:input message="tns:soapSearchCarsRequest" name="soapSearchCarsRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteTransmissionType">
+      <wsdl:input message="tns:soapDeleteTransmissionTypeRequest" name="soapDeleteTransmissionTypeRequest">
+    </wsdl:input>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CarServicePortSoap11" type="tns:CarServicePort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="soapAddCarModel">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapAddCarModelRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAllCarModels">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapAllCarModelsRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapFuelTypes">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapFuelTypesRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddFuelType">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapAddFuelTypeRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapPostImage">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapPostImageRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="soapPostImageResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddCarClass">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapAddCarClassRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteCarModel">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapDeleteCarModelRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapGetTopCarsByRating">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapGetTopCarsByRatingRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapTransmissionTypes">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapTransmissionTypesRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteCarClass">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapDeleteCarClassRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCarModels">
+      <soap:operation soapAction=""/>
+      <wsdl:output name="soapCarModelsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapCarManufacturers">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCarManufacturersRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddManufacturer">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapAddManufacturerRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddTransmissionType">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapAddTransmissionTypeRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCarClasses">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCarClassesRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCarModelsByManufacturer">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCarModelsByManufacturerRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteFuelType">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapDeleteFuelTypeRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapGetImage">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapGetImageRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="soapGetImageResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapCar">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapCarRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="soapCarResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddLocation">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapAddLocationRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapCars">
+      <soap:operation soapAction=""/>
+      <wsdl:output name="soapCarsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteManufacturer">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapDeleteManufacturerRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteImage">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapDeleteImageRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteLocation">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapDeleteLocationRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapAddCar">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapAddCarRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="soapAddCarResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapLocations">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapLocationsRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapGetTopCarsByMileage">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapGetTopCarsByMileageRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeactivatePublisher">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapDeactivatePublisherRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soap">
+      <soap:operation soapAction=""/>
+      <wsdl:output name="soapResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapGetTopCarsByCommentCount">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapGetTopCarsByCommentCountRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapNamedObjects">
+      <soap:operation soapAction=""/>
+      <wsdl:output name="soapNamedObjectsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="soapSearchCars">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapSearchCarsRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="soapDeleteTransmissionType">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="soapDeleteTransmissionTypeRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CarServicePortService">
+    <wsdl:port binding="tns:CarServicePortSoap11" name="CarServicePortSoap11">
+      <soap:address location="http://localhost:8082/ws"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
