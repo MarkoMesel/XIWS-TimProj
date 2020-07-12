@@ -1,0 +1,81 @@
+.photo5 {
+    height: 300px;
+    width: 400px;
+    padding: 10px;
+}
+
+
+.column5 {
+    float: left;
+    width: 20%;
+    padding: 5px;
+    height: 300px;
+}
+
+.column25 {
+    float: right;
+    width: 25%;
+    padding: 5px;
+    margin-right: 1000px;
+    height: 300px;
+}
+
+
+
+
+.column225 {
+    float: right;
+    width: 50%;
+    padding: 5px;
+    height: 300px;
+}
+
+.colummn5 {
+    float: left;
+    width: 800px;
+    padding: 5px;
+    height: 250px;
+    border-style: groove;
+    margin-left: 400px;
+    margin-right: 400px;
+}
+
+.body5 {
+    padding-top: 60px;
+    display: flex;
+    flex-direction: column;
+}
+
+.buttonSend5{
+    margin-left: 40px;
+}
+
+.buttons-nav5 {
+    float:left;
+    border:1px;
+}
+
+.button-group5{
+    margin-left: 400px;
+    width: 300px;
+    float: left;
+}
+
+#booking::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	background: rgba(212, 207, 207, 0.6);
+}
+
+.ordersubmit{
+    margin-left: 100px;
+    margin-right: 1200px;
+    padding: 10px;
+    float: left;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}

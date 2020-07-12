@@ -1,0 +1,36 @@
+@media (max-width: 900px) {
+    .carousel-size {
+      width:auto;
+      height:auto;
+    }
+}
+
+.review-card{
+  float: left;
+  width: 1000px;
+  padding: 5px;
+  height: auto;
+  border-style: groove;
+  margin-left: 10px;
+  margin-bottom: 20px;
+}
+
+.review-title{
+  float: left;
+  margin-left: 10px;
+  margin-right: 1000px;
+}
+
+#booking::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	background: rgba(212, 207, 207, 0.6);
+}
+
+.nestopad{
+  padding:5px;
+}
